@@ -1,0 +1,536 @@
+% This file was created with JabRef 2.6.
+% Encoding: Cp1252
+
+@ARTICLE{Diggle-Tawn:1998,
+  author = {Diggle, P. J. and Tawn, J. A. and Moyeed, R. A.},
+  title = {Model-based geostatistics},
+  journal = {Journal of the Royal Statistical Society: Series C (Applied Statistics)},
+  year = {1998},
+  volume = {47},
+  pages = {299--350},
+  number = {3},
+  abstract = {Conventional geostatistical methodology solves the problem of predicting
+	the realized value of a linear functional of a Gaussian spatial stochastic
+	process S(x) based on observations Yi = S(xi) + Zi at sampling locations
+	xi, where the Zi are mutually independent, zero-mean Gaussian random
+	variables. We describe two spatial applications for which Gaussian
+	distributional assumptions are clearly inappropriate. The first concerns
+	the assessment of residual contamination from nuclear weapons testing
+	on a South Pacific island, in which the sampling method generates
+	spatially indexed Poisson counts conditional on an unobserved spatially
+	varying intensity of radioactivity; we conclude that a conventional
+	geostatistical analysis oversmooths the data and underestimates the
+	spatial extremes of the intensity. The second application provides
+	a description of spatial variation in the risk of campylobacter infections
+	relative to other enteric infections in part of north Lancashire
+	and south Cumbria. For this application, we treat the data as binomial
+	counts at unit postcode locations, conditionally on an unobserved
+	relative risk surface which we estimate. The theoretical framework
+	for our extension of geostatistical methods is that, conditionally
+	on the unobserved process S(x), observations at sample locations
+	xi form a generalized linear model with the corresponding values
+	of S(xi) appearing as an offset term in the linear predictor. We
+	use a Bayesian inferential framework, implemented via the Markov
+	chain Monte Carlo method, to solve the prediction problem for non-linear
+	functionals of S(x), making a proper allowance for the uncertainty
+	in the estimation of any model parameters.},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAdQAAAAAAdQAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftB1tb2RlbC1iYXNlZCBnZW9zdGF0aXN0aWNzLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl+9y1iQMQAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMtY5JEAAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBRc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AG1vZGVsLWJhc2VkIGdlb3N0YXRpc3RpY3MucGRmAAAOADwAHQBtAG8AZABlAGwALQBiAGEAcwBlAGQAIABnAGUAbwBzAHQAYQB0AGkAcwB0AGkAYwBzAC4AcABkAGYADwASAAgAcwBrAHUAbABsACAASABEABIAQlVzZXJzL3dlc2xleS9naXQvZ3dyL3JlZmVyZW5jZXMvcGRmcy9tb2RlbC1iYXNlZCBnZW9zdGF0aXN0aWNzLnBkZgATAAEvAAAVAAIADf//AACABdIcHR4fWCRjbGFzc2VzWiRjbGFzc25hbWWjHyAhXU5TTXV0YWJsZURhdGFWTlNEYXRhWE5TT2JqZWN0XxAicGRmcy9tb2RlbC1iYXNlZCBnZW9zdGF0aXN0aWNzLnBkZtIcHSQloiUhXE5TRGljdGlvbmFyeRIAAYagXxAPTlNLZXllZEFyY2hpdmVyAAgAEQAWAB8AKAAyADUAOgA8AEUASwBSAF0AZQBsAG8AcQBzAHYAeAB6AHwAhgCTAJgAoAJ4AnoCfwKIApMClwKlAqwCtQLaAt8C4gLvAvQAAAAAAAACAQAAAAAAAAAoAAAAAAAAAAAAAAAAAAADBg==},
+  bdsk-url-1 = {http://dx.doi.org/10.1111/1467-9876.00113},
+  date-added = {2012-02-09 02:48:34 +0000},
+  date-modified = {2012-02-24 22:49:26 +0000},
+  doi = {10.1111/1467-9876.00113},
+  issn = {1467-9876},
+  keywords = {spatial, regression, Generalized linear mixed model, Geostatistics,
+	Kriging, Markov chain Monte Carlo method, Spatial prediction},
+  publisher = {Blackwell Publishers Ltd.},
+  url = {http://dx.doi.org/10.1111/1467-9876.00113}
+}
+
+@ARTICLE{Eidsvik2011,
+  author = {Jo Eidsvik and Andrew O. Finley and Sudipto Banerjee and H{\aa}vard
+	Rue},
+  title = {Approximate Bayesian inference for large spatial datasets using predictive
+	process models},
+  journal = {Computational Statistics \&amp; Data Analysis},
+  year = {2011},
+  pages = {-},
+  number = {0},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAaAAAAAAAaAAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftBBzcGF0aWFsIElOTEEucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl/Dy1iMjQAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMtY4O0AAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBEc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AHNwYXRpYWwgSU5MQS5wZGYADgAiABAAcwBwAGEAdABpAGEAbAAgAEkATgBMAEEALgBwAGQAZgAPABIACABzAGsAdQBsAGwAIABIAEQAEgA1VXNlcnMvd2VzbGV5L2dpdC9nd3IvcmVmZXJlbmNlcy9wZGZzL3NwYXRpYWwgSU5MQS5wZGYAABMAAS8AABUAAgAN//8AAIAF0hwdHh9YJGNsYXNzZXNaJGNsYXNzbmFtZaMfICFdTlNNdXRhYmxlRGF0YVZOU0RhdGFYTlNPYmplY3RfEBVwZGZzL3NwYXRpYWwgSU5MQS5wZGbSHB0kJaIlIVxOU0RpY3Rpb25hcnkSAAGGoF8QD05TS2V5ZWRBcmNoaXZlcgAIABEAFgAfACgAMgA1ADoAPABFAEsAUgBdAGUAbABvAHEAcwB2AHgAegB8AIYAkwCYAKACRAJGAksCVAJfAmMCcQJ4AoECmQKeAqECrgKzAAAAAAAAAgEAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAsU=},
+  bdsk-url-1 = {http://www.sciencedirect.com/science/article/pii/S0167947311003938},
+  bdsk-url-2 = {http://dx.doi.org/10.1016/j.csda.2011.10.022},
+  date-added = {2012-02-09 02:39:24 +0000},
+  date-modified = {2012-02-09 02:39:24 +0000},
+  doi = {10.1016/j.csda.2011.10.022},
+  issn = {0167-9473},
+  keywords = {Predictive process model},
+  url = {http://www.sciencedirect.com/science/article/pii/S0167947311003938}
+}
+
+@ARTICLE{Fan:1999,
+  author = {Jianqing Fan and Wenyang Zhang},
+  title = {Statistical estimation in varying coefficient models},
+  journal = {The Annals of Statistics},
+  year = {1999},
+  volume = {27},
+  pages = {1491-1518},
+  number = {5},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAewAAAAAAewAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftB9GYW5Fc3RpbWF0aW9uVmFyeWluZyM4MjVGQjkucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl+5y1rtvgAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMtbQh4AAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBTc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AEZhbkVzdGltYXRpb25WYXJ5aW5nIzgyNUZCOS5wZGYAAA4ASgAkAEYAYQBuAEUAcwB0AGkAbQBhAHQAaQBvAG4AVgBhAHIAeQBpAG4AZwBDAG8AZQBmAGYAaQBjAGkAZQBuAHQAcwAuAHAAZABmAA8AEgAIAHMAawB1AGwAbAAgAEgARAASAElVc2Vycy93ZXNsZXkvZ2l0L2d3ci9yZWZlcmVuY2VzL3BkZnMvRmFuRXN0aW1hdGlvblZhcnlpbmdDb2VmZmljaWVudHMucGRmAAATAAEvAAAVAAIADf//AACABdIcHR4fWCRjbGFzc2VzWiRjbGFzc25hbWWjHyAhXU5TTXV0YWJsZURhdGFWTlNEYXRhWE5TT2JqZWN0XxApcGRmcy9GYW5Fc3RpbWF0aW9uVmFyeWluZ0NvZWZmaWNpZW50cy5wZGbSHB0kJaIlIVxOU0RpY3Rpb25hcnkSAAGGoF8QD05TS2V5ZWRBcmNoaXZlcgAIABEAFgAfACgAMgA1ADoAPABFAEsAUgBdAGUAbABvAHEAcwB2AHgAegB8AIYAkwCYAKACkAKSApcCoAKrAq8CvQLEAs0C+QL+AwEDDgMTAAAAAAAAAgEAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAyU=},
+  date-added = {2012-02-10 21:50:51 +0000},
+  date-modified = {2012-02-10 21:55:07 +0000},
+  keywords = {Varying coefficient models; local linear fit; optimal rate of convergence;
+	mean-squared errors}
+}
+
+@BOOK{Fotheringham:2002,
+  title = {Geographically weighted regression: the analysis of spatially varying
+	relationships},
+  publisher = {Wiley},
+  year = {2002},
+  author = {Fotheringham, A.S. and Brunsdon, C. and Charlton, M.},
+  bdsk-url-1 = {http://books.google.com/books?id=mPWlG-0G3rQC},
+  date-added = {2012-02-24 22:38:42 +0000},
+  date-modified = {2012-02-24 22:50:44 +0000},
+  isbn = {9780471496168},
+  lccn = {2003272388},
+  url = {http://books.google.com/books?id=mPWlG-0G3rQC}
+}
+
+@ARTICLE{Gelfand:2003,
+  author = {Gelfand, Alan E and Kim, Hyon-Jung and Sirmans, C. F and Banerjee,
+	Sudipto},
+  title = {Spatial Modeling With Spatially Varying Coefficient Processes},
+  journal = {Journal of the American Statistical Association},
+  year = {2003},
+  volume = {98},
+  pages = {387-396},
+  number = {462},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAeYAAAAAAeYAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftB9zcGF0aWFsbHkgdmFyeWluZyBjbyM4MjVGQzQucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl/Ey1iPEgAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMtY43IAAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBTc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AHNwYXRpYWxseSB2YXJ5aW5nIGNvIzgyNUZDNC5wZGYAAA4ARgAiAHMAcABhAHQAaQBhAGwAbAB5ACAAdgBhAHIAeQBpAG4AZwAgAGMAbwBlAGYAZgBpAGMAaQBlAG4AdABzAC4AcABkAGYADwASAAgAcwBrAHUAbABsACAASABEABIAR1VzZXJzL3dlc2xleS9naXQvZ3dyL3JlZmVyZW5jZXMvcGRmcy9zcGF0aWFsbHkgdmFyeWluZyBjb2VmZmljaWVudHMucGRmAAATAAEvAAAVAAIADf//AACABdIcHR4fWCRjbGFzc2VzWiRjbGFzc25hbWWjHyAhXU5TTXV0YWJsZURhdGFWTlNEYXRhWE5TT2JqZWN0XxAncGRmcy9zcGF0aWFsbHkgdmFyeWluZyBjb2VmZmljaWVudHMucGRm0hwdJCWiJSFcTlNEaWN0aW9uYXJ5EgABhqBfEA9OU0tleWVkQXJjaGl2ZXIACAARABYAHwAoADIANQA6ADwARQBLAFIAXQBlAGwAbwBxAHMAdgB4AHoAfACGAJMAmACgAooCjAKRApoCpQKpArcCvgLHAvEC9gL5AwYDCwAAAAAAAAIBAAAAAAAAACgAAAAAAAAAAAAAAAAAAAMd},
+  bdsk-url-1 = {http://pubs.amstat.org/doi/abs/10.1198/016214503000170},
+  bdsk-url-2 = {http://dx.doi.org/10.1198/016214503000170},
+  date-added = {2012-02-09 02:43:03 +0000},
+  date-modified = {2012-02-24 22:48:40 +0000},
+  doi = {10.1198/016214503000170},
+  eprint = {http://pubs.amstat.org/doi/pdf/10.1198/016214503000170},
+  keywords = {spatial and varying coefficients and regression},
+  url = {http://pubs.amstat.org/doi/abs/10.1198/016214503000170}
+}
+
+@ARTICLE{Green:1987,
+  author = {Peter J Green},
+  title = {Penalized likelihood for general semi-parametric regression models},
+  journal = {International Statistical Review},
+  year = {1987},
+  volume = {53},
+  pages = {245-259},
+  number = {3},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAhYAAAAAAhYAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftB9wZW5hbGl6ZWQgbGlrZWxpaG9vZCM4MjVGQzAucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl/Ay1rKTgAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMtbHq4AAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBTc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AHBlbmFsaXplZCBsaWtlbGlob29kIzgyNUZDMC5wZGYAAA4AZgAyAHAAZQBuAGEAbABpAHoAZQBkACAAbABpAGsAZQBsAGkAaABvAG8AZAAgAHMAZQBtAGkAcABhAHIAYQBtAGUAdAByAGkAYwAgAHIAZQBnAHIAZQBzAHMAaQBvAG4ALgBwAGQAZgAPABIACABzAGsAdQBsAGwAIABIAEQAEgBXVXNlcnMvd2VzbGV5L2dpdC9nd3IvcmVmZXJlbmNlcy9wZGZzL3BlbmFsaXplZCBsaWtlbGlob29kIHNlbWlwYXJhbWV0cmljIHJlZ3Jlc3Npb24ucGRmAAATAAEvAAAVAAIADf//AACABdIcHR4fWCRjbGFzc2VzWiRjbGFzc25hbWWjHyAhXU5TTXV0YWJsZURhdGFWTlNEYXRhWE5TT2JqZWN0XxA3cGRmcy9wZW5hbGl6ZWQgbGlrZWxpaG9vZCBzZW1pcGFyYW1ldHJpYyByZWdyZXNzaW9uLnBkZtIcHSQloiUhXE5TRGljdGlvbmFyeRIAAYagXxAPTlNLZXllZEFyY2hpdmVyAAgAEQAWAB8AKAAyADUAOgA8AEUASwBSAF0AZQBsAG8AcQBzAHYAeAB6AHwAhgCTAJgAoAK6ArwCwQLKAtUC2QLnAu4C9wMxAzYDOQNGA0sAAAAAAAACAQAAAAAAAAAoAAAAAAAAAAAAAAAAAAADXQ==},
+  date-added = {2012-02-10 19:21:33 +0000},
+  date-modified = {2012-02-10 19:23:50 +0000},
+  keywords = {penalized likelihood, regression}
+}
+
+@ARTICLE{Hastie-Tibshirani:1993,
+  author = {Hastie, Trevor and Tibshirani, Robert},
+  title = {Varying-Coefficient Models},
+  journal = {Journal of the Royal Statistical Society. Series B (Methodological)},
+  year = {1993},
+  volume = {55},
+  pages = {pp. 757-796},
+  number = {4},
+  abstract = {We explore a class of regression and generalized regression models
+	in which the coefficients are allowed to vary as smooth functions
+	of other variables. General algorithms are presented for estimating
+	the models flexibly and some examples are given. This class of models
+	ties together generalized additive models and dynamic generalized
+	linear models into one common framework. When applied to the proportional
+	hazards model for survival data, this approach provides a new way
+	of modelling departures from the proportional hazards assumption.},
+  bdsk-url-1 = {http://www.jstor.org/stable/2345993},
+  copyright = {Copyright {\copyright} 1993 Royal Statistical Society},
+  date-modified = {2012-02-24 22:48:26 +0000},
+  issn = {00359246},
+  jstor_articletype = {research-article},
+  jstor_formatteddate = {1993},
+  language = {English},
+  publisher = {Blackwell Publishing for the Royal Statistical Society},
+  url = {http://www.jstor.org/stable/2345993}
+}
+
+@BOOK{Hastie-Tibshirani:1990,
+  title = {Generalized Additive Models},
+  publisher = {Taylor and Francis},
+  year = {1990},
+  author = {Hastie, T.J. and Tibshirani, R.J.},
+  bdsk-url-1 = {http://books.google.com/books?id=qa29r1Ze1coC},
+  date-added = {2012-02-24 22:37:53 +0000},
+  date-modified = {2012-02-24 22:50:34 +0000},
+  isbn = {9780412343902},
+  url = {http://books.google.com/books?id=qa29r1Ze1coC}
+}
+
+@ARTICLE{Gelfand:2011,
+  author = {Heaton, Matthew and Gelfand, Alan},
+  title = {Spatial Regression Using Kernel Averaged Predictors},
+  journal = {Journal of Agricultural, Biological, and Environmental Statistics},
+  year = {2011},
+  volume = {16},
+  pages = {233-252},
+  note = {10.1007/s13253-010-0050-6},
+  affiliation = {Department of Statistical Science, Duke University, Box 90251, Durham,
+	NC 27708-0251, USA},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAdgAAAAAAdgAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftB5rZXJuZWwgYXZlcmFnZWQgcHJlZGljdG9ycy5wZGYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl+6y1iPxgAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMtY5CYAAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBSc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AGtlcm5lbCBhdmVyYWdlZCBwcmVkaWN0b3JzLnBkZgAOAD4AHgBrAGUAcgBuAGUAbAAgAGEAdgBlAHIAYQBnAGUAZAAgAHAAcgBlAGQAaQBjAHQAbwByAHMALgBwAGQAZgAPABIACABzAGsAdQBsAGwAIABIAEQAEgBDVXNlcnMvd2VzbGV5L2dpdC9nd3IvcmVmZXJlbmNlcy9wZGZzL2tlcm5lbCBhdmVyYWdlZCBwcmVkaWN0b3JzLnBkZgAAEwABLwAAFQACAA3//wAAgAXSHB0eH1gkY2xhc3Nlc1okY2xhc3NuYW1lox8gIV1OU011dGFibGVEYXRhVk5TRGF0YVhOU09iamVjdF8QI3BkZnMva2VybmVsIGF2ZXJhZ2VkIHByZWRpY3RvcnMucGRm0hwdJCWiJSFcTlNEaWN0aW9uYXJ5EgABhqBfEA9OU0tleWVkQXJjaGl2ZXIACAARABYAHwAoADIANQA6ADwARQBLAFIAXQBlAGwAbwBxAHMAdgB4AHoAfACGAJMAmACgAnwCfgKDAowClwKbAqkCsAK5At8C5ALnAvQC+QAAAAAAAAIBAAAAAAAAACgAAAAAAAAAAAAAAAAAAAML},
+  bdsk-url-1 = {http://dx.doi.org/10.1007/s13253-010-0050-6},
+  date-added = {2012-02-09 02:46:57 +0000},
+  date-modified = {2012-02-24 22:49:12 +0000},
+  issn = {1085-7117},
+  issue = {2},
+  keyword = {Mathematics and Statistics},
+  keywords = {spatial and kernel and regression and varying coefficients},
+  publisher = {Springer New York},
+  url = {http://dx.doi.org/10.1007/s13253-010-0050-6}
+}
+
+@UNPUBLISHED{Hooker:2011,
+  author = {Giles Hooker},
+  title = {Learned Loss Boosting},
+  note = {Courtesy of Bret Hanlon},
+  year = {2011},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAaAAAAAAAaAAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftBBsZWFybmVkbG9zczIucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl+7y0yC3QAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMtM1z0AAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBEc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AGxlYXJuZWRsb3NzMi5wZGYADgAiABAAbABlAGEAcgBuAGUAZABsAG8AcwBzADIALgBwAGQAZgAPABIACABzAGsAdQBsAGwAIABIAEQAEgA1VXNlcnMvd2VzbGV5L2dpdC9nd3IvcmVmZXJlbmNlcy9wZGZzL2xlYXJuZWRsb3NzMi5wZGYAABMAAS8AABUAAgAN//8AAIAF0hwdHh9YJGNsYXNzZXNaJGNsYXNzbmFtZaMfICFdTlNNdXRhYmxlRGF0YVZOU0RhdGFYTlNPYmplY3RfEBVwZGZzL2xlYXJuZWRsb3NzMi5wZGbSHB0kJaIlIVxOU0RpY3Rpb25hcnkSAAGGoF8QD05TS2V5ZWRBcmNoaXZlcgAIABEAFgAfACgAMgA1ADoAPABFAEsAUgBdAGUAbABvAHEAcwB2AHgAegB8AIYAkwCYAKACRAJGAksCVAJfAmMCcQJ4AoECmQKeAqECrgKzAAAAAAAAAgEAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAsU=},
+  date-added = {2012-02-09 02:22:28 +0000},
+  date-modified = {2012-02-24 22:50:23 +0000},
+  keywords = {machine learning and boosting and loss function and nonparametric}
+}
+
+@ARTICLE{1998,
+  author = {Hurvich, Clifford M. and Simonoff, Jeffrey S. and Tsai, Chih-Ling},
+  title = {Smoothing Parameter Selection in Nonparametric Regression Using an
+	Improved Akaike Information Criterion},
+  journal = {Journal of the Royal Statistical Society. Series B (Statistical Methodology)},
+  year = {1998},
+  volume = {60},
+  pages = {pp. 271-293},
+  number = {2},
+  abstract = {Many different methods have been proposed to construct nonparametric
+	estimates of a smooth regression function, including local polynomial,
+	(convolution) kernel and smoothing spline estimators. Each of these
+	estimators uses a smoothing parameter to control the amount of smoothing
+	performed on a given data set. In this paper an improved version
+	of a criterion based on the Akaike information criterion (AIC), termed
+	AIC<sub>C</sub>, is derived and examined as a way to choose the smoothing
+	parameter. Unlike plug-in methods, AIC<sub>C</sub> can be used to
+	choose smoothing parameters for any linear smoother, including local
+	quadratic and smoothing spline estimators. The use of AIC<sub>C</sub>
+	avoids the large variability and tendency to undersmooth (compared
+	with the actual minimizer of average squared error) seen when other
+	`classical' approaches (such as generalized cross-validation or the
+	AIC) are used to choose the smoothing parameter. Monte Carlo simulations
+	demonstrate that the AIC<sub>C</sub>-based smoothing parameter is
+	competitive with a plug-in method (assuming that one exists) when
+	the plug-in method works well but also performs well when the plug-in
+	approach fails or is unavailable.},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAWYAAAAAAWYAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAAyJ4gsyOTg1OTQwLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAi9EOy5urYQAAAAAAAAAAAAMAAgAACSAAAAAAAAAAAAAAAAAAAAAJRG93bmxvYWRzAAAQAAgAAMro7nUAAAARAAgAAMub8bEAAAABAAwADIniAAvjQgAL4TMAAgAuc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToARG93bmxvYWRzOgAyOTg1OTQwLnBkZgAOABgACwAyADkAOAA1ADkANAAwAC4AcABkAGYADwASAAgAcwBrAHUAbABsACAASABEABIAIlVzZXJzL3dlc2xleS9Eb3dubG9hZHMvMjk4NTk0MC5wZGYAEwABLwAAFQACAA3//wAAgAXSHB0eH1gkY2xhc3Nlc1okY2xhc3NuYW1lox8gIV1OU011dGFibGVEYXRhVk5TRGF0YVhOU09iamVjdF8QHi4uLy4uLy4uL0Rvd25sb2Fkcy8yOTg1OTQwLnBkZtIcHSQloiUhXE5TRGljdGlvbmFyeRIAAYagXxAPTlNLZXllZEFyY2hpdmVyAAgAEQAWAB8AKAAyADUAOgA8AEUASwBSAF0AZQBsAG8AcQBzAHYAeAB6AHwAhgCTAJgAoAIKAgwCEQIaAiUCKQI3Aj4CRwJoAm0CcAJ9AoIAAAAAAAACAQAAAAAAAAAoAAAAAAAAAAAAAAAAAAAClA==},
+  bdsk-url-1 = {http://www.jstor.org/stable/2985940},
+  copyright = {Copyright {\copyright} 1998 Royal Statistical Society},
+  issn = {13697412},
+  jstor_articletype = {research-article},
+  jstor_formatteddate = {1998},
+  language = {English},
+  publisher = {Blackwell Publishing for the Royal Statistical Society},
+  url = {http://www.jstor.org/stable/2985940}
+}
+
+@ARTICLE{cosso:2006,
+  author = {Lin, Yi and Zhang, Hao Helen},
+  title = {Component Selection and Smoothing in Multivariate Nonparametric Regression},
+  journal = {The Annals of Statistics},
+  year = {2006},
+  volume = {34},
+  pages = {pp. 2272-2297},
+  number = {5},
+  abstract = {We propose a new method for model selection and model fitting in multivariate
+	nonparametric regression models, in the framework of smoothing spline
+	ANOVA. The "COSSO" is a method of regularization with the penalty
+	functional being the sum of component norms, instead of the squared
+	norm employed in the traditional smoothing spline method. The COSSO
+	provides a unified framework for several recent proposals for model
+	selection in linear models and smoothing spline ANOVA models. Theoretical
+	properties, such as the existence and the rate of convergence of
+	the COSSO estimator, are studied. In the special case of a tensor
+	product design with periodic functions, a detailed analysis reveals
+	that the COSSO does model selection by applying a novel soft thresholding
+	type operation to the function components. We give an equivalent
+	formulation of the COSSO estimator which leads naturally to an iterative
+	algorithm. We compare the COSSO with MARS, a popular method that
+	builds functional ANOVA models, in simulations and real examples.
+	The COSSO method can be extended to classification problems and we
+	compare its performance with those of a number of machine learning
+	algorithms on real datasets. The COSSO gives very competitive performance
+	in these studies.},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAZgAAAAAAZgAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftA5jb3NzbyAyMDA2LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl+4y3pAygAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMt6lSoAAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBCc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AGNvc3NvIDIwMDYucGRmAA4AHgAOAGMAbwBzAHMAbwAgADIAMAAwADYALgBwAGQAZgAPABIACABzAGsAdQBsAGwAIABIAEQAEgAzVXNlcnMvd2VzbGV5L2dpdC9nd3IvcmVmZXJlbmNlcy9wZGZzL2Nvc3NvIDIwMDYucGRmAAATAAEvAAAVAAIADf//AACABdIcHR4fWCRjbGFzc2VzWiRjbGFzc25hbWWjHyAhXU5TTXV0YWJsZURhdGFWTlNEYXRhWE5TT2JqZWN0XxATcGRmcy9jb3NzbyAyMDA2LnBkZtIcHSQloiUhXE5TRGljdGlvbmFyeRIAAYagXxAPTlNLZXllZEFyY2hpdmVyAAgAEQAWAB8AKAAyADUAOgA8AEUASwBSAF0AZQBsAG8AcQBzAHYAeAB6AHwAhgCTAJgAoAI8Aj4CQwJMAlcCWwJpAnACeQKPApQClwKkAqkAAAAAAAACAQAAAAAAAAAoAAAAAAAAAAAAAAAAAAACuw==},
+  bdsk-url-1 = {http://www.jstor.org/stable/25463508},
+  copyright = {Copyright {\copyright} 2006 Institute of Mathematical Statistics},
+  date-modified = {2012-03-05 16:09:21 +0000},
+  issn = {00905364},
+  jstor_articletype = {research-article},
+  jstor_formatteddate = {Oct., 2006},
+  language = {English},
+  publisher = {Institute of Mathematical Statistics},
+  url = {http://www.jstor.org/stable/25463508}
+}
+
+@BOOK{McCullagh-Nelder:1989,
+  title = {Generalized Linear Models, Second Edition},
+  publisher = {Taylor and Francis},
+  year = {1989},
+  author = {McCullagh, P. and Nelder, J.A.},
+  bdsk-url-1 = {http://books.google.com/books?id=h9kFH2%5C_FfBkC},
+  date-added = {2012-02-24 22:39:22 +0000},
+  date-modified = {2012-02-24 22:50:15 +0000},
+  isbn = {9780412317606},
+  url = {http://books.google.com/books?id=h9kFH2\_FfBkC}
+}
+
+@ARTICLE{OSullivan:1986,
+  author = {O'Sullivan, Finbarr},
+  title = {A Statistical Perspective on Ill-Posed Inverse Problems},
+  journal = {Statistical Science},
+  year = {1986},
+  volume = {1},
+  pages = {pp. 502-518},
+  number = {4},
+  abstract = {Ill-posed inverse problems arise in many branches of science and engineering.
+	In the typical situation one is interested in recovering a whole
+	function given a finite number of noisy measurements on functionals.
+	Performance characteristics of an inversion algorithm are studied
+	via the mean square error which is decomposed into bias and variability.
+	Variability calculations are often straightforward, but useful bias
+	measures are more difficult to obtain. An appropriate definition
+	of what geophysicists call the Backus-Gilbert averaging kernel leads
+	to a natural way of measuring bias characteristics. Moreover, the
+	ideas give rise to some important experimental design criteria. It
+	can be shown that the optimal inversion algorithms are methods of
+	regularization procedures, but to completely specify these algorithms
+	the signal to noise ratio must be supplied. Statistical approaches
+	to the empirical determination of the signal to noise ratio are discussed;
+	cross-validation and unbiased risk methods are reviewed; and some
+	extensions, which seem particularly appropriate in the inverse problem
+	context, are indicated. Linear and nonlinear examples from medicine,
+	meteorology, and geophysics are used for illustration.},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAegAAAAAAegAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftB9vc3VsbGl2YW4tMTk4Ni1pbnZlciM4MjVGQkUucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl++y2wjnQAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMtsd/0AAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBTc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AG9zdWxsaXZhbi0xOTg2LWludmVyIzgyNUZCRS5wZGYAAA4ASAAjAG8AcwB1AGwAbABpAHYAYQBuAC0AMQA5ADgANgAtAGkAbgB2AGUAcgBzAGUALQBwAHIAbwBiAGwAZQBtAHMALgBwAGQAZgAPABIACABzAGsAdQBsAGwAIABIAEQAEgBIVXNlcnMvd2VzbGV5L2dpdC9nd3IvcmVmZXJlbmNlcy9wZGZzL29zdWxsaXZhbi0xOTg2LWludmVyc2UtcHJvYmxlbXMucGRmABMAAS8AABUAAgAN//8AAIAF0hwdHh9YJGNsYXNzZXNaJGNsYXNzbmFtZaMfICFdTlNNdXRhYmxlRGF0YVZOU0RhdGFYTlNPYmplY3RfEChwZGZzL29zdWxsaXZhbi0xOTg2LWludmVyc2UtcHJvYmxlbXMucGRm0hwdJCWiJSFcTlNEaWN0aW9uYXJ5EgABhqBfEA9OU0tleWVkQXJjaGl2ZXIACAARABYAHwAoADIANQA6ADwARQBLAFIAXQBlAGwAbwBxAHMAdgB4AHoAfACGAJMAmACgAowCjgKTApwCpwKrArkCwALJAvQC+QL8AwkDDgAAAAAAAAIBAAAAAAAAACgAAAAAAAAAAAAAAAAAAAMg},
+  bdsk-url-1 = {http://www.jstor.org/stable/2245801},
+  copyright = {Copyright {\copyright} 1986 Institute of Mathematical Statistics},
+  date-modified = {2012-02-23 23:14:22 +0000},
+  issn = {08834237},
+  jstor_articletype = {research-article},
+  jstor_formatteddate = {Nov., 1986},
+  keywords = {machine learning, inverse problem, penalized likelihood},
+  language = {English},
+  publisher = {Institute of Mathematical Statistics},
+  url = {http://www.jstor.org/stable/2245801}
+}
+
+@PHDTHESIS{Paciorek:2003,
+  author = {Chris Paciorek},
+  title = {Nonstationary Gaussian processes for regression and spatial modelling},
+  school = {Carnegie Mellon University},
+  year = {2003},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAawAAAAAAawAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftBNwYWNpb3Jlay10aGVzaXMucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl+/y1iOqAAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMtY4wgAAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBHc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AHBhY2lvcmVrLXRoZXNpcy5wZGYAAA4AKAATAHAAYQBjAGkAbwByAGUAawAtAHQAaABlAHMAaQBzAC4AcABkAGYADwASAAgAcwBrAHUAbABsACAASABEABIAOFVzZXJzL3dlc2xleS9naXQvZ3dyL3JlZmVyZW5jZXMvcGRmcy9wYWNpb3Jlay10aGVzaXMucGRmABMAAS8AABUAAgAN//8AAIAF0hwdHh9YJGNsYXNzZXNaJGNsYXNzbmFtZaMfICFdTlNNdXRhYmxlRGF0YVZOU0RhdGFYTlNPYmplY3RfEBhwZGZzL3BhY2lvcmVrLXRoZXNpcy5wZGbSHB0kJaIlIVxOU0RpY3Rpb25hcnkSAAGGoF8QD05TS2V5ZWRBcmNoaXZlcgAIABEAFgAfACgAMgA1ADoAPABFAEsAUgBdAGUAbABvAHEAcwB2AHgAegB8AIYAkwCYAKACUAJSAlcCYAJrAm8CfQKEAo0CqAKtArACvQLCAAAAAAAAAgEAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAtQ=},
+  date-added = {2012-02-09 02:51:43 +0000},
+  date-modified = {2012-02-24 22:49:59 +0000},
+  keywords = {spatial, regression, process, varying coefficients}
+}
+
+@ARTICLE{Reich:2011,
+  author = {Brian J. Reich and Montserrat Fuentes and David B. Dunson},
+  title = {Bayesian Spatial Quantile Regression},
+  journal = {Journal of the American Statistical},
+  year = {2011},
+  volume = {106},
+  number = {493},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAawAAAAAAawAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftBNTcGF0aWFsUXVhbnRpbGUucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl/Fy1iLnwAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMtY3/8AAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBHc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AFNwYXRpYWxRdWFudGlsZS5wZGYAAA4AKAATAFMAcABhAHQAaQBhAGwAUQB1AGEAbgB0AGkAbABlAC4AcABkAGYADwASAAgAcwBrAHUAbABsACAASABEABIAOFVzZXJzL3dlc2xleS9naXQvZ3dyL3JlZmVyZW5jZXMvcGRmcy9TcGF0aWFsUXVhbnRpbGUucGRmABMAAS8AABUAAgAN//8AAIAF0hwdHh9YJGNsYXNzZXNaJGNsYXNzbmFtZaMfICFdTlNNdXRhYmxlRGF0YVZOU0RhdGFYTlNPYmplY3RfEBhwZGZzL1NwYXRpYWxRdWFudGlsZS5wZGbSHB0kJaIlIVxOU0RpY3Rpb25hcnkSAAGGoF8QD05TS2V5ZWRBcmNoaXZlcgAIABEAFgAfACgAMgA1ADoAPABFAEsAUgBdAGUAbABvAHEAcwB2AHgAegB8AIYAkwCYAKACUAJSAlcCYAJrAm8CfQKEAo0CqAKtArACvQLCAAAAAAAAAgEAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAtQ=},
+  date-added = {2012-02-09 02:26:28 +0000},
+  date-modified = {2012-02-09 02:31:57 +0000},
+  keywords = {bayesian and quantile regression and regression and spatial and process}
+}
+
+@PHDTHESIS{Shang:2011,
+  author = {Zuofeng Shang},
+  title = {Bayesian Variable Selection},
+  school = {University of Wisconsin-Madison},
+  year = {2011},
+  note = {Ph.D Dissertation (Murray Clayton advisor)},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAdAAAAAAAdAAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftBxadW9mZW5nU2hhbmdEaXNzZXJ0YXRpb24ucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl/Ly1iCiwAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMtY1usAAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBQc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AFp1b2ZlbmdTaGFuZ0Rpc3NlcnRhdGlvbi5wZGYADgA6ABwAWgB1AG8AZgBlAG4AZwBTAGgAYQBuAGcARABpAHMAcwBlAHIAdABhAHQAaQBvAG4ALgBwAGQAZgAPABIACABzAGsAdQBsAGwAIABIAEQAEgBBVXNlcnMvd2VzbGV5L2dpdC9nd3IvcmVmZXJlbmNlcy9wZGZzL1p1b2ZlbmdTaGFuZ0Rpc3NlcnRhdGlvbi5wZGYAABMAAS8AABUAAgAN//8AAIAF0hwdHh9YJGNsYXNzZXNaJGNsYXNzbmFtZaMfICFdTlNNdXRhYmxlRGF0YVZOU0RhdGFYTlNPYmplY3RfECFwZGZzL1p1b2ZlbmdTaGFuZ0Rpc3NlcnRhdGlvbi5wZGbSHB0kJaIlIVxOU0RpY3Rpb25hcnkSAAGGoF8QD05TS2V5ZWRBcmNoaXZlcgAIABEAFgAfACgAMgA1ADoAPABFAEsAUgBdAGUAbABvAHEAcwB2AHgAegB8AIYAkwCYAKACdAJ2AnsChAKPApMCoQKoArEC1QLaAt0C6gLvAAAAAAAAAgEAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAwE=},
+  date-added = {2012-02-09 02:23:50 +0000},
+  date-modified = {2012-02-24 22:49:52 +0000},
+  keywords = {bayesian and spatial and variable selection and process}
+}
+
+@ARTICLE{Staniswalis:1989,
+  author = {Staniswalis, Joan G.},
+  title = {The Kernel Estimate of a Regression Function in Likelihood-Based
+	Models},
+  journal = {Journal of the American Statistical Association},
+  year = {1989},
+  volume = {84},
+  pages = {pp. 276-283},
+  number = {405},
+  abstract = {Smoothing splines have a penalized likelihood motivation (Good and
+	Gaskins 1971) allowing direct application to nonparametric regression
+	in likelihood-based models. The notion of a weighted likelihood for
+	the nonparametric kernel estimation of a regression function is proposed,
+	generalizing the local likelihood theory of Tibshirani and Hastie
+	(1987). Let the data be of the form (xi, Yi) (i = 1,...,n), where
+	xi ∈ [ 0, 1]d are lattice points and the Yi are independent random
+	variables from a family of distributions with parameter λi = g(xi),
+	with g having continuous partial derivatives of order k ≥ 2. The
+	goal is to arrive at a nonparametric estimate $\hat\lambda_o$ of
+	λo = g(xo) for a fixed point xo ∈ [ 0, 1]d. We consider the estimator
+	$\hat\lambda_o$ that maximizes the weighted likelihood function W(λ)
+	= Σn i = 1 W[(x0 - xi)/b] log f(Yi:λ), with f the density of Yi,
+	W a symmetric kernel with compact support, and b the bandwidth that
+	controls the degree of smoothing. Sufficient conditions for consistency
+	and asymptotic normality of $\hat\lambda_o$ are given. If the Yi
+	are normal random variables with mean λi and equal variance, then
+	$\hat\lambda_0$ is the kernel estimator of Priestly-Chao (1972).
+	It is a weighted average of Yi corresponding to xi in a neighborhood
+	of xo. The kernel governs the weights and the bandwidth controls
+	the size of the neighborhood. The kernel estimator of the relative
+	risk function is developed for censored survival times under the
+	assumption of the Cox proportional hazards model. The weighted likelihood
+	approach based on the full likelihood is illustrated with real and
+	simulated data.},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAbAAAAAAAbAAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftBRTdGFuaXN3YWxpcy0xOTg3LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl/Gy21rnQAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMttv/0AAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBIc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AFN0YW5pc3dhbGlzLTE5ODcucGRmAA4AKgAUAFMAdABhAG4AaQBzAHcAYQBsAGkAcwAtADEAOQA4ADcALgBwAGQAZgAPABIACABzAGsAdQBsAGwAIABIAEQAEgA5VXNlcnMvd2VzbGV5L2dpdC9nd3IvcmVmZXJlbmNlcy9wZGZzL1N0YW5pc3dhbGlzLTE5ODcucGRmAAATAAEvAAAVAAIADf//AACABdIcHR4fWCRjbGFzc2VzWiRjbGFzc25hbWWjHyAhXU5TTXV0YWJsZURhdGFWTlNEYXRhWE5TT2JqZWN0XxAZcGRmcy9TdGFuaXN3YWxpcy0xOTg3LnBkZtIcHSQloiUhXE5TRGljdGlvbmFyeRIAAYagXxAPTlNLZXllZEFyY2hpdmVyAAgAEQAWAB8AKAAyADUAOgA8AEUASwBSAF0AZQBsAG8AcQBzAHYAeAB6AHwAhgCTAJgAoAJUAlYCWwJkAm8CcwKBAogCkQKtArICtQLCAscAAAAAAAACAQAAAAAAAAAoAAAAAAAAAAAAAAAAAAAC2Q==},
+  bdsk-url-1 = {http://www.jstor.org/stable/2289874},
+  copyright = {Copyright {\copyright} 1989 American Statistical Association},
+  date-modified = {2012-02-24 22:48:09 +0000},
+  issn = {01621459},
+  jstor_articletype = {research-article},
+  jstor_formatteddate = {Mar., 1989},
+  language = {English},
+  publisher = {American Statistical Association},
+  url = {http://www.jstor.org/stable/2289874}
+}
+
+@ARTICLE{Hastie-Tibshirani:1987,
+  author = {Tibshirani, Robert and Hastie, Trevor},
+  title = {Local Likelihood Estimation},
+  journal = {Journal of the American Statistical Association},
+  year = {1987},
+  volume = {82},
+  pages = {pp. 559-567},
+  number = {398},
+  abstract = {A scatterplot smoother is applied to data of the form {(x<sub>1</sub>,
+	y<sub>1</sub>), (x<sub>2</sub>, y<sub>2</sub>), ⋯, (x<sub>n</sub>,
+	y<sub>n</sub>)} and uses local fitting to estimate the dependence
+	of Y on X. A simple example is the running lines smoother, which
+	fits a least squares line to the y values falling in a window around
+	each x value. The value of the estimated function at x is given by
+	the value of the least squares line at x. A smoother generalizes
+	the least squares line, which assumes that the dependence of Y on
+	X is linear. In this article, we extend the idea of local fitting
+	to likelihood-based regression models. One such application is to
+	the class of generalized linear models (Nelder and Wedderburn 1972).
+	We enlarge this class by replacing the covariate form β<sub>0</sub>
+	+ xβ<sub>1</sub> with an unspecified smooth function s(x). This
+	function is estimated from the data by a technique we call local
+	likelihood estimation. The method consists of maximum likelihood
+	estimation for β<sub>0</sub> and β<sub>1</sub>, applied in a window
+	around each x value. Multiple covariates are incorporated through
+	an iterative algorithm. We also apply the local likelihood technique
+	to the proportional hazards model of Cox (1972), a model for censored
+	data. The proportional hazards assumption λ(t ∣ x) = λ<sub>0</sub>(t)exp(xβ)
+	is replaced by λ(t ∣ x) = λ<sub>0</sub>(t)exp(s(x)), and the
+	function s(x) is estimated from the data by the local likelihood
+	method. In some real data examples, the local likelihood technique
+	proves to be effective in uncovering nonlinear dependencies. It is
+	useful as a descriptive tool or to suggest transformations of the
+	covariates. We also discuss some methods for inference.},
+  bdsk-url-1 = {http://www.jstor.org/stable/2289465},
+  copyright = {Copyright {\copyright} 1987 American Statistical Association},
+  date-modified = {2012-02-24 22:47:58 +0000},
+  issn = {01621459},
+  jstor_articletype = {research-article},
+  jstor_formatteddate = {Jun., 1987},
+  language = {English},
+  publisher = {American Statistical Association},
+  url = {http://www.jstor.org/stable/2289465}
+}
+
+@ARTICLE{Wang:2008,
+  author = {Wang, Lifeng and Li, Hongzhe and Huang, Jianhua Z.},
+  title = {Variable Selection in Nonparametric Varying-Coefficient Models for
+	Analysis of Repeated Measurements},
+  journal = {Journal of the American Statistical Association},
+  year = {2008},
+  volume = {103},
+  pages = {1556-1569},
+  number = {484},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAh4AAAAAAh4AAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftB93YW5nLTIwMDgtdmFyaWFibGUtcyM4MjVGQzgucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl/Iy21S7wAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMttp08AAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBTc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AHdhbmctMjAwOC12YXJpYWJsZS1zIzgyNUZDOC5wZGYAAA4AbAA1AHcAYQBuAGcALQAyADAAMAA4AC0AdgBhAHIAaQBhAGIAbABlAC0AcwBlAGwAZQBjAHQAaQBvAG4ALQB2AGEAcgB5AGkAbgBnAC0AYwBvAGUAZgBmAGkAYwBpAGUAbgB0AHMALgBwAGQAZgAPABIACABzAGsAdQBsAGwAIABIAEQAEgBaVXNlcnMvd2VzbGV5L2dpdC9nd3IvcmVmZXJlbmNlcy9wZGZzL3dhbmctMjAwOC12YXJpYWJsZS1zZWxlY3Rpb24tdmFyeWluZy1jb2VmZmljaWVudHMucGRmABMAAS8AABUAAgAN//8AAIAF0hwdHh9YJGNsYXNzZXNaJGNsYXNzbmFtZaMfICFdTlNNdXRhYmxlRGF0YVZOU0RhdGFYTlNPYmplY3RfEDpwZGZzL3dhbmctMjAwOC12YXJpYWJsZS1zZWxlY3Rpb24tdmFyeWluZy1jb2VmZmljaWVudHMucGRm0hwdJCWiJSFcTlNEaWN0aW9uYXJ5EgABhqBfEA9OU0tleWVkQXJjaGl2ZXIACAARABYAHwAoADIANQA6ADwARQBLAFIAXQBlAGwAbwBxAHMAdgB4AHoAfACGAJMAmACgAsICxALJAtIC3QLhAu8C9gL/AzwDQQNEA1EDVgAAAAAAAAIBAAAAAAAAACgAAAAAAAAAAAAAAAAAAANo},
+  bdsk-url-1 = {http://pubs.amstat.org/doi/abs/10.1198/016214508000000788},
+  bdsk-url-2 = {http://dx.doi.org/10.1198/016214508000000788},
+  date-modified = {2012-02-24 22:48:51 +0000},
+  doi = {10.1198/016214508000000788},
+  eprint = {http://pubs.amstat.org/doi/pdf/10.1198/016214508000000788},
+  keywords = {varying coefficients; regression; variable selection},
+  url = {http://pubs.amstat.org/doi/abs/10.1198/016214508000000788}
+}
+
+@ARTICLE{wheeler-gwl-2009,
+  author = {David C Wheeler},
+  title = {Simultaneous coefficient penalization and model selection in geographically
+	weighted regression: the geographically weighted lasso},
+  journal = {Environment and Planning A},
+  year = {2009},
+  volume = {41},
+  pages = {722-742},
+  doi = {10.1068/a40256},
+  owner = {wrbrooks},
+  timestamp = {2012.06.11}
+}
+
+@BOOK{Wood:2006,
+  title = {Generalized additive models: an introduction with R},
+  publisher = {Chapman \& Hall/CRC},
+  year = {2006},
+  author = {Wood, S.N.},
+  series = {Texts in statistical science},
+  bdsk-url-1 = {http://books.google.com/books?id=GbzXe-L8uFgC},
+  date-added = {2012-02-24 22:39:47 +0000},
+  date-modified = {2012-02-24 22:49:45 +0000},
+  isbn = {9781584884743},
+  lccn = {2006040209},
+  url = {http://books.google.com/books?id=GbzXe-L8uFgC}
+}
+
+@ARTICLE{Zeger:1988,
+  author = {Zeger, Scott L. and Qaqish, Bahjat},
+  title = {Markov Regression Models for Time Series: A Quasi-Likelihood Approach},
+  journal = {Biometrics},
+  year = {1988},
+  volume = {44},
+  pages = {pp. 1019-1031},
+  number = {4},
+  abstract = {This paper discusses a quasi-likelihood (QL) approach to regression
+	analysis with time series data. We consider a class of Markov models,
+	referred to by Cox (1981, Scandinavian Journal of Statistics 8, 93-115)
+	as "observation-driven" models in which the conditional means and
+	variances given the past are explicit functions of past outcomes.
+	The class includes autoregressive and Markov chain models for continuous
+	and categorical observations as well as models for counts (e.g.,
+	Poisson) and continuous outcomes with constant coefficient of variation
+	(e.g., gamma). We focus on Poisson and gamma data for illustration.
+	Analogous to QL for independent observations, large-sample properties
+	of the regression coefficients depend only on correct specification
+	of the first conditional moment.},
+  bdsk-file-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAeAAAAAAAeAAAgAACHNrdWxsIEhEAAAAAAAAAAAAAAAAAAAAAAAAAMromhVIKwAAAIJftB9aZWdlci0xOTk4LW1hcmtvdi1yZSM4MjVGQ0EucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgl/Ky2wluAAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAEcGRmcwAQAAgAAMro7nUAAAARAAgAAMtsehgAAAABABgAgl+0AIJfrgCCX5sADPIpAAvjQgAL4TMAAgBTc2t1bGwgSEQ6VXNlcnM6AHdlc2xleToAZ2l0OgBnd3I6AHJlZmVyZW5jZXM6AHBkZnM6AFplZ2VyLTE5OTgtbWFya292LXJlIzgyNUZDQS5wZGYAAA4AQgAgAFoAZQBnAGUAcgAtADEAOQA5ADgALQBtAGEAcgBrAG8AdgAtAHIAZQBnAHIAZQBzAHMAaQBvAG4ALgBwAGQAZgAPABIACABzAGsAdQBsAGwAIABIAEQAEgBFVXNlcnMvd2VzbGV5L2dpdC9nd3IvcmVmZXJlbmNlcy9wZGZzL1plZ2VyLTE5OTgtbWFya292LXJlZ3Jlc3Npb24ucGRmAAATAAEvAAAVAAIADf//AACABdIcHR4fWCRjbGFzc2VzWiRjbGFzc25hbWWjHyAhXU5TTXV0YWJsZURhdGFWTlNEYXRhWE5TT2JqZWN0XxAlcGRmcy9aZWdlci0xOTk4LW1hcmtvdi1yZWdyZXNzaW9uLnBkZtIcHSQloiUhXE5TRGljdGlvbmFyeRIAAYagXxAPTlNLZXllZEFyY2hpdmVyAAgAEQAWAB8AKAAyADUAOgA8AEUASwBSAF0AZQBsAG8AcQBzAHYAeAB6AHwAhgCTAJgAoAKEAoYCiwKUAp8CowKxArgCwQLpAu4C8QL+AwMAAAAAAAACAQAAAAAAAAAoAAAAAAAAAAAAAAAAAAADFQ==},
+  bdsk-url-1 = {http://www.jstor.org/stable/2531732},
+  copyright = {Copyright {\copyright} 1988 International Biometric Society},
+  date-modified = {2012-02-23 23:20:45 +0000},
+  issn = {0006341X},
+  jstor_articletype = {research-article},
+  jstor_formatteddate = {Dec., 1988},
+  language = {English},
+  publisher = {International Biometric Society},
+  url = {http://www.jstor.org/stable/2531732}
+}
+
