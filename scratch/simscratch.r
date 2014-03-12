@@ -1,5 +1,5 @@
 require(devtools)
-install_github('agLasso', 'wrbrooks')
+install_github('SGL', 'wrbrooks')
 install_github('gwselect', 'wrbrooks', ref='agLasso')
 require(agLasso)
 require(gwselect)

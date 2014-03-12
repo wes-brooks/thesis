@@ -15,3 +15,4 @@ writeup/*/*.spl
 writeup/*/*.ttt
 writeup/*/*.run.xml
 writeup/*/*.synctex.gz
+.Rproj.user
