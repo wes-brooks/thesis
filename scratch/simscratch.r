@@ -1,11 +1,11 @@
 require(devtools)
 install_github('SGL', 'wrbrooks')
 install_github('gwselect', 'wrbrooks', ref='agLasso')
-require(agLasso)
+require(SGL)
 require(gwselect)
 require(geoR)
 require(doMC)
-registerDoMC(cores=2)
+registerDoMC(cores=3)
 
 B = 100
 N = 30
@@ -83,5 +83,5 @@ for (i in 1:N**2) {
 
 #Find the optimal bandwidth and use it to generate a model:
 bw = gwglmnet.sel(Y~X1+X2+X3+X4+X5-1, data=sim, coords=sim[,c('loc.x','loc.y')], longlat=FALSE, varselect.method="AICc", range=c(0,1), gweight=bisquare, tol.bw=0.01, bw.type='knn', bwselect.method="AICc", parallel=FALSE, interact=TRUE, verbose=TRUE, family='gaussian', resid.type='pearson')
-bw=0.25
-ml = gwglmnet(Y~X1+X2+X3+X4+X5-1, data=sim, coords=sim[,c('loc.x','loc.y')], longlat=FALSE, N=1, varselect.method='AICc', bw=bw, gweight=bisquare, bw.type='knn', parallel=FALSE, interact=TRUE, verbose=TRUE, family='gaussian', resid.type='pearson', simulation=TRUE)
+bw=0.827034
+ml = gwglmnet(Y~X1+X2+X3+X4+X5-1, data=sim, coords=sim[,c('loc.x','loc.y')], longlat=FALSE, N=1, varselect.method='AICc', gweight=bisquare, bw=bw[['bw']], bw.type='knn', parallel=FALSE, interact=TRUE, verbose=TRUE, family='gaussian', resid.type='pearson', simulation=TRUE)
