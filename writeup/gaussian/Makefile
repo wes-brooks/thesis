@@ -1,4 +1,4 @@
-gaussian.pdf: gaussian.tex ../../output/simulation/msex.tex
+gaussian.pdf: gaussian.tex
 	xelatex gaussian
 	bibtex gaussian
 	xelatex gaussian
