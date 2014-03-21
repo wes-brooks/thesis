@@ -66,11 +66,8 @@ Researchers who analyze spatial data often wish to discern how a certain respons
 %\subsection{}
 
 %Pastebin:
-%Spatial association - meaning that nearby locations are more alike than distant locations - is a key concept in spatial statistics.\
-%for univariate output $y$, $p$-vector of covariates $\bm{x}$, and random noise $\varepsilon$ all indexed by location $\bm{s}
-%where $\phi$ is a bandwidth parameter and $\delta(\bm{s}, \bm{t})$ is the Euclidean distance between locations $\bm{s}$ and $\bm{t}$.
 
-%\begin{spacing}{2}
+
 \section{Introduction}
 	%Varying coefficient regression
 	Whereas the coefficients in traditional linear regression are scalar constants, the coefficients in a varying coefficient regression (VCR) model are functions - often \emph{smooth} functions - of some effect modifying variable \citep{Hastie:1993a}. When the effect modifying variable represents location in a spatial domain, a VCR model implies a spatially varying coefficient regression (SVCR) model wherein that the regression coefficients vary over space. Statistical inference for the coefficients as functions of location in an SVCR model is more complicated than estimating the coefficients in a traditional linear regression model where the coefficients are constant across the spatial domain. My research concerns the development of new methodology for the analysis of spatial data using SVCR.
@@ -187,36 +184,38 @@ Coefficients for a spline-based VCR model are estimated by maximizing a penalize
 	\end{align}	
 	 
 	
+	\subsection{Locally linear estimation}\label{section:LLE}
+	Traditional GWR estimates the regression coefficients as locally constant, as in the class of Nadaraya-Watson kernel smoothers \citep{Hardle-1990}. As such, GWR suffers the problem of biased estimation that is common to that class of models, particularly where there is a gradient to the coefficient surface at the boundary of the domain \citep{Hastie:1993b}.
+
+    In the context of nonparametric regression, the boundary-effect bias is addressed by local polynomial modeling, usually in the form of a locally linear model \citep{Fan-1996}. Locally linear coefficient estimation was proposed for the traditional GWR to counter the boundary effect by \cite{Wang:2008b}.
+
+  Here, locally linear coefficients are estimated by augmenting the local design matrix with covariate-by-location interactions in two dimensions:
+	\begin{align} \label{eq:coefficients}
+		\hat{\bm{\beta}}_i &= \argmax \limits_{\bm{\beta}_i} \left[-(1/2) \sum_{i'=1}^n w_{ii'} \left\{ \log{\sigma^2_i}  + \sigma^{-2}_i  \left(y_{i'} - \bm{z}'_{i'} \bm{\beta}_i \right)^2 \right\}\right].
+	\end{align}
+	where $Z_i  = \left(z_1 \cdots z_n\right)'$ is the augmented local design design matrix at location $\bm{s}_i$, consisting of the original design matrix $X$, augmented with covariate-by-location interactions. The augmented local design matrix is
+	\begin{align}
+		\bm{Z}_i = \left( X_i  \:\: L_i X_i \:\: M_i X_i \right)
+	\end{align}
+	where $L_i = \text{diag}\{s_{i',x} - s_{i,x}\}$ and $M_i = \text{diag}\{s_{i',y} - s_{i,y}\}$ for $i' = 1, \dots, n$.
+	 
+
 \section{Local variable selection and parameter estimation \label{section:model-selection}}
 	\subsection{Local variable selection}
-	Both the AL and the AEN are explored as penalty functions for local variable selection in GWR models.
+	The AGL is explored as a penalty function for local variable selection in SVCR models.
 	
-	The proposed local variable selection with AL penalty is an $\ell_1$ regularization method for variable selection in regression models \citep{Zou:2006}. Unlike the traditional Lasso penalty, which applies an equal penalty to each covariate in the local model at $\bm{s}_i$, the AL adjusts the penalty of each covariate based on the covariate's unpenalized local coefficient.	
-	
-	The proposed local variable selection with AEN penalty generalizes the AL penalty to include an additional ridge penalty \citep{Zou:2009}. Ridge regression is an $\ell_2$ regularization technique that differs from the Lasso in that the ridge penalty is applied to the sum of the squared local regression coefficients \citep{Hoerl:1970}. The ridge penalty is used to estimate coefficients in regression models with correlated covariates because it stabilizes the inversion of the covariance matrix, which improves the robustness of the coefficient estimates \citep{Hastie:2009}.
-	
-	In fact, since the AL is an $\ell_1$ regularization method while the AEN is a combined $\ell_1$ and $\ell_2$ regularization method, the AL can be viewed as a special case of the AEN where the $\ell_2$ penalty is set to zero. When the $\ell_2$ penalty is set to zero, the GWEN becomes the geographically weighted adaptive Lasso (GWAL).
+	The proposed local variable selection with AGL penalty is an $\ell_1$ regularization method for variable selection in regression models \citep{Wang-Leng-2008; Zou:2006}. The adaptive group lasso selects groups of covariates for inclusion or exclusion in the model.
 	
 	\subsubsection{Local variable selection and coefficient estimation with the adaptive Lasso}
 	The objective function for the GWAL at $\bm{s}_i$ consists of the local log-likelihood and an additive penalty that is the weighted $\ell_1$-norm of the coefficients, defined to be
 	\begin{align}\label{eq:adaptive-lasso-WLS}
 		\mathcal{S}(\bm{\beta}_i) &= -2\ell_i\left(\bm{\beta}_i\right) + \mathcal{J}_1(\bm{\beta}_i) \notag \\
-		&= \sum_{i'=1}^n w_{ii'}  \left\{ \log{\sigma^2_i}  + \sigma^{-2}_i  \left(y_{i'} - \bm{x}'_{i'} \bm{\beta}_i \right)^2 \right\} +  \lambda_i \sum_{j=1}^p |\beta_{ij}| / \gamma_{ij}
+		&= \sum_{i'=1}^n w_{ii'}  \left\{ \log{\sigma^2_i}  + \sigma^{-2}_i  \left(y_{i'} - \bm{z}'_{i'} \bm{\beta}_i \right)^2 \right\} +  \lambda_i \sum_{j=1}^p \|\beta_{ij}\| / \gamma_{ij}
 	\end{align}
-	where $\sum_{i'=1}^n w_{ii'} \left(y_{i'} - \bm{x}'_{i'} \bm{\beta}_i \right)^2$ is the weighted sum of squares minimized by traditional GWR, and $\mathcal{J}_1(\bm{\beta}_i) = \lambda_i \sum_{j=1}^p |\beta_{ij}| / \gamma_{ij}$ is the AL penalty. With the vector of unpenalized local coefficients $\bm{\gamma}_i$, the AL penalty for the $j$th coefficient $\beta_{ij}$ at location $\bm{s}_i$ is $\lambda_i / \gamma_{ij}$, where $\lambda_i > 0$ is a the local tuning parameter that applies to all coefficients at location $\bm{s}_i$ and $\bm{\gamma}_i = \left(\gamma_{i1}, \dots, \gamma_{ip}\right)'$ is the vector of adaptive weights at location $\bm{s}_i$.
-
-	\subsubsection{Local variable selection and coefficient estimation with the adaptive elastic net}
-	The objective function for the local geographically weighted elastic net (GWEN) method at $\bm{s}_i$ consists of the sum of the log-likelihood and an additive penalty that is a sum of weighted $\ell_1$- and $\ell_2$-norms of the coefficients, defined to be
-	\begin{align}
-		\mathcal{S}(\bm{\beta}_i) &= -2 \ell_i(\bm{\beta}_i) + \mathcal{J}_2(\bm{\beta}_i) \notag \\
-		&= \sum_{i'=1}^n w_{ii'}  \left\{ \log{\sigma^2_i}  + \left(\sigma^2_i\right)^{-1}  \left(y_{i'} - \bm{x}'_{i'} \bm{\beta}_i \right)^2 \right\} + \alpha_i \lambda_i \sum_{j=1}^p |\beta_{ij}| / \gamma_{ij} + (1-\alpha_i) \lambda^*_i \sum_{j=1}^p  \left( \beta_{ij} / \gamma_{ij} \right)^2
-	\end{align}	
-	where $\sum_{i'=1}^n w_{ii'} \left(y_{i'} - \bm{x}'_{i'} \bm{\beta}_i \right)^2$ is the weighted sum of squares minimized by traditional GWR, and $\mathcal{J}_2(\bm{\beta}_i) = \alpha_i \lambda^*_i \sum_{j=1}^p |\beta_{ij}| / \gamma_{ij} + (1-\alpha_i) \lambda^*_i \sum_{j=1}^p  \left( \beta_{ij} / \gamma_{ij} \right)^2$ is the AEN penalty. The adaptive weights $\bm{\gamma}_i = \left(\gamma_{i1}, \dots, \gamma_{ip}\right)'$ are defined in the same way as for the AL, and the elastic net parameter $\alpha_i \in [0,1]$ controls the balance between $\ell_1$ penalty $\lambda^*_i\sum \limits_{j=1}^p |\beta_{ij}| / \gamma_{ij}$ and $\ell_2$ penalty $\lambda^*_i \sum_{j=1}^p  \left( \beta_{ij} / \gamma_{ij} \right)^2$.
-	
-	Fitting a SVCR model by the GWEN requires selecting the vector of elastic net parameters $\bm{\alpha} = \left( \alpha_1, \dots, \alpha_n \right)'$. In the simulation study (Section \ref{section:simulation}), the elastic net parameter is chosen globally ($\alpha_i \equiv \alpha$ for $i=1, \dots, n$). The global elastic net parameter is calculated as $\alpha = 1-\rho_{\text{max}}$ where $\rho_{\text{max}}$ is the maximum global (i.e. for all data without weighting) Pearson correlation between any two covariates.
+	where $\sum_{i'=1}^n w_{ii'} \left(y_{i'} - \bm{x}'_{i'} \bm{\beta}_i \right)^2$ is the weighted sum of squares minimized by traditional GWR, and $\mathcal{J}_1(\bm{\beta}_i) = \lambda_i \sum_{j=1}^p |\beta_{ij}| / \gamma_{ij}$ is the AGL penalty. With the vector of unpenalized local coefficients $\bm{\gamma}_i$, the AL penalty for the $j$th coefficient $\beta_{ij}$ at location $\bm{s}_i$ is $\lambda_i / \gamma_{ij}$, where $\lambda_i > 0$ is a the local tuning parameter that applies to all coefficients at location $\bm{s}_i$ and $\bm{\gamma}_i = \left(\gamma_{i1}, \dots, \gamma_{ip}\right)'$ is the vector of adaptive weights at location $\bm{s}_i$.
 
 	\subsection{Tuning parameter selection}	
-	A local tuning parameter $\lambda_i$ (or $\lambda^*_i$) is required for the variable selection step of fitting each local model by the GWAL (or GWEN) method. To select $\lambda_i$, we propose a locally-weighted version of the Bayesian Information Criterion (BIC) \citep{Schwarz-1978} which we call the local BIC ($\text{BIC}_{\text{loc}}$):
+	A local tuning parameter $\lambda_i$ is required for the variable selection step of fitting each local model by the GWAL method. To select $\lambda_i$, we propose a locally-weighted version of the Bayesian Information Criterion (BIC) \citep{Schwarz-1978} which we call the local BIC ($\text{BIC}_{\text{loc}}$):
 	\begin{align}\label{eq:BIC_loc}
 		\mbox{BIC}_{\text{loc}, i} &= -2 \sum_{i'=1}^n \ell_{ii'}  + \log \left( \sum_{i'=1}^n w_{ii'} \right) \mbox{df}_i\notag\\
 		&= -2 \times \sum_{i'=1}^n \log \left[ \left(2 \pi \hat{\sigma}_i^2\right)^{-1/2} \exp \left\{-\frac{1}{2} \hat{\sigma}_i^{-2} \left(y_{i'} - \bm{x}_{i'}' \hat{\bm{\beta}}_{i'} \right)^2\right\} \right]^{w_{ii'}} + \log \left( \sum_{i'=1}^n w_{ii'} \right) \mbox{df}_i\notag\\
@@ -227,33 +226,11 @@ Coefficients for a spline-based VCR model are estimated by maximizing a penalize
 	
 	For the geographically weighted Lasso (GWL), \cite{Wheeler:2009} proposed selecting the local Lasso tuning parameters for local selection in a SVCR model at location $\bm{s}_i$ to minimize the local jackknife prediction error $|y_i - \hat{y}_i^{(i)}|$. Because the jackknife prediction error is undefined everywhere except for at the sampling locations, this choice restricts coefficient estimation to occur at the locations where data has been observed. By contrast, the local BIC can be calculated at any location where the local log-likelihood can be obtained. As a practical matter this allows for variable selection and coefficient surface estimation to be done at locations where no data are observed and for imputation of missing values of the response variable.
 	
-	\subsection{Coefficient estimation}\label{section:LLE}
-	The GWEN and the GWAL each estimate the local coefficients for the variables that are selected for inclusion in the local model. Both the GWEN and the GWAL estimate coefficients as locally constant, as in the class of Nadaraya-Watson kernel smoothers \citep{Hardle-1990}. As such, they suffer from the problem of biased estimation that is common to that class of models, particularly where there is a gradient to the coefficient surface at the boundary of the domain \citep{Hastie:1993b}.
-
-    In the context of nonparametric regression, the boundary-effect bias is addressed by local polynomial modeling, usually in the form of a locally linear model \citep{Fan-1996}. Locally linear coefficient estimation was proposed for the traditional GWR to counter the boundary effect by \cite{Wang:2008b}.
-
-    The method of locally linear estimation is used to counter the boundary effect for the GWEN and GWAL, referred to as the GWEN with locally linear estimation (GWEN-LLE), (similarly the GWAL-LLE). For estimating the local coefficients by the GWEN-LLE (GWAL-LLE), the GWEN (GWAL) is used for local variable selection but local coefficient estimation proceeds without penalizing the local likelihood. The locally linear coefficients maximize the unpenalized local likelihood:
-	\begin{align} \label{eq:coefficients}
-		\hat{\bm{\beta}}_i &= \argmax \limits_{\bm{\beta}_i} \left[-(1/2) \sum_{i'=1}^n w_{ii'} \left\{ \log{\sigma^2_i}  + \sigma^{-2}_i  \left(y_{i'} - \bm{z}'_{i'} \bm{\beta}_i \right)^2 \right\}\right].
-	\end{align}
-	where $Z_i  = \left(z_1 \cdots z_n\right)'$ is the augmented local design design matrix at location $\bm{s}_i$, consisting of the original design matrix $X$ reduced to the covariates selected locally by the GWEN or GWAL and augmented with covariate-by-location interactions. Letting $\tilde{X}_i$ be the reduced local design matrix consisting of the columns of $X$ that correspond to covariates that are selected for inclusion in the local model at location $\bm{s}_i$, the augmented local design matrix is
-	\begin{align}
-		\bm{Z}_i = \left( \tilde{X}_i  \:\: L_i \tilde{X}_i \:\: M_i \tilde{X}_i \right)
-	\end{align}
-	where $L_i = \text{diag}\{s_{i',x} - s_{i,x}\}$ and $M_i = \text{diag}\{s_{i',y} - s_{i,y}\}$ for $i' = 1, \dots, n$.
-	 
 	\subsection{Bandwidth parameter estimation}
-		The fitted values from the model are	
-	\begin{align}
-		\hat{\bm{y}} = \bm{H} \bm{y}
-	\end{align}
-	Where $\bm{H} = \left(H_1 \cdots H_n \right)'$ and $H_i$ denotes the $i$th row of the matrix $\bm{W}_i^{1/2} Z_i \left( Z_i'\bm{W}_i \tilde{\bm{X}} \right)^{-1} Z_i'\bm{W}_i^{1/2}$.
-	
-	The bandwidth parameter $\phi$ in (\ref{eq:bisquare}) is selected globally by minimizing the corrected AIC:	
-	\begin{align}\label{eq:AICc}
-		\text{AIC}_{\tt c} = 2 n \log{\sigma} + n \left\{\frac{n + \nu}{n - 2 - \nu}\right\}
-	\end{align}	
-	where $\nu$ is the trace of the linear smoothing matrix $\bm{H}$, and approximates the total degrees of freedom of the SVCR \citep{Hurvich:1998}.
+  
+  The bandwidth parameter is estimated to minimize an information criterion. It is common in nonparametric regression to select the bandwdth to minimize a corrected AIC where the degrees of freedom are given by the trace of a smoothing matrix \citep{Hurvich:1998}. Because $\ell_1$ penalization procedures like the AGL are not linear smoothers, there is no smoothing matrix for the AGL. There is need for a procedure to estimate the degrees of freedom of a nonparametric AGL model.
+  
+  The degrees of freedom used to estimate the $\hat{y}_i$ are estimated by $\text{df}_i w_{ii} / \sum_{j=1}^n w_{ij}$.
 
 
 \section{Simulation study \label{section:simulation}}
