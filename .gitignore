@@ -1,6 +1,7 @@
 output/*
 */.DS_Store
 .Rproj.user/*
+.Rhistory
 
 writeup/*/*.aux
 writeup/*/*.log
