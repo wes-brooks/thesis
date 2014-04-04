@@ -135,7 +135,7 @@ Coefficients for a spline-based VCR model are estimated by maximizing a penalize
 
 \section{Spatially varying coefficients regression \label{section:SVCR}}
 	\subsection{Model}	
-	Consider $n$ data observations, taken at sampling locations $\bm{s}_1, \dots, \bm{s}_n$ in a spatial domain $D \subset \mathbb{R}^2$. For $i = 1, \dots, n$, let $y(\bm{s}_i)$ and $\bm{x}(\bm{s}_i)$ denote the univariate response variable, and a $(p+1)$-variate vector of covariates measured at location $\bm{s}_i$, respectively. At each location $\bm{s}_i$, assume that the outcome is related to the covariates by a linear model where the coefficients $\bm{\beta}(\bm{s}_i)$ may be spatially-varying and $\varepsilon(\bm{s}_i)$ is random error at location $\bm{s}_i$. That is,
+	Consider $n$ data points, observed at sampling locations $\bm{s}_1, \dots, \bm{s}_n$, which are distributed in a spatial domain $D \subset \mathbb{R}^2$ according to a density $f(\bm{s})$. For $i = 1, \dots, n$, let $y(\bm{s}_i)$ and $\bm{x}(\bm{s}_i)$ denote the univariate response variable, and a $(p+1)$-variate vector of covariates measured at location $\bm{s}_i$, respectively. At each location $\bm{s}_i$, assume that the outcome is related to the covariates by a linear model where the coefficients $\bm{\beta}(\bm{s}_i)$ may be spatially-varying and $\varepsilon(\bm{s}_i)$ is random error at location $\bm{s}_i$. That is,
 	\begin{align}\label{eq:lm(s)}
 		y(\bm{s}_i) = \bm{x}(\bm{s}_i)' \bm{\beta}(\bm{s}_i) + \varepsilon(\bm{s}_i).
 	\end{align}
@@ -145,7 +145,7 @@ Coefficients for a spline-based VCR model are estimated by maximizing a penalize
 		\varepsilon(\bm{s}_i) \overset{iid}{\sim} \mathcal{N} \left( 0,\sigma^2 \right).
 	\end{align}
 	
-	In order to simplify the notation, let $\bm{x}(\bm{s}_i) \equiv \bm{x}_i \equiv \left( 1, x_{i1}, \dots, x_{ip} \right)'$, $\bm{\beta}(\bm{s}_i) \equiv \bm{\beta}_i \equiv \left(\beta_{i0}, \beta_{i1}, \dots, \beta_{ip} \right)'$, and $y(\bm{s}_i) \equiv y_i$.  Equations (\ref{eq:lm(s)}) and (\ref{eq:err}) can now be rewritten as
+	In order to simplify the notation, let $\bm{x}(\bm{s}_i) \equiv \bm{x}_i \equiv \left( 1, x_{i1}, \dots, x_{ip} \right)'$, $\bm{\beta}(\bm{s}_i) \equiv \bm{\beta}_i \equiv \left(\beta_{i0}, \beta_{i1}, \dots, \beta_{ip} \right)'$, and $y(\bm{s}_i) \equiv y_i$.  Equations (\ref{eq:lm(s)}) and (\ref{eq:err}) can be rewritten
 	\begin{align}
 		y_i = \bm{x}'_i \bm{\beta}_i + \varepsilon_i \text{ and } \varepsilon_i \overset{iid}{\sim} \mathcal{N} \left( 0,\sigma^2 \right).
 	\end{align}
@@ -183,14 +183,17 @@ Coefficients for a spline-based VCR model are estimated by maximizing a penalize
   Thus, the local log-likelihood function is, up to an additive constant: 
   \begin{align}\label{eq:local-log-likelihood}
 		\ell_i\left(\bm{\beta}_i\right) &= -(1/2) \sum_{i'=1}^n w_{ii'} \left\{ \log{\sigma^2_i}  + \sigma^{-2}_i  \left(y_{i'} - \bm{z}'_{i'} \bm{\beta}_i \right)^2 \right\}.
-	\end{align}
+  \end{align}
+  
+  This local likelihood can be maximized by weighted least squares
+  \begin{align}\label{eq:beta-hat}
+    \hat{\bm{\beta}}(\bm{s}_i) = \left( \bm{Z}^T \bm{W}_i \bm{Z} \right)^{-1} \bm{Z}^T \bm{W}_i \bm{Y}.
+  \end{align}
 	
-
-	
-	 From (\ref{eq:local-log-likelihood}), the maximum local likelihood estimate $\hat{\sigma}_i^2$ is:	 
-	 \begin{align}
-	 	\hat{\sigma}_i^2 = \left(\sum \limits_{i'=1}^{n} w_{ii'} \right)^{-1} \sum \limits_{i'=1}^n w_{ii'}\left(y_{i'} - \bm{z}_{i'}'\hat{\bm{\beta}}_i\right)^2
-	\end{align}
+  From (\ref{eq:local-log-likelihood}), the maximum local likelihood estimate $\hat{\sigma}_i^2$ is:	 
+  \begin{align}
+    \hat{\sigma}_i^2 = \left(\sum \limits_{i'=1}^{n} w_{ii'} \right)^{-1} \sum \limits_{i'=1}^n w_{ii'}\left(y_{i'} - \bm{z}_{i'}'\hat{\bm{\beta}}_i\right)^2
+  \end{align}
 	 
 
 \section{Local variable selection and parameter estimation \label{section:model-selection}}
