@@ -85,33 +85,28 @@
 		\varepsilon(\bm{s}_i) \overset{iid}{\sim} \mathcal{N} \left( 0,\sigma^2 \right).
 	\end{align}
 	
-  In order to simplify the notation, let $\bm{x}(\bm{s}_i) \equiv \bm{x}_i \equiv \left( 1, x_{i1}, \dots, x_{ip} \right)'$, $\bm{\beta}(\bm{s}_i) \equiv \bm{\beta}_i \equiv \left(\beta_{i0}, \beta_{i1}, \dots, \beta_{ip} \right)'$, and $y(\bm{s}_i) \equiv y_i$.  Equations (\ref{eq:lm(s)}) and (\ref{eq:err}) can be rewritten
-  \begin{align}
-    y_i = \bm{x}'_i \bm{\beta}_i + \varepsilon_i \text{ and } \varepsilon_i \overset{iid}{\sim} \mathcal{N} \left( 0,\sigma^2 \right).
-  \end{align}
-	
-  Further, let $\bm{X} = \left( \bm{x}_1, \dots, \bm{x}_n \right)'$ and $\bm{y} = \left( y_1, \dots, y_n \right)'$. Thus, conditional on the design matrix $\bm{X}$, observations of the response variable at different locations are independent of each other.
+  Thus, conditional on the design matrix $\bm{X}$, observations of the response variable at different locations are independent of each other.
   
   An SVCR model that estimates the regression coefficients as locally constant, as in the class of Nadaraya-Watson kernel smoothers \citep{Hardle-1990}, suffers the problem of biased estimation that is common to that class of models - particularly where there is a gradient to the coefficient surface at the boundary of the domain \citep{Hastie:1993b}.
 
   In the context of nonparametric regression, the boundary-effect bias can be reduced by local polynomial modeling, usually in the form of a locally linear model \citep{Fan-1996}. Here, locally linear coefficients are estimated by augmenting the local design matrix with covariate-by-location interactions in two dimensions as proposed by \cite{Wang:2008b}. The augmented local design matrix at location $\bm{s}_i$ is
   \begin{align}
-    \bm{Z}_i = \left( \bm{X}  \:\: L_i \bm{X} \:\: M_i \bm{X} \right)
+    \bm{Z}(\bm{s}_i) = \left( \bm{X}  \;\;\; L(\bm{s}_i) \, \bm{X} \;\;\; M(\bm{s}_i) \, \bm{X} \right)
   \end{align} 
   
-  where $\bm{X}$ is the unaugmented matrix of covariates, $L_i = \text{diag}\{s_{i',x} - s_{i,x}\}$ and $M_i = \text{diag}\{s_{i',y} - s_{i,y}\}$ for $i' = 1, \dots, n$.
+  where $\bm{X}$ is the unaugmented matrix of covariates, $L(\bm{s}_i) = \text{diag}\{ ( \bm{s}_{i'} - \bm{s}_{i} )_1 \}$ and $M(\bm{s}_i) = \text{diag}\{ ( \bm{s}_{i'} - \bm{s}_{i} )_2 \}$ for $i' = 1, \dots, n$.
   
   \subsection{Estimation}		
   The total log-likelihood of the observed data is the sum of the log-likelihood of each individual observation:
   \begin{align} \label{eq:coefficients}
-  	\ell(\bm{\beta}_i) = -(1/2) \sum_{i'=1}^n \left\{ \log{\sigma^2_i}  + \sigma^{-2}_i  \left(y_{i'} - \bm{z}'_{i'} \bm{\beta}_i \right)^2 \right\}.
+  	\ell \left\{ \bm{\beta}(\bm{s}_i) \right\} = -(1/2) \sum_{i'=1}^n \left[ \log{\sigma^2(\bm{s}_i)}  + \sigma^{-2}(\bm{s}_i)  \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \bm{\beta}(\bm{s}_i) \right\}^2 \right].
   \end{align}
 	
-  Since there are a total of $n \times 3(p+1)$ free parameters for $n$ observations, the model is not identifiable and it is not possible to directly maximize the total likelihood.
+  Since there are a total of $n \times 3(p+1)$ parameters for $n$ observations, the model is not identifiable and it is not possible to directly maximize the total likelihood.
   
-  The values of the local coefficients $\bm{\beta}_i$ are estimated at $\bm{s}_i$ by the weighted likelihood
+  The values of the local coefficients $\bm{\beta}(\bm{s}_i)$ are estimated by the weighted likelihood
   \begin{align}\label{eq:local-likelihood}
-    \mathcal{L}_i \left(\bm{\beta}_i \right) &= \prod_{i'=1}^n \left[ \left(2 \pi \sigma^2_i  \right)^{-1/2}  \exp\left\{- 1/2 \sigma^{-2}_i  \left(y_{i'} - \bm{z}'_{i'} \bm{\beta}_i \right)^2 \right\} \right] ^ {w_{ii'}},
+    \mathcal{L} \left\{ \bm{\beta}(\bm{s}_i) \right\} &= \prod_{i'=1}^n \left( \left\{ 2 \pi \sigma^2(\bm{s}_i)  \right\}^{-1/2}  \exp \left[- (1/2) \sigma^{-2}(\bm{s}_i)  \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \bm{\beta}(\bm{s}_i) \right\}^2 \right] \right) ^ {w_{ii'}},
   \end{align}
   
   where the weights are calculated by a kernel function $K_h(\cdot)$ such as the Epanechnikov kernel:
@@ -122,85 +117,122 @@
   
   Thus, the local log-likelihood function is, up to an additive constant: 
   \begin{align}\label{eq:local-log-likelihood}
-    \ell_i\left(\bm{\beta}_i\right) &= -(1/2) \sum_{i'=1}^n w_{ii'} \left\{ \log{\sigma^2_i}  + \sigma^{-2}_i  \left(y_{i'} - \bm{z}'_{i'} \bm{\beta}_i \right)^2 \right\}.
+    \ell\left(\bm{\beta}(\bm{s}_i)\right) &= -(1/2) \sum_{i'=1}^n w_{ii'} \left[ \log{\sigma^2(\bm{s}_i)}  + \sigma^{-2}(\bm{s}_i)  \left\{y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \bm{\beta}(\bm{s}_i) \right\}^2 \right].
   \end{align}
   
   This local likelihood can be maximized by weighted least squares
   \begin{align}\label{eq:beta-hat}
-    \hat{\bm{\beta}}(\bm{s}_i) = \left( \bm{Z}^T \bm{W}_i \bm{Z} \right)^{-1} \bm{Z}^T \bm{W}_i \bm{Y}.
+    \hat{\bm{\beta}}(\bm{s}_i) = \left\{ \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\}^{-1} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Y}.
   \end{align}
 	
-  From (\ref{eq:local-log-likelihood}), the maximum local likelihood estimate $\hat{\sigma}_i^2$ is:	 
+  From (\ref{eq:local-log-likelihood}), the maximum local likelihood estimate $\hat{\sigma}^2(\bm{s}_i)$ is:	 
   \begin{align}
-    \hat{\sigma}_i^2 = \left(\sum \limits_{i'=1}^{n} w_{ii'} \right)^{-1} \sum \limits_{i'=1}^n w_{ii'}\left(y_{i'} - \bm{z}_{i'}'\hat{\bm{\beta}}_i\right)^2
+    \hat{\sigma}^2(\bm{s}_i) = \left(\sum \limits_{i'=1}^{n} w_{ii'} \right)^{-1} \sum \limits_{i'=1}^n w_{ii'} \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \hat{\bm{\beta}}(\bm{s}_i) \right\}^2
   \end{align}
   
   
 \section{Asymptotics}
   \subsection{Consistency}
-  \begin{theorem}    
-    If $\sqrt{n} a_n \xrightarrow{p} 0$ then $\hat{\bm{\beta}}_i - \bm{\beta}_i -  \frac{\kappa_2 h_1^2}{2 \kappa_0} \{ \bm{\beta}_{uu,i} + \bm{\beta}_{vv,i} = O_p(n^{-1/2} h^{-1} f(\bm{s}_i)^{-1} )$
+  \begin{theorem}\label{theorem:consistency}     
+    If $\sqrt{n} a_n \xrightarrow{p} 0$ then $\hat{\bm{\beta}}(\bm{s}_i) - \bm{\beta}(\bm{s}_i) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \bm{\beta}_{uu}(\bm{s}_i) + \bm{\beta}_{vv}(\bm{s}_i) \} = O_p(n^{-1/2} h^{-1} )$
   \end{theorem}
   
   \begin{proof}
-    The idea of the proof is to show that the objective being minimized achieves a unique minimum, which must be $\hat{\bm{\beta}}$.
+    The idea of the proof is to show that the objective being minimized achieves a unique minimum, which must be $\hat{\bm{\beta}}(\bm{s}_i)$.
     
     The order of convergence is $n^{1/2} h$ where $h = O(n^{-1/6})$ so that the rate of convergence is $n^{1/3}$.
     
     To show: that for any $\epsilon$, there is a sufficiently large constant $C$ such that
     \begin{align*}
-      \liminf \limits_n P \left\{ \inf_{u \in \mathcal{R}: \|u\| = C} Q \left( \bm{\beta}_i + n^{-1/3} u \right) > Q \left( \bm{\beta}_i \right) \right\} > 1 - \epsilon
+      \liminf \limits_n P \left[ \inf_{u \in \mathcal{R}: \|u\| = C} Q \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/3} u \right\} > Q \left\{ \bm{\beta}(\bm{s}_i) \right\} \right] > 1 - \epsilon
     \end{align*}
     
     We show the result:
     \begin{align}\label{eq:consistency}
-      \mkern-18mu Q \left( \bm{\beta}_i + n^{-1/2} \bm{u} \right) - Q \left( \bm{\beta}_i \right) &= (1/2) \left( \bm{Y} - \bm{Z} \left\{ \bm{\beta}_i + n^{-1/2} \bm{u} \right\} \right)^T \bm{W}_i \left( \bm{Y} - \bm{Z} \left\{ \bm{\beta}_i + n^{-1/2} \bm{u} \right\} \right) + n \sum_{j=1}^p \lambda_j \| \bm{\beta}_i + n^{-1/2} \bm{u} \| \notag \\
-      &- (1/2) \left( \bm{Y} - \bm{Z} \bm{\beta}_i \right)^T \bm{W} \left( \bm{Y} - \bm{Z} \bm{\beta}_i \right) + n \sum_{j=1}^p \lambda_j \| \bm{\beta}_i \| \notag \\ 
-      &\mkern-72mu= (1/2) \bm{u}^T \left( \frac{1}{n} \bm{Z}^T \bm{W}_i \bm{Z} \right) \bm{u} - \bm{u}^T \left( \frac{1}{n^{-1/2}} \bm{Z}^T \bm{W}_i (\bm{Y} - \bm{Z} \bm{\beta}_i) \right) \notag \\
-      &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_{ij} + n^{-1/2} \bm{u} \| - n \sum_{j=1}^p \lambda_j \| \bm{\beta}_{ij} \| \notag \\
-      &\mkern-72mu= (1/2) \bm{u}^T \left( \frac{1}{n} \bm{Z}^T \bm{W}_i \bm{Z} \right) \bm{u} - \bm{u}^T \left( \frac{1}{n^{-1/2}} \bm{Z}^T \bm{W}_i (\bm{Y} - \bm{Z} \bm{\beta}_i) \right) \notag \\
-      &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_{ij} + n^{-1/2} \bm{u} \| - n \sum_{j=1}^{p_0} \lambda_j \| \bm{\beta}_{ij} \| \notag \\
-      &\mkern-72mu\ge (1/2) \bm{u}^T \left( \frac{1}{n} \bm{Z}^T \bm{W}_i \bm{Z} \right) \bm{u} - \bm{u}^T \left( \frac{1}{n^{-1/2}} \bm{Z}^T \bm{W}_i (\bm{Y} - \bm{Z} \bm{\beta}_i) \right) \notag \\
-      &+ n \sum_{j=1}^{p_0} \lambda_j ( \|\bm{\beta}_{ij} + n^{-1/2} \bm{u} \| - \| \bm{\beta}_{ij} \| ) \notag \\
-      &\mkern-72mu\ge (1/2) \bm{u}^T \left( \frac{1}{n} \bm{Z}^T \bm{W}_i \bm{Z} \right) \bm{u} - \bm{u}^T \left( \frac{1}{n^{-1/2}} \bm{Z}^T \bm{W}_i (\bm{Y} - \bm{Z} \bm{\beta}_i) \right) + p_0 ( \sqrt{n} a_n )
+      \mkern-18mu Q \left( \bm{\beta}_i + n^{-1/2} \bm{u} \right) - Q \left( \bm{\beta}(\bm{s}_i) \right) &= (1/2) \left[ \bm{Y} - \bm{Z}(\bm{s}_i) \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} \right]^T \bm{W}(\bm{s}_i) \left[ \bm{Y} - \bm{Z}(\bm{s}_i) \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} \right] \notag \\
+      &+ n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \| \notag \\
+      &- (1/2) \left\{ \bm{Y} - \bm{Z} \bm{\beta}(\bm{s}_i) \right\}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z} \bm{\beta}(\bm{s}_i) \right\} + n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}_i) \| \notag \\ 
+      &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ \frac{1}{n^{-1/2}} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
+      &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_j(\bm{s}_i) + n^{-1/2} \bm{u} \| - n \sum_{j=1}^p \lambda_j \| \bm{\beta}_j(\bm{s}_i) \| \notag \\
+      &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ \frac{1}{n^{-1/2}} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
+      &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_j(\bm{s}_i) + n^{-1/2} \bm{u} \| - n \sum_{j=1}^{p_0} \lambda_j \| \bm{\beta}_j(\bm{s}_i) \| \notag \\
+      &\mkern-72mu\ge (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ \frac{1}{n^{-1/2}} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
+      &+ n \sum_{j=1}^{p_0} \lambda_j ( \|\bm{\beta}_j(\bm{s}_i) + n^{-1/2} \bm{u} \| - \| \bm{\beta}_j(\bm{s}_i) \| ) \notag \\
+      &\mkern-72mu\ge (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ \frac{1}{n^{-1/2}} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
+      + p_0 ( \sqrt{n} a_n )
     \end{align}
   \end{proof}
 
   We'll consider the terms of the sum in (\ref{eq:consistency}) separately.
   
-  \paragraph{First term.} By Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, $\frac{1}{n} \bm{Z}^T \bm{W}_i \bm{Z} \xrightarrow{p} \Omega$, so the first term in \ref{eq:consistency} converges to $\bm{u}^T \Omega \bm{u}$, a quadratic form in $\bm{u}$.
+  \paragraph{First term.} By Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, $\frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \xrightarrow{p} \Omega$, so the first term in (\ref{eq:consistency}) converges to $\bm{u}^T \Omega \bm{u}$, a quadratic form in $\bm{u}$.
   
-  \paragraph{Second term.} By a first-order Taylor expansion, we have that $\bm{\beta}_i = \bm{\beta}_{i'} + \nabla \bm{\beta}_{i'} (\bm{s}_i - \tilde{\bm{s}}_{i'})$ for $i' = 1, \dots, n$. So
+  \paragraph{Second term.} By a first-order Taylor expansion, we have that $\bm{\beta}(\bm{s}_i) = \bm{\beta}(\bm{s}_{i'}) + \nabla \bm{\beta}(\bm{s}_{i'}) (\bm{s}_i - \tilde{\bm{s}}_{i'})$ for $i' = 1, \dots, n$. So
   \begin{align*}
-    \bm{Y} - \bm{Z} \bm{\beta}_i &= \left( \begin{array}{c} y_1 \\ \vdots \\ y_n \end{array} \right) - \left( \begin{array}{c} \bm{Z}_1^T ( \bm{\beta}_1 + \nabla \bm{\beta}_1 (\bm{s}_i - \tilde{\bm{s}}_1) ) \\ \vdots \\ \bm{Z}_n^T ( \bm{\beta}_n + \nabla \bm{\beta}_n (\bm{s}_i - \tilde{\bm{s}}_n) ) \end{array} \right) \\
-    &= \left( \begin{array}{c} y_1 \\ \vdots \\ y_n \end{array} \right) - \left( \begin{array}{c} \bm{m}_1 + \bm{Z}_1^T ( \nabla \bm{\beta}_1 (\bm{s}_i - \tilde{\bm{s}}_1) ) \\ \vdots \\ \bm{m}_n + \bm{Z}_n^T ( \nabla \bm{\beta}_n (\bm{s}_i - \tilde{\bm{s}}_n) ) \end{array} \right)\\
-    &= \bm{\varepsilon} - \left( \begin{array}{c} \bm{Z}_1^T ( \nabla \bm{\beta}_1 (\bm{s}_i - \tilde{\bm{s}}_1) ) \\ \vdots \\ \bm{Z}_n^T ( \nabla \bm{\beta}_n (\bm{s}_i - \tilde{\bm{s}}_n) ) \end{array} \right)
+    \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) &= \left( \begin{array}{c} y(\bm{s}_i) \\ \vdots \\ y(\bm{s}_i) \end{array} \right) - \left( \begin{array}{c} \left\{ \bm{Z}(\bm{s}_1) \right\}^T_1 \left[ \bm{\beta}(\bm{s}_1) + \nabla \bm{\beta}(\bm{s}_1) (\bm{s}_i - \tilde{\bm{s}}_1) \right] \\ \vdots \\ \left\{ \bm{Z}(\bm{s}_n) \right\}^T_n \left[ \bm{\beta}(\bm{s}_n) + \nabla \bm{\beta}(\bm{s}_n) (\bm{s}_i - \tilde{\bm{s}}_n) \right] \end{array} \right) \\
+    &= \left( \begin{array}{c} y(\bm{s}_1) \\ \vdots \\ y(\bm{s}_n) \end{array} \right) - \left( \begin{array}{c} \bm{m}_1 + \left\{ \bm{Z}(\bm{s}_1) \right\}^T_1 \nabla \bm{\beta}(\bm{s}_1) (\bm{s}_i - \tilde{\bm{s}}_1) \\ \vdots \\ \bm{m}_n + \left\{ \bm{Z}(\bm{s}_n) \right\}^T_n \nabla \bm{\beta}(\bm{s}_n) (\bm{s}_i - \tilde{\bm{s}}_n) \end{array} \right)\\
+    &= \bm{\varepsilon} - \left( \begin{array}{c} \left\{ \bm{Z}(\bm{s}_1) \right\}^T_1  \nabla \bm{\beta}(\bm{s}_1) (\bm{s}_i - \tilde{\bm{s}}_1) \\ \vdots \\ \left\{ \bm{Z}(\bm{s}_i) \right\}^T_n \nabla \bm{\beta}(\bm{s}_n) (\bm{s}_i - \tilde{\bm{s}}_n) \end{array} \right)
   \end{align*}
   
-  and so the second term of \ref{eq:consistency} is
+  and so the second term of (\ref{eq:consistency}) is
   \begin{align*}
-    \bm{u}^T \left( \frac{1}{n^{-1/2}} \bm{Z}^T \bm{W}_i (\bm{\varepsilon} - \left( \begin{array}{c} \bm{Z}_1^T ( \nabla \bm{\beta}_1 (\bm{s}_i - \tilde{\bm{s}}_1) ) \\ \vdots \\ \bm{Z}_n^T ( \nabla \bm{\beta}_n (\bm{s}_i - \tilde{\bm{s}}_n) ) \end{array} \right) \right)
+    \bm{u}^T \left( \frac{1}{n^{-1/2}} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left[ \bm{\varepsilon} - \left( \begin{array}{c} \left\{ \bm{Z}(\bm{s}_1) \right\}^T_1  \nabla \bm{\beta}(\bm{s}_1) (\bm{s}_i - \tilde{\bm{s}}_1) \\ \vdots \\ \left\{ \bm{Z}(\bm{s}_n) \right\}^T_n \nabla \bm{\beta}(\bm{s}_n) (\bm{s}_i - \tilde{\bm{s}}_n) \end{array} \right)  \right] \right)
   \end{align*}
   
   which is $O_p(1)$.
   
   \paragraph{Third term.} By assumption, $p_0 \sqrt{n} a_n = O(\sqrt{n} a_n) = o_p(1)$.
   
-  So the quadratic term dominates the sum, implying that the difference $Q \left( \bm{\beta}_i + n^{-1/3} u \right) > Q \left( \bm{\beta}_i \right)$ is positive, which proves the result.
+  So the quadratic term dominates the sum, implying that the difference $Q \left( \bm{\beta}(\bm{s}_i) + n^{-1/2} u \right) > Q \left( \bm{\beta}(\bm{s}_i) \right)$ is positive, which proves the result.
   
   \subsection{Selection}
     
-    \begin{theorem}    
-      If $\sqrt{n} a_n \xrightarrow{p} 0$ and $\sqrt{n} b_n \xrightarrow{p} \infty$ then $P(\hat{\bm{\beta}}_{i,b} = 0) \to 1$.
+    \begin{theorem}\label{theorem:selection}   
+      If $\sqrt{n} a_n \xrightarrow{p} 0$ and $\sqrt{n} b_n \xrightarrow{p} \infty$ then $P(\hat{\bm{\beta}}_b(\bm{s}_i) = 0) \to 1$.
     \end{theorem}
 
     \begin{proof}
-      The proof is by contradiction. Specifically, we show that if the statement of the theorem does not hold, then the MLE $\hat{\bm{\beta}}_i$ cannot be a maximum of the likelihood.
+      The proof is by contradiction. Specifically, we show that if the statement of the theorem does not hold, then the MLE $\hat{\bm{\beta}}(\bm{s}_i)$ cannot be a maximum of the likelihood.
       
+      Recall that the objective to be minimized is
+      \begin{align}\label{eq:objective}
+        Q \left\{ \bm{\beta}(\bm{s}_i) \right\} = (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} + n \sum_{j=1}^p \lambda_j \| \bm{\beta}_p(\bm{s}_i) \|
+      \end{align}
+
+      Let $\hat{\bm{\beta}}_p(\bm{s}_i) \ne 0$. Then (\ref{eq:objective}) is differentiable w.r.t. $\bm{\beta}_p(\bm{s}_i)$ and $Q$ is maximized at
+      \begin{align}\label{eq:selection}
+        0 &= \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{X}_{(-p)} \hat{\bm{\beta}}_{-p}(\bm{s}_i) - \bm{X}_{(p)} \hat{\bm{\beta}}_p(\bm{s}_i) \right\} + n \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|} \notag \\
+        &= \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left( \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) + \bm{X} \bm{\beta}(\bm{s}_i) -  \bm{X}_{(-p)} \hat{\bm{\beta}}_{-p}(\bm{s}_i) - \bm{X}_{(p)} \hat{\bm{\beta}}_p(\bm{s}_i) \right) + n \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|} \notag \\
+        &= \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left( \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) \right) + \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left( \bm{X}_{(-p)} \bm{\beta}_{-p}(\bm{s}_i) - \bm{X}_{(-p)} \hat{\bm{\beta}}_{-p}(\bm{s}_i) \right) \notag \\
+        &\mkern+72mu+ \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left( \bm{X}_{(-p)} \bm{\beta}_{-p}(\bm{s}_i) - \bm{X}_{(p)} \hat{\bm{\beta}}_p(\bm{s}_i) \right) + n \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|} \notag \\
+        &= \sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left( \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) \right) + \sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T  \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \left( \bm{\beta}_{-p}(\bm{s}_i) - \hat{\bm{\beta}}_{-p}(\bm{s}_i) \right) \notag \\
+        &\mkern+72mu+ \sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \left( \bm{\beta}_{-p}(\bm{s}_i) - \hat{\bm{\beta}}_p(\bm{s}_i) \right) + \sqrt{f(\bm{s}_i) h^2 n} \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|} \notag \\
+        &= \sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left( \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) \right) +  n^{-1} \left( \bm{X}_{(p)}^T  \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \right) \sqrt{f(\bm{s}_i) h^2 n} \left( \bm{\beta}_{-p}(\bm{s}_i) - \hat{\bm{\beta}}_{-p}(\bm{s}_i) \right) \notag \\
+        &\mkern+72mu+ n^{-1} \left( \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \right) \sqrt{f(\bm{s}_i) h^2 n} \left( \bm{\beta}_{-p}(\bm{s}_i) - \hat{\bm{\beta}}_p(\bm{s}_i) \right) + \sqrt{f(\bm{s}_i) h^2 n} \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|}
+      \end{align}
       
+      From Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, $n^{-1} \left( \bm{X}_{(p)}^T \bm{W}_i \bm{X}_{(-p)} \right) = O_p(1)$ and $n^{-1} \left( \bm{X}_{(p)}^T \bm{W}_i \bm{X}_{(p)} \right) = O_p(1)$. From Theorem 3 of \cite{Sun-Yan-Zhang-Lu-2014}, we have that $\sqrt{f(\bm{s}) h^2 n} \left( \bm{\beta}_{(-p)} - \hat{\bm{\beta}}_{(-p)} \right) = O_p(1)$ and $\sqrt{f(\bm{s}) h^2 n} \left( \bm{\beta}_{(p)} - \hat{\bm{\beta}}_{(p)} \right) = O_p(1)$. So the second and third terms of the sum in (\ref{eq:selection}) are $O_p(1)$. We showed in the proof of \ref{theorem:consistency} that $\sqrt{f(\bm{s}) h^2 n^{-1}} \bm{X}_{(p)}^T \bm{W}_i \left( \bm{Y} - \bm{X} \bm{\beta}_i \right) = O_p(1)$.
+
+      Because the first three terms of the sum in \ref{eq:selection} are $O_p(1)$, for $\hat{\bm{\beta}}_{i(p)}$ to be a solution, we must have that $\sqrt{f(\bm{s}) h^2 n} \lambda_p \frac{ \hat{\bm{\beta}}_{i(p)} }{\| \bm{\beta}_{i(p)} \|} = O_p(1)$.
+
+      But since by assumption $\hat{\bm{\beta}}_{i(p)} \ne 0$, there must be some $k \in \{ 1, \dots, d_p \}$ such that $ | \hat{\beta}_{i(p),k} | = \max \{ | \hat{\beta}_{i(p),k'} | : 1 \le k' \le d_p \} $. And for this $k$, we have that $| \hat{\beta}_{i(p),k} | / \| \hat{\beta}_{i(p)} \| \ge 1 / \sqrt{d_p} > 0$.
+
+      Now since $\sqrt{n} b_n \to \infty$, we have that $\sqrt{f(\bm{s}) h^2 n} \lambda_p \frac{ \hat{\bm{\beta}}_{i(p)} }{\| \bm{\beta}_{i(p)} \|}$ is unbounded and therefore dominates the $O_p(1)$ terms of the sum in (\ref{eq:selection}). So for large enough $n$, $\hat{\bm{\beta}}_{i(p)} \ne 0$ cannot maximize $Q$.
     \end{proof}
 
   \subsection{Oracle property}
+    Here we show that the estimation accuracy is just as good as if the relevant predictor groups were specified in advance.
+
+    \begin{theorem}
+      If $\sqrt{n} a_n \to 0$ and $\sqrt{n} b_n \to \infty$, then $\sqrt{n h^2 f(\bm{s})} \left( \hat{\bm{\beta}}_{i(a)} - \bm{\beta}_{i(a)} - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \bm{\beta}_{uu,i} + \bm{\beta}_{vv,i} \} \right) \xrightarrow{d} N(0,\Sigma_{i(a)})$.
+    \end{theorem}
+
+    \begin{proof}
+      The proof proceeds by showing that if the tuning parameter $\lambda$ is chosen correctly, then the penalty term vanishes for the relevant predictor groups and becomes infinite for the irrelevant predictor groups.
+
+    \end{proof}
+
+    Since $ \| \tilde{\bm{\beta}}_{i} \|^{\gamma} = O_p\left( ( n h^2 )^{-\gamma / 2} \right) $ and $h = O(n^{-1/6})$, in order for $\sqrt{n} a_n \to 0$ and $\sqrt{n} b_n \to \infty$, we require that $\lambda = O(n^{\alpha})$ where $\alpha \in \left( -(1 + \gamma - \frac{\gamma}{6})/2, -1/2 \right) $.
 
 \section{References}
 \bibliographystyle{chicago}
