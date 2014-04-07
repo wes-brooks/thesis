@@ -152,14 +152,14 @@
       \mkern-18mu Q \left( \bm{\beta}_i + n^{-1/2} \bm{u} \right) - Q \left( \bm{\beta}(\bm{s}_i) \right) &= (1/2) \left[ \bm{Y} - \bm{Z}(\bm{s}_i) \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} \right]^T \bm{W}(\bm{s}_i) \left[ \bm{Y} - \bm{Z}(\bm{s}_i) \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} \right] \notag \\
       &+ n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \| \notag \\
       &- (1/2) \left\{ \bm{Y} - \bm{Z} \bm{\beta}(\bm{s}_i) \right\}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z} \bm{\beta}(\bm{s}_i) \right\} + n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}_i) \| \notag \\ 
-      &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ \frac{1}{n^{-1/2}} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
+      &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
       &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_j(\bm{s}_i) + n^{-1/2} \bm{u} \| - n \sum_{j=1}^p \lambda_j \| \bm{\beta}_j(\bm{s}_i) \| \notag \\
-      &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ \frac{1}{n^{-1/2}} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
+      &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
       &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_j(\bm{s}_i) + n^{-1/2} \bm{u} \| - n \sum_{j=1}^{p_0} \lambda_j \| \bm{\beta}_j(\bm{s}_i) \| \notag \\
-      &\mkern-72mu\ge (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ \frac{1}{n^{-1/2}} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
+      &\mkern-72mu\ge (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
       &+ n \sum_{j=1}^{p_0} \lambda_j ( \|\bm{\beta}_j(\bm{s}_i) + n^{-1/2} \bm{u} \| - \| \bm{\beta}_j(\bm{s}_i) \| ) \notag \\
-      &\mkern-72mu\ge (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ \frac{1}{n^{-1/2}} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
-      + p_0 ( \sqrt{n} a_n )
+      &\mkern-72mu\ge (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
+      &+ p_0 ( \sqrt{n} a_n )
     \end{align}
   \end{proof}
 
@@ -176,25 +176,25 @@
   
   and so the second term of (\ref{eq:consistency}) is
   \begin{align*}
-    \bm{u}^T \left( \frac{1}{n^{-1/2}} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left[ \bm{\varepsilon} - \left( \begin{array}{c} \left\{ \bm{Z}(\bm{s}_1) \right\}^T_1  \nabla \bm{\beta}(\bm{s}_1) (\bm{s}_i - \tilde{\bm{s}}_1) \\ \vdots \\ \left\{ \bm{Z}(\bm{s}_n) \right\}^T_n \nabla \bm{\beta}(\bm{s}_n) (\bm{s}_i - \tilde{\bm{s}}_n) \end{array} \right)  \right] \right)
+    \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{\varepsilon} - \left( \begin{array}{c} \left\{ \bm{Z}(\bm{s}_1) \right\}^T_1  \nabla \bm{\beta}(\bm{s}_1) (\bm{s}_i - \tilde{\bm{s}}_1) \\ \vdots \\ \left\{ \bm{Z}(\bm{s}_n) \right\}^T_n \nabla \bm{\beta}(\bm{s}_n) (\bm{s}_i - \tilde{\bm{s}}_n) \end{array} \right)  \right\} \right]
   \end{align*}
   
   which is $O_p(1)$.
   
   \paragraph{Third term.} By assumption, $p_0 \sqrt{n} a_n = O(\sqrt{n} a_n) = o_p(1)$.
   
-  So the quadratic term dominates the sum, implying that the difference $Q \left( \bm{\beta}(\bm{s}_i) + n^{-1/2} u \right) > Q \left( \bm{\beta}(\bm{s}_i) \right)$ is positive, which proves the result.
+  So the quadratic term dominates the sum, implying that the difference $Q \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} > Q \left\{ \bm{\beta}(\bm{s}_i) \right\}$ is positive, which proves the result.
   
   \subsection{Selection}
     
     \begin{theorem}\label{theorem:selection}   
-      If $\sqrt{n} a_n \xrightarrow{p} 0$ and $\sqrt{n} b_n \xrightarrow{p} \infty$ then $P(\hat{\bm{\beta}}_b(\bm{s}_i) = 0) \to 1$.
+      If $\sqrt{n} a_n \xrightarrow{p} 0$ and $\sqrt{n} b_n \xrightarrow{p} \infty$ then $P \left\{ \hat{\bm{\beta}}_{(b)} (\bm{s}_i) = 0 \right\} \to 1$.
     \end{theorem}
 
     \begin{proof}
       The proof is by contradiction. Specifically, we show that if the statement of the theorem does not hold, then the MLE $\hat{\bm{\beta}}(\bm{s}_i)$ cannot be a maximum of the likelihood.
       
-      Recall that the objective to be minimized is
+      Recall that the objective to be minimized by $\hat{\bm{\beta}}_{(p)} (\bm{s}_i)$ is
       \begin{align}\label{eq:objective}
         Q \left\{ \bm{\beta}(\bm{s}_i) \right\} = (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} + n \sum_{j=1}^p \lambda_j \| \bm{\beta}_p(\bm{s}_i) \|
       \end{align}
@@ -202,22 +202,22 @@
       Let $\hat{\bm{\beta}}_p(\bm{s}_i) \ne 0$. Then (\ref{eq:objective}) is differentiable w.r.t. $\bm{\beta}_p(\bm{s}_i)$ and $Q$ is maximized at
       \begin{align}\label{eq:selection}
         0 &= \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{X}_{(-p)} \hat{\bm{\beta}}_{-p}(\bm{s}_i) - \bm{X}_{(p)} \hat{\bm{\beta}}_p(\bm{s}_i) \right\} + n \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|} \notag \\
-        &= \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left( \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) + \bm{X} \bm{\beta}(\bm{s}_i) -  \bm{X}_{(-p)} \hat{\bm{\beta}}_{-p}(\bm{s}_i) - \bm{X}_{(p)} \hat{\bm{\beta}}_p(\bm{s}_i) \right) + n \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|} \notag \\
-        &= \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left( \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) \right) + \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left( \bm{X}_{(-p)} \bm{\beta}_{-p}(\bm{s}_i) - \bm{X}_{(-p)} \hat{\bm{\beta}}_{-p}(\bm{s}_i) \right) \notag \\
-        &\mkern+72mu+ \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left( \bm{X}_{(-p)} \bm{\beta}_{-p}(\bm{s}_i) - \bm{X}_{(p)} \hat{\bm{\beta}}_p(\bm{s}_i) \right) + n \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|} \notag \\
-        &= \sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left( \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) \right) + \sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T  \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \left( \bm{\beta}_{-p}(\bm{s}_i) - \hat{\bm{\beta}}_{-p}(\bm{s}_i) \right) \notag \\
-        &\mkern+72mu+ \sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \left( \bm{\beta}_{-p}(\bm{s}_i) - \hat{\bm{\beta}}_p(\bm{s}_i) \right) + \sqrt{f(\bm{s}_i) h^2 n} \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|} \notag \\
-        &= \sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left( \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) \right) +  n^{-1} \left( \bm{X}_{(p)}^T  \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \right) \sqrt{f(\bm{s}_i) h^2 n} \left( \bm{\beta}_{-p}(\bm{s}_i) - \hat{\bm{\beta}}_{-p}(\bm{s}_i) \right) \notag \\
-        &\mkern+72mu+ n^{-1} \left( \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \right) \sqrt{f(\bm{s}_i) h^2 n} \left( \bm{\beta}_{-p}(\bm{s}_i) - \hat{\bm{\beta}}_p(\bm{s}_i) \right) + \sqrt{f(\bm{s}_i) h^2 n} \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|}
+        &= \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) + \bm{X} \bm{\beta}(\bm{s}_i) -  \bm{X}_{(-p)} \hat{\bm{\beta}}_{-p}(\bm{s}_i) - \bm{X}_{(p)} \hat{\bm{\beta}}_p(\bm{s}_i) \right\} + n \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|} \notag \\
+        &= \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) \right\} + \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left\{ \bm{X}_{(-p)} \bm{\beta}_{-p}(\bm{s}_i) - \bm{X}_{(-p)} \hat{\bm{\beta}}_{-p}(\bm{s}_i) \right\} \notag \\
+        &\mkern+72mu+ \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left\{ \bm{X}_{(-p)} \bm{\beta}_{-p}(\bm{s}_i) - \bm{X}_{(p)} \hat{\bm{\beta}}_p(\bm{s}_i) \right\} + n \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|} \notag \\
+        &= \sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) \right\} + \sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T  \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \left\{ \bm{\beta}_{-p}(\bm{s}_i) - \hat{\bm{\beta}}_{-p}(\bm{s}_i) \right\} \notag \\
+        &\mkern+72mu+ \sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \left\{ \bm{\beta}_{-p}(\bm{s}_i) - \hat{\bm{\beta}}_p(\bm{s}_i) \right\} + \sqrt{f(\bm{s}_i) h^2 n} \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|} \notag \\
+        &= \sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) \right\} +  n^{-1} \left\{ \bm{X}_{(p)}^T  \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \right\} \sqrt{f(\bm{s}_i) h^2 n} \left\{ \bm{\beta}_{-p}(\bm{s}_i) - \hat{\bm{\beta}}_{-p}(\bm{s}_i) \right\} \notag \\
+        &\mkern+72mu+ n^{-1} \left\{ \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \right\} \sqrt{f(\bm{s}_i) h^2 n} \left\{ \bm{\beta}_{-p}(\bm{s}_i) - \hat{\bm{\beta}}_p(\bm{s}_i) \right\} + \sqrt{f(\bm{s}_i) h^2 n} \lambda_p \frac{ \hat{\bm{\beta}}_p(\bm{s}_i) }{\| \bm{\beta}_p(\bm{s}_i) \|}
       \end{align}
       
-      From Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, $n^{-1} \left( \bm{X}_{(p)}^T \bm{W}_i \bm{X}_{(-p)} \right) = O_p(1)$ and $n^{-1} \left( \bm{X}_{(p)}^T \bm{W}_i \bm{X}_{(p)} \right) = O_p(1)$. From Theorem 3 of \cite{Sun-Yan-Zhang-Lu-2014}, we have that $\sqrt{f(\bm{s}) h^2 n} \left( \bm{\beta}_{(-p)} - \hat{\bm{\beta}}_{(-p)} \right) = O_p(1)$ and $\sqrt{f(\bm{s}) h^2 n} \left( \bm{\beta}_{(p)} - \hat{\bm{\beta}}_{(p)} \right) = O_p(1)$. So the second and third terms of the sum in (\ref{eq:selection}) are $O_p(1)$. We showed in the proof of \ref{theorem:consistency} that $\sqrt{f(\bm{s}) h^2 n^{-1}} \bm{X}_{(p)}^T \bm{W}_i \left( \bm{Y} - \bm{X} \bm{\beta}_i \right) = O_p(1)$.
+      From Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, $n^{-1} \left\{ \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \bm{X}_{(-p)} \right\} = O_p(1)$ and $n^{-1} \left\{ \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \bm{X}_{(p)} \right\} = O_p(1)$. From Theorem 3 of \cite{Sun-Yan-Zhang-Lu-2014}, we have that $\sqrt{f(\bm{s}_i) h^2 n} \left\{ \bm{\beta}_{(-p)} (\bm{s}_i) - \hat{\bm{\beta}}_{(-p)} (\bm{s}_i) \right\} = O_p(1)$ and $\sqrt{f(\bm{s}_i) h^2 n} \left\{ \bm{\beta}_{(p)}(\bm{s}_i) - \hat{\bm{\beta}}_{(p)}(\bm{s}_i) \right\} = O_p(1)$. So the second and third terms of the sum in (\ref{eq:selection}) are $O_p(1)$. We showed in the proof of \ref{theorem:consistency} that $\sqrt{f(\bm{s}_i) h^2 n^{-1}} \bm{X}_{(p)}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{X} \bm{\beta}(\bm{s}_i) \right\} = O_p(1)$.
 
-      Because the first three terms of the sum in \ref{eq:selection} are $O_p(1)$, for $\hat{\bm{\beta}}_{i(p)}$ to be a solution, we must have that $\sqrt{f(\bm{s}) h^2 n} \lambda_p \frac{ \hat{\bm{\beta}}_{i(p)} }{\| \bm{\beta}_{i(p)} \|} = O_p(1)$.
+      Because the first three terms of the sum in \ref{eq:selection} are $O_p(1)$, for $\hat{\bm{\beta}}_{(p)} (\bm{s}_i)$ to be a solution, we must have that $\sqrt{f(\bm{s}_i) h^2 n} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)} (\bm{s}_i) }{\| \bm{\beta}_{(p)} (\bm{s}_i) \|} = O_p(1)$.
 
-      But since by assumption $\hat{\bm{\beta}}_{i(p)} \ne 0$, there must be some $k \in \{ 1, \dots, d_p \}$ such that $ | \hat{\beta}_{i(p),k} | = \max \{ | \hat{\beta}_{i(p),k'} | : 1 \le k' \le d_p \} $. And for this $k$, we have that $| \hat{\beta}_{i(p),k} | / \| \hat{\beta}_{i(p)} \| \ge 1 / \sqrt{d_p} > 0$.
+      But since by assumption $\hat{\bm{\beta}}_{(p)} (\bm{s}_i) \ne 0$, there must be some $k \in \{ 1, \dots, d_p \}$ such that $ | \hat{\beta}_{(p),k} (\bm{s}_i) | = \max \{ | \hat{\beta}_{(p),k'} (\bm{s}_i) | : 1 \le k' \le d_p \} $. And for this $k$, we have that $| \hat{\beta}_{(p),k} (\bm{s}_i) | / \| \hat{\bm{\beta}}_{(p)} (\bm{s}_i) \| \ge 1 / \sqrt{d_p} > 0$.
 
-      Now since $\sqrt{n} b_n \to \infty$, we have that $\sqrt{f(\bm{s}) h^2 n} \lambda_p \frac{ \hat{\bm{\beta}}_{i(p)} }{\| \bm{\beta}_{i(p)} \|}$ is unbounded and therefore dominates the $O_p(1)$ terms of the sum in (\ref{eq:selection}). So for large enough $n$, $\hat{\bm{\beta}}_{i(p)} \ne 0$ cannot maximize $Q$.
+      Now since $\sqrt{n} b_n \to \infty$, we have that $\sqrt{f(\bm{s}_i) h^2 n} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)} (\bm{s}_i) }{\| \hat{\bm{\beta}}_{(p)} (\bm{s}_i) \|}$ is unbounded and therefore dominates the $O_p(1)$ terms of the sum in (\ref{eq:selection}). So for large enough $n$, $\hat{\bm{\beta}}_{(p)} (\bm{s}_i) \ne 0$ cannot maximize $Q$.
     \end{proof}
 
   \subsection{Oracle property}
