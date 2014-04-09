@@ -149,7 +149,7 @@
     
     We show the result:
     \begin{align}\label{eq:consistency}
-      \mkern-18mu Q \left( \bm{\beta}_i + n^{-1/2} \bm{u} \right) - Q \left( \bm{\beta}(\bm{s}_i) \right) &= (1/2) \left[ \bm{Y} - \bm{Z}(\bm{s}_i) \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} \right]^T \bm{W}(\bm{s}_i) \left[ \bm{Y} - \bm{Z}(\bm{s}_i) \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} \right] \notag \\
+      \mkern-18mu Q \left( \bm{\beta} (\bm{s}_i) + n^{-1/2} \bm{u} \right) - Q \left( \bm{\beta}(\bm{s}_i) \right) &= (1/2) \left[ \bm{Y} - \bm{Z}(\bm{s}_i) \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} \right]^T \bm{W}(\bm{s}_i) \left[ \bm{Y} - \bm{Z}(\bm{s}_i) \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} \right] \notag \\
       &+ n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \| \notag \\
       &- (1/2) \left\{ \bm{Y} - \bm{Z} \bm{\beta}(\bm{s}_i) \right\}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z} \bm{\beta}(\bm{s}_i) \right\} + n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}_i) \| \notag \\ 
       &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
@@ -167,11 +167,11 @@
   
   \paragraph{First term.} By Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, $\frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \xrightarrow{p} \Omega$, so the first term in (\ref{eq:consistency}) converges to $\bm{u}^T \Omega \bm{u}$, a quadratic form in $\bm{u}$.
   
-  \paragraph{Second term.} By a first-order Taylor expansion, we have that $\bm{\beta}(\bm{s}_i) = \bm{\beta}(\bm{s}_{i'}) + \nabla \bm{\beta}(\bm{s}_{i'}) (\bm{s}_i - \tilde{\bm{s}}_{i'})$ for $i' = 1, \dots, n$. So
+  \paragraph{Second term.} By a first-order Taylor expansion, we have that $\bm{\beta}(\bm{s}_i) = \bm{\beta}(\bm{s}_{i'}) + \nabla \bm{\beta}(\bm{\xi}_{ii'}) (\bm{s}_i - \bm{s}_{i'})$ where $\xi_{ii'} \in \left[ \bm{s}_i, \bm{s}_{i'} \right]$ for $i' = 1, \dots, n$. So
   \begin{align*}
-    \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) &= \left( \begin{array}{c} y(\bm{s}_i) \\ \vdots \\ y(\bm{s}_i) \end{array} \right) - \left( \begin{array}{c} \left\{ \bm{Z}(\bm{s}_1) \right\}^T_1 \left[ \bm{\beta}(\bm{s}_1) + \nabla \bm{\beta}(\bm{s}_1) (\bm{s}_i - \tilde{\bm{s}}_1) \right] \\ \vdots \\ \left\{ \bm{Z}(\bm{s}_n) \right\}^T_n \left[ \bm{\beta}(\bm{s}_n) + \nabla \bm{\beta}(\bm{s}_n) (\bm{s}_i - \tilde{\bm{s}}_n) \right] \end{array} \right) \\
-    &= \left( \begin{array}{c} y(\bm{s}_1) \\ \vdots \\ y(\bm{s}_n) \end{array} \right) - \left( \begin{array}{c} \bm{m}_1 + \left\{ \bm{Z}(\bm{s}_1) \right\}^T_1 \nabla \bm{\beta}(\bm{s}_1) (\bm{s}_i - \tilde{\bm{s}}_1) \\ \vdots \\ \bm{m}_n + \left\{ \bm{Z}(\bm{s}_n) \right\}^T_n \nabla \bm{\beta}(\bm{s}_n) (\bm{s}_i - \tilde{\bm{s}}_n) \end{array} \right)\\
-    &= \bm{\varepsilon} - \left( \begin{array}{c} \left\{ \bm{Z}(\bm{s}_1) \right\}^T_1  \nabla \bm{\beta}(\bm{s}_1) (\bm{s}_i - \tilde{\bm{s}}_1) \\ \vdots \\ \left\{ \bm{Z}(\bm{s}_i) \right\}^T_n \nabla \bm{\beta}(\bm{s}_n) (\bm{s}_i - \tilde{\bm{s}}_n) \end{array} \right)
+    \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) &= \left( \begin{array}{c} y(\bm{s}_1) \\ \vdots \\ y(\bm{s}_n) \end{array} \right) - \bm{Z}(\bm{s}_i) \left( \begin{array}{c} \bm{\beta}(\bm{s}_1) + \nabla \bm{\beta}(\bm{\xi}_{i1}) (\bm{s}_i - \bm{s}_1) \\ \vdots \\ \bm{\beta}(\bm{s}_n) + \nabla \bm{\beta}(\bm{\xi}_{in}) (\bm{s}_i - \bm{s}_n) \end{array} \right) \\
+    &= \left( \begin{array}{c} y(\bm{s}_1) \\ \vdots \\ y(\bm{s}_n) \end{array} \right) - \left( \begin{array}{c} \bm{m}_1 \\ \vdots \\ \bm{m}_n \end{array} \right) - \bm{Z}(\bm{s}_i) \left( \begin{array}{c} \nabla \bm{\beta}(\bm{\xi}_{i1}) (\bm{s}_i - \bm{s}_1) \\ \vdots \\ \nabla \bm{\beta}(\bm{\xi}_{in}) (\bm{s}_i - \bm{s}_n) \end{array} \right)\\
+    &= \bm{\varepsilon} - \bm{Z}(\bm{s}_i)  \left( \begin{array}{c} \nabla \bm{\beta}(\bm{\xi}_{i1}) (\bm{s}_i - \bm{s}_1) \\ \vdots \\ \nabla \bm{\beta}(\bm{\xi}_{in}) (\bm{s}_i - \bm{s}_n) \end{array} \right)
   \end{align*}
   
   and so the second term of (\ref{eq:consistency}) is
@@ -224,7 +224,7 @@
     Here we show that the estimation accuracy is just as good as if the relevant predictor groups were specified in advance.
 
     \begin{theorem}
-      If $\sqrt{n} a_n \to 0$ and $\sqrt{n} b_n \to \infty$, then $\sqrt{n h^2 f(\bm{s})} \left( \hat{\bm{\beta}}_{i(a)} - \bm{\beta}_{i(a)} - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \bm{\beta}_{uu,i} + \bm{\beta}_{vv,i} \} \right) \xrightarrow{d} N(0,\Sigma_{i(a)})$.
+      If $\sqrt{n} a_n \to 0$ and $\sqrt{n} b_n \to \infty$, then $\sqrt{n h^2 f(\bm{s})} \left( \hat{\bm{\beta}}_{(a)} (\bm{s}_i) - \bm{\beta}_{(a)} (\bm{s}_i) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \bm{\beta}_{uu} (\bm{s}_i) + \bm{\beta}_{vv} (\bm{s}_i) \} \right) \xrightarrow{d} N(0,\Sigma_{(a)} (\bm{s}_i))$.
     \end{theorem}
 
     \begin{proof}
@@ -232,7 +232,7 @@
 
     \end{proof}
 
-    Since $ \| \tilde{\bm{\beta}}_{i} \|^{\gamma} = O_p\left( ( n h^2 )^{-\gamma / 2} \right) $ and $h = O(n^{-1/6})$, in order for $\sqrt{n} a_n \to 0$ and $\sqrt{n} b_n \to \infty$, we require that $\lambda = O(n^{\alpha})$ where $\alpha \in \left( -(1 + \gamma - \frac{\gamma}{6})/2, -1/2 \right) $.
+    Since $ \| \tilde{\bm{\beta}} (\bm{s}_i) \|^{\gamma} = O_p\left\{ ( n h^2 )^{-\gamma / 2} \right\} $ and $h = O(n^{-1/6})$, in order for $\sqrt{n} a_n \to 0$ and $\sqrt{n} b_n \to \infty$, we require that $\lambda = O(n^{\alpha})$ where $\alpha \in \left( - \left\{ 1 + \gamma - \frac{\gamma}{6} \right\} /2, -1/2 \right) $.
 
 \section{References}
 \bibliographystyle{chicago}
