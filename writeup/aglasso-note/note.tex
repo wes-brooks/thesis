@@ -144,7 +144,7 @@
     
     To show: that for any $\epsilon$, there is a sufficiently large constant $C$ such that
     \begin{align*}
-      \liminf \limits_n P \left[ \inf_{u \in \mathcal{R}: \|u\| = C} Q \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/3} u \right\} > Q \left\{ \bm{\beta}(\bm{s}_i) \right\} \right] > 1 - \epsilon
+      \liminf \limits_n P \left[ \inf_{u \in \mathcal{R}: \|u\| = C} Q \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} > Q \left\{ \bm{\beta}(\bm{s}_i) \right\} \right] > 1 - \epsilon
     \end{align*}
     
     We show the result:
@@ -159,7 +159,7 @@
       &\mkern-72mu\ge (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
       &+ n \sum_{j=1}^{p_0} \lambda_j ( \|\bm{\beta}_j(\bm{s}_i) + n^{-1/2} \bm{u} \| - \| \bm{\beta}_j(\bm{s}_i) \| ) \notag \\
       &\mkern-72mu\ge (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
-      &+ p_0 ( \sqrt{n} a_n )
+      &- p_0 \sqrt{n} a_n \| \bm{u} \|
     \end{align}
   \end{proof}
 
@@ -167,18 +167,55 @@
   
   \paragraph{First term.} By Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, $\frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \xrightarrow{p} \Omega$, so the first term in (\ref{eq:consistency}) converges to $\bm{u}^T \Omega \bm{u}$, a quadratic form in $\bm{u}$.
   
-  \paragraph{Second term.} By a first-order Taylor expansion, we have that $\bm{\beta}(\bm{s}_i) = \bm{\beta}(\bm{s}_{i'}) + \nabla \bm{\beta}(\bm{\xi}_{ii'}) (\bm{s}_i - \bm{s}_{i'})$ where $\xi_{ii'} \in \left[ \bm{s}_i, \bm{s}_{i'} \right]$ for $i' = 1, \dots, n$. So
+  \paragraph{Second term.} By a first-order Taylor expansion, we have that $\bm{\beta}(\bm{s}_i) = \bm{\beta}(\bm{s}) + \nabla \bm{\beta}(\bm{\xi}_{i}) (\bm{s}_i - \bm{s})$ where $\xi_i = \bm{s} + \theta (\bm{s}_i - \bm{s})$ and $\theta \in [0, 1]$ for $i = 1, \dots, n$. So
   \begin{align*}
-    \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) &= \left( \begin{array}{c} y(\bm{s}_1) \\ \vdots \\ y(\bm{s}_n) \end{array} \right) - \bm{Z}(\bm{s}_i) \left( \begin{array}{c} \bm{\beta}(\bm{s}_1) + \nabla \bm{\beta}(\bm{\xi}_{i1}) (\bm{s}_i - \bm{s}_1) \\ \vdots \\ \bm{\beta}(\bm{s}_n) + \nabla \bm{\beta}(\bm{\xi}_{in}) (\bm{s}_i - \bm{s}_n) \end{array} \right) \\
-    &= \left( \begin{array}{c} y(\bm{s}_1) \\ \vdots \\ y(\bm{s}_n) \end{array} \right) - \left( \begin{array}{c} \bm{m}_1 \\ \vdots \\ \bm{m}_n \end{array} \right) - \bm{Z}(\bm{s}_i) \left( \begin{array}{c} \nabla \bm{\beta}(\bm{\xi}_{i1}) (\bm{s}_i - \bm{s}_1) \\ \vdots \\ \nabla \bm{\beta}(\bm{\xi}_{in}) (\bm{s}_i - \bm{s}_n) \end{array} \right)\\
-    &= \bm{\varepsilon} - \bm{Z}(\bm{s}_i)  \left( \begin{array}{c} \nabla \bm{\beta}(\bm{\xi}_{i1}) (\bm{s}_i - \bm{s}_1) \\ \vdots \\ \nabla \bm{\beta}(\bm{\xi}_{in}) (\bm{s}_i - \bm{s}_n) \end{array} \right)
+    \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) &= \bm{m} + \bm{\varepsilon} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \\
   \end{align*}
   
   and so the second term of (\ref{eq:consistency}) is
-  \begin{align*}
-    \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{\varepsilon} - \left( \begin{array}{c} \left\{ \bm{Z}(\bm{s}_1) \right\}^T_1  \nabla \bm{\beta}(\bm{s}_1) (\bm{s}_i - \tilde{\bm{s}}_1) \\ \vdots \\ \left\{ \bm{Z}(\bm{s}_n) \right\}^T_n \nabla \bm{\beta}(\bm{s}_n) (\bm{s}_i - \tilde{\bm{s}}_n) \end{array} \right)  \right\} \right]
-  \end{align*}
+  \begin{align}\label{eq:linear-part}
+    \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{m} + \bm{\varepsilon} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s})  \right\} \right].
+  \end{align}
   
+  We wish to show that (\ref{eq:linear-part}) is $O_p(1)$. Let $\{ \bm{A} \}_j$ be the $j$th column of the matrix $\bm{A}$ as a column vector, and $\{ \bm{A} \}_k^T$ be the $k$th row of the matrix $\bm{A}$ as a row vector. Now, taking the three terms of the sum separately:
+  
+  \paragraph{First term}
+    Find the expectation and variance of the $i$th term in the sum $n^{-1/2} \bm{H}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{m}$:
+
+    \begin{align}\label{eq:m-term}
+      \bm{H}^{-1} \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; m(\bm{s}_i) \notag \\ 
+      &= K_h(\| \bm{s} - \bm{s}_i \|) \; \bm{H}^{-1} \; \{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{Z}(\bm{s}_i) \}_i^T \; \bm{\gamma}(\bm{s}_i) \notag \\
+      &= K_h(\| \bm{s} - \bm{s}_i \|) \left( \begin{array}{cccc} X_1^2(\bm{s}_i) & \dots & X_1(\bm{s}_i) X_p(\bm{s}_i) & \bm{0}_{1 \times 2p} \\ \vdots & \ddots & \vdots & \vdots \\ X_1(\bm{s}_i) X_p(\bm{s}_i) & \dots & X_p^2(\bm{s}_i) & \bm{0}_{1 \times 2p} \\ \bm{0}_{2p \times 1} & \dots & \bm{0}_{2p \times 1} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}_i) \notag \\
+      &= K_h(\| \bm{s} - \bm{s}_i \|) \left( \begin{array}{cc} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i)  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}_i)
+    \end{align}
+
+    So the expectation of (\ref{eq:m-term}) is:
+    \begin{align}
+      \text{E} [ \bm{H}^{-1} \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \{ \bm{Z}(\bm{s}_i) \}_i^T \; \bm{\gamma}(\bm{s}_i) ] \notag \\
+      &= \text{E} \; \left( \begin{array}{cc} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i)  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \int K_h(\| \bm{s} - \bm{t} \|) \bm{\gamma}(\bm{t}) f(\bm{t}) \partial \bm{t} \notag \\
+      &= \left( \begin{array}{cc} \bm{\Psi}  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}) f(\bm{s})
+    \end{align}
+
+  \paragraph{Second term}
+    Find the expectation and variance of the $i$th term in the sum $n^{-1/2} \bm{H}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \bm{\gamma}(\bm{s})$:
+
+  \paragraph{Third term}
+    Find the expectation and variance of the $i$th term in the sum $n^{-1/2} \bm{H}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{\varepsilon}$:
+
+    \begin{align}\label{eq:epsilon-term}
+      \bm{H}^{-1} \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \varepsilon(\bm{s}_i) \notag \\
+      &= K_h(\| \bm{s} - \bm{s}_i \|) \; \bm{H}^{-1} \; \{ \bm{Z}^T(\bm{s}) \}_i \; \varepsilon(\bm{s}_i) \notag \\
+      &= K_h(\| \bm{s} - \bm{s}_i \|) \left( \begin{array}{c} X_1(\bm{s}_i) \\ \vdots \\ X_p(\bm{s}_i) \\ X_1(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ \vdots \\ X_p(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ X_1(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \\ \vdots \\X_p(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \end{array} \right) \varepsilon(\bm{s}_i) \notag \\
+      &= K_h(\| \bm{s} - \bm{s}_i \|) \left( \begin{array}{c} \bm{X}(\bm{s}_i) \\ \bm{X}(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ \bm{X}(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \end{array} \right) \varepsilon(\bm{s}_i)
+    \end{align}
+
+    So the expectation of (\ref{eq:epsilon-term}) is:
+    \begin{align}
+      \text{E} [ \bm{H}^{-1} \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \varepsilon(\bm{s}_i) \notag \\
+      &= \text{E} \; \left( \begin{array}{c} \bm{X}(\bm{s}_i) \\ \bm{X}(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ \bm{X}(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \end{array} \right) \text{E} \; \varepsilon(\bm{s}_i) \; \int K_h(\| \bm{s} - \bm{t} \|) f(\bm{t}) \partial \bm{t} \notag \\
+      &= \left( \begin{array}{c} \bm{\mu}(\bm{s}_i) \\ \bm{\mu}(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ \bm{\mu}(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \end{array} \right)  f(\bm{s}) \times 0
+    \end{align}
+
   which is $O_p(1)$.
   
   \paragraph{Third term.} By assumption, $p_0 \sqrt{n} a_n = O(\sqrt{n} a_n) = o_p(1)$.
