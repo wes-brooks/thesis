@@ -195,6 +195,13 @@
       &= \text{E} \; \left( \begin{array}{cc} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i)  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \int K_h(\| \bm{s} - \bm{t} \|) \bm{\gamma}(\bm{t}) f(\bm{t}) \partial \bm{t} \notag \\
       &= \left( \begin{array}{cc} \bm{\Psi}  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}) f(\bm{s})
     \end{align}
+    
+    And the variance of (\ref{eq:m-term}) is:
+    \begin{align}
+      \text{E} [ \bm{H}^{-1} \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \{ \bm{Z}(\bm{s}_i) \}_i^T \; \bm{\gamma}(\bm{s}_i) \bm{\gamma}^T(\bm{s}_i) \; \{ \bm{Z}^T(\bm{s}_i) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \{ \bm{Z}(\bm{s}) \}^T_i \; \bm{H}^{-1} ] \notag \\
+      &= \text{E} \; \left( \begin{array}{cc} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i)  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \int K_h(\| \bm{s} - \bm{t} \|) \bm{\gamma}(\bm{t}) f(\bm{t}) \partial \bm{t} \notag \\
+      &= \left( \begin{array}{cc} \bm{\Psi}  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}) f(\bm{s})
+    \end{align}
 
   \paragraph{Second term}
     Find the expectation and variance of the $i$th term in the sum $n^{-1/2} \bm{H}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \bm{\gamma}(\bm{s})$:
@@ -211,12 +218,21 @@
 
     So the expectation of (\ref{eq:epsilon-term}) is:
     \begin{align}
-      \text{E} [ \bm{H}^{-1} \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \varepsilon(\bm{s}_i) \notag \\
+      \text{E} [ \bm{H}^{-1} \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \varepsilon(\bm{s}_i) ] \notag \\
       &= \text{E} \; \left( \begin{array}{c} \bm{X}(\bm{s}_i) \\ \bm{X}(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ \bm{X}(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \end{array} \right) \text{E} \; \varepsilon(\bm{s}_i) \; \int K_h(\| \bm{s} - \bm{t} \|) f(\bm{t}) \partial \bm{t} \notag \\
-      &= \left( \begin{array}{c} \bm{\mu}(\bm{s}_i) \\ \bm{\mu}(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ \bm{\mu}(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \end{array} \right)  f(\bm{s}) \times 0
+      &= \left( \begin{array}{c} \bm{\mu}(\bm{s}_i) \\ \bm{\mu}(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ \bm{\mu}(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \end{array} \right) \times 0 \times f(\bm{s}) \notag \\
+      &= 0
     \end{align}
-
-  which is $O_p(1)$.
+    
+    
+    And the variance of (\ref{eq:epsilon-term}) is:
+    \begin{align}
+      \text{E} [ \bm{H}^{-1} \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \varepsilon^2(\bm{s}_i) \; \{ \bm{W}(\bm{s}) \}_{ii} \; \{ \bm{Z}(\bm{s}) \}^T_i \;   \bm{H}^{-1} ] \notag \\
+      &= \text{E} \; \left( \begin{array}{ccc} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \\ h^{-1} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})^2_1 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 \\ h^{-1} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_2 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})^2_2 \end{array} \right)  \notag \\
+      & \:\:\:\: \times E \; \varepsilon^2(\bm{s}_i) \; \int K^2_h(\| \bm{s} - \bm{t} \|) f(\bm{t}) \partial \bm{t} \notag \\
+      &= \left( \begin{array}{ccc} \bm{\Psi} & \bm{\Psi} (\bm{s}_i - \bm{s})_1 & \bm{\Psi} (\bm{s}_i - \bm{s})_2 \\ h^{-1} \bm{\Psi} (\bm{s}_i - \bm{s})_1 & \bm{\Psi} (\bm{s}_i - \bm{s})^2_1 & \bm{\Psi} (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 \\ h^{-1} \bm{\Psi} (\bm{s}_i - \bm{s})_2 & \bm{\Psi} (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 & \bm{\Psi} (\bm{s}_i - \bm{s})^2_2 \end{array} \right) \times \sigma^2 \times f(\bm{s})  \notag \\
+      &= 0
+    \end{align}
   
   \paragraph{Third term.} By assumption, $p_0 \sqrt{n} a_n = O(\sqrt{n} a_n) = o_p(1)$.
   
