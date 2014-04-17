@@ -134,24 +134,24 @@
 \section{Asymptotics}
   \subsection{Consistency}
   \begin{theorem}\label{theorem:consistency}     
-    If $\sqrt{n} a_n \xrightarrow{p} 0$ then $\hat{\bm{\beta}}(\bm{s}_i) - \bm{\beta}(\bm{s}_i) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \bm{\beta}_{uu}(\bm{s}_i) + \bm{\beta}_{vv}(\bm{s}_i) \} = O_p(n^{-1/2} h^{-1} )$
+    If $h \sqrt{n} a_n \xrightarrow{p} 0$ then $\hat{\bm{\beta}}(\bm{s}) - \bm{\beta}(\bm{s}) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \} = O_p(n^{-1/2} h^{-1} )$
   \end{theorem}
   
   \begin{proof}
-    The idea of the proof is to show that the objective being minimized achieves a unique minimum, which must be $\hat{\bm{\beta}}(\bm{s}_i)$.
+    The idea of the proof is to show that the objective being minimized achieves a unique minimum, which must be $\hat{\bm{\beta}}(\bm{s})$.
     
-    The order of convergence is $n^{1/2} h$ where $h = O(n^{-1/6})$ so that the rate of convergence is $n^{1/3}$.
+    The order of convergence is $n^{1/2} h$ where $h = O(n^{-1/6})$.
     
     To show: that for any $\epsilon$, there is a sufficiently large constant $C$ such that
     \begin{align*}
-      \liminf \limits_n P \left[ \inf_{u \in \mathcal{R}: \|u\| = C} Q \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} > Q \left\{ \bm{\beta}(\bm{s}_i) \right\} \right] > 1 - \epsilon
+      \liminf \limits_n P \left[ \inf_{u \in \mathcal{R}: \|u\| = C} Q \left\{ \bm{\beta}(\bm{s}) + h n^{-1/2} \bm{u} \right\} > Q \left\{ \bm{\beta}(\bm{s}) \right\} \right] > 1 - \epsilon
     \end{align*}
     
     We show the result:
     \begin{align}\label{eq:consistency}
       \mkern-18mu Q \left( \bm{\beta} (\bm{s}_i) + n^{-1/2} \bm{u} \right) - Q \left( \bm{\beta}(\bm{s}_i) \right) &= (1/2) \left[ \bm{Y} - \bm{Z}(\bm{s}_i) \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} \right]^T \bm{W}(\bm{s}_i) \left[ \bm{Y} - \bm{Z}(\bm{s}_i) \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} \right] \notag \\
       &+ n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \| \notag \\
-      &- (1/2) \left\{ \bm{Y} - \bm{Z} \bm{\beta}(\bm{s}_i) \right\}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z} \bm{\beta}(\bm{s}_i) \right\} + n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}_i) \| \notag \\ 
+      &- (1/2) \left\{ \bm{Y} - \bm{Z} \bm{\beta}(\bm{s}_i) \right\}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z} \bm{\beta}(\bm{s}_i) \right\} - n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}_i) \| \notag \\ 
       &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
       &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_j(\bm{s}_i) + n^{-1/2} \bm{u} \| - n \sum_{j=1}^p \lambda_j \| \bm{\beta}_j(\bm{s}_i) \| \notag \\
       &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
@@ -228,9 +228,9 @@
     And the variance of (\ref{eq:epsilon-term}) is:
     \begin{align}
       \text{E} [ \bm{H}^{-1} \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \varepsilon^2(\bm{s}_i) \; \{ \bm{W}(\bm{s}) \}_{ii} \; \{ \bm{Z}(\bm{s}) \}^T_i \;   \bm{H}^{-1} ] \notag \\
-      &= \text{E} \; \left( \begin{array}{ccc} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \\ h^{-1} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})^2_1 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 \\ h^{-1} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_2 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})^2_2 \end{array} \right)  \notag \\
+      &= \text{E} \; \left( \begin{array}{ccc} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) & h^{-1} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 & h^{-1} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \\ h^{-1} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 & h^{-2} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})^2_1 & h^{-2} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 \\ h^{-1} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_2 & h^{-2} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 & h^{-2} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})^2_2 \end{array} \right)  \notag \\
       & \:\:\:\: \times E \; \varepsilon^2(\bm{s}_i) \; \int K^2_h(\| \bm{s} - \bm{t} \|) f(\bm{t}) \partial \bm{t} \notag \\
-      &= \left( \begin{array}{ccc} \bm{\Psi} & \bm{\Psi} (\bm{s}_i - \bm{s})_1 & \bm{\Psi} (\bm{s}_i - \bm{s})_2 \\ h^{-1} \bm{\Psi} (\bm{s}_i - \bm{s})_1 & \bm{\Psi} (\bm{s}_i - \bm{s})^2_1 & \bm{\Psi} (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 \\ h^{-1} \bm{\Psi} (\bm{s}_i - \bm{s})_2 & \bm{\Psi} (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 & \bm{\Psi} (\bm{s}_i - \bm{s})^2_2 \end{array} \right) \times \sigma^2 \times f(\bm{s})  \notag \\
+      &= \left( \begin{array}{ccc} \bm{\Psi} & h^{-1} \bm{\Psi} (\bm{s}_i - \bm{s})_1 & h^{-1} \bm{\Psi} (\bm{s}_i - \bm{s})_2 \\ h^{-1} \bm{\Psi} (\bm{s}_i - \bm{s})_1 & h^{-2}\bm{\Psi} (\bm{s}_i - \bm{s})^2_1 & h^{-2}\bm{\Psi} (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 \\ h^{-1} \bm{\Psi} (\bm{s}_i - \bm{s})_2 & h^{-2} \bm{\Psi} (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 & h^{-2} \bm{\Psi} (\bm{s}_i - \bm{s})^2_2 \end{array} \right) \times \sigma^2 \times h^{-2} f(\bm{s}) \nu_0 \notag \\
       &= 0
     \end{align}
   
