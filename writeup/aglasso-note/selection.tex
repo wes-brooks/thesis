@@ -1,0 +1,129 @@
+\documentclass[authoryear, review, 11pt]{elsarticle}
+
+\setlength{\textwidth}{6.5in}
+%\setlength{\textheight}{9in}
+\setlength{\topmargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathabx}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{natbib}
+\usepackage{verbatim}
+\usepackage{longtable}
+\usepackage{rotating}
+\usepackage[nolists,nomarkers]{endfloat}
+\DeclareDelayedFloatFlavour{sidewaystable}{table}
+
+\usepackage{relsize}
+%\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fullpage}
+\usepackage{booktabs}
+
+
+\usepackage{setspace}
+\setstretch{2}
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+\DeclareMathOperator*{\bw}{\mbox{bw}}
+\DeclareMathOperator*{\df}{\mbox{df}}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\E}{\mathop{\mathbb E}}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+
+
+\title{Local Variable Selection and Parameter Estimation of Spatially Varying Coefficient Regression Models}
+\author{Wesley Brooks}
+\date{}                                           % Activate to display a given date or no date
+
+
+\begin{document}
+
+    \section{Selection}
+    
+    \begin{theorem}\label{theorem:selection}   
+      If $h \sqrt{n} b_n \xrightarrow{p} \infty$ then $P \left\{ \hat{\bm{\beta}}_{(b)} (\bm{s}) = 0 \right\} \to 1$.
+    \end{theorem}
+
+    \begin{proof}
+      The proof is by contradiction.
+      
+      Recall that the objective to be minimized by $\hat{\bm{\beta}}_{(p)} (\bm{s})$ is
+      \begin{align}\label{eq:objective}
+        Q \left\{ \bm{\beta}(\bm{s}) \right\} = (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} + n \sum_{j=1}^p \lambda_j \| \bm{\beta}_p(\bm{s}) \|
+      \end{align}
+
+      Let $\hat{\bm{\beta}}_p(\bm{s}) \ne 0$. Then (\ref{eq:objective}) is differentiable w.r.t. $\bm{\beta}_p(\bm{s})$ and $Q$ is maximized at
+      \begin{align}\label{eq:selection}
+        0 &= \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}_{(-p)}(\bm{s}) \hat{\bm{\beta}}_{(-p)}(\bm{s}) - \bm{Z}_{(p)}(\bm{s}) \hat{\bm{\beta}}_{(p)}(\bm{s}) \right\} + n \lambda_p \frac{ \hat{\bm{\beta}}_{(p)}(\bm{s}) }{\| \bm{\beta}_{(p)}(\bm{s}) \|} \notag \\
+        &= \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{uu}(\bm{s}) + \beta_{vv}(\bm{s}) \right\} \right] \notag \\
+        &\mkern+72mu+ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{(-p),uu}(\bm{s}) + \beta_{(-p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(-p)}(\bm{s}) \right] \notag \\
+        &\mkern+72mu+ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(p)}(\bm{s}) \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{(p),uu}(\bm{s}) + \beta_{(p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(p)}(\bm{s}) \right]  \notag \\
+        &\mkern+72mu+ n \lambda_p \frac{ \hat{\bm{\beta}}_{(p)}(\bm{s}) }{\| \bm{\beta}_{(p)}(\bm{s}) \|} \notag \\
+        &= h n^{-1/2} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{uu}(\bm{s}) + \beta_{vv}(\bm{s}) \right\}\right\} \notag \\ 
+        &\mkern+72mu+ \left\{ n^{-1} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} h \sqrt{n} \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{(-p),uu}(\bm{s}) + \beta_{(-p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(-p)}(\bm{s}) \right] \notag \\
+        &\mkern+72mu+ \left\{ n^{-1} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} h \sqrt{n} \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{(p),uu}(\bm{s}) + \beta_{(p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(p)}(\bm{s}) \right] \notag \\
+        &\mkern+72mu+ h \sqrt{n} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)}(\bm{s}) }{\| \bm{\beta}_{(p)}(\bm{s}) \|}
+      \end{align}
+      
+      From Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, $n^{-1} \left\{ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} = O_p(1)$ and $n^{-1} \left\{ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(p)}(\bm{s}) \right\} = O_p(1)$. From Theorem 3 of \cite{Sun-Yan-Zhang-Lu-2014}, we have that $h n^{1/2} \left[ \hat{\bm{\beta}}_{(-p)} (\bm{s}) - \bm{\beta}_{(-p)}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{(p),uu}(\bm{s}) + \beta_{(p),vv}(\bm{s}) \right\}\right] = O_p(1)$ and $h n^{1/2} \left[ \hat{\bm{\beta}}_{(p)}(\bm{s}) - \bm{\beta}_{(p)}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{(p),uu}(\bm{s}) + \beta_{(p),vv}(\bm{s}) \right\} \right] = O_p(1)$. So the second and third terms of the sum in (\ref{eq:selection}) are $O_p(1)$. We showed in the proof of \ref{theorem:consistency} that $h  n^{-1/2} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} = O_p(1)$.
+
+      Because the first three terms of the sum in \ref{eq:selection} are $O_p(1)$, for $\hat{\bm{\beta}}_{(p)} (\bm{s})$ to be a solution, we must have that $h n^{1/2} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)} (\bm{s}) }{\| \hat{\bm{\beta}}_{(p)} (\bm{s}) \|} = O_p(1)$.
+
+      But since by assumption $\hat{\bm{\beta}}_{(p)} (\bm{s}_i) \ne 0$, there must be some $k \in \{ 1, \dots, d_p \}$ such that $ | \hat{\beta}_{(p),k} (\bm{s}) | = \max \{ | \hat{\beta}_{(p),k'} (\bm{s}) | : 1 \le k' \le d_p \} $. And for this $k$, we have that $| \hat{\beta}_{(p),k} (\bm{s}) | / \| \hat{\bm{\beta}}_{(p)} (\bm{s}) \| \ge 1 / \sqrt{d_p} > 0$.
+
+      Now since $\sqrt{n} b_n \to \infty$, we have that $h n^{1/2} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)} (\bm{s}) }{\| \hat{\bm{\beta}}_{(p)} (\bm{s}) \|}$ is unbounded and therefore dominates the $O_p(1)$ terms of the sum in (\ref{eq:selection}). So for large enough $n$, $\hat{\bm{\beta}}_{(p)} (\bm{s}) \ne 0$ cannot maximize $Q$.
+    \end{proof}
+
+
+
+    \begin{theorem}\label{theorem:selection2}   
+      If $h \sqrt{n} a_n \xrightarrow{p} 0$ then $P \left\{ \hat{\bm{\beta}}_{(a)} (\bm{s}) \ne 0 \right\} \to 1$.
+    \end{theorem}
+
+    \begin{proof}
+        Again, the proof is by contradiction.
+
+        Assume that $\hat{\bm{\beta}}_{(k)} = 0$ for some $k<p_0$. For the adaptive group lasso, the covariate group $k$ is shrunk to zero if 
+        \begin{align*}
+            \left\| \left\{ \bm{Z}_{(k)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(k)}^T(\bm{s}) \right\}^{-1} \bm{Z}_{(k)}^T(\bm{s}) \bm{r}_{(k)}(\bm{s}) \right\|^2 \le \frac{h^2 n \lambda^2}{ \| \tilde{\bm{\beta}}_{(k)} \|^2 } 
+        \end{align*}
+
+        where $\bm{r}_{(k)}(\bm{s})$ is the residual after accounting for all covariate groups except group $k$. That is, $\bm{r}_{(k)}(\bm{s}) = \bm{Y} - \bm{Z}_{(-k)}(\bm{s}) \bm{\beta}_{(-k)}(\bm{s})$. But $\left\| \tilde{\bm{\beta}}_{(k)} \right\| > 0$ implies that $ \left\| \left\{ \bm{Z}_{(k)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(k)}^T(\bm{s}) \right\}^{-1} \bm{Z}_{(k)}^T(\bm{s}) \bm{r}_{(k)}(\bm{s}) \right\|^2 > 0$ and $\frac{h^2 n \lambda^2}{ \| \tilde{\bm{\beta}}_{(k)} \|^2 }  \le h^2 n a_n^2 \to 0$. So
+
+        \begin{equation}
+            P \left\{ \hat{\bm{\beta}}_{(k)} (\bm{s}) \ne 0 \right\} \le P \left[ \left\| \left\{ \bm{Z}_{(k)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(k)}^T(\bm{s}) \right\}^{-1} \bm{Z}_{(k)}^T(\bm{s}) \bm{r}_{(k)}(\bm{s}) \right\|^2 \le h^2 n a_n^2 \right] \to 0.
+        \end{equation}
+        
+    \end{proof}
+
+\end{document}  

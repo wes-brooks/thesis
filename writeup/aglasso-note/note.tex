@@ -140,26 +140,27 @@
   \begin{proof}
     The idea of the proof is to show that the objective being minimized achieves a unique minimum, which must be $\hat{\bm{\beta}}(\bm{s})$.
     
-    The order of convergence is $n^{1/2} h$ where $h = O(n^{-1/6})$.
+    The order of convergence is $h n^{1/2}$ where $h = O(n^{-1/6})$.
     
     To show: that for any $\epsilon$, there is a sufficiently large constant $C$ such that
     \begin{align*}
-      \liminf \limits_n P \left[ \inf_{u \in \mathcal{R}: \|u\| = C} Q \left\{ \bm{\beta}(\bm{s}) + h n^{-1/2} \bm{u} \right\} > Q \left\{ \bm{\beta}(\bm{s}) \right\} \right] > 1 - \epsilon
+      \liminf \limits_n P \left[ \inf_{u \in \mathcal{R}: \|u\| = C} Q \left\{ \bm{\beta}(\bm{s}) + h n^{-1/2} \bm{H}^{-1} \bm{u} \right\} > Q \left\{ \bm{\beta}(\bm{s}) \right\} \right] > 1 - \epsilon
     \end{align*}
     
     We show the result:
     \begin{align}\label{eq:consistency}
-      \mkern-18mu Q \left( \bm{\beta} (\bm{s}_i) + n^{-1/2} \bm{u} \right) - Q \left( \bm{\beta}(\bm{s}_i) \right) &= (1/2) \left[ \bm{Y} - \bm{Z}(\bm{s}_i) \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} \right]^T \bm{W}(\bm{s}_i) \left[ \bm{Y} - \bm{Z}(\bm{s}_i) \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} \right] \notag \\
-      &+ n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \| \notag \\
-      &- (1/2) \left\{ \bm{Y} - \bm{Z} \bm{\beta}(\bm{s}_i) \right\}^T \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z} \bm{\beta}(\bm{s}_i) \right\} - n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}_i) \| \notag \\ 
-      &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
-      &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_j(\bm{s}_i) + n^{-1/2} \bm{u} \| - n \sum_{j=1}^p \lambda_j \| \bm{\beta}_j(\bm{s}_i) \| \notag \\
-      &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
-      &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_j(\bm{s}_i) + n^{-1/2} \bm{u} \| - n \sum_{j=1}^{p_0} \lambda_j \| \bm{\beta}_j(\bm{s}_i) \| \notag \\
-      &\mkern-72mu\ge (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
-      &+ n \sum_{j=1}^{p_0} \lambda_j ( \|\bm{\beta}_j(\bm{s}_i) + n^{-1/2} \bm{u} \| - \| \bm{\beta}_j(\bm{s}_i) \| ) \notag \\
-      &\mkern-72mu\ge (1/2) \bm{u}^T \left\{ \frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\} \bm{u} - \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \left\{ \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \right\} \right] \notag \\
-      &- p_0 \sqrt{n} a_n \| \bm{u} \|
+      \mkern-18mu Q \left\{ \bm{\beta} (\bm{s}) + h n^{-1/2} \bm{H}^{-1} \bm{u} \right\} &- Q \left\{ \bm{\beta}(\bm{s}) \right\} \notag \\
+      &\mkern-72mu= (1/2) \left[ \bm{Y} - \bm{Z}(\bm{s}) \left\{ \bm{\beta}(\bm{s}) + h n^{-1/2} \bm{H}^{-1} \bm{u} \right\} \right]^T \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \left\{ \bm{\beta}(\bm{s}) + h n^{-1/2} \bm{H}^{-1} \bm{u} \right\} \right] \notag \\
+      &+ n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}) + h n^{-1/2} \bm{H}^{-1} \bm{u} \| \notag \\
+      &- (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} - n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}) \| \notag \\ 
+      &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{h^2}{n} \bm{H}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \bm{H}^{-1} \right\} \bm{u} - \bm{u}^T \left[ h n^{-1/2} \bm{H}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] \notag \\
+      &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_j(\bm{s}) + h n^{-1/2} \bm{H}^{-1} \bm{u} \| - n \sum_{j=1}^p \lambda_j \| \bm{\beta}_j(\bm{s}) \| \notag \\
+      &\mkern-72mu= (1/2) \bm{u}^T \left\{ \frac{h^2}{n} \bm{H}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \bm{H}^{-1} \right\} \bm{u} - \bm{u}^T \left[ h n^{-1/2} \bm{H}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] \notag \\
+      &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_j(\bm{s}) + h n^{-1/2} \bm{H}^{-1} \bm{u} \| - n \sum_{j=1}^{p_0} \lambda_j \| \bm{\beta}_j(\bm{s}) \| \notag \\
+      &\mkern-72mu\ge (1/2) \bm{u}^T \left\{ \frac{h^2}{n} \bm{H}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \bm{H}^{-1} \right\} \bm{u} - \bm{u}^T \left[ h n^{-1/2} \bm{H}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] \notag \\
+      &+ n \sum_{j=1}^{p_0} \lambda_j ( \|\bm{\beta}_j(\bm{s}) + h n^{-1/2} \bm{H}^{-1} \bm{u} \| - \| \bm{\beta}_j(\bm{s}) \| ) \notag \\
+      &\mkern-72mu\ge (1/2) \bm{u}^T \left\{ \frac{h^2}{n} \bm{H}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \bm{H}^{-1} \right\} \bm{u} - \bm{u}^T \left[ h n^{-1/2} \bm{H}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] \notag \\
+      &- p_0 h \sqrt{n} a_n \| \bm{H}^{-1} \bm{u} \|
     \end{align}
   \end{proof}
 
