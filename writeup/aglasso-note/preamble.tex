@@ -1,0 +1,133 @@
+\documentclass[authoryear, review, 11pt]{elsarticle}
+
+\setlength{\textwidth}{6.5in}
+%\setlength{\textheight}{9in}
+\setlength{\topmargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathabx}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{natbib}
+\usepackage{verbatim}
+\usepackage{longtable}
+\usepackage{rotating}
+\usepackage[nolists,nomarkers]{endfloat}
+\DeclareDelayedFloatFlavour{sidewaystable}{table}
+
+\usepackage{relsize}
+%\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fullpage}
+\usepackage{booktabs}
+
+
+\usepackage{setspace}
+\setstretch{2}
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+\DeclareMathOperator*{\bw}{\mbox{bw}}
+\DeclareMathOperator*{\df}{\mbox{df}}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\E}{\mathop{\mathbb E}}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+
+
+\title{Local Variable Selection and Parameter Estimation of Spatially Varying Coefficient Regression Models}
+\author{Wesley Brooks}
+\date{}                                           % Activate to display a given date or no date
+
+
+\begin{document}
+
+%\begin{abstract}
+%Researchers who analyze spatial data often wish to discern how a certain response variable is related to a set of covariates. When it is believed that the effect of a given covariate may be different at different locations, a spatially varying coefficient regression model, in which the effects of the covariates are allowed to vary across the spatial domain, may be appropriate. In this case, it may be the case that the covariate has a meaningful association with the response in some parts of the spatial domain but not in others. Identifying the covariates that are associated with the response at a given location is called local model selection. Geographically weighted regression, a kernel-based method for estimating the local regression coefficients in a spatially varying coefficient regression model, is considered here. A new method is introduced for local model selection and coefficient estimation in spatially varying coefficient regression models. The idea is to apply a penalty of the elastic net type to a local likelihood function, with a local elastic net tuning parameter and a global bandwidth parameter selected via information criteria. Simulations are used to evaluate the performance of the new method in model selection and coefficient estimation, and the method is applied to a real data example in spatial demography.
+%\end{abstract}
+
+\maketitle
+
+	\subsection{Model}	
+	Consider $n$ data points, observed at sampling locations $\bm{s}_1, \dots, \bm{s}_n$, which are distributed in a spatial domain $D \subset \mathbb{R}^2$ according to a density $f(\bm{s})$. For $i = 1, \dots, n$, let $y(\bm{s}_i)$ and $\bm{x}(\bm{s}_i)$ denote the univariate response variable, and a $(p+1)$-variate vector of covariates measured at location $\bm{s}_i$, respectively. At each location $\bm{s}_i$, assume that the outcome is related to the covariates by a linear model where the coefficients $\bm{\beta}(\bm{s}_i)$ may be spatially-varying and $\varepsilon(\bm{s}_i)$ is random error at location $\bm{s}_i$. That is,
+	\begin{align}\label{eq:lm(s)}
+		y(\bm{s}_i) = \bm{x}(\bm{s}_i)' \bm{\beta}(\bm{s}_i) + \varepsilon(\bm{s}_i).
+	\end{align}
+	
+	Further assume that the error term $\varepsilon(\bm{s}_i)$ is normally distributed with zero mean and variance $\sigma^2$, and that $\varepsilon(\bm{s}_i)$, $i=1, \dots, n$ are independent. That is,
+	\begin{align} \label{eq:err}
+		\varepsilon(\bm{s}_i) \overset{iid}{\sim} \mathcal{N} \left( 0,\sigma^2 \right).
+	\end{align}
+	
+    Thus, conditional on the design matrix $\bm{X}$, observations of the response variable at different locations are independent of each other.
+  
+    An SVCR model that estimates the regression coefficients as locally constant, as in the class of Nadaraya-Watson kernel smoothers \citep{Hardle-1990}, suffers the problem of biased estimation that is common to that class of models - particularly where there is a gradient to the coefficient surface at the boundary of the domain \citep{Hastie:1993b}.
+
+    In the context of nonparametric regression, the boundary-effect bias can be reduced by local polynomial modeling, usually in the form of a locally linear model \citep{Fan-1996}. Here, locally linear coefficients are estimated by augmenting the local design matrix with covariate-by-location interactions in two dimensions as proposed by \cite{Wang:2008b}. The augmented local design matrix at location $\bm{s}_i$ is
+    \begin{align}
+        \bm{Z}(\bm{s}_i) = \left( \bm{X}  \;\;\; L(\bm{s}_i) \, \bm{X} \;\;\; M(\bm{s}_i) \, \bm{X} \right)
+    \end{align} 
+  
+    where $\bm{X}$ is the unaugmented matrix of covariates, $L(\bm{s}_i) = \text{diag}\{ ( \bm{s}_{i'} - \bm{s}_{i} )_1 \}$ and $M(\bm{s}_i) = \text{diag}\{ ( \bm{s}_{i'} - \bm{s}_{i} )_2 \}$ for $i' = 1, \dots, n$.
+  
+    \subsection{Estimation}		
+    The total log-likelihood of the observed data is the sum of the log-likelihood of each individual observation:
+    \begin{align} \label{eq:coefficients}
+  	    \ell \left\{ \bm{\beta}(\bm{s}_i) \right\} = -(1/2) \sum_{i'=1}^n \left[ \log{\sigma^2(\bm{s}_i)}  + \sigma^{-2}(\bm{s}_i)  \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \bm{\beta}(\bm{s}_i) \right\}^2 \right].
+    \end{align}
+	
+    Since there are a total of $n \times 3(p+1)$ parameters for $n$ observations, the model is not identifiable and it is not possible to directly maximize the total likelihood.
+  
+    The values of the local coefficients $\bm{\beta}(\bm{s}_i)$ are estimated by the weighted likelihood
+    \begin{align}\label{eq:local-likelihood}
+        \mathcal{L} \left\{ \bm{\beta}(\bm{s}_i) \right\} &= \prod_{i'=1}^n \left( \left\{ 2 \pi \sigma^2(\bm{s}_i)  \right\}^{-1/2}  \exp \left[- (1/2) \sigma^{-2}(\bm{s}_i)  \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \bm{\beta}(\bm{s}_i) \right\}^2 \right] \right) ^ {w_{ii'}},
+    \end{align}
+  
+    where the weights are calculated by a kernel function $K_h(\cdot)$ such as the Epanechnikov kernel:
+    \begin{align}\label{eq:epanechnikov}
+        w_{ii'} &= K_h(\delta_{ii'}) = h^{-2} K\left( h^{-1} \delta_{ii'} \right) \notag \\
+        K(x) &= \begin{cases} (3/4) (1-x^2) &\mbox{ if } \delta_{ii'} < h, \\ 0 &\mbox{ if } \delta_{ii'} \geq h. \end{cases}
+    \end{align}
+  
+    Thus, the local log-likelihood function is, up to an additive constant: 
+    \begin{align}\label{eq:local-log-likelihood}
+        \ell\left(\bm{\beta}(\bm{s}_i)\right) &= -(1/2) \sum_{i'=1}^n w_{ii'} \left[ \log{\sigma^2(\bm{s}_i)}  + \sigma^{-2}(\bm{s}_i)  \left\{y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \bm{\beta}(\bm{s}_i) \right\}^2 \right].
+    \end{align}
+  
+    This local likelihood can be maximized by weighted least squares
+    \begin{align}\label{eq:beta-hat}
+        \hat{\bm{\beta}}(\bm{s}_i) = \left\{ \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \right\}^{-1} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Y}.
+    \end{align}
+	
+    From (\ref{eq:local-log-likelihood}), the maximum local likelihood estimate $\hat{\sigma}^2(\bm{s}_i)$ is:	 
+    \begin{align}
+        \hat{\sigma}^2(\bm{s}_i) = \left(\sum \limits_{i'=1}^{n} w_{ii'} \right)^{-1} \sum \limits_{i'=1}^n w_{ii'} \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \hat{\bm{\beta}}(\bm{s}_i) \right\}^2
+    \end{align}
+
+\end{document}  

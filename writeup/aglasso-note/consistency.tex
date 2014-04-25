@@ -1,0 +1,261 @@
+\documentclass[authoryear, review, 11pt]{elsarticle}
+
+\setlength{\textwidth}{6.5in}
+%\setlength{\textheight}{9in}
+\setlength{\topmargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathabx}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{natbib}
+\usepackage{verbatim}
+\usepackage{longtable}
+\usepackage{rotating}
+\usepackage[nolists,nomarkers]{endfloat}
+\DeclareDelayedFloatFlavour{sidewaystable}{table}
+
+\usepackage{relsize}
+%\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fullpage}
+\usepackage{booktabs}
+
+
+\usepackage{setspace}
+\setstretch{2}
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+\DeclareMathOperator*{\bw}{\mbox{bw}}
+\DeclareMathOperator*{\df}{\mbox{df}}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\E}{\mathop{\mathbb E}}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+
+
+\title{Local Variable Selection and Parameter Estimation of Spatially Varying Coefficient Regression Models}
+\author{Wesley Brooks}
+\date{}                                           % Activate to display a given date or no date
+
+
+\begin{document}
+
+    %\begin{abstract}
+    %Researchers who analyze spatial data often wish to discern how a certain response variable is related to a set of covariates. When it is believed that the effect of a given covariate may be different at different locations, a spatially varying coefficient regression model, in which the effects of the covariates are allowed to vary across the spatial domain, may be appropriate. In this case, it may be the case that the covariate has a meaningful association with the response in some parts of the spatial domain but not in others. Identifying the covariates that are associated with the response at a given location is called local model selection. Geographically weighted regression, a kernel-based method for estimating the local regression coefficients in a spatially varying coefficient regression model, is considered here. A new method is introduced for local model selection and coefficient estimation in spatially varying coefficient regression models. The idea is to apply a penalty of the elastic net type to a local likelihood function, with a local elastic net tuning parameter and a global bandwidth parameter selected via information criteria. Simulations are used to evaluate the performance of the new method in model selection and coefficient estimation, and the method is applied to a real data example in spatial demography.
+    %\end{abstract}
+
+    \maketitle
+
+    \section{Asymptotics}
+    \subsection{Consistency}
+    \begin{theorem}\label{theorem:consistency}     
+        If $h \sqrt{n} a_n \xrightarrow{p} 0$ then $\hat{\bm{\beta}}(\bm{s}) - \bm{\beta}(\bm{s}) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \} = O_p(n^{-1/2} h^{-1} )$
+    \end{theorem}
+  
+    \begin{proof}
+        The idea of the proof is to show that the objective being minimized achieves a unique minimum, which must be $\hat{\bm{\beta}}(\bm{s})$.
+    
+        The order of convergence is $h n^{1/2}$ where $h = O(n^{-1/6})$.
+    
+        To show: that for any $\epsilon$, there is a sufficiently large constant $C$ such that
+        \begin{align*}
+            \liminf \limits_n P \left[ \inf_{u \in \mathcal{R}: \|u\| \le C} Q \left\{ \bm{\beta}(\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} > Q \left\{ \bm{\beta}(\bm{s}) \right\} \right] > 1 - \epsilon
+        \end{align*}
+    
+        We show the result:
+        \begin{align}\label{eq:consistency}
+            \mkern-18mu V_4^{(n)}(\bm{u}) &= Q \left\{ \bm{\beta} (\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} - Q \left\{ \bm{\beta}(\bm{s}) \right\} \notag \\
+            &\mkern-18mu= (1/2) \left[ \bm{Y} - \bm{Z}(\bm{s}) \left\{ \bm{\beta}(\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} \right]^T \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \left\{ \bm{\beta}(\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} \right] \notag \\
+            &+ n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}) + h^{-1} n^{-1/2} \bm{u} \| \notag \\
+            &- (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} - n \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}) \| \notag \\ 
+            &\mkern-18mu= (1/2) \bm{u}^T \left\{ h^{-2} n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\} \bm{u} - \bm{u}^T \left[ h^{-1} n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] \notag \\
+            &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u} \| - n \sum_{j=1}^p \lambda_j \| \bm{\beta}_j(\bm{s}) \| \notag \\
+            &\mkern-18mu= (1/2) \bm{u}^T \left\{ h^{-2} n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\} \bm{u} - \bm{u}^T \left[ h^{-1} n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] \notag \\
+            &+ n \sum_{j=1}^p \lambda_j \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u} \| - n \sum_{j=1}^{p_0} \lambda_j \| \bm{\beta}_j(\bm{s}) \| \notag \\
+        \end{align}
+    \end{proof}
+
+    The final quantity in (\ref{eq:consistency}) is the sum of a quadratic term, a linear term, and a penalty term. We'll consider the terms of the sum in (\ref{eq:consistency}) separately.
+  
+    \paragraph{Quadratic term.} By Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, $\frac{1}{n} \bm{Z}^T(\bm{s}_i) \bm{W}(\bm{s}_i) \bm{Z}(\bm{s}_i) \xrightarrow{p} \Omega$, so the first term in (\ref{eq:consistency}) converges to $h^2 \bm{u}^T \Omega \bm{u}$.
+  
+    \paragraph{Linear term.} By a first-order Taylor expansion, we have that $\bm{\beta}(\bm{s}_i) = \bm{\beta}(\bm{s}) + \nabla \bm{\beta}(\bm{\xi}_{i}) (\bm{s}_i - \bm{s})$ where $\xi_i = \bm{s} + \theta (\bm{s}_i - \bm{s})$ and $\theta \in [0, 1]$ for $i = 1, \dots, n$. So
+    \begin{align*}
+        \bm{Y} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) &= \bm{m} + \bm{\varepsilon} - \bm{Z}(\bm{s}_i) \bm{\beta}(\bm{s}_i) \\
+    \end{align*}
+  
+    and so the linear term of (\ref{eq:consistency}) is
+    \begin{align}\label{eq:linear-part}
+        \bm{u}^T \left[ n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{m} + \bm{\varepsilon} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s})  \right\} \right].
+    \end{align}
+  
+    We wish to show that (\ref{eq:linear-part}) is $O_p(1)$.  Now, taking the three terms of the sum separately (derivations are in the appendix):
+
+    
+
+
+
+
+    
+    \subsection{Third term}
+        The first term is 
+        \begin{equation} \label{eq:m-term}
+            h \; n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \bm{\beta}(\bm{s})
+        \end{equation}
+
+        The expectation of (\ref{eq:m-term}) is:
+        \begin{equation*}
+            \left( \begin{array}{cc} \bm{\Psi}  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}) f(\bm{s})
+        \end{equation*}
+    
+        And the variance of (\ref{eq:m-term}) is:
+        \begin{equation*}
+            \left( \begin{array}{cc} \bm{\Psi}  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}) f(\bm{s})
+        \end{equation*}
+  
+  
+    \section{Definitions}
+        Let $\bm{A}$ be a matrix. Then $\{ \bm{A} \}_j$ is the $j$th column as a column vector, and $\{ \bm{A} \}_k^T$ be the $k$th row as a row vector.
+
+
+    \section{Appendix: lemmas}
+        \begin{lemma} \label{lemma:semiquadratic}
+            If $V$ is a random, symmetric $m \times m$ matrix with 
+
+            \begin{align*}
+                \text{E} &\left( \{ V \}_j \right) = \mu_j \\
+                \text{E} \left( \{ V \}_j \{ V \}_{j'}^T \right) &- \text{E} \left( \{ V \}_j \right) \text{E} \left( \{ V \}_{j'}^T \right) = \Sigma_{jj'}
+            \end{align*}
+
+            for $j,  j' = 1, \dots, m$, while $U$ is a fixed $m \times m$ matrix, then 
+
+            \begin{equation*}
+                \text{E} \left( \{ V \}_i^T U \{ V \}_k \right) = \mu_i^T U  \mu_k + \text{tr} \left( U \Sigma_{ik} \right)
+            \end{equation*}
+        \end{lemma}
+
+
+    \section{Appendix: proofs}
+        \begin{lemma}
+            The expectation and variance of
+            \begin{equation}
+                n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{m}
+            \end{equation}
+
+            are, respecively:
+            \begin{equation*}
+                \left( \begin{array}{cc} \bm{\Psi}  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}) f(\bm{s})
+            \end{equation*}
+    
+            and:
+            \begin{equation*}
+                \left( \begin{array}{cc} \bm{\Psi}  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}) f(\bm{s})
+            \end{equation*}
+        \end{lemma}
+
+
+        \begin{proof}
+            Find the expectation and variance of the $i$th term in the sum $n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{m}$:
+
+            \begin{align}
+                \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; m(\bm{s}_i) \notag \\ 
+                &= K_h(\| \bm{s} - \bm{s}_i \|) \; \; \{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{Z}(\bm{s}_i) \}_i^T \; \bm{\gamma}(\bm{s}_i) \notag \\
+                &= K_h(\| \bm{s} - \bm{s}_i \|) \left( \begin{array}{cccc} X_1^2(\bm{s}_i) & \dots & X_1(\bm{s}_i) X_p(\bm{s}_i) & \bm{0}_{1 \times 2p} \\ \vdots & \ddots & \vdots & \vdots \\ X_1(\bm{s}_i) X_p(\bm{s}_i) & \dots & X_p^2(\bm{s}_i) & \bm{0}_{1 \times 2p} \\ \bm{0}_{2p \times 1} & \dots & \bm{0}_{2p \times 1} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}_i) \notag \\
+                &= K_h(\| \bm{s} - \bm{s}_i \|) \left( \begin{array}{cc} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i)  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}_i)
+            \end{align}
+
+            So the expectation is:
+            \begin{align}
+                \text{E} [ \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \{ \bm{Z}(\bm{s}_i) \}_i^T \; \bm{\gamma}(\bm{s}_i) ] \notag \\
+                &= \text{E} \; \left( \begin{array}{cc} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i)  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \int K_h(\| \bm{s} - \bm{t} \|) \bm{\gamma}(\bm{t}) f(\bm{t}) \partial \bm{t} \notag \\
+                &= \left( \begin{array}{cc} \bm{\Psi}  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}) f(\bm{s})
+            \end{align}
+    
+            And the variance is:
+            \begin{align}
+                \text{E} [ \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \{ \bm{Z}(\bm{s}_i) \}_i^T \; \bm{\gamma}(\bm{s}_i) \bm{\gamma}^T(\bm{s}_i) \; \{ \bm{Z}^T(\bm{s}_i) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \{ \bm{Z}(\bm{s}) \}^T_i \; ] \notag \\
+                &= \text{E} \; \left( \begin{array}{cc} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i)  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \int K_h(\| \bm{s} - \bm{t} \|) \bm{\gamma}(\bm{t}) f(\bm{t}) \partial \bm{t} \notag \\
+                &= \left( \begin{array}{cc} \bm{\Psi}  & \bm{0}_{p \times 2p} \\ \bm{0}_{2p \times p} & \bm{0}_{2p \times 2p} \end{array} \right) \bm{\gamma}(\bm{s}) f(\bm{s})
+            \end{align}
+        \end{proof}
+
+
+        \subsection{Second term}
+            The second term is 
+            \begin{equation} \label{eq:epsilon-term}
+                h \; n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{\varepsilon}
+            \end{equation}
+
+            The expectation of (\ref{eq:m-term}) is 0 and the variance of (\ref{eq:m-term}) is:
+            \begin{equation*}
+                \left( \begin{array}{ccc} \bm{\Psi} & \bm{\Psi} (\bm{s}_i - \bm{s})_1 & \bm{\Psi} (\bm{s}_i - \bm{s})_2 \\ \bm{\Psi} (\bm{s}_i - \bm{s})_1 & \bm{\Psi} (\bm{s}_i - \bm{s})^2_1 & \bm{\Psi} (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 \\ \bm{\Psi} (\bm{s}_i - \bm{s})_2 & \bm{\Psi} (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 & \bm{\Psi} (\bm{s}_i - \bm{s})^2_2 \end{array} \right) \times \sigma^2 \times f(\bm{s}) \times \nu_0 \notag \\
+            \end{equation*}
+
+        \paragraph{Second term}
+        Find the expectation and variance of the $i$th term in the sum $n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \bm{\gamma}(\bm{s})$:
+
+        \paragraph{Third term}
+        Find the expectation and variance of the $i$th term in the sum $n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{\varepsilon}$:
+
+        \begin{align}\label{eq:epsilon-term}
+            \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \varepsilon(\bm{s}_i) \notag \\
+            &= K_h(\| \bm{s} - \bm{s}_i \|) \; \; \{ \bm{Z}^T(\bm{s}) \}_i \; \varepsilon(\bm{s}_i) \notag \\
+            &= K_h(\| \bm{s} - \bm{s}_i \|) \left( \begin{array}{c} X_1(\bm{s}_i) \\ \vdots \\ X_p(\bm{s}_i) \\ X_1(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ \vdots \\ X_p(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ X_1(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \\ \vdots \\X_p(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \end{array} \right) \varepsilon(\bm{s}_i) \notag \\
+            &= K_h(\| \bm{s} - \bm{s}_i \|) \left( \begin{array}{c} \bm{X}(\bm{s}_i) \\ \bm{X}(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ \bm{X}(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \end{array} \right) \varepsilon(\bm{s}_i)
+        \end{align}
+
+        So the expectation is:
+        \begin{align}
+            \text{E} [ \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \varepsilon(\bm{s}_i) ] \notag \\
+            &= \text{E} \; \left( \begin{array}{c} \bm{X}(\bm{s}_i) \\ \bm{X}(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ \bm{X}(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \end{array} \right) \text{E} \; \varepsilon(\bm{s}_i) \; \int K_h(\| \bm{s} - \bm{t} \|) f(\bm{t}) \partial \bm{t} \notag \\
+            &= \left( \begin{array}{c} \bm{\mu}(\bm{s}_i) \\ \bm{\mu}(\bm{s}_i) (\bm{s}_i - \bm{s})_1 \\ \bm{\mu}(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \end{array} \right) \times 0 \times f(\bm{s}) \notag \\
+            &= 0
+        \end{align}
+    
+    
+        And the variance is:
+        \begin{align}
+            \text{E} [ \; &\{ \bm{Z}^T(\bm{s}) \}_i \; \{ \bm{W}(\bm{s}) \}_{ii} \; \varepsilon^2(\bm{s}_i) \; \{ \bm{W}(\bm{s}) \}_{ii} \; \{ \bm{Z}(\bm{s}) \}^T_i \;   ] \notag \\
+            &= \text{E} \; \left( \begin{array}{ccc} \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_2 \\ \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})^2_1 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 \\ \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_2 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 & \bm{X}(\bm{s}_i) \bm{X}^T(\bm{s}_i) (\bm{s}_i - \bm{s})^2_2 \end{array} \right)  \notag \\
+            & \:\:\:\: \times E \; \varepsilon^2(\bm{s}_i) \; \int K^2_h(\| \bm{s} - \bm{t} \|) f(\bm{t}) \partial \bm{t} \notag \\
+            &= \left( \begin{array}{ccc} \bm{\Psi} & \bm{\Psi} (\bm{s}_i - \bm{s})_1 & \bm{\Psi} (\bm{s}_i - \bm{s})_2 \\ \bm{\Psi} (\bm{s}_i - \bm{s})_1 & \bm{\Psi} (\bm{s}_i - \bm{s})^2_1 & \bm{\Psi} (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 \\ \bm{\Psi} (\bm{s}_i - \bm{s})_2 & \bm{\Psi} (\bm{s}_i - \bm{s})_1 (\bm{s}_i - \bm{s})_2 & \bm{\Psi} (\bm{s}_i - \bm{s})^2_2 \end{array} \right) \times \sigma^2 \times h^{-2} f(\bm{s}) \nu_0 \notag \\
+            &= 0
+        \end{align}
+  
+        \paragraph{Third term.} By assumption, $p_0 \sqrt{n} a_n = O(\sqrt{n} a_n) = o_p(1)$.
+  
+        So the quadratic term dominates the sum, implying that the difference $Q \left\{ \bm{\beta}(\bm{s}_i) + n^{-1/2} \bm{u} \right\} > Q \left\{ \bm{\beta}(\bm{s}_i) \right\}$ is positive, which proves the result.
+
+\section{References}
+\bibliographystyle{chicago}
+\bibliography{../../references/gwr}
+
+\end{document}  

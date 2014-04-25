@@ -1,0 +1,124 @@
+\documentclass[authoryear, review, 11pt]{elsarticle}
+
+\setlength{\textwidth}{6.5in}
+%\setlength{\textheight}{9in}
+\setlength{\topmargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathabx}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{natbib}
+\usepackage{verbatim}
+\usepackage{longtable}
+\usepackage{rotating}
+\usepackage[nolists,nomarkers]{endfloat}
+\DeclareDelayedFloatFlavour{sidewaystable}{table}
+
+\usepackage{relsize}
+%\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fullpage}
+\usepackage{booktabs}
+
+
+\usepackage{setspace}
+\setstretch{2}
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+\DeclareMathOperator*{\bw}{\mbox{bw}}
+\DeclareMathOperator*{\df}{\mbox{df}}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\E}{\mathop{\mathbb E}}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+
+
+\title{Local Variable Selection and Parameter Estimation of Spatially Varying Coefficient Regression Models}
+\author{Wesley Brooks}
+\date{}                                           % Activate to display a given date or no date
+
+
+\begin{document}
+
+    %\begin{abstract}
+    %Researchers who analyze spatial data often wish to discern how a certain response variable is related to a set of covariates. When it is believed that the effect of a given covariate may be different at different locations, a spatially varying coefficient regression model, in which the effects of the covariates are allowed to vary across the spatial domain, may be appropriate. In this case, it may be the case that the covariate has a meaningful association with the response in some parts of the spatial domain but not in others. Identifying the covariates that are associated with the response at a given location is called local model selection. Geographically weighted regression, a kernel-based method for estimating the local regression coefficients in a spatially varying coefficient regression model, is considered here. A new method is introduced for local model selection and coefficient estimation in spatially varying coefficient regression models. The idea is to apply a penalty of the elastic net type to a local likelihood function, with a local elastic net tuning parameter and a global bandwidth parameter selected via information criteria. Simulations are used to evaluate the performance of the new method in model selection and coefficient estimation, and the method is applied to a real data example in spatial demography.
+    %\end{abstract}
+
+    \maketitle
+
+    \section{Asymptotics}
+    \subsection{Asymptotic normality}
+    \begin{theorem}\label{theorem:consistency}     
+        If $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h^{-1} n^{-1/2} b_n \xrightarrow{p} \infty$ then $\hat{\bm{\beta}}(\bm{s}) - \bm{\beta}(\bm{s}) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \} = O_p(n^{-1/2} h^{-1} )$
+    \end{theorem}
+  
+    \begin{proof}
+        The idea of the proof is to show that the objective being minimized achieves a unique minimum, which must be $\hat{\bm{\beta}}(\bm{s})$.
+    
+        The order of convergence is $h n^{1/2}$ where $h = O(n^{-1/6})$.
+    
+        We find the limiting distribution of the estimator:
+        \begin{align}\label{eq:consistency}
+            \mkern-36mu V_4^{(n)}(\bm{u}) &= Q \left\{ \bm{\beta} (\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} - Q \left\{ \bm{\beta}(\bm{s}) \right\} \notag \\
+            &\mkern-36mu= (1/2) \left[ \bm{Y} - \bm{Z}(\bm{s}) \left\{ \bm{\beta}(\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} \right]^T \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \left\{ \bm{\beta}(\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} \right] \notag \\
+            &+ \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| \notag \\
+            &- (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} - \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}) \| \notag \\ 
+            &\mkern-36mu= (1/2) \bm{u}^T \left\{ h^{-2} n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\} \bm{u} - \bm{u}^T \left[ h^{-1} n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] \notag \\
+            &+ \sum_{j=1}^p n^{-1/2} \lambda_j n^{1/2} \left\{ \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right\}
+        \end{align}
+        
+        If $j \le p_0$ then $n^{-1/2} \lambda_j \to n^{-1/2} \lambda \| \bm{\beta}_j(\bm{s}) \|^{-\gamma}$ and $| \sqrt{n} \left\{ \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right\} | \le h^{-1} \| \bm{u}_j \|$ so $\lim \limits_{n \to \infty} \lambda_j \left( \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right) \le h^{-1} n^{-1/2} \lambda_j  \| \bm{u}_j \| \le h^{-1} n^{-1/2} a_n \| \bm{u}_j \| \to 0$
+
+        If $j > p_0$ then $\lambda_j \left( \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right) = \lambda_j h^{-1} n^{-1/2} \| \bm{u}_j \| $. Now, if $\| \bm{u}_j \| \ne 0$ then $h^{-1} n^{-1/2} \lambda_j \| \bm{u}_j \| \ge h^{-1} n^{-1/2} b_n \| \bm{u}_j \| \to \infty$. On the other hand, if $\| \bm{u}_j \| = 0$ then $h^{-1} n^{-1/2} \lambda_j \| \bm{u}_j \| = 0$.
+
+        Thus, the limit of $V_4^{(n)} (\bm{u})$ is the same as the limit of $V_4^{*(n)} (\bm{u})$ where
+
+        \begin{equation*}
+            \mkern-72muV_4^{*(n)} (\bm{u}) = \begin{cases}(1/2) \bm{u}^T \left\{ h^{-2} n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\} \bm{u} - \bm{u}^T \left[ h^{-1} n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] &\mbox{ if } \| \bm{u}_j \| = 0 \; \forall j > p_0 \\ \infty &\mbox{ otherwise } \end{cases}
+        \end{equation*}
+
+
+        Now, $V_4^{*(n)}(\bm{u})$ is convex and is minimized at $\hat{\bm{u}}^{(n)}$:
+
+        \begin{align} \label{eq:limit}
+            0 &=  \left\{ h^{-2} n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\} \hat{\bm{u}}^{(n)} - \left[ h^{-1} n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] \notag \\
+            \therefore \hat{\bm{u}}^{(n)} &= \left\{ n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\}^{-1} \left[ h n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] \notag \\
+        \end{align}
+
+        By the epiconvergence results of \cite{Geyer-1994} and \cite{Knight-Fu-2000}, the minimizer of the limiting function is the limit of the minimizers $\hat{\bm{u}}^{(n)}$. And since, by Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, 
+
+        \begin{equation}
+            \hat{\bm{u}}^{(n)} \xrightarrow{d} N \left(0, f(\bm{s}) \kappa_0^{-2} \nu_0 \sigma^2 \Psi^{-1} \right)
+        \end{equation}
+        the result is proven.
+            
+    \end{proof}
+\end{document}

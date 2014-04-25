@@ -1,8 +1,18 @@
-.PHONY: select
-
-note.pdf: note.tex
-	xelatex note
+consistency:
+	xelatex consistency
 
 
-selection: select
+consistency2:
+	xelatex consistency2
+
+
+selection:
 	xelatex selection
+
+
+oracle:
+	xelatex oracle
+
+
+preamble:
+	xelatex preamble

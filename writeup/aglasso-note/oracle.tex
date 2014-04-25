@@ -1,0 +1,85 @@
+\documentclass[authoryear, review, 11pt]{elsarticle}
+
+\setlength{\textwidth}{6.5in}
+%\setlength{\textheight}{9in}
+\setlength{\topmargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathabx}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{natbib}
+\usepackage{verbatim}
+\usepackage{longtable}
+\usepackage{rotating}
+\usepackage[nolists,nomarkers]{endfloat}
+\DeclareDelayedFloatFlavour{sidewaystable}{table}
+
+\usepackage{relsize}
+%\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fullpage}
+\usepackage{booktabs}
+
+
+\usepackage{setspace}
+\setstretch{2}
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+\DeclareMathOperator*{\bw}{\mbox{bw}}
+\DeclareMathOperator*{\df}{\mbox{df}}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\E}{\mathop{\mathbb E}}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+
+
+\title{Local Variable Selection and Parameter Estimation of Spatially Varying Coefficient Regression Models}
+\author{Wesley Brooks}
+\date{}                                           % Activate to display a given date or no date
+
+
+\begin{document}
+
+  \section{Oracle property}
+    Here we show that the estimation accuracy is just as good as if the relevant predictor groups were specified in advance.
+
+    \begin{theorem}
+      If $\sqrt{n} a_n \to 0$ and $\sqrt{n} b_n \to \infty$, then $\sqrt{n h^2 f(\bm{s})} \left( \hat{\bm{\beta}}_{(a)} (\bm{s}_i) - \bm{\beta}_{(a)} (\bm{s}_i) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \bm{\beta}_{uu} (\bm{s}_i) + \bm{\beta}_{vv} (\bm{s}_i) \} \right) \xrightarrow{d} N(0,\Sigma_{(a)} (\bm{s}_i))$.
+    \end{theorem}
+
+    \begin{proof}
+      The proof proceeds by showing that if the tuning parameter $\lambda$ is chosen correctly, then the penalty term vanishes for the relevant predictor groups and becomes infinite for the irrelevant predictor groups.
+
+    \end{proof}
+
+    Since $ \| \tilde{\bm{\beta}} (\bm{s}_i) \|^{\gamma} = O_p\left\{ ( n h^2 )^{-\gamma / 2} \right\} $ and $h = O(n^{-1/6})$, in order for $\sqrt{n} a_n \to 0$ and $\sqrt{n} b_n \to \infty$, we require that $\lambda = O(n^{\alpha})$ where $\alpha \in \left( - \left\{ 1 + \gamma - \frac{\gamma}{6} \right\} /2, -1/2 \right) $.
+
+\end{document}  
