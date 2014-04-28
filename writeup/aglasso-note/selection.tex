@@ -71,7 +71,7 @@
     \section{Selection}
     
     \begin{theorem}\label{theorem:selection}   
-        If $h \sqrt{n} b_n \xrightarrow{p} \infty$ then $P \left\{ \hat{\bm{\beta}}_{(b)} (\bm{s}) = 0 \right\} \to 1$.
+        If $h n^{-1/2} b_n \xrightarrow{p} \infty$ then $P \left\{ \hat{\bm{\beta}}_{(b)} (\bm{s}) = 0 \right\} \to 1$.
     \end{theorem}
 
     \begin{proof}
@@ -83,7 +83,7 @@
         \end{align}
 
         Let $\hat{\bm{\beta}}_p(\bm{s}) \ne 0$. Then (\ref{eq:objective}) is differentiable w.r.t. $\bm{\beta}_p(\bm{s})$ and $Q$ is maximized at
-        \begin{align}\label{eq:selection}
+        \begin{align}
             0 &= \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}_{(-p)}(\bm{s}) \hat{\bm{\beta}}_{(-p)}(\bm{s}) - \bm{Z}_{(p)}(\bm{s}) \hat{\bm{\beta}}_{(p)}(\bm{s}) \right\} - \lambda_p \frac{ \hat{\bm{\beta}}_{(p)}(\bm{s}) }{\| \hat{\bm{\beta}}_{(p)}(\bm{s}) \|} \notag \\
             &= \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \right\} \right] \notag \\
             &\mkern+72mu+ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{(-p),uu}(\bm{s}) + \bm{\beta}_{(-p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(-p)}(\bm{s}) \right] \notag \\
@@ -92,21 +92,28 @@
         \end{align}
         
         So
-        \begin{align}
-            \lambda_p \frac{ \hat{\bm{\beta}}_{(p)}(\bm{s}) }{\| \hat{\bm{\beta}}_{(p)}(\bm{s}) \|} &= \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \right\} \right] \notag \\ 
-            &+ \left\{ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{(-p),uu}(\bm{s}) + \bm{\beta}_{(-p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(-p)}(\bm{s}) \right] \notag \\
-            &+ \left\{ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{(p),uu}(\bm{s}) + \bm{\beta}_{(p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(p)}(\bm{s}) \right]
+        \begin{align}\label{eq:selection}
+            \frac{h}{\sqrt{n}} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)}(\bm{s}) }{\| \hat{\bm{\beta}}_{(p)}(\bm{s}) \|} &= \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \frac{h}{\sqrt{n}} \left[ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \right\} \right] \notag \\ 
+            &+ \left\{ n^{-1}  \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} h \sqrt{n} \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{(-p),uu}(\bm{s}) + \bm{\beta}_{(-p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(-p)}(\bm{s}) \right] \notag \\
+            &+ \left\{ n^{-1} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} h \sqrt{n} \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{(p),uu}(\bm{s}) + \bm{\beta}_{(p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(p)}(\bm{s}) \right]
         \end{align}
 
-        From Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, $n^{-1} \left\{ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} = O_p(1)$ and $n^{-1} \left\{ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(p)}(\bm{s}) \right\} = O_p(1)$. From Theorem 3 of \cite{Sun-Yan-Zhang-Lu-2014}, we have that $h n^{1/2} \left[ \hat{\bm{\beta}}_{(-p)} (\bm{s}) - \bm{\beta}_{(-p)}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{(p),uu}(\bm{s}) + \beta_{(p),vv}(\bm{s}) \right\}\right] = O_p(1)$ and $h n^{1/2} \left[ \hat{\bm{\beta}}_{(p)}(\bm{s}) - \bm{\beta}_{(p)}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{(p),uu}(\bm{s}) + \beta_{(p),vv}(\bm{s}) \right\} \right] = O_p(1)$. So the second and third terms of the sum in (\ref{eq:selection}) are $O_p(1)$. We showed in the proof of \ref{theorem:consistency} that $h  n^{-1/2} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} = O_p(1)$.
+        From Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, $\left\{ n^{-1} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} = O_p(1)$ and $\left\{ n^{-1} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(p)}(\bm{s}) \right\} = O_p(1)$.
+        
+        From Theorem 3 of \cite{Sun-Yan-Zhang-Lu-2014}, we have that $h \sqrt{n} \left[ \hat{\bm{\beta}}_{(-p)} (\bm{s}) - \bm{\beta}_{(-p)}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{(p),uu}(\bm{s}) + \beta_{(p),vv}(\bm{s}) \right\}\right] = O_p(1)$ and $h \sqrt{n} \left[ \hat{\bm{\beta}}_{(p)}(\bm{s}) - \bm{\beta}_{(p)}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{(p),uu}(\bm{s}) + \beta_{(p),vv}(\bm{s}) \right\} \right] = O_p(1)$.
+        
+        So the second and third terms of the sum in (\ref{eq:selection}) are $O_p(1)$.
+        
+        We showed in the proof of \ref{theorem:consistency} that $h  \sqrt{n} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \right\} \right]= O_p(1)$.
 
-        Because the first three terms of the sum in \ref{eq:selection} are $O_p(1)$, for $\hat{\bm{\beta}}_{(p)} (\bm{s})$ to be a solution, we must have that $h n^{1/2} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)} (\bm{s}) }{\| \hat{\bm{\beta}}_{(p)} (\bm{s}) \|} = O_p(1)$.
+        The three terms of the sum to the right of the equals sign in (\ref{eq:selection}) are $O_p(1)$, so for $\hat{\bm{\beta}}_{(p)} (\bm{s})$ to be a solution, we must have that $h n^{-1/2} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)} (\bm{s}) }{\| \hat{\bm{\beta}}_{(p)} (\bm{s}) \|} = O_p(1)$.
 
         But since by assumption $\hat{\bm{\beta}}_{(p)} (\bm{s}_i) \ne 0$, there must be some $k \in \{ 1, \dots, d_p \}$ such that $ | \hat{\beta}_{(p),k} (\bm{s}) | = \max \{ | \hat{\beta}_{(p),k'} (\bm{s}) | : 1 \le k' \le d_p \} $. And for this $k$, we have that $| \hat{\beta}_{(p),k} (\bm{s}) | / \| \hat{\bm{\beta}}_{(p)} (\bm{s}) \| \ge 1 / \sqrt{d_p} > 0$.
 
-        Now since $\sqrt{n} b_n \to \infty$, we have that $h n^{1/2} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)} (\bm{s}) }{\| \hat{\bm{\beta}}_{(p)} (\bm{s}) \|}$ is unbounded and therefore dominates the $O_p(1)$ terms of the sum in (\ref{eq:selection}). So for large enough $n$, $\hat{\bm{\beta}}_{(p)} (\bm{s}) \ne 0$ cannot maximize $Q$.
+        Now since $h n^{-1/2} b_n \to \infty$, we have that $h n^{-1/2} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)} (\bm{s}) }{\| \hat{\bm{\beta}}_{(p)} (\bm{s}) \|} \ge h n^{-1/2} b_n d_p^{-1/2} \to \infty$ and therefore the term to the left of the equals sign dominates the sum to the right of the equals sign in (\ref{eq:selection}). So for large enough $n$, $\hat{\bm{\beta}}_{(p)} (\bm{s}) \ne 0$ cannot maximize $Q$.
+        
+        So $P \left\{ \hat{\bm{\beta}}_{(b)} (\bm{s}) = 0 \right\} \to 1$.
     \end{proof}
-
 
 
     \begin{theorem}\label{theorem:selection2}   
@@ -116,15 +123,15 @@
     \begin{proof}
         Again, the proof is by contradiction.
 
-        Assume that $\hat{\bm{\beta}}_{(k)} = 0$ for some $k<p_0$. For the adaptive group lasso, the covariate group $k$ is shrunk to zero if 
+        Assume that $\hat{\bm{\beta}}_{(k)} = 0$ for some $k \le p_0$. For the adaptive group lasso, the covariate group $k$ is shrunk to zero if 
         \begin{align*}
-            \left\| \left\{ \bm{Z}_{(k)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(k)}^T(\bm{s}) \right\}^{-1} \bm{Z}_{(k)}^T(\bm{s}) \bm{r}_{(k)}(\bm{s}) \right\|^2 \le \frac{h^2 n \lambda^2}{ \| \tilde{\bm{\beta}}_{(k)} \|^2 } 
+            \left\| \left\{ \bm{Z}_{(k)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(k)}^T(\bm{s})  \right\}^{-1} \bm{Z}_{(k)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{r}_{(k)}(\bm{s}) \right\|^2 \le \lambda_k^2
         \end{align*}
 
-        where $\bm{r}_{(k)}(\bm{s})$ is the residual after accounting for all covariate groups except group $k$. That is, $\bm{r}_{(k)}(\bm{s}) = \bm{Y} - \bm{Z}_{(-k)}(\bm{s}) \bm{\beta}_{(-k)}(\bm{s})$. But $\left\| \tilde{\bm{\beta}}_{(k)} \right\| > 0$ implies that $ \left\| \left\{ \bm{Z}_{(k)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(k)}^T(\bm{s}) \right\}^{-1} \bm{Z}_{(k)}^T(\bm{s}) \bm{r}_{(k)}(\bm{s}) \right\|^2 > 0$ and $\frac{h^2 n \lambda^2}{ \| \tilde{\bm{\beta}}_{(k)} \|^2 }  \le h^2 n a_n^2 \to 0$. So
+        where $\bm{r}_{(k)}(\bm{s})$ is the residual after accounting for all covariate groups except group $k$. That is, $\bm{r}_{(k)}(\bm{s}) = \bm{Y} - \bm{Z}_{(-k)}(\bm{s}) \bm{\beta}_{(-k)}(\bm{s})$. But $\left\| \tilde{\bm{\beta}}_{(k)} \right\| > 0$ implies that $ \left\| \left\{ \bm{Z}_{(k)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(k)}^T(\bm{s}) \right\}^{-1} \bm{Z}_{(k)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{r}_{(k)}(\bm{s}) \right\|^2 > 0$ and $\frac{h^2 n \lambda^2}{ \| \tilde{\bm{\beta}}_{(k)} \|^2 }  \le h^2 n a_n^2 \to 0$. So
 
         \begin{equation}
-            P \left\{ \hat{\bm{\beta}}_{(k)} (\bm{s}) \ne 0 \right\} \le P \left[ \left\| \left\{ \bm{Z}_{(k)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(k)}^T(\bm{s}) \right\}^{-1} \bm{Z}_{(k)}^T(\bm{s}) \bm{r}_{(k)}(\bm{s}) \right\|^2 \le h^2 n a_n^2 \right] \to 0.
+            P \left\{ \hat{\bm{\beta}}_{(k)} (\bm{s}) \ne 0 \right\} \le P \left[ \left\| \left\{ \bm{Z}_{(k)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(k)}^T(\bm{s}) \right\}^{-1} \bm{Z}_{(k)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{r}_{(k)}(\bm{s}) \right\|^2 \le h^2 n a_n^2 \right] \to 0.
         \end{equation}
         
     \end{proof}

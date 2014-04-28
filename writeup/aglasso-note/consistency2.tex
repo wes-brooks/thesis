@@ -77,7 +77,7 @@
     \section{Asymptotics}
     \subsection{Asymptotic normality}
     \begin{theorem}\label{theorem:consistency}     
-        If $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h^{-1} n^{-1/2} b_n \xrightarrow{p} \infty$ then $\hat{\bm{\beta}}(\bm{s}) - \bm{\beta}(\bm{s}) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \} = O_p(n^{-1/2} h^{-1} )$
+        If $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$ then $\hat{\bm{\beta}}(\bm{s}) - \bm{\beta}(\bm{s}) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \} = O_p(n^{-1/2} h^{-1} )$
     \end{theorem}
   
     \begin{proof}
@@ -95,9 +95,17 @@
             &+ \sum_{j=1}^p n^{-1/2} \lambda_j n^{1/2} \left\{ \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right\}
         \end{align}
         
+        Note the different limiting behavior of the third term between the cases $j \le p_0$ and $j > p_0$:
+        
+        \paragraph{Case $j \le p_0$}
         If $j \le p_0$ then $n^{-1/2} \lambda_j \to n^{-1/2} \lambda \| \bm{\beta}_j(\bm{s}) \|^{-\gamma}$ and $| \sqrt{n} \left\{ \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right\} | \le h^{-1} \| \bm{u}_j \|$ so $\lim \limits_{n \to \infty} \lambda_j \left( \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right) \le h^{-1} n^{-1/2} \lambda_j  \| \bm{u}_j \| \le h^{-1} n^{-1/2} a_n \| \bm{u}_j \| \to 0$
 
-        If $j > p_0$ then $\lambda_j \left( \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right) = \lambda_j h^{-1} n^{-1/2} \| \bm{u}_j \| $. Now, if $\| \bm{u}_j \| \ne 0$ then $h^{-1} n^{-1/2} \lambda_j \| \bm{u}_j \| \ge h^{-1} n^{-1/2} b_n \| \bm{u}_j \| \to \infty$. On the other hand, if $\| \bm{u}_j \| = 0$ then $h^{-1} n^{-1/2} \lambda_j \| \bm{u}_j \| = 0$.
+        \paragraph{Case $j > p_0$}
+        If $j > p_0$ then $\lambda_j \left( \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right) = \lambda_j h^{-1} n^{-1/2} \| \bm{u}_j \| $. 
+        
+        And note that $h = O(n^{-1/6})$ so that if $h n^{-1/2} b_n \xrightarrow{p} \infty$ then $h^{-1} n^{-1/2} b_n \xrightarrow{p} \infty$.
+        
+         Now, if $\| \bm{u}_j \| \ne 0$ then $h^{-1} n^{-1/2} \lambda_j \| \bm{u}_j \| \ge h^{-1} n^{-1/2} b_n \| \bm{u}_j \| \to \infty$. On the other hand, if $\| \bm{u}_j \| = 0$ then $h^{-1} n^{-1/2} \lambda_j \| \bm{u}_j \| = 0$.
 
         Thus, the limit of $V_4^{(n)} (\bm{u})$ is the same as the limit of $V_4^{*(n)} (\bm{u})$ where
 
