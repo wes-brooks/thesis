@@ -73,7 +73,7 @@
 
 \section{Spatially varying coefficients regression \label{section:SVCR}}
 	\subsection{Model}	
-	Consider $n$ data points, observed at sampling locations $\bm{s}_1, \dots, \bm{s}_n$, which are distributed in a spatial domain $D \subset \mathbb{R}^2$ according to a density $f(\bm{s})$. For $i = 1, \dots, n$, let $y(\bm{s}_i)$ and $\bm{x}(\bm{s}_i)$ denote the univariate response variable, and a $(p+1)$-variate vector of covariates measured at location $\bm{s}_i$, respectively. At each location $\bm{s}_i$, assume that the outcome is related to the covariates by a linear model where the coefficients $\bm{\beta}(\bm{s}_i)$ may be spatially-varying and $\varepsilon(\bm{s}_i)$ is random error at location $\bm{s}_i$. That is,
+	Consider $n$ data points, observed at sampling locations $\bm{s}_i = (s_{i,1} \;\; s_{i,2})^T$ for $i = 1, \dots, \bm{s}_n$, which are distributed in a spatial domain $D \subset \mathbb{R}^2$ according to a density $f(\bm{s})$. For $i = 1, \dots, n$, let $y(\bm{s}_i)$ and $\bm{x}(\bm{s}_i)$ denote the univariate response variable, and a $(p+1)$-variate vector of covariates measured at location $\bm{s}_i$, respectively. At each location $\bm{s}_i$, assume that the outcome is related to the covariates by a linear model where the coefficients $\bm{\beta}(\bm{s}_i)$ may be spatially-varying and $\varepsilon(\bm{s}_i)$ is random error at location $\bm{s}_i$. That is,
 	\begin{align}\label{eq:lm(s)}
 		y(\bm{s}_i) = \bm{x}(\bm{s}_i)' \bm{\beta}(\bm{s}_i) + \varepsilon(\bm{s}_i).
 	\end{align}
@@ -83,113 +83,129 @@
 		\varepsilon(\bm{s}_i) \overset{iid}{\sim} \mathcal{N} \left( 0,\sigma^2 \right).
 	\end{align}
 
-  In the context of nonparametric regression, the boundary-effect bias can be reduced by local polynomial modeling, usually in the form of a locally linear model \citep{Fan-1996}. Here, locally linear coefficients are estimated by augmenting the local design matrix with covariate-by-location interactions in two dimensions as proposed by \cite{Wang:2008b}. The augmented local design matrix at location $\bm{s}_i$ is
-  \begin{align}
+    In the context of nonparametric regression, the boundary-effect bias can be reduced by local polynomial modeling, usually in the form of a locally linear model \citep{Fan-1996}. Here, locally linear coefficients are estimated by augmenting the local design matrix with covariate-by-location interactions in two dimensions as proposed by \cite{Wang:2008b}. The augmented local design matrix at location $\bm{s}_i$ is
+    \begin{align}
 		\bm{Z}(\bm{s}_i) = \left( \bm{X}  \:\: L_i \bm{X} \:\: M_i \bm{X} \right)
 	\end{align} 
   
-	where $\bm{X}$ is the unaugmented matrix of covariates, $L_i = \text{diag}\{s_{i',x} - s_{i,x}\}$ and $M_i = \text{diag}\{s_{i',y} - s_{i,y}\}$ for $i' = 1, \dots, n$.
+	where $\bm{X}$ is the unaugmented matrix of covariates, $L_i = \text{diag}\{s_{i',1} - s_{i,1}\}$ and $M_i = \text{diag}\{s_{i',2} - s_{i,2}\}$ for $i' = 1, \dots, n$.
+
+    Now we have that $Y(\bm{s}_i) = \left\{ \bm{Z}(\bm{s}_i) \right\}^T_i \bm{\zeta}(\bm{s}_i) + \varepsilon(\bm{s}_i)$, where $\left\{ \bm{Z}(\bm{s}_i) \right\}^T_i$ is the $i$th row of the matrix $\bm{Z}(\bm{s}_i)$ as a row vector, and $\bm{\zeta}(\bm{s}_i)$ is the vector of local coefficients at location $\bm{s}_i$, augmented with the local gradients of the coefficient surfaces in the two spatial dimensions, indicated by $\nabla_u$ and $\nabla_v$:
+
+    \begin{equation*}
+        \bm{\zeta}(\bm{s}_i) = \left( \bm{\beta}(\bm{s}_i)^T \;\; \nabla_u \bm{\beta}(\bm{s}_i)^T \;\; \nabla_v \bm{\beta}(\bm{s}_i)^T \right)^T
+    \end{equation*}
   
-  \subsection{Estimation}		
-  The total log-likelihood of the observed data is the sum of the log-likelihood of each individual observation:
-  \begin{align} \label{eq:coefficients}
-  	\ell \left\{ \bm{\beta} \right\} = -(1/2) \sum_{i'=1}^n \left[ \log{ \sigma^2}  + \sigma^{-2}  \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \bm{\beta}(\bm{s}_i) \right\}^2 \right].
+    \subsection{Estimation}		
+    The total log-likelihood of the observed data is the sum of the log-likelihood of each individual observation:
+    \begin{align} \label{eq:coefficients}
+        \ell \left\{ \bm{\zeta} \right\} = -(1/2) \sum_{i=1}^n \left[ \log{ \sigma^2}  + \sigma^{-2}  \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \bm{\zeta}(\bm{s}_i) \right\}^2 \right].
 	\end{align}
 	
-	Since there are a total of $n \times 3(p+1)$ free parameters for $n$ observations, the model is not identifiable and it is not possible to directly maximize the total likelihood.
+	Since there are a total of $n \times 3(p+1)$ parameters for $n$ observations, the model is not identifiable and it is not possible to directly maximize the total likelihood.
   
-    The values of the local coefficients $\bm{\beta}(\bm{s})$ are estimated at location $\bm{s}$ by the weighted likelihood
+    The values of the local coefficients $\bm{\zeta}(\bm{s})$ are estimated at location $\bm{s}$ by the weighted likelihood
     \begin{align}\label{eq:local-likelihood}
-		\mathcal{L} \left\{ \bm{\beta}(\bm{s}) \right\} &= \prod_{i'=1}^n \left\{ \left(2 \pi \sigma^2  \right)^{-1/2}  \exp \left[ -(1/2) \sigma^{-2}  \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \bm{\beta}(\bm{s}) \right\}^2 \right] \right\} ^ {K_h( \| \bm{s} - \bm{s}_{i'} \| )},
+		\mathcal{L} \left\{ \bm{\zeta}(\bm{s}) \right\} &= \prod_{i=1}^n \left\{ \left(2 \pi \sigma^2  \right)^{-1/2}  \exp \left[ -(1/2) \sigma^{-2}  \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \bm{\zeta}(\bm{s}) \right\}^2 \right] \right\} ^ {K_h( \| \bm{s} - \bm{s}_i \| )},
 	\end{align}
   
     where the weights are calculated by a kernel function $K_h(\cdot)$ such as the Epanechnikov kernel:
     \begin{align}\label{eq:epanechnikov}
         K_h(\delta_{ii'}) &= h^{-2} K\left( h^{-1} \delta_{ii'} \right) \notag \\
-        K(x) &= \begin{cases} (3/4) (1-x^2) &\mbox{ if } \delta_{ii'} < h, \\ 0 &\mbox{ if } \delta_{ii'} \geq h. \end{cases}
+        K(x) &= \begin{cases} (3/4) (1-x^2) &\mbox{ if } x < 1, \\ 0 &\mbox{ if } x \geq 1. \end{cases}
 	\end{align}
   
-  Thus, the local log-likelihood function is, up to an additive constant: 
-  \begin{align}\label{eq:local-log-likelihood}
-		\ell \left\{ \bm{\beta}(\bm{s}) \right\} &= -(1/2) \sum_{i'=1}^n K_h( \| \bm{s} - \bm{s}_{i'} \| ) \left[ \log{\sigma^2}  + \sigma^{-2}  \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \bm{\beta}(\bm{s}) \right\}^2 \right].
-  \end{align}
+    Thus, the local log-likelihood function is, up to an additive constant: 
+    \begin{align}\label{eq:local-log-likelihood}
+		\ell \left\{ \bm{\zeta}(\bm{s}) \right\} &= -(1/2) \sum_{i=1}^n K_h( \| \bm{s} - \bm{s}_i \| ) \left[ \log{\sigma^2}  + \sigma^{-2}  \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \bm{\zeta}(\bm{s}) \right\}^2 \right].
+    \end{align}
   
-  This local likelihood can be maximized by weighted least squares
-  \begin{align}\label{eq:beta-hat}
-    \hat{\bm{\beta}}(\bm{s}) = \left\{ \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Y}.
-  \end{align}
-	
+    Letting $\bm{W}(\bm{s})$ is a diagonal weight matrix where $W_{ii}(\bm{s}) = K_h( \| \bm{s} - \bm{s}_i \| )$, the local likelihood can be maximized by weighted least squares
+    \begin{align}\label{eq:beta-hat}
+        \hat{\bm{\zeta}}(\bm{s}) = \left\{ \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Y}
+    \end{align}
+
+    
   From (\ref{eq:local-log-likelihood}), the maximum local likelihood estimate $\hat{\sigma}_i^2$ is:	 
   \begin{align}
-    \hat{\sigma}^2(\bm{s}) = \left\{ \sum \limits_{i'=1}^{n} K_h( \| \bm{s} - \bm{s}_{i'} \| ) \right\}^{-1} \sum \limits_{i'=1}^n K_h( \| \bm{s} - \bm{s}_{i'} \| ) \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \hat{\bm{\beta}}(\bm{s}) \right\}^2
+    \hat{\sigma}^2(\bm{s}) = \left\{ \sum \limits_{i=1}^{n} K_h( \| \bm{s} - \bm{s}_i \| ) \right\}^{-1} \sum \limits_{i=1}^n K_h( \| \bm{s} - \bm{s}_i \| ) \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \hat{\bm{\zeta}}(\bm{s}) \right\}^2
   \end{align}
 	 
 
 \section{Local variable selection and parameter estimation \label{section:model-selection}}
 	\subsection{Local variable selection}
-	Local adaptive grouped regularization (LAGR) is explored as a penalty function for local variable selection in SVCR models. The proposed local variable selection with LAGR penalty is an $\ell_1$ regularization method for variable selection in regression models \citep{Wang-Leng-2008,Zou:2006}. The adaptive group lasso selects groups of covariates for inclusion or exclusion in the model. For an SVCR model, each variable group is a covariate and its interactions on location.
+	Local adaptive grouped regularization (LAGR) is explored as a method of local variable selection and coefficient estimation in SVCR models. The proposed LAGR penalty is an $\ell_1$ penalty akin to the adaptive group lasso \citep{Wang-Leng-2008,Zou:2006}.
+
+    The adaptive group lasso selects groups of covariates for inclusion or exclusion in the model. Each group in a LAGR model consists of one covariate and its interactions on the two dimensions of spatial location. That is, $\bm{\zeta}_j(\bm{s}) = \left( \beta_j(\bm{s}) \;\;\; \nabla_u \beta_j(\bm{s}) \;\;\; \nabla_v \beta_j(\bm{s}) \right)^T$ for $j=1, \dots, p$.
 	
 	\subsubsection{Local variable selection and coefficient estimation with the adaptive group lasso}
 	The objective function for the LAGR at location $\bm{s}$ consists of the local log-likelihood and an additive penalty:% that is the weighted $\ell_1$-norm of the coefficients, defined to be
 	\begin{align}\label{eq:adaptive-lasso-WLS}
-		\mathcal{S} \{ \bm{\beta}(\bm{s}) \} &= -2\ell_i\left\{ \bm{\beta}( \bm{s} ) \right\} + \mathcal{J}_1\{ \bm{\beta}(\bm{s}) \} \notag \\
-		&= \sum_{i'=1}^n K_h( \| \bm{s} - \bm{s}_{i'} \| )  \left[ \log{\sigma^2}  + \sigma^{-2}  \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \bm{\beta}(\bm{s}_i) \right\}^2 \right] +  \lambda_n (\bm{s}) \sum_{j=1}^p \| \beta_j(\bm{s}) \| \| \tilde{\beta}_j(\bm{s}) \|^{-\gamma}
+		\mathcal{S} \{ \bm{\zeta}(\bm{s}) \} &= -2 \ell \left\{ \bm{\zeta}( \bm{s} ) \right\} + \mathcal{J}\{ \bm{\zeta}(\bm{s}) \} \notag \\
+		&= \sum_{i=1}^n K_h( \| \bm{s} - \bm{s}_i \| )  \left[ \log{\sigma^2}  + \sigma^{-2}  \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \bm{\zeta}(\bm{s}) \right\}^2 \right] +  \sum_{j=1}^p \phi_j(\bm{s}) \| \zeta_j(\bm{s}) \| 
 	\end{align}
 	
-	where $\sum_{i'=1}^n K_h( \| \bm{s} - \bm{s}_i \| ) \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \bm{\beta}(\bm{s}) \right\}^2$ is the weighted sum of squares minimized by traditional GWR, and $\mathcal{J}_1\{ \bm{\beta}(\bm{s}) \} = \lambda_n (\bm{s}) \sum_{j=1}^p \| \beta_j(\bm{s}) \| \| \tilde{\beta}_j(\bm{s}) \|^{-\gamma}$ is the LAGR penalty. With the vector of unpenalized local coefficients $\tilde{\bm{\beta}}(\bm{s})$, the LAGR penalty for the $j$th group of coefficients $\beta_j(\bm{s})$ at location $\bm{s}$ is $\lambda_n (\bm{s}) \| \tilde{\beta}_j(\bm{s}) \|^{-\gamma}$, where $\lambda_n (\bm{s}) > 0$ is a the local tuning parameter applied to all coefficients at location $\bm{s}$ and $\tilde{\bm{\beta}}(\bm{s}) = \left\{ \tilde{\beta}_1 (\bm{s}), \dots, \tilde{\beta}_p (\bm{s}) \right\}'$ is the vector of adaptive weights at location $\bm{s}$.
+	where $\sum_{i'=1}^n K_h( \| \bm{s} - \bm{s}_i \| ) \left\{ y(\bm{s}_{i'}) - \bm{z}'(\bm{s}_{i'}) \bm{\zeta}(\bm{s}) \right\}^2$ is the weighted sum of squares. and $\mathcal{J}\{ \bm{\zeta}(\bm{s}) \} = \lambda_n (\bm{s}) \sum_{j=1}^p \phi_j(\bm{s}) \| \zeta_j(\bm{s}) \|$ is the LAGR penalty. With the vector of unpenalized local coefficients $\tilde{\bm{\zeta}}_j (\bm{s})$, the LAGR penalty for the $j$th group of coefficients $\bm{\zeta}_j(\bm{s})$ at location $\bm{s}$ is $\phi_j(\bm{s}) = \lambda_n (\bm{s}) \| \tilde{\bm{\zeta}}_j(\bm{s}) \|^{-\gamma}$, where $\lambda_n (\bm{s}) > 0$ is a the local tuning parameter applied to all coefficients at location $\bm{s}$ and $\bm{\phi} (\bm{s}) = \left\{ \phi_1 (\bm{s}), \dots, \phi_p (\bm{s}) \right\}'$ is the vector of adaptive weights at location $\bm{s}$.
 
 
     \section{Asymptotic properties}
-        Consider a local model at location $\bm{s}$ where there are $p_0 < p$ covariates with nonzero local regression coefficients. Without loss of generality, assume these are covariates $1, \dots, p_0$.
+        Consider the local model at location $\bm{s}$ where there are $p_0 < p$ covariates with nonzero local regression coefficients. Without loss of generality, assume these are covariates $1, \dots, p_0$.
         
-        Let $a_n = \max \{ \lambda_n(\bm{s}) \| \tilde{\beta}_j(\bm{s}) \|^{-\gamma}, j \le p_0 \}$ be the largest penalty applied to a covariate group whose true coefficient norm is nonzero, and $b_n = \min \{ \lambda_n(\bm{s}) \| \tilde{\beta}_j(\bm{s}) \|^{-\gamma}, j > p_0 \}$ be the smallest penalty applied to a covariate group whose true coefficient norm is zero.
+        Let $a_n = \max \{ \phi_j(\bm{s}), j \le p_0 \}$ be the largest penalty applied to a covariate group whose true coefficient norm is nonzero, and $b_n = \min \{ \phi_j(\bm{s}), j > p_0 \}$ be the smallest penalty applied to a covariate group whose true coefficient norm is zero.
+        
+        Let $\bm{Z}_k(\bm{s})$ and $\bm{Z}_{-k}(\bm{s})$ be the design matrix for covariate group $k$, and for all the data except covariate group $k$, respectively. Similarly, let $\bm{\zeta}_k(\bm{s})$ be the coefficients for covariate group $k$ and $\bm{\zeta}_{-k}(\bm{s})$ be the coefficients for all covariate groups except $k$.
 
+        Finally, define $Q$ to be the penalized squared error loss:
 
-    \subsection{Asymptotic normality}
+        \begin{equation*}
+            Q \left\{ \bm{\zeta} (\bm{s}) \right\} = (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta} (\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta} (\bm{s}) \right\}^T + \sum_{j=1}^p \phi_j(\bm{s}) \| \bm{\zeta}(\bm{s}) \|
+        \end{equation*}
+
+        \subsection{Asymptotic normality}
     
-        \begin{theorem}\label{theorem:consistency} \label{theorem:normality}
-            If $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$ then $\hat{\bm{\beta}}(\bm{s}) - \bm{\beta}(\bm{s}) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \} = O_p(n^{-1/2} h^{-1} )$
+        \begin{theorem} \label{theorem:normality} \setstretch{2}
+            If $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$ then $h \sqrt{n} \left[ \hat{\bm{\zeta}}(\bm{s}) - \bm{\zeta}(\bm{s}) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \nabla_{uu}^2 \bm{\zeta} (\bm{s}) + \nabla_{vv}^2 \bm{\zeta}(\bm{s}) \} \right] \xrightarrow{d} N(0, \cdot)$
         \end{theorem}
   
-        \begin{proof}
-            The idea of the proof is to show that the objective being minimized achieves a unique minimum, which must be $\hat{\bm{\beta}}(\bm{s})$.
+        \begin{proof} \setstretch{2}
+            The idea of the proof is to show that the objective being minimized achieves a unique minimum, which must be $\hat{\bm{\zeta}}(\bm{s})$.
     
             The order of convergence is $h n^{1/2}$ where $h = O(n^{-1/6})$.
     
             We find the limiting distribution of the estimator:
             \begin{align}\label{eq:consistency}
-                \mkern-36mu V_4^{(n)}(\bm{u}) &= Q \left\{ \bm{\beta} (\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} - Q \left\{ \bm{\beta}(\bm{s}) \right\} \notag \\
-                &\mkern-36mu= (1/2) \left[ \bm{Y} - \bm{Z}(\bm{s}) \left\{ \bm{\beta}(\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} \right]^T \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \left\{ \bm{\beta}(\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} \right] \notag \\
-                &+ \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| \notag \\
-                &- (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} - \sum_{j=1}^p \lambda_j \| \bm{\beta}(\bm{s}) \| \notag \\ 
-                &\mkern-36mu= (1/2) \bm{u}^T \left\{ h^{-2} n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\} \bm{u} - \bm{u}^T \left[ h^{-1} n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] \notag \\
-                &+ \sum_{j=1}^p n^{-1/2} \lambda_j n^{1/2} \left\{ \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right\}
+                \mkern-36mu V_4^{(n)}(\bm{u}) &= Q \left\{ \bm{\zeta} (\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} - Q \left\{ \bm{\zeta}(\bm{s}) \right\} \notag \\
+                &\mkern-36mu= (1/2) \left[ \bm{Y} - \bm{Z}(\bm{s}) \left\{ \bm{\zeta}(\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} \right]^T \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \left\{ \bm{\zeta}(\bm{s}) + h^{-1} n^{-1/2} \bm{u} \right\} \right] \notag \\
+                &+ \sum_{j=1}^p \lambda_j \| \bm{\zeta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| \notag \\
+                &- (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta}(\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta}(\bm{s}) \right\} - \sum_{j=1}^p \lambda_j \| \bm{\zeta}_j(\bm{s}) \| \notag \\ 
+                &\mkern-36mu= (1/2) \bm{u}^T \left\{ h^{-2} n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\} \bm{u} - \bm{u}^T \left[ h^{-1} n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta}(\bm{s}) \right\} \right] \notag \\
+                &+ \sum_{j=1}^p n^{-1/2} \lambda_j n^{1/2} \left\{ \|\bm{\zeta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\zeta}_j(\bm{s}) \| \right\}
             \end{align}
         
             Note the different limiting behavior of the third term between the cases $j \le p_0$ and $j > p_0$:
         
             \paragraph{Case $j \le p_0$}
-            If $j \le p_0$ then $n^{-1/2} \lambda_j \to n^{-1/2} \lambda \| \bm{\beta}_j(\bm{s}) \|^{-\gamma}$ and $| \sqrt{n} \left\{ \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right\} | \le h^{-1} \| \bm{u}_j \|$ so $\lim \limits_{n \to \infty} \lambda_j \left( \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right) \le h^{-1} n^{-1/2} \lambda_j  \| \bm{u}_j \| \le h^{-1} n^{-1/2} a_n \| \bm{u}_j \| \to 0$
+            If $j \le p_0$ then $n^{-1/2} \phi_j(\bm{s}) \to n^{-1/2} \lambda_n(\bm{s}) \| \bm{\zeta}_j(\bm{s}) \|^{-\gamma}$ and $| \sqrt{n} \left\{ \|\bm{\zeta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\zeta}_j(\bm{s}) \| \right\} | \le h^{-1} \| \bm{u}_j \|$ so $\lim \limits_{n \to \infty} \phi_j(\bm{s}) \left( \|\bm{\zeta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\zeta}_j(\bm{s}) \| \right) \le h^{-1} n^{-1/2} \phi_j(\bm{s})  \| \bm{u}_j \| \le h^{-1} n^{-1/2} a_n \| \bm{u}_j \| \to 0$
 
             \paragraph{Case $j > p_0$}
-            If $j > p_0$ then $\lambda_j \left( \|\bm{\beta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\beta}_j(\bm{s}) \| \right) = \lambda_j h^{-1} n^{-1/2} \| \bm{u}_j \| $. 
+            If $j > p_0$ then $\phi_j(\bm{s}) \left( \|\bm{\zeta}_j(\bm{s}) + h^{-1} n^{-1/2} \bm{u}_j \| - \| \bm{\zeta}_j(\bm{s}) \| \right) = \phi_j(\bm{s}) h^{-1} n^{-1/2} \| \bm{u}_j \| $. 
         
             And note that $h = O(n^{-1/6})$ so that if $h n^{-1/2} b_n \xrightarrow{p} \infty$ then $h^{-1} n^{-1/2} b_n \xrightarrow{p} \infty$.
         
-            Now, if $\| \bm{u}_j \| \ne 0$ then $h^{-1} n^{-1/2} \lambda_j \| \bm{u}_j \| \ge h^{-1} n^{-1/2} b_n \| \bm{u}_j \| \to \infty$. On the other hand, if $\| \bm{u}_j \| = 0$ then $h^{-1} n^{-1/2} \lambda_j \| \bm{u}_j \| = 0$.
+            Now, if $\| \bm{u}_j \| \ne 0$ then $h^{-1} n^{-1/2} \phi_j(\bm{s}) \| \bm{u}_j \| \ge h^{-1} n^{-1/2} b_n \| \bm{u}_j \| \to \infty$. On the other hand, if $\| \bm{u}_j \| = 0$ then $h^{-1} n^{-1/2} \phi_j(\bm{s}) \| \bm{u}_j \| = 0$.
 
             Thus, the limit of $V_4^{(n)} (\bm{u})$ is the same as the limit of $V_4^{*(n)} (\bm{u})$ where
 
             \begin{equation*}
-                \mkern-72muV_4^{*(n)} (\bm{u}) = \begin{cases}(1/2) \bm{u}^T \left\{ h^{-2} n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\} \bm{u} - \bm{u}^T \left[ h^{-1} n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] &\mbox{ if } \| \bm{u}_j \| = 0 \; \forall j > p_0 \\ \infty &\mbox{ otherwise } \end{cases}
+                \mkern-72muV_4^{*(n)} (\bm{u}) = \begin{cases}(1/2) \bm{u}^T \left\{ h^{-2} n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\} \bm{u} - \bm{u}^T \left[ h^{-1} n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta}(\bm{s}) \right\} \right] &\mbox{ if } \| \bm{u}_j \| = 0 \; \forall j > p_0 \\ \infty &\mbox{ otherwise } \end{cases}
             \end{equation*}
 
 
             And $V_4^{*(n)}(\bm{u})$ is convex and is minimized at $\hat{\bm{u}}^{(n)}$:
 
             \begin{align} \label{eq:limit}
-                0 &=  \left\{ h^{-2} n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\} \hat{\bm{u}}^{(n)} - \left[ h^{-1} n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] \notag \\
-                \therefore \hat{\bm{u}}^{(n)} &= \left\{ n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\}^{-1} \left[ h n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) \right\} \right] \notag \\
+                0 &=  \left\{ h^{-2} n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\} \hat{\bm{u}}^{(n)} - \left[ h^{-1} n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta}(\bm{s}) \right\} \right] \notag \\
+                \therefore \hat{\bm{u}}^{(n)} &= \left\{ n^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\}^{-1} \left[ h n^{-1/2} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta}(\bm{s}) \right\} \right] \notag \\
             \end{align}
 
             By the epiconvergence results of \cite{Geyer-1994} and \cite{Knight-Fu-2000}, the minimizer of the limiting function is the limit of the minimizers $\hat{\bm{u}}^{(n)}$. And since, by Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, 
@@ -203,58 +219,58 @@
 
     \subsection{Selection}
     
-        \begin{theorem} \label{theorem:selection}   
-            If $h n^{-1/2} b_n \xrightarrow{p} \infty$ then $P \left\{ \hat{\bm{\beta}}_{(b)} (\bm{s}) = 0 \right\} \to 1$.
+        \begin{theorem} \label{theorem:selection} \setstretch{2} 
+            If $h^{-1} n^{-1/2} a_n \xrightarrow{p} \infty$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$ then $P \left\{ \hat{\bm{\zeta}}_{(a)} (\bm{s}) = 0 \right\} \to 0$ and $P \left\{ \hat{\bm{\zeta}}_{(b)} (\bm{s}) = 0 \right\} \to 1$.
         \end{theorem}
 
-        \begin{proof}
-            We showed in Theorem \ref{theorem:normality} that the 
+        \begin{proof} \setstretch{2}
+            We showed in Theorem \ref{theorem:normality} that $\hat{\bm{\zeta}}_j (\bm{s}) \xrightarrow{p} \bm{\zeta}_j (\bm{s}) + \frac{\kappa_2 h^2}{2 \kappa_0} \{ \nabla_{uu}^2 \bm{\zeta}_j (\bm{s}) + \nabla_{vv}^2 \bm{\zeta}_j (\bm{s}) \}$, so to complete the proof of selection consistency, it only remains to show that $P \left\{ \hat{\bm{\zeta}}_{(b)} (\bm{s}) = 0 \right\} \to 1$.
             
-            The proof is by contradiction.
+            The proof is by contradiction. 
       
-            Recall that the objective to be minimized by $\hat{\bm{\beta}}_{(p)} (\bm{s})$ is
+            Recall that the objective to be minimized by $\hat{\bm{\zeta}}_p (\bm{s})$ is
             \begin{align}\label{eq:objective}
-                Q \left\{ \hat{\bm{\beta}} (\bm{s}) \right\} = (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \hat{\bm{\beta}} (\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \hat{\bm{\beta}} (\bm{s}) \right\} + \sum_{j=1}^p \lambda_j \| \hat{\bm{\beta}}_p (\bm{s}) \|
+                Q \left\{ \bm{\zeta} (\bm{s}) \right\} = (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta} (\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta} (\bm{s}) \right\} + \sum_{j=1}^p \phi_j(\bm{s}) \| \bm{\zeta}_j (\bm{s}) \|
             \end{align}
 
-            Let $\hat{\bm{\beta}}_p(\bm{s}) \ne 0$. Then (\ref{eq:objective}) is differentiable w.r.t. $\bm{\beta}_p(\bm{s})$ and $Q$ is maximized at
+            Assume $\hat{\bm{\zeta}}_p(\bm{s}) \ne 0$. Then (\ref{eq:objective}) is differentiable w.r.t. $\bm{\zeta}_p(\bm{s})$ and $Q$ is maximized at
             \begin{align}
-                0 &= \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}_{(-p)}(\bm{s}) \hat{\bm{\beta}}_{(-p)}(\bm{s}) - \bm{Z}_{(p)}(\bm{s}) \hat{\bm{\beta}}_{(p)}(\bm{s}) \right\} - \lambda_p \frac{ \hat{\bm{\beta}}_{(p)}(\bm{s}) }{\| \hat{\bm{\beta}}_{(p)}(\bm{s}) \|} \notag \\
-                &= \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \right\} \right] \notag \\
-                &\mkern+72mu+ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{(-p),uu}(\bm{s}) + \bm{\beta}_{(-p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(-p)}(\bm{s}) \right] \notag \\
-                &\mkern+72mu+ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(p)}(\bm{s}) \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{(p),uu}(\bm{s}) + \bm{\beta}_{(p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(p)}(\bm{s}) \right]  \notag \\
-                &\mkern+72mu- \lambda_p \frac{ \hat{\bm{\beta}}_{(p)}(\bm{s}) }{\| \hat{\bm{\beta}}_{(p)}(\bm{s}) \|} \notag \\
+                0 &= \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}_{(-p)}(\bm{s}) \hat{\bm{\zeta}}_{(-p)}(\bm{s}) - \bm{Z}_{(p)}(\bm{s}) \hat{\bm{\zeta}}_{(p)}(\bm{s}) \right\} - \lambda_p \frac{ \hat{\bm{\zeta}}_{(p)}(\bm{s}) }{\| \hat{\bm{\zeta}}_{(p)}(\bm{s}) \|} \notag \\
+                &= \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\zeta}_{uu}(\bm{s}) + \bm{\zeta}_{vv}(\bm{s}) \right\} \right] \notag \\
+                &\mkern+72mu+ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \left[ \bm{\zeta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\zeta}_{(-p),uu}(\bm{s}) + \bm{\zeta}_{(-p),vv}(\bm{s}) \right\} - \hat{\bm{\zeta}}_{(-p)}(\bm{s}) \right] \notag \\
+                &\mkern+72mu+ \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(p)}(\bm{s}) \left[ \bm{\zeta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\zeta}_{(p),uu}(\bm{s}) + \bm{\zeta}_{(p),vv}(\bm{s}) \right\} - \hat{\bm{\zeta}}_{(p)}(\bm{s}) \right]  \notag \\
+                &\mkern+72mu- \lambda_p \frac{ \hat{\bm{\zeta}}_{(p)}(\bm{s}) }{\| \hat{\bm{\zeta}}_{(p)}(\bm{s}) \|} \notag \\
             \end{align}
         
             So
             \begin{align}\label{eq:selection}
-                \frac{h}{\sqrt{n}} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)}(\bm{s}) }{\| \hat{\bm{\beta}}_{(p)}(\bm{s}) \|} &= \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \frac{h}{\sqrt{n}} \left[ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \right\} \right] \notag \\ 
-                &+ \left\{ n^{-1}  \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} h \sqrt{n} \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{(-p),uu}(\bm{s}) + \bm{\beta}_{(-p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(-p)}(\bm{s}) \right] \notag \\
-                &+ \left\{ n^{-1} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} h \sqrt{n} \left[ \bm{\beta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{(p),uu}(\bm{s}) + \bm{\beta}_{(p),vv}(\bm{s}) \right\} - \hat{\bm{\beta}}_{(p)}(\bm{s}) \right]
+                \frac{h}{\sqrt{n}} \lambda_p \frac{ \hat{\bm{\zeta}}_{(p)}(\bm{s}) }{\| \hat{\bm{\zeta}}_{(p)}(\bm{s}) \|} &= \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \frac{h}{\sqrt{n}} \left[ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\zeta}_{uu}(\bm{s}) + \bm{\zeta}_{vv}(\bm{s}) \right\} \right] \notag \\ 
+                &+ \left\{ n^{-1}  \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} h \sqrt{n} \left[ \bm{\zeta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\zeta}_{(-p),uu}(\bm{s}) + \bm{\zeta}_{(-p),vv}(\bm{s}) \right\} - \hat{\bm{\zeta}}_{(-p)}(\bm{s}) \right] \notag \\
+                &+ \left\{ n^{-1} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} h \sqrt{n} \left[ \bm{\zeta}_{(-p)}(\bm{s}) + \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\zeta}_{(p),uu}(\bm{s}) + \bm{\zeta}_{(p),vv}(\bm{s}) \right\} - \hat{\bm{\zeta}}_{(p)}(\bm{s}) \right]
             \end{align}
 
             From Lemma 2 of \cite{Sun-Yan-Zhang-Lu-2014}, $\left\{ n^{-1} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(-p)}(\bm{s}) \right\} = O_p(1)$ and $\left\{ n^{-1} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}_{(p)}(\bm{s}) \right\} = O_p(1)$.
         
-            From Theorem 3 of \cite{Sun-Yan-Zhang-Lu-2014}, we have that $h \sqrt{n} \left[ \hat{\bm{\beta}}_{(-p)} (\bm{s}) - \bm{\beta}_{(-p)}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{(p),uu}(\bm{s}) + \beta_{(p),vv}(\bm{s}) \right\}\right] = O_p(1)$ and $h \sqrt{n} \left[ \hat{\bm{\beta}}_{(p)}(\bm{s}) - \bm{\beta}_{(p)}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \beta_{(p),uu}(\bm{s}) + \beta_{(p),vv}(\bm{s}) \right\} \right] = O_p(1)$.
+            From Theorem 3 of \cite{Sun-Yan-Zhang-Lu-2014}, we have that $h \sqrt{n} \left[ \hat{\bm{\zeta}}_{(-p)} (\bm{s}) - \bm{\zeta}_{(-p)}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \zeta_{(p),uu}(\bm{s}) + \zeta_{(p),vv}(\bm{s}) \right\}\right] = O_p(1)$ and $h \sqrt{n} \left[ \hat{\bm{\zeta}}_{(p)}(\bm{s}) - \bm{\zeta}_{(p)}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \zeta_{(p),uu}(\bm{s}) + \zeta_{(p),vv}(\bm{s}) \right\} \right] = O_p(1)$.
         
             So the second and third terms of the sum in (\ref{eq:selection}) are $O_p(1)$.
         
-            We showed in the proof of \ref{theorem:consistency} that $h  \sqrt{n} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \bm{\beta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\beta}_{uu}(\bm{s}) + \bm{\beta}_{vv}(\bm{s}) \right\} \right]= O_p(1)$.
+            We showed in the proof of \ref{theorem:consistency} that $h  \sqrt{n} \bm{Z}_{(p)}^T(\bm{s}) \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \bm{\zeta}_{uu}(\bm{s}) + \bm{\zeta}_{vv}(\bm{s}) \right\} \right]= O_p(1)$.
 
-            The three terms of the sum to the right of the equals sign in (\ref{eq:selection}) are $O_p(1)$, so for $\hat{\bm{\beta}}_{(p)} (\bm{s})$ to be a solution, we must have that $h n^{-1/2} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)} (\bm{s}) }{\| \hat{\bm{\beta}}_{(p)} (\bm{s}) \|} = O_p(1)$.
+            The three terms of the sum to the right of the equals sign in (\ref{eq:selection}) are $O_p(1)$, so for $\hat{\bm{\zeta}}_{(p)} (\bm{s})$ to be a solution, we must have that $h n^{-1/2} \lambda_p \frac{ \hat{\bm{\zeta}}_{(p)} (\bm{s}) }{\| \hat{\bm{\zeta}}_{(p)} (\bm{s}) \|} = O_p(1)$.
 
-            But since by assumption $\hat{\bm{\beta}}_{(p)} (\bm{s}_i) \ne 0$, there must be some $k \in \{ 1, \dots, d_p \}$ such that $ | \hat{\beta}_{(p),k} (\bm{s}) | = \max \{ | \hat{\beta}_{(p),k'} (\bm{s}) | : 1 \le k' \le d_p \} $. And for this $k$, we have that $| \hat{\beta}_{(p),k} (\bm{s}) | / \| \hat{\bm{\beta}}_{(p)} (\bm{s}) \| \ge 1 / \sqrt{d_p} > 0$.
+            But since by assumption $\hat{\bm{\zeta}}_{(p)} (\bm{s}_i) \ne 0$, there must be some $k \in \{ 1, \dots, d_p \}$ such that $ | \hat{\zeta}_{(p),k} (\bm{s}) | = \max \{ | \hat{\zeta}_{(p),k'} (\bm{s}) | : 1 \le k' \le d_p \} $. And for this $k$, we have that $| \hat{\zeta}_{(p),k} (\bm{s}) | / \| \hat{\bm{\zeta}}_{(p)} (\bm{s}) \| \ge 1 / \sqrt{d_p} > 0$.
 
-            Now since $h n^{-1/2} b_n \to \infty$, we have that $h n^{-1/2} \lambda_p \frac{ \hat{\bm{\beta}}_{(p)} (\bm{s}) }{\| \hat{\bm{\beta}}_{(p)} (\bm{s}) \|} \ge h n^{-1/2} b_n d_p^{-1/2} \to \infty$ and therefore the term to the left of the equals sign dominates the sum to the right of the equals sign in (\ref{eq:selection}). So for large enough $n$, $\hat{\bm{\beta}}_{(p)} (\bm{s}) \ne 0$ cannot maximize $Q$.
+            Now since $h n^{-1/2} b_n \to \infty$, we have that $h n^{-1/2} \lambda_p \frac{ \hat{\bm{\zeta}}_{(p)} (\bm{s}) }{\| \hat{\bm{\zeta}}_{(p)} (\bm{s}) \|} \ge h n^{-1/2} b_n d_p^{-1/2} \to \infty$ and therefore the term to the left of the equals sign dominates the sum to the right of the equals sign in (\ref{eq:selection}). So for large enough $n$, $\hat{\bm{\zeta}}_{(p)} (\bm{s}) \ne 0$ cannot maximize $Q$.
         
-            So $P \left\{ \hat{\bm{\beta}}_{(b)} (\bm{s}) = 0 \right\} \to 1$.
+            So $P \left\{ \hat{\bm{\zeta}}_{(b)} (\bm{s}) = 0 \right\} \to 1$.
         \end{proof}
 
 
     \subsection{A note on rates}
-        To prove the oracle properties of LAGR, we assumed that $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$. Therefore, $h^{-1} n^{-1/2} \lambda_n  \to 0$ for $j \le p_0$ and $h n^{-1/2} \lambda_n \| \bm{\beta}_j(\bm{s}) \|^{-\gamma} \to \infty$ for $j > p_0$.
+        To prove the oracle properties of LAGR, we assumed that $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$. Therefore, $h^{-1} n^{-1/2} \lambda_n(\bm{s})  \to 0$ for $j \le p_0$ and $h n^{-1/2} \lambda_n(\bm{s}) \| \bm{\zeta}_j(\bm{s}) \|^{-\gamma} \to \infty$ for $j > p_0$.
         
-        We require a $\lambda_n$ that can satisfy both assumptions. Suppose $\lambda_n = n^{\alpha}$, and recall that $h = O(n^{-1/6})$. Then $h^{-1} n^{-1/2} \lambda_n = O(n^{-1/3 + \alpha})$ and $h n^{-1/2} \lambda_n (h \sqrt{n})^{\gamma} = O(n^{-2/3 + \alpha + \gamma/3})$.
+        We require a $\lambda_n(\bm{s})$ that can satisfy both assumptions. Suppose $\lambda_n(\bm{s}) = n^{\alpha}$, and recall that $h = O(n^{-1/6})$. Then $h^{-1} n^{-1/2} \lambda_n(\bm{s}) = O(n^{-1/3 + \alpha})$ and $h n^{-1/2} \lambda_n(\bm{s}) (h \sqrt{n})^{\gamma} = O(n^{-2/3 + \alpha + \gamma/3})$.
         
         So $ (2 - \gamma)/3 < \alpha < 1/3 $, which can only be satisfied for $\gamma > 1$.
 
