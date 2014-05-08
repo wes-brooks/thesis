@@ -178,19 +178,18 @@
         \subsection{Results}
         \paragraph{Asymptotic normality}
         \begin{theorem} \label{theorem:normality} \setstretch{2}
-            If $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$ then \[h \sqrt{n} \left[ \hat{\bm{\zeta}}(\bm{s}) - \bm{\zeta}(\bm{s}) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \nabla_{uu}^2 \bm{\zeta} (\bm{s}) + \nabla_{vv}^2 \bm{\zeta}(\bm{s}) \} \right] \xrightarrow{d} N(0, \cdot)\]
+            If $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$ then \[h \sqrt{n} \left[ \hat{\bm{\zeta}}(\bm{s}) - \bm{\zeta}(\bm{s}) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \nabla_{uu}^2 \bm{\zeta} (\bm{s}) + \nabla_{vv}^2 \bm{\zeta}(\bm{s}) \} \right] \xrightarrow{d} N(0, f(\bm{s}) \kappa_0^{-2} \nu_0 \sigma^2 \Psi^{-1} )\]
         \end{theorem}
   
-        
+        \paragraph{Remarks}
 
 
-    \subsection{Selection}
-    
+        \paragraph{Selection}
         \begin{theorem} \label{theorem:selection} \setstretch{2} 
             If $h^{-1} n^{-1/2} a_n \xrightarrow{p} \infty$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$ then $P \left\{ \hat{\bm{\zeta}}_j (\bm{s}) = 0 \right\} \to 0$ if $j \le p_0$ and $P \left\{ \hat{\bm{\zeta}}_j (\bm{s}) = 0 \right\} \to 1$ if $j > p_0$.
         \end{theorem}
 
-
+        \paragraph{Remarks}
 
         \subsection{A note on rates}
         To prove the oracle properties of LAGR, we assumed that $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$. Therefore, $h^{-1} n^{-1/2} \lambda_n(\bm{s})  \to 0$ for $j \le p_0$ and $h n^{-1/2} \lambda_n(\bm{s}) \| \bm{\zeta}_j(\bm{s}) \|^{-\gamma} \to \infty$ for $j > p_0$.
@@ -251,7 +250,7 @@
             
             The proof is by contradiction. Without loss of generality we consider only the case $j=p$.
 
-            Assume $\hat{\bm{\zeta}}_p(\bm{s}) \ne 0$. Then $Q \left\{ \bm{\zeta}(\bm{s}) \right\}$ is differentiable w.r.t. $\bm{\zeta}_p(\bm{s})$ and is minimized where
+            Assume $\| \hat{\bm{\zeta}}_p(\bm{s}) \| \ne 0$. Then $Q \left\{ \bm{\zeta}(\bm{s}) \right\}$ is differentiable w.r.t. $\bm{\zeta}_p(\bm{s})$ and is minimized where
             \begin{align}
                 0 &= \bm{Z}_p^T(\bm{s}) \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}_{-p}(\bm{s}) \hat{\bm{\zeta}}_{-p}(\bm{s}) - \bm{Z}_p(\bm{s}) \hat{\bm{\zeta}}_p(\bm{s}) \right\} - \phi_p(\bm{s}) \frac{ \hat{\bm{\zeta}}_p(\bm{s}) }{\| \hat{\bm{\zeta}}_p(\bm{s}) \|} \notag \\
                 &= \bm{Z}_p^T(\bm{s}) \bm{W}(\bm{s}) \left[ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta}(\bm{s}) - \frac{h^2 \kappa_2}{2 \kappa_0} \left\{ \nabla^2_{uu} \bm{\zeta}(\bm{s}) + \nabla^2_{vv} \bm{\zeta}(\bm{s}) \right\} \right] \notag \\
