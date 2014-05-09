@@ -97,34 +97,30 @@
     \end{equation*}
   
     \subsection{Estimation}		
-%    The total log-likelihood of the observed data is the sum of the log-likelihood of each individual observation:
-%    \begin{align} \label{eq:coefficients}
-%        \ell \left\{ \bm{\zeta} \right\} = -(1/2) \sum_{i=1}^n \left[ \log{ \sigma^2}  + \sigma^{-2}  \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \bm{\zeta}(\bm{s}_i) \right\}^2 \right].
-%	\end{align}
+    The total log-likelihood of the observed data is the sum of the log-likelihood of each individual observation:
+    \begin{align} \label{eq:coefficients}
+        \ell \left\{ \bm{\zeta} \right\} = -(1/2) \sum_{i=1}^n \left[ \log{ \sigma^2}  + \sigma^{-2}  \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \bm{\zeta}(\bm{s}_i) \right\}^2 \right].
+	\end{align}
 	
-%	Since there are a total of $n \times 3(p+1)$ parameters for $n$ observations, the model is not identifiable and it is not possible to directly maximize the total likelihood.
-  
-%    The values of the local coefficients $\bm{\zeta}(\bm{s})$ are estimated at location $\bm{s}$ by the weighted likelihood
-%    \begin{align}\label{eq:local-likelihood}
-%		\mathcal{L} \left\{ \bm{\zeta}(\bm{s}) \right\} &= \prod_{i=1}^n \left\{ \left(2 \pi \sigma^2  \right)^{-1/2}  \exp \left[ -(1/2) \sigma^{-2}  \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \bm{\zeta}(\bm{s}) \right\}^2 \right] \right\} ^ {K_h( \| \bm{s} - \bm{s}_i \| )},
-%	\end{align}
+	Since there are a total of $n \times 3(p+1) + 1$ parameters for $n$ observations, the model is not identifiable and it is not possible to directly maximize the total likelihood. But since the coefficient functions are smooth, the coefficients at location $\bm{s}$ can approximate the coefficients within some neighborhood of $\bm{s}$, with the quality of the approximation declining as the distance from $\bm{s}$ increases.
 
-%    \begin{align}\label{eq:local-likelihood}
-%		\mathcal{L} \left\{ \bm{\zeta}(\bm{s}) \right\} &= \prod_{i=1}^n \left\{ \left(2 \pi \sigma^2  \right)^{-1/2}  \exp \left[ -(1/2) \sigma^{-2}  \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \bm{\zeta}(\bm{s}) \right\}^2 \right] \right\} ^ {K_h( \| \bm{s} - \bm{s}_i \| )},
-%	\end{align}
-  
-    The values of the local coefficients $\bm{\zeta}(\bm{s})$ are estimated at location $\bm{s}$ by penalized weighted least squares. The weights are computed from a kernel function $K_h(\cdot)$ such as the Epanechnikov kernel:
+    This intuition is formalized by the local likelihood, which is maximized at location $\bm{s}$ to estimate the local coefficients $\bm{\zeta}(\bm{s})$:
+    \begin{align}\label{eq:local-likelihood}
+		\mathcal{L} \left\{ \bm{\zeta}(\bm{s}) \right\} &= \prod_{i=1}^n \left\{ \left(2 \pi \sigma^2  \right)^{-1/2}  \exp \left[ -(1/2) \sigma^{-2}  \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \bm{\zeta}(\bm{s}) \right\}^2 \right] \right\} ^ {K_h( \| \bm{s} - \bm{s}_i \| )},
+	\end{align}
+ 
+    The weights are computed from a kernel function $K_h(\cdot)$ such as the Epanechnikov kernel:
     \begin{align}\label{eq:epanechnikov}
         K_h(\| \bm{s}_i - \bm{s}_{i'}\|) &= h^{-2} K\left( h^{-1} \| \bm{s}_i - \bm{s}_{i'}\| \right) \notag \\
         K(x) &= \begin{cases} (3/4) (1-x^2) &\mbox{ if } x < 1, \\ 0 &\mbox{ if } x \geq 1. \end{cases}
 	\end{align}
   
-%    Thus, the local log-likelihood function is, up to an additive constant: 
-%    \begin{align}\label{eq:local-log-likelihood}
-%		\ell \left\{ \bm{\zeta}(\bm{s}) \right\} &= -(1/2) \sum_{i=1}^n K_h( \| \bm{s} - \bm{s}_i \| ) \left[ \log{\sigma^2}  + \sigma^{-2}  \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \bm{\zeta}(\bm{s}) \right\}^2 \right].
-%    \end{align}
+    Thus, the local log-likelihood function is, up to an additive constant: 
+    \begin{align}\label{eq:local-log-likelihood}
+		\ell \left\{ \bm{\zeta}(\bm{s}) \right\} &= -(1/2) \sum_{i=1}^n K_h( \| \bm{s} - \bm{s}_i \| ) \left[ \log{\sigma^2}  + \sigma^{-2}  \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \bm{\zeta}(\bm{s}) \right\}^2 \right].
+    \end{align}
   
-    Letting $\bm{W}(\bm{s})$ be a diagonal weight matrix where $W_{ii}(\bm{s}) = K_h( \| \bm{s} - \bm{s}_i \| )$, the weighted least squares objective and its minimizer are:
+    Letting $\bm{W}(\bm{s})$ be a diagonal weight matrix where $W_{ii}(\bm{s}) = K_h( \| \bm{s} - \bm{s}_i \| )$, the local likelihood is maximized by weighted least squares:
     \begin{align}\label{eq:zeta-hat}
         \mathcal{S} \left\{ \bm{\zeta} (\bm{s}) \right\} &= (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta} (\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta} (\bm{s}) \right\}^T \notag \\
         \therefore \tilde{\bm{\zeta}}(\bm{s}) &= \left\{ \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Z}(\bm{s}) \right\}^{-1} \bm{Z}^T(\bm{s}) \bm{W}(\bm{s}) \bm{Y}
@@ -146,12 +142,12 @@
 	\subsection{Local variable selection}
 	Local adaptive grouped regularization (LAGR) is explored as a method of local variable selection and coefficient estimation in SVCR models. The proposed LAGR penalty is an adaptive $\ell_1$ penalty akin to the adaptive group lasso \citep{Wang-Leng-2008,Zou:2006}.
 
-    Grouped variables are selected together for inclusion in the model. Each group in a LAGR model consists of one covariate and its interactions on the two dimensions of spatial location. That is, $\bm{\zeta}_j(\bm{s}) = \left( \beta_j(\bm{s}) \;\;\; \nabla_u \beta_j(\bm{s}) \;\;\; \nabla_v \beta_j(\bm{s}) \right)^T$ for $j=1, \dots, p$.
+    Grouped variables are selected together for inclusion in the model. Each group in a LAGR model consists of one covariate and its gradients on the two dimensions of spatial location. That is, $\bm{\zeta}_j(\bm{s}) = \left( \beta_j(\bm{s}) \;\;\; \nabla_u \beta_j(\bm{s}) \;\;\; \nabla_v \beta_j(\bm{s}) \right)^T$ for $j=1, \dots, p$.
 	
-	The objective function for the LAGR at location $\bm{s}$ is:
+	The objective function for the LAGR at location $\bm{s}$ is the penalized local sum of squares:
 	\begin{align}\label{eq:adaptive-lasso-WLS}
 		Q \{ \bm{\zeta}(\bm{s}) \} &= \mathcal{S} \left\{ \bm{\zeta}( \bm{s} ) \right\} + \mathcal{J}\{ \bm{\zeta}(\bm{s}) \} \notag \\
-		&= (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta} (\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta} (\bm{s}) \right\}^T + \sum_{j=1}^p \phi_j(\bm{s}) \| \zeta_j(\bm{s}) \| 
+		&= (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta} (\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta} (\bm{s}) \right\}^T + \sum_{j=1}^p \phi_j(\bm{s}) \| \bm{\zeta}_j(\bm{s}) \| 
 	\end{align}
 	
 	which is the sum of the weighted sum of squares $\mathcal{S} \left\{ \bm{\zeta}( \bm{s} ) \right\}$ and the LAGR penalty $\mathcal{J}\{ \bm{\zeta}(\bm{s}) \}$.
@@ -161,6 +157,11 @@
 
     \subsection{Computation}
         \subsubsection{Tuning parameter selection}
+        Implementing LAGR requires the selection of local tuning parameters. The criteria commonly used for selecting tuning parameters in lasso-type models are appropriate here, including GCV \citep{Wahba:1990}, Cp \citep{Mallows-1973}, AIC \citep{Akaike-1973}, and BIC \citep{Schwartz-1978}. All of the examples and simulations presented herein used the corrected AIC (AICc) \citep{Hurvich-1998} for tuning parameter selection:
+
+        \begin{equation}
+            \text{AIC}_{\text{c}} = 
+        \end{equation}
 
     \section{Asymptotic properties}
 
