@@ -73,7 +73,7 @@
 
 \section{Spatially varying coefficients regression \label{section:SVCR}}
 	\subsection{Model}	
-	Consider $n$ data points, observed at sampling locations $\bm{s}_i = (s_{i,1} \;\; s_{i,2})^T$ for $i = 1, \dots, \bm{s}_n$, which are distributed in a spatial domain $D \subset \mathbb{R}^2$ according to a density $f(\bm{s})$. For $i = 1, \dots, n$, let $y(\bm{s}_i)$ and $\bm{x}(\bm{s}_i)$ denote the univariate response variable, and a $(p+1)$-variate vector of covariates measured at location $\bm{s}_i$, respectively. At each location $\bm{s}_i$, assume that the outcome is related to the covariates by a linear model where the coefficients $\bm{\beta}(\bm{s}_i)$ may be spatially-varying and $\varepsilon(\bm{s}_i)$ is random error at location $\bm{s}_i$. That is,
+	Consider $n$ data points, observed at sampling locations $\bm{s}_i = (s_{i,1} \;\; s_{i,2})^T$ for $i = 1, \dots, \bm{s}_n$, which are distributed in a spatial domain $D \subset \mathbb{R}^2$ according to a density $f(\bm{s})$. For $i = 1, \dots, n$, let $y(\bm{s}_i)$ and $\bm{x}(\bm{s}_i)$ denote, respectively, the univariate response and the $(p+1)$-variate vector of covariates measured at location $\bm{s}_i$. At each location $\bm{s}_i$, assume that the outcome is related to the covariates by a linear model where the coefficients $\bm{\beta}(\bm{s}_i)$ may be spatially-varying and $\varepsilon(\bm{s}_i)$ is random error at location $\bm{s}_i$. That is,
 	\begin{align}\label{eq:lm(s)}
 		y(\bm{s}_i) = \bm{x}(\bm{s}_i)' \bm{\beta}(\bm{s}_i) + \varepsilon(\bm{s}_i).
 	\end{align}
@@ -157,16 +157,24 @@
 
     \subsection{Computation}
         \subsubsection{Tuning parameter selection}
-        Implementing LAGR requires the selection of local tuning parameters. The criteria commonly used for selecting tuning parameters in lasso-type models are appropriate here, including GCV \citep{Wahba:1990}, Cp \citep{Mallows-1973}, AIC \citep{Akaike-1973}, and BIC \citep{Schwartz-1978}. All of the examples and simulations presented herein used the corrected AIC (AICc) \citep{Hurvich-1998} for tuning parameter selection:
+        Implementing LAGR requires the selection of local tuning parameters. The criteria commonly used for selecting tuning parameters in lasso-type models are appropriate here, including GCV \citep{Wahba:1990}, Cp \citep{Mallows-1973}, AIC \citep{Akaike-1973}, and BIC \citep{Schwarz-1978}. All of the examples and simulations presented herein used the corrected AIC (AICc) \citep{Hurvich-1998} for tuning parameter selection:
 
         \begin{equation}
-            \text{AIC}_{\text{c}} = 
+            \text{AIC}_{\text{c}}(\bm{s}) = \hat{\sigma}^{-2}(\bm{s}) \|\bm{Y} - \bm{Z}(\bm{s}) \hat{\bm{\zeta}}(\bm{s}) \|^2 + 2df + 2\frac{df (df+1)}{\sum_{i=1}^n K_h(\| \bm{s} - \bm{s}_i \|)-df-1}
+        \end{equation}
+
+        where $df$ is the degrees of freedom as defined in \cite{Yuan-Lin-2006}:
+
+        \begin{equation}
+            df = \sum_{j=1}^p I \left\{ \| \hat{\bm{\zeta}}_j(\bm{s}) \| \right\} + 2 \sum_{j=1}^p \frac{\| \hat{\bm{\zeta}}_j(\bm{s}) \|}{\| \tilde{\bm{\zeta}}_j(\bm{s}) \|}
         \end{equation}
 
     \section{Asymptotic properties}
 
         \subsection{Notation and assumptions}
-        Consider the local model at location $\bm{s}$ where there are $p_0 < p$ covariates with nonzero local regression coefficients. Without loss of generality, assume these are covariates $1, \dots, p_0$.
+        Consider the local model at location $\bm{s}$ where there are $p_0 < p$ covariates $\bm{X}_{(a)}(\bm{s})$ with nonzero local regression coefficients, indicated by $\bm{\beta}_{(a)}(\bm{s})$. The remaining covariates $\bm{X}_{(b)}(\bm{s})$ have true coefficients equal to zero, indicated by $\bm{\beta}_{(b)}(\bm{s})$. Without loss of generality, assume these are covariates $1, \dots, p_0$.
+
+        Let $\Psi = E \left\{ \bm{X}(\bm{s}_1) \bm{X}^T(\bm{s}_1) \right\}$.
 
         Let $h = O(n^{-1/6})$.
         
@@ -174,25 +182,23 @@
         
         Let $\bm{Z}_k(\bm{s})$ be the design matrix for covariate group $k$, and $\bm{Z}_{-k}(\bm{s})$ be the design matrix for all the data except covariate group $k$, respectively. Similarly, let $\bm{\zeta}_k(\bm{s})$ be the coefficients for covariate group $k$ and $\bm{\zeta}_{-k}(\bm{s})$ be the coefficients for all covariate groups except $k$.
 
-        Finally, let $\kappa_0 = \int_{R^2} K(\|\bm{s}\|) ds$ and $\kappa_2 = \int_{R^2} [(1,0)\bm{s}]^2 K(\|\bm{s}\|) ds = \int_{R^2} [(0,1)\bm{s}]^2 K(\|\bm{s}\|) ds$.
+        Finally, let $\kappa_0 = \int_{R^2} K(\|\bm{s}\|) ds$, $\kappa_2 = \int_{R^2} [(1,0)\bm{s}]^2 K(\|\bm{s}\|) ds = \int_{R^2} [(0,1)\bm{s}]^2 K(\|\bm{s}\|) ds$, and $\nu_0 = \int_{R^2} K^2(\|\bm{s}\|) ds$.
 
         \subsection{Results}
         \paragraph{Asymptotic normality}
         \begin{theorem} \label{theorem:normality} \setstretch{2}
-            If $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$ then \[h \sqrt{n} \left[ \hat{\bm{\zeta}}(\bm{s}) - \bm{\zeta}(\bm{s}) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \nabla_{uu}^2 \bm{\zeta} (\bm{s}) + \nabla_{vv}^2 \bm{\zeta}(\bm{s}) \} \right] \xrightarrow{d} N(0, f(\bm{s}) \kappa_0^{-2} \nu_0 \sigma^2 \Psi^{-1} )\]
+            If $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$ then \[h \sqrt{n} \left[ \hat{\bm{\beta}}_{(a)}(\bm{s}) - \bm{\beta}_{(a)}(\bm{s}) - \frac{\kappa_2 h^2}{2 \kappa_0} \{ \nabla_{uu}^2 \bm{\beta}_{(a)} (\bm{s}) + \nabla_{vv}^2 \bm{\beta}_{(a)} (\bm{s}) \} \right] \xrightarrow{d} N(0, f(\bm{s})^{-1} \kappa_0^{-2} \nu_0 \sigma^2 \Psi^{-1} )\]
         \end{theorem}
-  
-        \paragraph{Remarks}
-
 
         \paragraph{Selection}
         \begin{theorem} \label{theorem:selection} \setstretch{2} 
-            If $h^{-1} n^{-1/2} a_n \xrightarrow{p} \infty$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$ then $P \left\{ \hat{\bm{\zeta}}_j (\bm{s}) = 0 \right\} \to 0$ if $j \le p_0$ and $P \left\{ \hat{\bm{\zeta}}_j (\bm{s}) = 0 \right\} \to 1$ if $j > p_0$.
+            If $h^{-1} n^{-1/2} a_n \xrightarrow{p} \infty$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$ then $P \left\{ \| \hat{\bm{\zeta}}_j (\bm{s}) \| = 0 \right\} \to 0$ if $j \le p_0$ and $P \left\{ \| \hat{\bm{\zeta}}_j (\bm{s}) \| = 0 \right\} \to 1$ if $j > p_0$.
         \end{theorem}
 
         \paragraph{Remarks}
+            Together, Theorem \ref{theorem:normality} and Theorem\ref{theorem:selection} indicate that the LAGR estimates have the same asymptotic distribution as a local regression model where the nonzero coefficients are known in advance \citep{Sun-Yan-Zhang-Lu-2014}, and that the LAGR estimates of true zero coefficients go to zero with probability one. Thus, selection and estimation by LAGR has the oracle property.
 
-        \subsection{A note on rates}
+        \paragraph{A note on rates}
         To prove the oracle properties of LAGR, we assumed that $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$. Therefore, $h^{-1} n^{-1/2} \lambda_n(\bm{s})  \to 0$ for $j \le p_0$ and $h n^{-1/2} \lambda_n(\bm{s}) \| \bm{\zeta}_j(\bm{s}) \|^{-\gamma} \to \infty$ for $j > p_0$.
         
         We require that $\lambda_n(\bm{s})$ can satisfy both assumptions. Suppose $\lambda_n(\bm{s}) = n^{\alpha}$, and recall that $h = O(n^{-1/6})$ and $ \| \tilde{\bm{\zeta}}_p(\bm{s}) \| = O(h^{-1} n^{-1/2})$. Then $h^{-1} n^{-1/2} \lambda_n(\bm{s}) = O(n^{-1/3 + \alpha})$ and $h n^{-1/2} \lambda_n(\bm{s})  \| \tilde{\bm{\zeta}}_p(\bm{s} \|^{-\gamma} = O(n^{-2/3 + \alpha + \gamma/3})$.
