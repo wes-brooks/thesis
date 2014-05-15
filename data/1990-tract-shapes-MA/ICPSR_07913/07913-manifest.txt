@@ -1,0 +1,27 @@
+File Manifest for ICPSR 7913
+
+U.S. Dept. of Commerce, Bureau of the Census. CENSUS OF POPULATION AND
+HOUSING 1980 [UNITED STATES]: 1970-PRE 1980 TRACT RELATIONSHIPS. ICPSR
+version. Washington, DC: U.S. Dept. of Commerce, Bureau of the Census
+[producer], 1981. Ann Arbor, MI: Inter-university Consortium for Political
+and Social Research [distributor], 2001. doi:10.3886/ICPSR07913.v1
+
+
+Study-level Documentation
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    07913-manifest.txt                  -       -         -       2014-05-14  -
+
+
+DS0001 Census of Population and Housing 1980 [United States]: 1970-Pre 1980
+Tract Relationships
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    07913-0001-Codebook.pdf             -       -         -       2001-07-16  6c60f6e4c50957bd9e43e449479bc5ec
+
+    07913-0001-Data.txt                 72      44,550    unknown 1995-08-10  1349ec6e8b2e7e9fd496c835dd5857f3
+
