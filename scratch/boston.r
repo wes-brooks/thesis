@@ -49,11 +49,15 @@ poly_coords<- function(shapefile) {
 	}
 }
 
-
 widths <- c(ID=5L, FIPS70State=2L, FIPS70cty=3L, Tract70=6L, FIPS80State=2L, FIPS80cty=3L, f1=7L, CTC=6L, f2=2L, intersect1=3L, intersect2=3L, name=30L)
 dta0 <- read.fwf("ICPSR_07913/DS0001/07913-0001-Data.txt", unname(widths), col.names=names(widths), colClasses=rep("character", 12), as.is=TRUE)
 sub <- grep("25", dta0$FIPS80State)
 MA <- dta0[sub,]
+
+widths8090 <- c(FIPS90State=2L, FIPS90cty=3L, CtyPart=1L, Tract90=6L, MSA=4L, FIPS80State=2L, FIPS80cty=3L, Tract80=6L, append=1L, name90=21L, name80=21L)
+dta08090 <- read.fwf("ICPSR_09810/DS0001/09810-0001-Data.txt", unname(widths8090), col.names=names(widths8090), colClasses=rep("character", 11), as.is=TRUE)
+sub8090 <- grep("25", dta08090$FIPS80State)
+MA8090 <- dta08090[sub8090,]
 
 ## match against boston data set
 require(ggplot2)
@@ -70,14 +74,14 @@ BOSTON <- MA[!is.na(x1),]
 
 ## MA 1990 tracts
 
-MAtr90 <- readOGR(".", "MA-tracts")
+MAtr70 <- readOGR(".", "MA-1970-tracts")
 
 ## counties in the BOSTON SMSA
 #BOSTON_SMSA <- MAtr90[MAtr90$CO,]
 BOSTON_SMSA <- MAtr90
 BOSTON_SMSA$TRACTBASE = substring(as.character(BOSTON_SMSA[['GISJOIN']]),9,12)
 BOSTON_SMSA$TRACT = substring(as.character(BOSTON_SMSA[['GISJOIN']]),9)
-proj4string(BOSTON_SMSA) <- CRS(paste("+proj=longlat +datum=NAD27 +no_defs", "+ellps=clrk66 +nadgrids=@conus,@alaska,@ntv2_0.gsb,@ntv1_can.dat"))
+#proj4string(BOSTON_SMSA) <- CRS(paste("+proj=longlat +datum=NAD27 +no_defs", "+ellps=clrk66 +nadgrids=@conus,@alaska,@ntv2_0.gsb,@ntv1_can.dat"))
 CTC4 <- substring(BOSTON$CTC, 1, 4)
 CTC4u <- unique(CTC4)
 TB_CTC4u <- match(BOSTON_SMSA$TRACTBASE, CTC4u)
@@ -100,9 +104,19 @@ BOSTON_SMSA3 <- SpatialPolygonsDataFrame(BOSTON_SMSA2, data=data.frame(poltract=
 BOSTON_SMSA4 <- spCbind(BOSTON_SMSA3, df)
 mm1 <- match(boston.c$TRACT, row.names(BOSTON_SMSA4))
 BOSTON_SMSA5 <- BOSTON_SMSA4[mm1,]
+names(BOSTON_SMSA5)[1] = "ID"
 
 boston.map = poly_coords(BOSTON_SMSA5)
-boston.map = boston.map[boston.map$PolyCoordsY< -70.5,]
+boston.map = boston.map[boston.map$PolyCoordsY < -70.5,]
+
+#Longitude range
+rlon = range(boston.map$PolyCoordsY)
+# -71.52262 -70.60876
+
+#Latitude range
+rlat = range(boston.map$PolyCoordsX)
+# 42.00315 42.67316
+
 
 qplot(PolyCoordsY, PolyCoordsX, data=boston.map, geom="polygon", group=Poly_Name, fill=CMEDV)
 

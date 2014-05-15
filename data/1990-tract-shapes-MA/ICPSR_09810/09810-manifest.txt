@@ -1,0 +1,43 @@
+File Manifest for ICPSR 9810
+
+United States Department of Commerce. Bureau of the Census. Census of
+Population and Housing, 1990 [United States]:  Tiger/Census Tract
+Comparability File. ICPSR09810-v1. Ann Arbor, MI: Inter-university
+Consortium for Political and Social Research [distributor], 1992.
+doi:10.3886/ICPSR09810.v1
+
+Details on the version history can be found below the file listings.
+
+
+Study-level Documentation
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    09810-related_literature.txt        -       -         -       2014-05-14  -
+
+    09810-manifest.txt                  -       -         -       2014-05-15  -
+
+    09810-Codebook.txt                  -       -         -       1997-06-03  f5975397662867b0284a2da9785eb70e
+
+
+DS0001 Main Data
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    09810-0001-Data.txt                 70      35,735    13      1994-06-08  0d78c52f23a635ec2a9ca7d77e956f9f
+
+
+DS0002 Print Version of Data
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    09810-0002-Data.txt                 82      35,735    13      1994-06-08  15fa4ab19249669e20d2a49ef568ec73
+
+
+Version History
+
+2006-01-12 All files were removed from dataset 3 and flagged as study-level
+files, so that they will accompany all downloads.

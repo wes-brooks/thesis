@@ -1,0 +1,33 @@
+Bibliography
+Census of Population and Housing, 1990 [United States]:  Tiger/Census Tract
+Comparability File
+
+This bibliography includes published and unpublished works that are related 
+to ICPSR study 9810. It includes works that are based on primary
+or secondary analysis of the data, or which describe or critique those
+data or the collection methodology. This list represents all items known
+to ICPSR as of 2014-05-15.
+
+If you publish a work or know of other works that are based on these data,
+please send the complete citation and name of the ICPSR study used to:
+bibliography@icpsr.umich.edu.
+
+
+1. (author unknown), "Census Tract/Block Numbering Area Outline Maps."
+Washington, DC: United States Department of Commerce, Bureau of the Census,
+1991.
+
+2. (author unknown), "Population and Housing Characteristics for Census
+Tracts and Block Numbering Areas." 1990 Census of Population and Housing
+[maps]. Washington, DC: United States Department of Commerce, Bureau of the
+Census, 1992.
+
+3. Alba, Richard D.; Logan, John R.; Crowder, Kyle, "White Ethnic
+Neighborhoods and Assimilation: The Greater New York Region, 1980-1990."
+Social Forces. Mar 1997, 75, (3), 883 - 912.
+Full text: http://www.jstor.org/stable/2580523
+
+4. MacDonald, John M.; Chesney-Lind, Meda, "Gender bias and juvenile
+justice revisited: A multiyear analysis." Crime and Delinquency. Apr 2001,
+47, (2), 173 - 195. DOI: 10.1177/0011128701047002002
+Full text: http://www.jstor.org/stable/2580523

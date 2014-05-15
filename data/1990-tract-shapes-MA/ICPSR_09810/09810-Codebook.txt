@@ -1,0 +1,1020 @@
+1                                                                                    
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                 CENSUS OF POPULATION AND HOUSING, 1990 [UNITED STATES]:             
+                          TIGER/CENSUS TRACT COMPARABILITY FILE                      
+                                                                                     
+                                       (ICPSR 9810)                                  
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                  Principal Investigator                             
+                                                                                     
+                                                                                     
+                       U.S. Dept. of Commerce, Bureau of the Census                  
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                   First ICPSR Release                               
+                                       August 1992                                   
+                                                                                     
+                                                                                     
+                                                                                     
+                             Inter-university Consortium for                         
+                              Political and Social Research                          
+                                      P.O. Box 1248                                  
+                                Ann Arbor, Michigan 48106                            
+                                                                                     
+                                                                                     
+                                                                                     
+                [Hard copy documentation transformed into machine-readable           
+               text utilizing Optical Character Recognition (OCR) Scanning,          
+                                        June 1992]                                   
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                  BIBLIOGRAPHIC CITATION                             
+                                                                                     
+                                                                                     
+              Publications   based  on  ICPSR   data   collections    should         
+              acknowledge those sources by means of bibliographic citations.         
+              To ensure that  such  source  attributions  are  captured  for         
+              social science  bibliographic utilities, citations must appear         
+              in footnotes or in the reference section of publications.  The         
+              bibliographic citation for this data collection is:                    
+                                                                                     
+                                                                                     
+                    U.S.  Dept.  of Commerce, Bureau  of  the  Census.               
+                    CENSUS OF  POPULATION  AND  HOUSING,  1990 [UNITED               
+                    STATES]:  TIGER/CENSUS  TRACT  COMPARABILITY  FILE               
+                    [Computer file].  Washington, DC:  U.S.  Dept.  of               
+                    Commerce, Bureau  of  the Census [producer], 1992.               
+                    Ann Arbor, MI:   Inter-university  Consortium  for               
+                    Political and Social Research [distributor], 1992.               
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                    REQUEST FOR INFORMATION ON USE OF ICPSR RESOURCES                
+                                                                                     
+              To provide  funding  agencies with essential information about         
+              use of archival resources and to facilitate  the  exchange  of         
+              information about  ICPSR  participants'  research  activities,         
+              users of  ICPSR  data  are  requested   to   send   to   ICPSR         
+              bibliographic  citations  for  each  completed  manuscript  or         
+              thesis abstract.  Please indicate in a cover letter which data         
+              were used.                                                             
+                                                                                     
+                                                                                     
+                                                                                     
+                                     DATA DISCLAIMER                                 
+                                                                                     
+              The original collector of the data, ICPSR,  and  the  relevant         
+              funding  agency  bear  no  responsibility  for  uses  of  this         
+              collection or for interpretations  or  inferences  based  upon         
+              such uses.                                                             
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+                                                                                     
+                                                                                     
+                                                                                     
+                               DATA COLLECTION DESCRIPTION                           
+                                                                                     
+                                                                                     
+     United States Department of Commerce.  Bureau of the Census                     
+          CENSUS OF POPULATION AND HOUSING, 1990 [UNITED STATES]:  TIGER/CENSUS TRACT
+     COMPARABILITY FILE (ICPSR 9810)                                                 
+                                                                                     
+     SUMMARY:  This collection identifies changes  in  United  States  census  tracts
+     between 1980  and  1990.   The  data were derived from the Census Bureau's TIGER
+     database.  Counties with 1980 and 1990 census tracts are not included  if  there
+     were no  changes  in  the  census  tract  boundaries and/or census tract numbers
+     between 1980 and 1990.  Also excluded are counties with  census  tracts  defined
+     for the first time in 1990.  CLASS IV                                           
+                                                                                     
+     UNIVERSE:  All  census  tracts in the United States and Puerto Rico that changed
+     between the 1980 and 1990 censuses.                                             
+     NOTE:  The data are provided in two formats.  Part 1 presents the information in
+     a form  comparable  to  other  Census  Bureau  tape  files  and   suitable   for
+     manipulation by  computer.   Part  2 presents the data with a space between each
+     field and with a decimal point between the census tract number and  its  suffix.
+     This format is designed to make the file easy to read without additional editing
+     for those who wish to print out the file.                                       
+                                                                                     
+     EXTENT OF COLLECTION:  2 data files + machine-readable documentation (text)     
+     EXTENT OF PROCESSING:  NONNUM/ BLANKS                                           
+     DATA FORMAT:  Logical Record Length                                             
+                                                                                     
+     Part 1: Main Data                 Part 2: Print Version of Data                 
+     File Structure: rectangular       File Structure: rectangular                   
+     Cases: 35,735                     Cases: 35,735                                 
+     Variables: 13                     Variables: 13                                 
+     Record Length: 70                 Record Length: 82                             
+     Records Per Case: 1               Records Per Case: 1                           
+                                                                                     
+     Part 3: Codebook Text for All Parts                                             
+     File Structure: rectangular                                                     
+     Record Length: 85                                                               
+                                                                                     
+     RELATED PUBLICATIONS:                                                           
+          United States Department of Commerce.  Bureau of the  Census.   "Population
+     and  Housing  Characteristics  for  Census  Tracts  and  Block  Numbering  Areas
+     (CPH-3)."  Washington, DC:  United States Government Printing Office, n.d.      
+          United States Department of  Commerce.   Bureau  of  the  Census.   "Census
+     Tract/Block Numbering  Area  Outline  Maps."   Washington,  DC:   United  States
+     Department of Commerce, Bureau of the Census, 1991.                             
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+     ICPSR 9810                                                             Page    1
+                                                                                     
+                                                                                     
+                                                                                     
+                        TIGER/CENSUS TRACT COMPARABILITY[TM] FILE                    
+                                                                                     
+     This file documentation consists of the following materials:                    
+                                                                                     
+            Attachment 1                 Abstract                                    
+            Attachment 2                 Development of TIGER/Census Tract           
+                                          Comparability File                         
+            Attachment 3                 Record Layout                               
+            Attachment 4                 Glossary of Terms                           
+                                                                                     
+                                                                                     
+                                           NOTE                                      
+                                                                                     
+     Questions about the tape should be directed to the Data User Services           
+     Division, Customer Services, Bureau of the Census, Washington, DC 20233. Phone: 
+     (301) 7634100.                                                                  
+                                                                                     
+     Questions about accompanying documentation should be directed to the Data User  
+     Services Division, Data Access and Use Staff, Bureau of the Census, Washington, 
+     DC 20233. Phone: (301) 763-2074.                                                
+                                                                                     
+     Questions about the subject matter should be directed to the Geography          
+     Division, Geographic Areas Branch, Bureau of the Census, Washington, DC 20233.  
+     Phone: (301) 763-3827.                                                          
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+     [TM]TIGER/Census Tract Comparability is a trademark of the U.S. Census Bureau.  
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+     Page    2                                                             ICPSR 9810
+                                                                                     
+                                                                                     
+                                       ATTACHMENT 1                                  
+                                                                                     
+                                         ABSTRACT                                    
+                                                                                     
+       TIGER/Census Tract Comparability File[TM] / prepared by the U. S. Bureau of   
+           the Census. Washington: The Bureau [producer and distributor], 1992.      
+                                                                                     
+     Type of File                                                                    
+                                                                                     
+       Geographic reference. This file was derived from the Census Bureau's TIGER    
+       data base.                                                                    
+                                                                                     
+     Universe Description                                                            
+                                                                                     
+       This product covers all census tracts in the United States and Puerto Rico    
+       that changed between the 1980 and 1990 censuses.                              
+                                                                                     
+     Subject-Matter Description                                                      
+                                                                                     
+       The Census Bureau produces two different types of census tract comparability  
+       products: the TIGER/Census Tract Comparability file and the Census Tract      
+       Comparability Tables that appear in the 1990 CPH-3 Population and Housing     
+       Characteristics for Census Tracts and Block Numbering Areas reports.          
+                                                                                     
+       The TIGER/Census Tract Comparability file contains information on all census  
+       tract changes. The CPH-3 Census Tract Comparability Tables contain            
+       information only for those census tract changes that affect more than 2.5     
+       percent of the total 1990 population of the census tract. The census tracts   
+       that appear in the 1990 CPH-3 reports are identified by a plus sign (+) in    
+       the TIGER/Census Tract Comparability file.                                    
+                                                                                     
+       The census tract comparability products were created to enable users to       
+       identify the relationships among census tracts with changes from 1980 to      
+       1990. If a State or county does not appear in the TIGER/Census Tract          
+       Comparability file, the area either has no change to the census tracts from   
+       the 1980 census, or the 1990 census was the first time that census tracts     
+       were delineated for that area.                                                
+                                                                                     
+     Geographic Coverage                                                             
+                                                                                     
+       The TIGER/Census Tract Comparability file covers all census tracts that       
+       changed between the 1980 and 1990 censuses in the 934 counties with 1980      
+       census tracts in the United States and Puerto Rico.                           
+                                                                                     
+     Technical Description                                                           
+                                                                                     
+       File Structure: File 1, called TRTCMP90.DAT presents the information in the   
+       format used for Census Bureau computer tapes; that is, without a decimal      
+       point between the basic census tract number and its suffix (if any), and no   
+       spaces between fields.                                                        
+                                                                                     
+       File 2, called TRTCMP90.PRT, has blank spaces separating each field, a        
+       decimal point as part of the census tract number where a suffix exists and,   
+       when printed, will not need editing to make it easy to read with the human    
+                                                                                     
+                                                                                     
+1                                                                                    
+     ICPSR 9810                                                             Page    3
+                                                                                     
+                                                                                     
+       eye.                                                                          
+                                                                                     
+       Data users who plan only to print the file will find the TRTCMP90.PRT version 
+       (File 2) easier to work with. Data users who plan on manipulating the         
+       TIGER/Census Tract Comparability file and those expecting files in the format 
+       used for other Census Bureau computer files probably will find the            
+       TRTCMP90.DAT version (File 1) more useful.                                    
+                                                                                     
+       Number of Records: 35,735 logical records in each of the two files.           
+                                                                                     
+       Record Length: The TRTCMP90.DAT version (File 1) of the file has a record     
+                      length of 70 characters while the TRTCMP90.PRT version         
+                      (File 2) has a record length of 82 characters.                 
+                                                                                     
+       File Sort Sequence: 1990 FIPS State code, 1990 FIPS county code, 1990 census  
+                           tract,                                                    
+                           1990 FIPS MSA/PMSA code, 1980 FIPS State code, 1980 FIPS  
+                           county code,                                              
+                           1980 census tract.                                        
+     Reference Materials                                                             
+                                                                                     
+       TIGER/Census Tract Comparability[TM] File Technical Documentation. The        
+       documentation includes this abstract, a description containing details of     
+       the Census Tract Comparability file, the record layout, and a glossary. One   
+       copy of the technical documentation accompanies each file order but also      
+       may be purchased separately for $10 from the Data User Services Division,     
+       Customer Services, Bureau of the Census, Washington, DC 20233.                
+                                                                                     
+     Related Printed Reports                                                         
+                                                                                     
+       Please contact the Data User Services Division, Customer Services, Bureau of  
+       the Census, Washington, DC 20233 (telephone: 301-763-4 100) for information   
+       on ordering these reports.                                                    
+                                                                                     
+       Population and Housing Characteristics for Census Tracts and Block Numbering  
+       Areas (CHP-3) reports present data from the census tracts or block numbering  
+       areas within a county. One report (sold by the U.S. Government Printing       
+       office) is available for each MSA/PMSA and for the remainder of each State.   
+       Census Tract/Block Numbering Area OutLine Maps are sold separately, by county 
+       (see Related Map Products below).                                             
+                                                                                     
+       TIGER/Line Census[TM] Files, 1990 Technical Documentation This documentation  
+       contains information necessary for accessing data from the TIGER/Line tapes,  
+       cartridges, and CD-ROMs.                                                      
+                                                                                     
+       1990 TIGER/Census Tract Street Index[TM] File (Version 1). This file is       
+       available in printed form as well as computer tape (see Related Data Files    
+       below for information on computer tape). Paper copies are available by county.
+                                                                                     
+       1990 TIGER/Census Tract Street Index[TM] (Version 1) Technical Documentation  
+       This documentation includes an abstract, record layout, and a description     
+       containing details of the Census Tract Street Index tape file along with a    
+       short glossary. It also includes a listing of regions, divisions, States and  
+       counties.                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+     Page    4                                                             ICPSR 9810
+                                                                                     
+                                                                                     
+                                                                                     
+     Related Data Files                                                              
+       TIGER/Line Census[TM] Files, 1990 [machine-readable data files] / prepared    
+       by the Bureau of the Census. Washington: The Bureau [producer and             
+       distributor], 1991.                                                           
+                                                                                     
+       1990 TIGER/Census Tract Street Index[TM] File (Version 1) / prepared by the   
+       Bureau of the Census. Washington: The Bureau [producer and distributor],      
+       1991.                                                                         
+                                                                                     
+     Related Map Products                                                            
+                                                                                     
+       Census Tract/Block Numbering Area Outline Maps / prepared by the Bureau of    
+       the Census Washington: The Bureau [producer and distributor], 1991.           
+                                                                                     
+     File Availability                                                               
+                                                                                     
+       This tape file is available from the Bureau of the Census, Customer Services, 
+       Washington, DC 20233 (telephone: 301-763-4 100; FAX: 301-763-4794) for $175.  
+       An order form is attached for your convenience.                               
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+     ICPSR 9810                                                             Page    5
+                                                                                     
+                                                                                     
+                                       ATTACHMENT 2                                  
+                 Development of the TIGER/Census Tract Comparability File            
+                                                                                     
+     The section describes the development of the TIGER/Census Tract Comparability   
+     file. As with other products produced for the 1990 census, the TIGER/Census     
+     Tract Comparability files use the January 1, 1990 boundaries and geographic     
+     area codes for governmental units based on responses to the Boundary and        
+     Annexation Survey conducted by the Bureau of the Census. Thus, the TIGER/Census 
+     Tract Comparability files reflect the final 1990 census tabulation geographic   
+     area boundaries and codes.                                                      
+                                                                                     
+     The file was developed to identify changes in census tracts from 1980 to 1990.  
+     Counties with 1980 census tracts do not appear in the file if there were no     
+     changes in the census tract boundaries and/or census tract numbers between 1980 
+     and 1990. Counties with census tracts defined for the first time in 1990 are    
+     excluded as well.                                                               
+                                                                                     
+     The file was derived from the Census Bureau's TIGER data base.                  
+                                                                                     
+     OVERVIEW OF THE TIGER SYSTEM                                                    
+                                                                                     
+     The U.S. Bureau of the Census, in cooperation with the U.S. Geological Survey   
+     (USGS), developed a computer-readable geographic data base for the United       
+     States and its territories. This system consisting of the TIGER data base and   
+     the associated computer software, is called TIGER, an acronym for Topologically 
+     Integrated Geographic Encoding and Referencing.                                 
+                                                                                     
+     The TIGER System automates the mapping and related geographic activities        
+     required to support the census and sample survey programs of the Bureau of      
+     the Census, starting with the 1990 decennial census. The TIGER System provides  
+     support for:                                                                    
+                                                                                     
+      Creation and maintenance of a digital geographic data base that includes       
+      complete coverage of the United States, Puerto Rico, the Virgin Islands of the 
+      United States, American Samoa, Guam, the Northern Mariana Islands, Palau, the  
+      other Pacific entities that were part of the Trust Territory of the Pacific    
+      Islands (the Marshall Islands and the Federated States of Micronesia) and the  
+      Midway Islands to provide complete mapping within the boundaries of the State  
+      of Hawaii.                                                                     
+                                                                                     
+      Production of maps from the TIGER data base for all Census Bureau data         
+      collection, data processing and data dissemination programs.                   
+                                                                                     
+      Assignment of individual addresses to polygons (census blocks) formed by       
+      features such as roads, streams, and so forth and classification of those      
+      blocks to all applicable geographic area codes.                                
+                                                                                     
+     THE PRIMARY SOURCES                                                             
+                                                                                     
+     The primary sources of the TIGER data base were the 1: 100,000-scale Digital    
+     Line Graph (DLG-3) files from the USGS and the 1980 GBF/DL ME-Files from the    
+     Bureau of the Census. The basis for the 1:100,000-scale DLG-3 files is the USGS 
+     1: 100,000-scale map sheets. The map sheets were derived from photographically  
+     reduced (to 1:100,000-scale) mosaicked 1:24,000-scale USGS maps. The USGS 1:    
+                                                                                     
+                                                                                     
+1                                                                                    
+     Page    6                                                             ICPSR 9810
+                                                                                     
+                                                                                     
+     100,000-scale maps meet national map accuracy standards and use coordinates     
+     defined by the North American Datum, 1927. For the lower 48 States, the         
+     cartographic quality of most of the TIGER System, in areas outside the 1980     
+     census GBF/DIME-Files coverage and the urban cores of selected other large      
+     metropolitan areas, compares favorably with the USGS 1:100,00-scales maps.      
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+     ICPSR 9810                                                             Page    7
+                                                                                     
+                                                                                     
+                                       ATTACHMENT 3                                  
+                         Record Layout for TRTCMP90.DAT (File 1)                     
+                                                                                     
+     Description                                                     Size Begin End  
+                                                                                     
+     1990 FIPS State code                                             2     1    2   
+                                                                                     
+     1990 FIPS county code                                            3     3    5   
+                                                                                     
+     County part indicator (New England only); P indicates that a                    
+       county is partially in a 1990 MSA/PMSA, is in more than one                   
+       MSA/PMSA, or both                                              1     6    6   
+                                                                                     
+     1990 census tract number; blank if no 1990 census tracts in                     
+       this county                                                    4     7   10   
+                                                                                     
+     1990 census tract suffix; blank if no suffix                     2    11   12   
+                                                                                     
+     1990 FIPS MSA/PMSA code; blank if not part of an MSA/PMSA        4    13   16   
+                                                                                     
+     1980 FIPS State code                                             2    17   18   
+                                                                                     
+     1980 FIPS county code                                            3    19   21   
+                                                                                     
+     1980 census tract number; blank if no 1980 census                               
+       tracts in this county                                          4    22   25   
+                                                                                     
+     1980 census tract suffix; blank if no suffix                     2    26   27   
+                                                                                     
+     A plus sign (+) indicates a record that was published in                        
+       Tables A and B of the applicable CPH-3, Population and                        
+       Housing Characteristics for Census Tracts and Block                           
+       Numbering Areas reports                                        1    28   28   
+                                                                                     
+     1990 county name                                                21    29   49   
+                                                                                     
+     1980 county name (if different from the 1990 county name)       21    50   70   
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+     Page    8                                                             ICPSR 9810
+                                                                                     
+                                                                                     
+                         Record Layout for TRTCMP90.PRT (File 2)                     
+                                                                                     
+     Description                                                 Size   Begin   End  
+                                                                                     
+     1990 FIPS State code                                          2      1      2   
+                                                                                     
+     Blank space                                                   1      3      3   
+                                                                                     
+     1990 FIPS county code                                         3      4      6   
+                                                                                     
+     Blank space                                                   1      7      7   
+                                                                                     
+     County part indicator (New England only); P indicates that                      
+       a county is partially in a 1990 MSA/PMSA, is in more than                     
+       one MSA/PMSA, or both                                       1      8      8   
+                                                                                     
+     Blank space                                                   1      9      9   
+                                                                                     
+     1990 census tract number; blank if no 1990 census tracts in                     
+       this county                                                 4     10     13   
+                                                                                     
+     Decimal point; blank if no suffix                             1     14     14   
+                                                                                     
+     1990 census tract suffix; blank if no suffix                  2     15     16   
+                                                                                     
+     Blank space                                                   1     17     17   
+                                                                                     
+     1990 FIPS MSA/PMSA code; blank if not part of an MSA/                           
+       PMSA                                                        4     18     21   
+                                                                                     
+     Blank space                                                   1     22     22   
+                                                                                     
+     1980 FIPS State code                                          2     23     24   
+                                                                                     
+     Blank space                                                   1     25     25   
+                                                                                     
+     1980 FIPS county code                                         3     26     28   
+                                                                                     
+     Blank space                                                   1     29     29   
+                                                                                     
+     1980 census tract number; blank if no 1980 census tracts in                     
+       this county                                                 4     30     33   
+                                                                                     
+     Decimal point; blank if no 1980 census tract suffix           1     34     34   
+                                                                                     
+     1980 census tract suffix; blank if no suffix                  2     35     36   
+                                                                                     
+     Blank space                                                   1     37     37   
+                                                                                     
+     A plus sign (+) indicates a record that was published in                        
+       Tables A and B of the applicable CPH-3, Population and                        
+       Housing Characteristics for Census Tracts and Block                           
+       Numbering Areas reports                                     1     38     38   
+     Blank space                                                   1     39     39   
+                                                                                     
+                                                                                     
+1                                                                                    
+     ICPSR 9810                                                             Page    9
+                                                                                     
+                                                                                     
+                                                                                     
+     1990 county name                                             21     40     60   
+                                                                                     
+     Blank space                                                   1     61     61   
+                                                                                     
+     1980 county name (if different from the 1990 county name)    21     62     82   
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+     Page   10                                                             ICPSR 9810
+                                                                                     
+                                                                                     
+                                       ATTACHMENT 4                                  
+                                                                                     
+                                         Glossary                                    
+                                                                                     
+     CENSUS TRACT - A small, relatively permanent statistical subdivision of a       
+     county in metropolitan areas and selected nonmetropolitan counties, delineated  
+     for the purpose of presenting decennial census data. When census tracts are     
+     established, they are designed to be relatively homogeneous with respect to     
+     population characteristics, economic status, and living conditions, and to      
+     contain between 2,500 and 8,000 inhabitants.                                    
+                                                                                     
+     CENSUS TRACT BOUNDARY - The boundary of a census tract. Census tract            
+     boundaries normally follow physical features but may follow governmental unit   
+     boundaries and nonvisible features in some instances; they always coincide with 
+     county lines. Census tract boundaries are established cooperatively by local    
+     census statistical areas committees and the Census Bureau in accordance with    
+     Bureau-defined guidelines that specify the need for visible and stable          
+     boundaries.                                                                     
+                                                                                     
+     CENSUS TRACT NUMBER - A 4-digit number, possibly with a 2-digit suffix used to  
+     identify a census tract uniquely within a county and usually within a           
+     metropolitan area. All valid census tract numbers are in the range 0001 to 9499.
+     Leading zeros are not shown on Census Bureau maps.                              
+                                                                                     
+     CENSUS TRACT NUMBER SUFFIX - The last two digits of a 6-digit census tract      
+     number. Valid census tract suffixes are in the range 0 1 to 99. If there is no  
+     suffix, this field is blank.                                                    
+                                                                                     
+     COUNTY - The primary subdivision of a State (except Alaska, where they are      
+     called boroughs and census areas; Louisiana, where they are called parishes and 
+     independent cities in Maryland, Missouri Nevada and Virginia.) Each usually is  
+     a governmental unit, with powers defined by state law.                          
+                                                                                     
+     COUNTY CODE - A 3-digit FIPS code assigned to each county and statistically     
+     equivalent entity in alphabetical order within state; independent cities        
+     follow the counties in a state. Gaps are left in the numbering system to        
+     accommodate new counties. The county codes are published in FIPS PUB 6.         
+                                                                                     
+     FEDERAL INFORMATION PROCESSING STANDARDS (FIPS) - A standardized system of      
+     coding published by the National Institute of Standards and Technology, for     
+     use by the Federal Government and other users. Several series of FIPS have been 
+     established to identify standard geographic codes for States, counties,         
+     metropolitan areas, congressional districts, foreign geographic entities, and   
+     named locational entities. Geographic elements to be coded are first            
+     alphabetized and then assigned codes serially, generally with systematic gaps   
+     that permit additions to the list. The basic geographic code formats published  
+     in FIPS Publications (FIPS PUBs) are as follows:                                
+                                                                                     
+        States - 2 digits (FIPS PUB 5)                                               
+        Counties and statistically equivalent entities - 3 digits (FIPS PUB 6)       
+        Metropolitan areas - 4 digits (FIPS PUB 8 )                                  
+                                                                                     
+     FIPS - See Federal Information Processing Standards.                            
+                                                                                     
+                                                                                     
+                                                                                     
+1                                                                                    
+     ICPSR 9810                                                             Page   11
+                                                                                     
+                                                                                     
+     FIPS CODE - A code assigned as a Federal Information Processing Standard.       
+                                                                                     
+     FIPS COUNTY CODE - See county code.                                             
+                                                                                     
+     FIPS STATE CODE - See state code.                                               
+                                                                                     
+     METROPOLITAN AREA - A generic term for SMA, SMSA, SCSA, MSA, CMSA, and PMSA.    
+                                                                                     
+     METROPOLITAN STATISTICAL AREA - A highly populated, economically integrated     
+     area defined by the Office of Management and Budget as a Federal statistical    
+     standard. An area qualifies for recognition as an MSA in one of two ways: it    
+     contains a city of at least 50,000 population, or it contains a Census Bureau-  
+     defined urbanized area (minimum population 50,000) with a total metropolitan    
+     area population of at least 100,000 (75,000 in New England). In addition to the 
+     county(s) containing the main place(s), an MSA also may include additional      
+     counties that meet specific standards concerning economic and social ties to    
+     the central county(s). MSA's are defined in terms of counties except in the     
+     six New England states, where cities and towns (MCDs) are used. Designations of 
+     MSA's were first published in June 1983 and went into effect on June 30, 1983.  
+     Some Metropolitan Statistical Areas prior to that date were known as Standard   
+     Metropolitan Statistical Areas (SMSAs). See Primary Metropolitan Statistical    
+     Area (PMSA).                                                                    
+                                                                                     
+     MSA/PMSA - See Metropolitan Statistical Area and Primary Metropolitan           
+     Statistical Area.                                                               
+                                                                                     
+     PART INDICATOR FLAG - Metropolitan areas in New England are comprised of        
+     cities and towns rather than whole counties. In the TIGER/Census Tract          
+     Comparability file, the county part indicator identifies a New England county   
+     partially in a 1990 MSA/PMSA, in more than one MSA/PMSA, or both.               
+                                                                                     
+     PRIMARY METROPOLITAN STATISTICAL AREA (PMSA) - An area defined by the Office    
+     of Management and Budget as a Federal statistical standard. A PMSA consists of  
+     one or more counties (cities and towns in New England), within a metropolitan   
+     area having a population of 1,000,000 or more, that demonstrate (based on       
+     specific standards) very strong internal economic and social links separate     
+     from the ties to other portions of the metropolitan area. By definition, a      
+     PMSA is always part of a Consolidated Metropolitan Statistical Area (CMSA).     
+     The term PMSA went into effect on June 30, 1983.                                
+                                                                                     
+     PMSA - See Primary Metropolitan Statistical Area.                               
+                                                                                     
+     STATE CODE - The 2-digit FIPS code assigned to each State and statistically     
+     area. The FIPS codes are assigned alphabetically including the District of      
+     Columbia followed by Puerto Rico and the other territories in alphabetic        
+     sequence. The State codes are published in FIPS PUB 5.                          
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                     
