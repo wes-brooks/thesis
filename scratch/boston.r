@@ -54,11 +54,14 @@ require(ggplot2)
 require(rgeos)
 require(rgdal)
 require(maptools)
-gpclibPermit()
 require(spdep)
-data(boston)
+require(lagr)
+require(doMC)
+registerDoMC(7)
 
-bTR <- boston.c$TRACT
+#Import the boston house price dataset
+data(boston)
+boston.c$CHAS = as.numeric(boston.c$CHAS)
 
 ## MA 1970 tracts
 MAtr70 <- readOGR(".", "MA-1970-tracts")
@@ -70,21 +73,35 @@ names(MAtr70)[3] = "ID"
 ## reorder data set
 mm <- match(MAtr70$TRACTBASE, boston.c$TRACT)
 boston.tracts = MAtr70[!is.na(mm),]
-boston.map = poly_coords(boston.tracts)
-
-#Longitude range
-rlon = range(boston.map$PolyCoordsY)
-# -71.52262 -70.60876
-
-#Latitude range
-rlat = range(boston.map$PolyCoordsX)
-# 42.00315 42.67316
-
-
-qplot(PolyCoordsY, PolyCoordsX, data=boston.map, geom="polygon", group=Poly_Name)
 
 #All downtown Boston tracts:
 dtn.tracts = MAtr70[which(MAtr70$TRACTBASE<1000),]
-dtn.map = poly_coords(dtn.tracts)
-qplot(PolyCoordsY, PolyCoordsX, data=dtn.map, geom="polygon", group=Poly_Name)
 
+#Add the missing tracts:
+indx = which(!dtn.tracts$TRACTBASE %in% boston.tracts$TRACTBASE)
+boston.tracts = rbind(boston.tracts, dtn.tracts[indx,])
+
+#
+dtn.loc = as.data.frame(t(sapply(indx, function(i) dtn.tracts@polygons[[i]]@labpt)))
+colnames(dtn.loc) = c("LON", "LAT")
+
+#Create a list of locations
+boston.loc = rbind(boston.c[,c("LON", "LAT")], dtn.loc)
+rownames(boston.loc) = boston.tracts@data$TRACTBASE
+
+#Test the oracle:
+oracle = lapply(1:521, function(x) return(c("LSTAT")))
+#bw.boston.oracular = lagr.sel(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, oracle=oracle, coords=boston.c[,c('LON','LAT')], longlat=TRUE, range=c(0,1), kernel=epanechnikov, tol.bw=0.01, bw.type='knn', bwselect.method="AICc", verbose=TRUE, family='gaussian', resid.type='pearson')
+m.boston = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, oracle=oracle, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, kernel=epanechnikov, bw=0.2, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+
+#Make a lagr model:
+bw.boston = lagr.sel(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], longlat=TRUE, varselect.method="AICc", range=c(0,1), kernel=epanechnikov, tol.bw=0.01, bw.type='knn', bwselect.method="AICc", verbose=TRUE, family='gaussian', resid.type='pearson')
+m.boston = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw.boston[['bw']], bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+
+for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
+    boston.tracts@data[[paste('coef', v, sep='')]] = sapply(m.boston[['model']][['models']], function(x) x[['coef']][[v]])
+}
+
+#Draw a map:
+boston.map = poly_coords(boston.tracts)
+qplot(PolyCoordsY, PolyCoordsX, data=boston.map, geom="polygon", group=Poly_Name, fill=coefLSTAT)
