@@ -93,28 +93,39 @@ colnames(dtn.loc) = c("LON", "LAT")
 boston.loc = rbind(boston.c[,c("LON", "LAT")], dtn.loc)
 rownames(boston.loc) = boston.tracts@data$TRACTBASE
 
-#Test the oracle:
-oracle = lapply(1:521, function(x) return(c("LSTAT")))
-#bw.boston.oracular = lagr.sel(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, oracle=oracle, coords=boston.c[,c('LON','LAT')], longlat=TRUE, range=c(0,1), kernel=epanechnikov, tol.bw=0.01, bw.type='knn', bwselect.method="AICc", verbose=TRUE, family='gaussian', resid.type='pearson')
-m.boston = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, oracle=oracle, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, kernel=epanechnikov, bw=0.2, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
-
-#Make a lagr model:
+#Find the optimal bandwidth:
 bw.boston = lagr.sel(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], longlat=TRUE, varselect.method="AICc", range=c(0,1), kernel=epanechnikov, tol.bw=0.01, bw.type='knn', bwselect.method="AICc", verbose=TRUE, family='gaussian', resid.type='pearson')
-bws = interpolate.bw(bw.boston[['trace']], S=100)
+bws = interpolate.bw(bw.boston[['trace']], S=20)
 
-models = list()
-models[[1]] = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw.boston[['bw']], bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+#save the bandwidth object:
+save(bw.boston, file="bw.boston.lagr.RData")
+
+#Make a lagr model for the optimal bandwidth and save it:
+i=0
+model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw.boston[['bw']], bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+save(model, file=paste("boston.model.", i, ".RData", sep=""))
+rm(model)
+gc()
+
 for (bw in bws) {
-    print(paste("iteration: ", length(models), ", bw: ", round(bw, 4), sep=""))
+    i = i+1
+    print(paste("iteration: ", i, ", bw: ", round(bw, 4), sep=""))
     indx = sample(1:nrow(boston.c), replace=TRUE)
     boot = boston.c[indx,]
-    models[[length(models)+1]] = models[[1]] = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boot, coords=boot[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+    model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boot, coords=boot[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+    
+    #save the bootstrapped model:
+    save(model, file=paste("boston.model.", i, ".RData", sep=""))
+    rm(model)
+    gc()
 }
 
-for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
-    boston.tracts@data[[paste('coef', v, sep='')]] = sapply(m.boston[['model']][['models']], function(x) x[['coef']][[v]])
-}
+
+
+#for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
+#    boston.tracts@data[[paste('coef', v, sep='')]] = sapply(m.boston[['model']][['models']], function(x) x[['coef']][[v]])
+#}
 
 #Draw a map:
-boston.map = poly_coords(boston.tracts)
-qplot(PolyCoordsY, PolyCoordsX, data=boston.map, geom="polygon", group=Poly_Name, fill=coefLSTAT)
+#boston.map = poly_coords(boston.tracts)
+#qplot(PolyCoordsY, PolyCoordsX, data=boston.map, geom="polygon", group=Poly_Name, fill=coefLSTAT)
