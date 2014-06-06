@@ -59,12 +59,16 @@ require(lagr)
 require(doMC)
 registerDoMC(7)
 
+source("scratch/interpolate.bw.r")
+
 #Import the boston house price dataset
 data(boston)
 boston.c$CHAS = as.numeric(boston.c$CHAS)
 
 ## MA 1970 tracts
+setwd("data/1970-tract-shapes-MA/")
 MAtr70 <- readOGR(".", "MA-1970-tracts")
+setwd("../..")
 
 ## counties in the BOSTON SMSA
 MAtr70$TRACTBASE = as.integer(substring(as.character(MAtr70[['GISJOIN']]),9,12))
@@ -96,7 +100,16 @@ m.boston = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, oracle=oracle, coor
 
 #Make a lagr model:
 bw.boston = lagr.sel(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], longlat=TRUE, varselect.method="AICc", range=c(0,1), kernel=epanechnikov, tol.bw=0.01, bw.type='knn', bwselect.method="AICc", verbose=TRUE, family='gaussian', resid.type='pearson')
-m.boston = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw.boston[['bw']], bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+bws = interpolate.bw(bw.boston[['trace']], S=100)
+
+models = list()
+models[[1]] = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw.boston[['bw']], bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+for (bw in bws) {
+    print(paste("iteration: ", length(models), ", bw: ", round(bw, 4), sep=""))
+    indx = sample(1:nrow(boston.c), replace=TRUE)
+    boot = boston.c[indx,]
+    models[[length(models)+1]] = models[[1]] = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boot, coords=boot[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+}
 
 for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
     boston.tracts@data[[paste('coef', v, sep='')]] = sapply(m.boston[['model']][['models']], function(x) x[['coef']][[v]])
