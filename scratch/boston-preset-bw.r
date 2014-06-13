@@ -94,7 +94,7 @@ boston.loc = rbind(boston.c[,c("LON", "LAT")], dtn.loc)
 rownames(boston.loc) = boston.tracts@data$TRACTBASE
 
 #Make a lagr model for the bandwidth and save it:
-model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=0.17, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=0., bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
 
 for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
     boston.tracts@data[[paste('coef', v, sep='')]] = sapply(model[['model']][['models']], function(x) x[['coef']][[v]])
@@ -107,7 +107,9 @@ for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
         aes(x=PolyCoordsY, y=PolyCoordsX, group=Poly_Name) +
         aes_string(fill=paste('coef', v, sep='')) +
         geom_polygon() +
-        scale_fill_gradient2(low='orange', mid='white', high="purple", midpoint=0)
+        scale_fill_gradient2(low='orange', mid='white', high="purple", midpoint=0) +
+        xlab("longitude") +
+        ylab("latitude")
     
     print(bmap)
 }
