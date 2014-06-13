@@ -18,17 +18,17 @@
 
 poly_coords<- function(shapefile) {
     if (nrow(data.frame(shapefile$ID)) < 1) {
-	    print ("No ID field in SpatialPolygon")
+        print ("No ID field in SpatialPolygon")
     } else {
         Order <-0 
         YX3 <- as.numeric("XX", "XX", "XX", "XX")
         num_polys <- nrow(shapefile@data)+1
         YX3 <- as.numeric("XX", "XX", "XX")
-
+        
         curr_poly <- shapefile@data[1,]
         curr_poly_start_row <- 1
-
-
+        
+        
         for (curr_row in curr_poly_start_row:num_polys) {
             curr_poly_row<-shapefile@data[curr_row,]
             curr_poly_end_row = curr_row - 1	
@@ -43,10 +43,10 @@ poly_coords<- function(shapefile) {
             YX1<- data.frame(Poly_Name, Order, PolyCoordsY, PolyCoordsX)
             YX2<-rbind(YX3,YX1)
             YX3<-YX2
-	    }
-    	join<-merge(YX3, shapefile@data, by.x="Poly_Name", by.y= "ID", all=T)
-	    join[order(join$Order),][1:nrow(join)-1,]
-	}
+        }
+        join<-merge(YX3, shapefile@data, by.x="Poly_Name", by.y= "ID", all=T)
+        join[order(join$Order),][1:nrow(join)-1,]
+    }
 }
 
 ## match against boston data set
@@ -93,34 +93,8 @@ colnames(dtn.loc) = c("LON", "LAT")
 boston.loc = rbind(boston.c[,c("LON", "LAT")], dtn.loc)
 rownames(boston.loc) = boston.tracts@data$TRACTBASE
 
-#Find the optimal bandwidth:
-bw.boston = lagr.sel(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], longlat=TRUE, varselect.method="AICc", range=c(0,1), kernel=epanechnikov, tol.bw=0.01, bw.type='knn', bwselect.method="AICc", verbose=TRUE, family='gaussian', resid.type='pearson')
-bws = interpolate.bw(bw.boston[['trace']], S=20)
-
-#save the bandwidth object:
-save(bw.boston, file="bw.boston.lagr.RData")
-
-#Make a lagr model for the optimal bandwidth and save it:
-i=0
-model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw.boston[['bw']], bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
-save(model, file=paste("boston.model.", i, ".RData", sep=""))
-rm(model)
-gc()
-
-for (bw in bws) {
-    i = i+1
-    print(paste("iteration: ", i, ", bw: ", round(bw, 4), sep=""))
-    indx = sample(1:nrow(boston.c), replace=TRUE)
-    boot = boston.c[indx,]
-    model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boot, coords=boot[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
-    
-    #save the bootstrapped model:
-    save(model, file=paste("boston.model.", i, ".RData", sep=""))
-    rm(model)
-    gc()
-}
-
-
+#Make a lagr model for the bandwidth and save it:
+model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=0.17, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
 
 for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
     boston.tracts@data[[paste('coef', v, sep='')]] = sapply(model[['model']][['models']], function(x) x[['coef']][[v]])
@@ -128,14 +102,12 @@ for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
 
 #Draw a map:
 boston.map = poly_coords(boston.tracts)
-qplot(PolyCoordsY, PolyCoordsX, data=boston.map, geom="polygon", group=Poly_Name, fill=coefLSTAT)
-
 for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
     bmap = ggplot(boston.map) +
         aes(x=PolyCoordsY, y=PolyCoordsX, group=Poly_Name) +
         aes_string(fill=paste('coef', v, sep='')) +
         geom_polygon() +
         scale_fill_gradient2(low='orange', mid='white', high="purple", midpoint=0)
-        
+    
     print(bmap)
 }
