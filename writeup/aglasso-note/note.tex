@@ -138,11 +138,12 @@
 %    \end{align}
 	 
 
-\section{Local variable selection and parameter estimation \label{section:model-selection}}
-	\subsection{Local variable selection}
-	Local adaptive grouped regularization (LAGR) is explored as a method of local variable selection and coefficient estimation in SVCR models. The proposed LAGR penalty is an adaptive $\ell_1$ penalty akin to the adaptive group lasso \citep{Wang-Leng-2008,Zou:2006}.
+\section{Local variable selection and parameter estimation 
+Estimating the local coefficients by (\ref{eq:zeta-hat}) relies on \emph{a priori} variable selection. The goal of local adaptive grouped regularization (LAGR) is to simultaneously select the locally relevant predictors and estimate the local coefficients.
 
-    Grouped variables are selected together for inclusion in the model. Each group in a LAGR model consists of one covariate and its gradients on the two dimensions of spatial location. That is, $\bm{\zeta}_j(\bm{s}) = \left( \beta_j(\bm{s}) \;\;\; \nabla_u \beta_j(\bm{s}) \;\;\; \nabla_v \beta_j(\bm{s}) \right)^T$ for $j=1, \dots, p$.
+\label{section:model-selection}}
+	\subsection{Local variable selection}
+	The proposed LAGR penalty is an adaptive $\ell_1$ penalty akin to the adaptive group lasso \citep{Wang-Leng-2008,Zou:2006}. Grouped variables are selected together for inclusion in the model. Each group in a LAGR model consists of one covariate and its gradients on the two dimensions of spatial location. That is, $\bm{\zeta}_j(\bm{s}) = \left( \beta_j(\bm{s}) \;\;\; \nabla_u \beta_j(\bm{s}) \;\;\; \nabla_v \beta_j(\bm{s}) \right)^T$ for $j=1, \dots, p$.
 	
 	The objective function for the LAGR at location $\bm{s}$ is the penalized local sum of squares:
 	\begin{align}\label{eq:adaptive-lasso-WLS}
@@ -209,7 +210,7 @@
         \end{theorem}
 
         \paragraph{Remarks}
-            Together, Theorem \ref{theorem:normality} and Theorem\ref{theorem:selection} indicate that the LAGR estimates have the same asymptotic distribution as a local regression model where the nonzero coefficients are known in advance \citep{Sun-Yan-Zhang-Lu-2014}, and that the LAGR estimates of true zero coefficients go to zero with probability one. Thus, selection and estimation by LAGR has the oracle property.
+        Together, Theorem \ref{theorem:normality} and Theorem \ref{theorem:selection} indicate that the LAGR estimates have the same asymptotic distribution as a local regression model where the nonzero coefficients are known in advance \citep{Sun-Yan-Zhang-Lu-2014}, and that the LAGR estimates of true zero coefficients go to zero with probability one. Thus, selection and estimation by LAGR has the oracle property.
 
         \paragraph{A note on rates}
         To prove the oracle properties of LAGR, we assumed that $h^{-1} n^{-1/2} a_n \xrightarrow{p} 0$ and $h n^{-1/2} b_n \xrightarrow{p} \infty$. Therefore, $h^{-1} n^{-1/2} \lambda_n(\bm{s})  \to 0$ for $j \le p_0$ and $h n^{-1/2} \lambda_n(\bm{s}) \| \bm{\zeta}_j(\bm{s}) \|^{-\gamma} \to \infty$ for $j > p_0$.
@@ -217,6 +218,18 @@
         We require that $\lambda_n(\bm{s})$ can satisfy both assumptions. Suppose $\lambda_n(\bm{s}) = n^{\alpha}$, and recall that $h = O(n^{-1/6})$ and $ \| \tilde{\bm{\zeta}}_p(\bm{s}) \| = O(h^{-1} n^{-1/2})$. Then $h^{-1} n^{-1/2} \lambda_n(\bm{s}) = O(n^{-1/3 + \alpha})$ and $h n^{-1/2} \lambda_n(\bm{s})  \| \tilde{\bm{\zeta}}_p(\bm{s} \|^{-\gamma} = O(n^{-2/3 + \alpha + \gamma/3})$.
         
         So $ (2 - \gamma)/3 < \alpha < 1/3 $, which can only be satisfied for $\gamma > 1$.
+
+    \section{Simulations}
+        A simulation study was undertaken to assess the performance of LAGR for local variable selection and coefficient estimation. 
+
+
+    \section{Data example}
+        Here we present an application of LAGR to a real data set. The data is the Boston house price data from \cite{Harrison-Rubinfeld-1978; Gilley-Pace-1996; Pace-Gilley-1997}. This is areal data, measured on census tracts in Boston, Massachusetts for the 1978 Harrison and Rubinfeld paper. The response variable, MEDV, is the median selling price of homes in the census block (capped at USD 50,000). Predictors whose local coefficients were estimated via LAGR are CRIM, representing the per capita crime rate; RM, the average number of rooms for houses sold within the census tract; RAD, which measures the accessibility of radial roads from the tract; TAX, the full-value property tax rate per USD 10,000 (constant for all Boston tracts); and LSTAT, the percentage of the population in a tract considered ``lower status". The same data was analyzed in \cite{Sun-Yan-Zhang-Lu-2014}.
+
+        An adaptive bandwidth was used, with the bandwidth at each location set such that the sum of the kernel weights for the local model was 17\% of the number of observations. The results are 
+
+        
+
 
 \appendix
     \section{Proofs of theorems} \label{app:proofs}
