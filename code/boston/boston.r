@@ -1,7 +1,7 @@
 require(lagr)
 require(sp)
 require(doMC)
-registerDoMC(cores=7)
+registerDoMC(cores=3)
 
 #The data is from package 'spdep'
 require(spdep)
@@ -10,7 +10,7 @@ boston = boston.c
 boston$CHAS = as.numeric(boston$CHAS)
 
 bw.boston = list()
-bw.boston = lagr.sel(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston, coords=boston[,c('LON','LAT')], longlat=TRUE, varselect.method="AICc", range=c(0,.15), kernel=epanechnikov, tol.bw=0.01, bw.type='knn', bwselect.method="AICc", verbose=TRUE, family='gaussian', resid.type='pearson')
+bw.boston = lagr.sel(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston, coords=boston[,c('LON','LAT')], longlat=TRUE, varselect.method="AICc", range=c(0,1), kernel=epanechnikov, tol.bw=0.01, bw.type='knn', bwselect.method="AICc", verbose=TRUE, family='gaussian', resid.type='pearson')
 
 #bw.boston[['bw']] = 0.1
 #Rprof("~/Desktop/boston-profile.txt")

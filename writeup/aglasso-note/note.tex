@@ -168,7 +168,20 @@
         \begin{equation}
             df = \sum_{j=1}^p I \left\{ \| \hat{\bm{\zeta}}_j(\bm{s}) \| \right\} + 2 \sum_{j=1}^p \frac{\| \hat{\bm{\zeta}}_j(\bm{s}) \|}{\| \tilde{\bm{\zeta}}_j(\bm{s}) \|}
         \end{equation}
+        
+        \subsubsection{Bandwidth selection}
+        The bandwidth for a LAGR model is selected by the AICc. This requires an expression for the degrees of freedom for a LAGR model. For nonparametric regression models, the degrees of freedom are computed by the covariance between observations and their fitted values:
+        
+        \begin{equation*}
+            df = \Sum_{i=1}^n cov(Y_i. \hat{Y}_i)
+        \end{equation*}
 
+        In a LAGR model, this covariance is estimated using the local models. For a single local model, the covariance of the fitted values with the observations is a weighted average of the covariances for each data point.
+        
+        \begin{equation*}
+            
+        \end{equation*}
+        
     \section{Asymptotic properties}
 
         \subsection{Notation and assumptions}

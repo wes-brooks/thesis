@@ -64,6 +64,7 @@ data(boston)
 boston.c$CHAS = as.numeric(boston.c$CHAS)
 
 ## MA 1970 tracts
+setwd("data/1970-tract-shapes-MA")
 MAtr70 <- readOGR(".", "MA-1970-tracts")
 
 ## counties in the BOSTON SMSA
@@ -96,6 +97,41 @@ m.boston = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, oracle=oracle, coor
 
 #Make a lagr model:
 bw.boston = lagr.sel(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], longlat=TRUE, varselect.method="AICc", range=c(0,1), kernel=epanechnikov, tol.bw=0.01, bw.type='knn', bwselect.method="AICc", verbose=TRUE, family='gaussian', resid.type='pearson')
+
+#Make the bw distribution so we can draw from it.
+#First, get the AICc-vs-bw results in order
+b = bw.boston[['trace']][order(bw.boston[['trace']][,1]),c(1,2)]
+b = b[apply(b,1,function(x) !any(x==Inf)),]
+
+#Fit a spline through the AICc-vs-bw observations and then use it to smooth AICc across the entire range of the tested bandwidths.
+spline = approxfun(b)
+xxx = seq(b[1,1], tail(b[,1],1), length.out=1001)
+smooth = spline(xxx)
+smooth = smooth - mean(smooth)
+
+#Now restrict our attention to the region of the densest 99% of bandwidth probability mass
+maxi = min(length(smooth), which(cumsum(exp(-smooth / 2)) / sum(exp(-smooth / 2)) > 0.995)[1])
+mini = max(1, tail(which(cumsum(exp(-smooth / 2))/sum(exp(-smooth / 2)) < 0.005),1))
+xxx = seq(xxx[mini], xxx[maxi], length.out=1001)
+smooth = spline(xxx)
+smooth = smooth - mean(smooth)
+smooth = smooth - 2000
+
+#Get the CDF of bandwidth within the region of greatest density
+pp = cumsum(exp(-smooth / 2)) / sum(exp(-smooth / 2))
+
+#Draw some typical bandwidths from the CDF and produce a model with each.
+S=100
+bws = xxx[sapply(runif(S), function(x) which(x<pp)[1])]
+models.oracle = list()
+models.oracle[[1]] = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw.boston[['bw']], bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+for (bw in bws) {
+  indx = sample(1:nrow(boston.c), replace=TRUE)
+  boot = boston.c[indx,]
+  models.oracle[[length(models.oracle)+1]] = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boot, coords=boot[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+}
+
+
 m.boston = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=bw.boston[['bw']], bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
 
 for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
