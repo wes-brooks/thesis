@@ -1,0 +1,511 @@
+%% LyX 2.1.0 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,authoryear,review]{elsarticle}
+\usepackage[latin9]{inputenc}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{setspace}
+\usepackage{esint}
+\setstretch{2}
+
+\makeatletter
+\@ifundefined{date}{}{\date{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+
+
+\setlength{\textwidth}{6.5in}
+%\setlength{\textheight}{9in}
+\setlength{\topmargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+
+\usepackage{amsthm}
+\usepackage{mathabx}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{verbatim}
+\usepackage{longtable}
+\usepackage{rotating}
+\usepackage[nolists,nomarkers]{endfloat}
+\DeclareDelayedFloatFlavour{sidewaystable}{table}
+
+\usepackage{relsize}
+%\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fullpage}
+\usepackage{booktabs}
+
+
+
+
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+\DeclareMathOperator*{\bw}{\mbox{bw}}
+\DeclareMathOperator*{\df}{\mbox{df}}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\E}{\mathop{\mathbb E}}
+
+
+
+\newtheorem{theorem}{}[section]
+\newtheorem{lemma}[theorem]{}\newtheorem{proposition}[theorem]{}\newtheorem{corollary}[theorem]{}
+
+
+
+\title{Oracle properties of local adaptive grouped regularization}
+\author{Wesley Brooks}
+                                           % Activate to display a given date or no date
+
+\makeatother
+
+\begin{document}
+
+\title{Local adaptive grouped regularization and its oracle properties}
+
+
+\author{Wesley Brooks}
+
+
+\section{Spatially varying coefficients regression \label{section:SVCR}}
+
+
+\subsection{Model}
+
+Consider $n$ data points, observed at sampling locations $\bm{s}_{i}=(s_{i,1}\;\; s_{i,2})^{T}$
+for $i=1,\dots,\bm{s}_{n}$, which are distributed in a spatial domain
+$D\subset\mathbb{R}^{2}$ according to a density $f(\bm{s})$. For
+$i=1,\dots,n$, let $y(\bm{s}_{i})$ and $\bm{x}(\bm{s}_{i})$ denote,
+respectively, the univariate response and the $(p+1)$-variate vector
+of covariates measured at location $\bm{s}_{i}$. At each location
+$\bm{s}_{i}$, assume that the outcome is related to the covariates
+by a linear model where the coefficients $\bm{\beta}(\bm{s}_{i})$
+may be spatially-varying and $\varepsilon(\bm{s}_{i})$ is random
+error at location $\bm{s}_{i}$. That is, 
+\begin{align}
+y(\bm{s}_{i})=\bm{x}(\bm{s}_{i})'\bm{\beta}(\bm{s}_{i})+\varepsilon(\bm{s}_{i}).\label{eq:lm(s)}
+\end{align}
+
+
+Further assume that the error term $\varepsilon(\bm{s}_{i})$ is normally
+distributed with zero mean and variance $\sigma^{2}$, and that $\varepsilon(\bm{s}_{i})$,
+$i=1,\dots,n$ are independent. That is, 
+\begin{align}
+\bm{\varepsilon}\overset{iid}{\sim}\mathcal{N}\left(0,\sigma^{2}\right).\label{eq:err}
+\end{align}
+
+
+In the context of nonparametric regression, the boundary-effect bias
+can be reduced by local polynomial modeling, usually in the form of
+a locally linear model \citep{Fan-1996}. Here, locally linear coefficients
+are estimated by augmenting the local design matrix with covariate-by-location
+interactions in two dimensions as proposed by \citet{Wang:2008b}.
+The augmented local design matrix at location $\bm{s}_{i}$ is 
+\begin{align}
+\bm{Z}(\bm{s}_{i})=\left(\bm{X}\:\: L_{i}\bm{X}\:\: M_{i}\bm{X}\right)
+\end{align}
+
+
+where $\bm{X}$ is the unaugmented matrix of covariates, $L_{i}=\text{diag}\{s_{i'_{1}}-s_{i_{1}}\}$
+and $M_{i}=\text{diag}\{s_{i'_{2}}-s_{i_{2}}\}$ for $i'=1,\dots,n$.
+
+Now we have that $Y(\bm{s}_{i})=\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{\zeta}(\bm{s}_{i})+\varepsilon(\bm{s}_{i})$,
+where $\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}$ is the $i$th
+row of the matrix $\bm{Z}(\bm{s}_{i})$ as a row vector, and $\bm{\zeta}(\bm{s}_{i})$
+is the vector of local coefficients at location $\bm{s}_{i}$, augmented
+with the local gradients of the coefficient surfaces in the two spatial
+dimensions, indicated by $\nabla_{u}$ and $\nabla_{v}$:
+
+\[
+\bm{\zeta}(\bm{s}_{i})=\left(\bm{\beta}(\bm{s}_{i})^{T}\;\;\nabla_{u}\bm{\beta}(\bm{s}_{i})^{T}\;\;\nabla_{v}\bm{\beta}(\bm{s}_{i})^{T}\right)^{T}
+\]
+
+
+
+\subsection{Estimation}
+
+The total log-likelihood of the observed data is the sum of the log-likelihood
+of each individual observation: 
+\begin{align}
+\ell\left\{ \bm{\zeta}\right\} =-(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}_{i})\right\} ^{2}\right].\label{eq:coefficients}
+\end{align}
+
+
+Since there are a total of $n\times3(p+1)+1$ parameters for $n$
+observations, the model is not identifiable and it is not possible
+to directly maximize the total likelihood. But since the coefficient
+functions are smooth, the coefficients at location $\bm{s}$ can approximate
+the coefficients within some neighborhood of $\bm{s}$, with the quality
+of the approximation declining as the distance from $\bm{s}$ increases.
+
+This intuition is formalized by the local likelihood, which is maximized
+at location $\bm{s}$ to estimate the local coefficients $\bm{\zeta}(\bm{s})$:
+\begin{align}
+\mathcal{L}\left\{ \bm{\zeta}(\bm{s})\right\}  & =\prod_{i=1}^{n}\left\{ \left(2\pi\sigma^{2}\right)^{-1/2}\exp\left[-(1/2)\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ^{2}\right]\right\} ^{K_{h}(\|\bm{s}-\bm{s}_{i}\|)},\label{eq:local-likelihood}
+\end{align}
+
+
+The weights are computed from a kernel function $K_{h}(\cdot)$ such
+as the Epanechnikov kernel: 
+\begin{align}
+K_{h}(\|\bm{s}_{i}-\bm{s}_{i'}\|) & =h^{-2}K\left(h^{-1}\|\bm{s}_{i}-\bm{s}_{i'}\|\right)\notag\label{eq:epanechnikov}\\
+K(x) & =\begin{cases}
+(3/4)(1-x^{2}) & \mbox{ if }x<1,\\
+0 & \mbox{ if }x\geq1.
+\end{cases}
+\end{align}
+
+
+Thus, the local log-likelihood function is, up to an additive constant:
+\begin{align}
+\ell\left\{ \bm{\zeta}(\bm{s})\right\}  & =-(1/2)\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ^{2}\right].\label{eq:local-log-likelihood}
+\end{align}
+
+
+Letting $\bm{W}(\bm{s})$ be a diagonal weight matrix where $W_{ii}(\bm{s})=K_{h}(\|\bm{s}-\bm{s}_{i}\|)$,
+the local likelihood is maximized by weighted least squares: 
+\begin{align}
+\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\}  & =(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\notag\label{eq:zeta-hat}\\
+\therefore\tilde{\bm{\zeta}}(\bm{s}) & =\left\{ \bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Y}
+\end{align}
+
+
+%    Now define the penalized weighted squared error loss $Q$:
+
+%    \begin{equation*}%        Q \left\{ \bm{\zeta} (\bm{s}) \right\} = (1/2) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta} (\bm{s}) \right\}^T \bm{W}(\bm{s}) \left\{ \bm{Y} - \bm{Z}(\bm{s}) \bm{\zeta} (\bm{s}) \right\}^T + \sum_{j=1}^p \phi_j(\bm{s}) \| \bm{\zeta}(\bm{s}) \|.%    \end{equation*}%    From (\ref{eq:local-log-likelihood}), the maximum local likelihood estimate $\hat{\sigma}_i^2$ is:	 %    \begin{align}%        \hat{\sigma}^2(\bm{s}) = \left\{ \sum \limits_{i=1}^{n} K_h( \| \bm{s} - \bm{s}_i \| ) \right\}^{-1} \sum \limits_{i=1}^n K_h( \| \bm{s} - \bm{s}_i \| ) \left\{ y(\bm{s}_i) - \bm{z}'(\bm{s}_i) \hat{\bm{\zeta}}(\bm{s}) \right\}^2%    \end{align}
+
+
+\section{Local variable selection and parameter estimation Estimating the
+local coefficients by (\ref{eq:zeta-hat}) relies on \emph{a priori}
+variable selection. The goal of local adaptive grouped regularization
+(LAGR) is to simultaneously select the locally relevant predictors
+and estimate the local coefficients.}
+
+
+\section{\label{section:model-selection}}
+
+
+\subsection{Local variable selection}
+
+The proposed LAGR penalty is an adaptive $\ell_{1}$ penalty akin
+to the adaptive group lasso \citep{Wang-Leng-2008,Zou:2006}. Grouped
+variables are selected together for inclusion in the model. Each group
+in a LAGR model consists of one covariate and its gradients on the
+two dimensions of spatial location. That is, $\bm{\zeta}_{j}(\bm{s})=\left(\beta_{j}(\bm{s})\;\;\;\nabla_{u}\beta_{j}(\bm{s})\;\;\;\nabla_{v}\beta_{j}(\bm{s})\right)^{T}$
+for $j=1,\dots,p$.
+
+The objective function for the LAGR at location $\bm{s}$ is the penalized
+local sum of squares: 
+\begin{align}
+Q\{\bm{\zeta}(\bm{s})\} & =\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\} +\mathcal{J}\{\bm{\zeta}(\bm{s})\}\notag\label{eq:adaptive-lasso-WLS}\\
+ & =(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|
+\end{align}
+
+
+which is the sum of the weighted sum of squares $\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\} $
+and the LAGR penalty $\mathcal{J}\{\bm{\zeta}(\bm{s})\}$.
+
+The LAGR penalty for the $j$th group of coefficients $\bm{\zeta}_{j}(\bm{s})$
+at location $\bm{s}$ is $\phi_{j}(\bm{s})=\lambda_{n}(\bm{s})\|\tilde{\bm{\zeta}}_{j}(\bm{s})\|^{-\gamma}$,
+where $\lambda_{n}(\bm{s})>0$ is a the local tuning parameter applied
+to all coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{j}(\bm{s})$
+is the vector of unpenalized local coefficients from (\ref{eq:zeta-hat}).
+
+
+\subsection{Computation}
+
+
+\subsubsection{Tuning parameter selection}
+
+Implementing LAGR requires the selection of local tuning parameters.
+The criteria commonly used for selecting tuning parameters in lasso-type
+models are appropriate here, including GCV \citep{Wahba:1990}, Cp
+\citep{Mallows-1973}, AIC \citep{Akaike-1973}, and BIC \citep{Schwarz-1978}.
+All of the examples and simulations presented herein used the corrected
+AIC (AICc) \citep{Hurvich-1998} for tuning parameter selection:
+
+\begin{equation}
+\text{AIC}_{\text{c}}(\bm{s})=\hat{\sigma}^{-2}(\bm{s})\|\bm{Y}-\bm{Z}(\bm{s})\hat{\bm{\zeta}}(\bm{s})\|^{2}+2df+2\frac{df(df+1)}{\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)-df-1}
+\end{equation}
+
+
+where $df$ is the degrees of freedom as defined in \citet{Yuan-Lin-2006}:
+
+\begin{equation}
+df=\sum_{j=1}^{p}I\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|\right\} +2\sum_{j=1}^{p}\frac{\|\hat{\bm{\zeta}}_{j}(\bm{s})\|}{\|\tilde{\bm{\zeta}}_{j}(\bm{s})\|}
+\end{equation}
+
+
+
+\subsubsection{Bandwidth selection}
+
+The bandwidth for a LAGR model is selected by the AICc. This requires
+an expression for the degrees of freedom for a LAGR model. For nonparametric
+regression models, the degrees of freedom are computed by the covariance
+between observations and their fitted values:
+
+\[
+df=\Sum_{i=1}^{n}cov(Y_{i}.\hat{Y}_{i})
+\]
+
+
+In a LAGR model, this covariance is estimated using the local models.
+For a single local model, the covariance of the fitted values with
+the observations is a weighted average of the covariances for each
+data point.
+
+\[
+\]
+
+
+
+\section{Asymptotic properties}
+
+
+\subsection{Notation and assumptions}
+
+Consider the local model at location $\bm{s}$ where there are $p_{0}<p$
+covariates $\bm{X}_{(a)}(\bm{s})$ with nonzero local regression coefficients,
+indicated by $\bm{\beta}_{(a)}(\bm{s})$. The remaining covariates
+$\bm{X}_{(b)}(\bm{s})$ have true coefficients equal to zero, indicated
+by $\bm{\beta}_{(b)}(\bm{s})$. Without loss of generality, assume
+these are covariates $1,\dots,p_{0}$.
+
+Let $\Psi=E\left\{ \bm{X}(\bm{s}_{1})\bm{X}^{T}(\bm{s}_{1})\right\} $.
+
+Let $h=O(n^{-1/6})$.
+
+Let $a_{n}=\max\{\phi_{j}(\bm{s}),j\le p_{0}\}$ be the largest penalty
+applied to a covariate group whose true coefficient norm is nonzero,
+and $b_{n}=\min\{\phi_{j}(\bm{s}),j>p_{0}\}$ be the smallest penalty
+applied to a covariate group whose true coefficient norm is zero.
+
+Let $\bm{Z}_{k}(\bm{s})$ be the design matrix for covariate group
+$k$, and $\bm{Z}_{-k}(\bm{s})$ be the design matrix for all the
+data except covariate group $k$, respectively. Similarly, let $\bm{\zeta}_{k}(\bm{s})$
+be the coefficients for covariate group $k$ and $\bm{\zeta}_{-k}(\bm{s})$
+be the coefficients for all covariate groups except $k$.
+
+Finally, let $\kappa_{0}=\int_{R^{2}}K(\|\bm{s}\|)ds$, $\kappa_{2}=\int_{R^{2}}[(1,0)\bm{s}]^{2}K(\|\bm{s}\|)ds=\int_{R^{2}}[(0,1)\bm{s}]^{2}K(\|\bm{s}\|)ds$,
+and $\nu_{0}=\int_{R^{2}}K^{2}(\|\bm{s}\|)ds$.
+
+
+\subsection{Results}
+
+
+\paragraph{Asymptotic normality}
+
+\begin{theorem} \label{theorem:normality} \setstretch{2} If $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
+and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$ then 
+\[
+h\sqrt{n}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\}\right]\xrightarrow{d}N(0,f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1})
+\]
+\end{theorem}
+
+
+\paragraph{Selection}
+
+\begin{theorem} \label{theorem:selection} \setstretch{2} If $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}\infty$
+and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$ then $P\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=0\right\} \to0$
+if $j\le p_{0}$ and $P\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=0\right\} \to1$
+if $j>p_{0}$. \end{theorem}
+
+
+\paragraph{Remarks}
+
+Together, Theorem \ref{theorem:normality} and Theorem \ref{theorem:selection}
+indicate that the LAGR estimates have the same asymptotic distribution
+as a local regression model where the nonzero coefficients are known
+in advance \citep{Sun-Yan-Zhang-Lu-2014}, and that the LAGR estimates
+of true zero coefficients go to zero with probability one. Thus, selection
+and estimation by LAGR has the oracle property.
+
+
+\paragraph{A note on rates}
+
+To prove the oracle properties of LAGR, we assumed that $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
+and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$. Therefore, $h^{-1}n^{-1/2}\lambda_{n}(\bm{s})\to0$
+for $j\le p_{0}$ and $hn^{-1/2}\lambda_{n}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|^{-\gamma}\to\infty$
+for $j>p_{0}$.
+
+We require that $\lambda_{n}(\bm{s})$ can satisfy both assumptions.
+Suppose $\lambda_{n}(\bm{s})=n^{\alpha}$, and recall that $h=O(n^{-1/6})$
+and $\|\tilde{\bm{\zeta}}_{p}(\bm{s})\|=O(h^{-1}n^{-1/2})$. Then
+$h^{-1}n^{-1/2}\lambda_{n}(\bm{s})=O(n^{-1/3+\alpha})$ and $hn^{-1/2}\lambda_{n}(\bm{s})\|\tilde{\bm{\zeta}}_{p}(\bm{s}\|^{-\gamma}=O(n^{-2/3+\alpha+\gamma/3})$.
+
+So $(2-\gamma)/3<\alpha<1/3$, which can only be satisfied for $\gamma>1$.
+
+
+\section{Simulations}
+
+A simulation study was undertaken to assess the performance of LAGR
+for local variable selection and coefficient estimation.
+
+
+\section{Data example}
+
+Here we present an application of LAGR to a real data set. The data
+is the Boston house price data from \citet{Harrison-Rubinfeld-1978; Gilley-Pace-1996; Pace-Gilley-1997}.
+This is areal data, measured on census tracts in Boston, Massachusetts
+for the 1978 Harrison and Rubinfeld paper. The response variable,
+MEDV, is the median selling price of homes in the census block (capped
+at USD 50,000). Predictors whose local coefficients were estimated
+via LAGR are CRIM, representing the per capita crime rate; RM, the
+average number of rooms for houses sold within the census tract; RAD,
+which measures the accessibility of radial roads from the tract; TAX,
+the full-value property tax rate per USD 10,000 (constant for all
+Boston tracts); and LSTAT, the percentage of the population in a tract
+considered ``lower status\textquotedbl{}. The same data was analyzed
+in \citet{Sun-Yan-Zhang-Lu-2014}.
+
+An adaptive bandwidth was used, with the bandwidth at each location
+set such that the sum of the kernel weights for the local model was
+17\% of the number of observations. The results are
+
+\appendix
+%dummy comment inserted by tex2lyx to ensure that this paragraph is not empty
+
+
+\section{Proofs of theorems}
+
+\label{app:proofs} \begin{proof}{[}Proof of theorem \ref{theorem:normality}{]}
+\setstretch{2} Define $V_{4}^{(n)}(\bm{u})$ to be the 
+\begin{align}
+\mkern-36muV_{4}^{(n)}(\bm{u}) & =Q\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} -Q\left\{ \bm{\zeta}(\bm{s})\right\} \notag\label{eq:consistency}\\
+ & \mkern-36mu=(1/2)\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} \right]^{T}\bm{W}(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} \right]\notag\\
+ & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|\notag\\
+ & -(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} -\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|\notag\\
+ & \mkern-36mu=(1/2)\bm{u}^{T}\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}-\bm{u}^{T}\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\notag\\
+ & +\sum_{j=1}^{p}n^{-1/2}\phi_{j}(\bm{s})n^{1/2}\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} 
+\end{align}
+
+
+Note the different limiting behavior of the third term between the
+cases $j\le p_{0}$ and $j>p_{0}$:
+
+
+\paragraph{Case $j\le p_{0}$}
+
+If $j\le p_{0}$ then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|^{-\gamma}$
+and $|\sqrt{n}\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{j}\|$
+so 
+\[
+\lim\limits _{n\to\infty}\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)\le h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\le h^{-1}n^{-1/2}a_{n}\|\bm{u}_{j}\|\to0
+\]
+
+
+
+\paragraph{Case $j>p_{0}$}
+
+If $j>p_{0}$ then $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)=\phi_{j}(\bm{s})h^{-1}n^{-1/2}\|\bm{u}_{j}\|$.
+
+And note that $h=O(n^{-1/6})$ so that if $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+then $h^{-1}n^{-1/2}b_{n}\xrightarrow{p}\infty$.
+
+Now, if $\|\bm{u}_{j}\|\ne0$ then 
+\[
+h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\ge h^{-1}n^{-1/2}b_{n}\|\bm{u}_{j}\|\to\infty
+\]
+. On the other hand, if $\|\bm{u}_{j}\|=0$ then $h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|=0$.
+
+Thus, the limit of $V_{4}^{(n)}(\bm{u})$ is the same as the limit
+of $V_{4}^{*(n)}(\bm{u})$ where
+
+\[
+\mkern-72muV_{4}^{*(n)}(\bm{u})=\begin{cases}
+(1/2)\bm{u}^{T}\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}-\bm{u}^{T}\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right] & \mbox{ if }\|\bm{u}_{j}\|=0\;\forall j>p_{0}\\
+\infty & \mbox{ otherwise }
+\end{cases}.
+\]
+
+
+From which it is clear that $V_{4}^{*(n)}(\bm{u})$ is convex and
+its unique minimizer is $\hat{\bm{u}}^{(n)}$:
+
+\begin{align}
+0 & =\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} \hat{\bm{u}}^{(n)}-\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\notag\label{eq:limit}\\
+\therefore\hat{\bm{u}}^{(n)} & =\left\{ n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\left[hn^{-1/2}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\notag\\
+\end{align}
+
+
+By the epiconvergence results of \citet{Geyer-1994} and \citet{Knight-Fu-2000},
+the minimizer of the limiting function is the limit of the minimizers
+$\hat{\bm{u}}^{(n)}$. And since, by Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014},
+
+\begin{equation}
+\hat{\bm{u}}^{(n)}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\},f(\bm{s})\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
+\end{equation}
+the result is proven. \end{proof}
+
+\begin{proof}{[}Proof of theorem \ref{theorem:selection}{]} \setstretch{2}
+We showed in Theorem \ref{theorem:normality} that $\hat{\bm{\zeta}}_{j}(\bm{s})\xrightarrow{p}\bm{\zeta}_{j}(\bm{s})+\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\}$,
+so to complete the proof of selection consistency, it only remains
+to show that $P\left\{ \hat{\bm{\zeta}}_{j}(\bm{s})=0\right\} \to1$
+if $j>p_{0}$.
+
+The proof is by contradiction. Without loss of generality we consider
+only the case $j=p$.
+
+Assume $\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ne0$. Then $Q\left\{ \bm{\zeta}(\bm{s})\right\} $
+is differentiable w.r.t. $\bm{\zeta}_{p}(\bm{s})$ and is minimized
+where 
+\begin{align}
+0 & =\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}_{-p}(\bm{s})\hat{\bm{\zeta}}_{-p}(\bm{s})-\bm{Z}_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})\right\} -\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag\\
+ & =\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\notag\\
+ & \mkern+72mu+\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{-p}(\bm{s})\left[\bm{\zeta}_{-p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{-p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{-p}(\bm{s})\right]\notag\\
+ & \mkern+72mu+\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{p}(\bm{s})\left[\bm{\zeta}_{p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{p}(\bm{s})\right]\notag\\
+ & \mkern+72mu-\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag\\
+\end{align}
+
+
+So 
+\begin{align}
+\frac{h}{\sqrt{n}}\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|} & =\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\frac{h}{\sqrt{n}}\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\notag\label{eq:selection}\\
+ & +\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{-p}(\bm{s})\right\} h\sqrt{n}\left[\bm{\zeta}_{-p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{-p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{-p}(\bm{s})\right]\notag\\
+ & +\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{p}(\bm{s})\right\} h\sqrt{n}\left[\bm{\zeta}_{p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{p}(\bm{s})\right]
+\end{align}
+
+
+From Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014}, $\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{-p}(\bm{s})\right\} =O_{p}(1)$
+and $\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{p}(\bm{s})\right\} =O_{p}(1)$.
+
+From Theorem 3 of \citet{Sun-Yan-Zhang-Lu-2014}, we have that $h\sqrt{n}\left[\hat{\bm{\zeta}}_{-p}(\bm{s})-\bm{\zeta}_{-p}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{-p}(\bm{s})+\nabla_{vv}^{2}\zeta_{-p}(\bm{s})\right\} \right]=O_{p}(1)$
+and $h\sqrt{n}\left[\hat{\bm{\zeta}}_{p}(\bm{s})-\bm{\zeta}_{p}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{p}(\bm{s})+\nabla_{vv}^{2}\zeta_{p}(\bm{s})\right\} \right]=O_{p}(1)$.
+
+So the second and third terms of the sum in (\ref{eq:selection})
+are $O_{p}(1)$.
+
+We showed in the proof of \ref{theorem:normality} that $h\sqrt{n}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]=O_{p}(1)$.
+
+The three terms of the sum to the right of the equals sign in (\ref{eq:selection})
+are $O_{p}(1)$, so for $\hat{\bm{\zeta}}_{p}(\bm{s})$ to be a solution,
+we must have that $hn^{-1/2}\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|=O_{p}(1)$.
+
+But since by assumption $\hat{\bm{\zeta}}_{p}(\bm{s})\ne0$, there
+must be some $k\in\{1,\dots,3\}$ such that $|\hat{\zeta}_{p_{k}}(\bm{s})|=\max\{|\hat{\zeta}_{p_{k'}}(\bm{s})|:1\le k'\le3\}$.
+And for this $k$, we have that $|\hat{\zeta}_{p_{k}}(\bm{s})|/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ge1/\sqrt{3}>0$.
+
+Now since $hn^{-1/2}b_{n}\to\infty$, we have that $hn^{-1/2}\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ge hb_{n}/\sqrt{3n}\to\infty$
+and therefore the term to the left of the equals sign dominates the
+sum to the right of the equals sign in (\ref{eq:selection}). So for
+large enough $n$, $\hat{\bm{\zeta}}_{p}(\bm{s})\ne0$ cannot maximize
+$Q$.
+
+So $P\left\{ \hat{\bm{\zeta}}_{(b)}(\bm{s})=0\right\} \to1$. \end{proof}
+
+
+\section{References}
+
+ \bibliographystyle{chicago}
+\bibliography{../../references/gwr}
+
+\end{document}

@@ -66,11 +66,7 @@ data(boston)
 boston.c$CHAS = as.numeric(boston.c$CHAS)
 
 ## MA 1970 tracts
-<<<<<<< HEAD
 setwd("data/1970-tract-shapes-MA")
-=======
-setwd("data/1970-tract-shapes-MA/")
->>>>>>> a4f25fc5876ad09bf3e1df78f36e68408443b208
 MAtr70 <- readOGR(".", "MA-1970-tracts")
 setwd("../..")
 
@@ -125,19 +121,17 @@ for (bw in bws) {
 }
 
 for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
-    boston.tracts@data[[paste('coef', v, sep='')]] = sapply(model[['model']][['models']], function(x) x[['coef']][[v]])
+    boston.tracts@data[[paste('coef', v, sep='')]] = sapply(m.boston[['model']][['models']], function(x) x[['coef']][[v]])
 }
 
 #Draw a map:
 boston.map = poly_coords(boston.tracts)
-qplot(PolyCoordsY, PolyCoordsX, data=boston.map, geom="polygon", group=Poly_Name, fill=coefLSTAT)
 
+maps = list()
 for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
-    bmap = ggplot(boston.map) +
+    maps[[v]] = ggplot(boston.map) +
         aes(x=PolyCoordsY, y=PolyCoordsX, group=Poly_Name) +
         aes_string(fill=paste('coef', v, sep='')) +
         geom_polygon() +
         scale_fill_gradient2(low='orange', mid='white', high="purple", midpoint=0)
-        
-    print(bmap)
 }

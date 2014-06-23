@@ -1,0 +1,25 @@
+The project breaks into these parts:
+ 1) Introduce the LAGR. This probably includes both of these:
+  + Gaussian
+  + GLM
+ - This is probably one paper. It describes a varying-coefficients model, and the estimation results from Cai, Fan, Li and Sun, Yan, Zhang, Lu. It then introduces the idea of LAGR and its oracle properties.
+ - Simulation results are presented as well.
+ - An example using real data goes here too. I need to think about how to discuss the data analysis example. It's easy to fit the coefficients and to compare them to the results of GWR and OLS. Also: describe the range of variability? Scatterplot the coefficients?
+
+ 2) Inference for LAGR models
+ - This paper talks about the use of LAGR models for statistical inference. Using profile likelihood based on the AICc to find the distribution of the bandwidth, and then drawing from that distribution to integrate out dependence on the selected bandwidth.
+ - Also, for each local model, profile the likelihood for the tuning parameter \lambda. 
+ - The inferences here are based on identifying the LAGR model that is closest to the (unknowable) truth in a K-L sense. The AICc is an estimate of the K-L distance, but small differences in AICc indicate uncertainty about the actually KL closest model. So we do multi-model inference.
+
+ 3) An example analysis
+
+
+ - A GLM is a model that represents an exponential family
+  - Here is what the parameters mean:
+
+ - The LAGR model is based on the local log likelihood
+ - Tuning parameters are selected to estimate a model that is as close as possible (in a K-L sense) to the truth
+  - The K-L distance is estimated by the AICc.
+  - There is one AICc for local models and another for the global model.
+
+ - The profile likelihood 

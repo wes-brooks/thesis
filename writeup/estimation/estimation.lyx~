@@ -1,0 +1,1894 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\begin_modules
+theorems-ams-bytype
+natbibapa
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing double
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip bigskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+LAGR and its oracle properties
+\end_layout
+
+\begin_layout Author
+Wesley Brooks
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Here goes the literature review.
+ Essetial elements are:
+\end_layout
+
+\begin_layout Standard
+- nonparametric regression
+\end_layout
+
+\begin_layout Standard
+- varying coefficients regression
+\end_layout
+
+\begin_layout Standard
+- adaptive lasso
+\end_layout
+
+\begin_layout Standard
+- generalized linear models
+\end_layout
+
+\begin_layout Section
+Varying coefficient models
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:vcr"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Model
+\end_layout
+
+\begin_layout Standard
+Consider 
+\begin_inset Formula $n$
+\end_inset
+
+ data points, observed at sampling locations 
+\begin_inset Formula $\bm{s}_{i}=(s_{i,1}\;\; s_{i,2})^{T}$
+\end_inset
+
+ for 
+\begin_inset Formula $i=1,\dots,\bm{s}_{n}$
+\end_inset
+
+, which are distributed in a spatial domain 
+\begin_inset Formula $D\subset\mathbb{R}^{2}$
+\end_inset
+
+ according to a density 
+\begin_inset Formula $f(\bm{s})$
+\end_inset
+
+.
+ For 
+\begin_inset Formula $i=1,\dots,n$
+\end_inset
+
+, let 
+\begin_inset Formula $y(\bm{s}_{i})$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{x}(\bm{s}_{i})$
+\end_inset
+
+ denote, respectively, the univariate response and the 
+\begin_inset Formula $(p+1)$
+\end_inset
+
+-variate vector of covariates measured at location 
+\begin_inset Formula $\bm{s}_{i}$
+\end_inset
+
+.
+ At each location 
+\begin_inset Formula $\bm{s}_{i}$
+\end_inset
+
+, assume that the outcome is related to the covariates by a linear model
+ where the coefficients 
+\begin_inset Formula $\bm{\beta}(\bm{s}_{i})$
+\end_inset
+
+ may be spatially-varying and 
+\begin_inset Formula $\varepsilon(\bm{s}_{i})$
+\end_inset
+
+ is random error at location 
+\begin_inset Formula $\bm{s}_{i}$
+\end_inset
+
+.
+ That is, 
+\begin_inset Formula 
+\begin{align}
+y(\bm{s}_{i})=\bm{x}(\bm{s}_{i})'\bm{\beta}(\bm{s}_{i})+\varepsilon(\bm{s}_{i}).\label{eq:lm(s)}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Further assume that the error term 
+\begin_inset Formula $\varepsilon(\bm{s}_{i})$
+\end_inset
+
+ is normally distributed with zero mean and variance 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+, and that 
+\begin_inset Formula $\varepsilon(\bm{s}_{i})$
+\end_inset
+
+, 
+\begin_inset Formula $i=1,\dots,n$
+\end_inset
+
+ are independent.
+ That is, 
+\begin_inset Formula 
+\begin{align}
+\bm{\varepsilon}\overset{iid}{\sim}\mathcal{N}\left(0,\sigma^{2}\right).\label{eq:err}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Augment the covariates and the coefficients with location interactions
+\end_layout
+
+\begin_layout Standard
+In the context of nonparametric regression, the boundary-effect bias can
+ be reduced by local polynomial modeling, usually in the form of a locally
+ linear model 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fan-Gijbels-1996"
+
+\end_inset
+
+.
+ Here, locally linear coefficients are estimated by augmenting the local
+ design matrix with covariate-by-location interactions in two dimensions
+ as proposed by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Wang-2008b"
+
+\end_inset
+
+.
+ The augmented local design matrix at location 
+\begin_inset Formula $\bm{s}_{i}$
+\end_inset
+
+ is 
+\begin_inset Formula 
+\begin{align}
+\bm{Z}(\bm{s}_{i})=\left(\bm{X}\:\: L_{i}\bm{X}\:\: M_{i}\bm{X}\right)
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\bm{X}$
+\end_inset
+
+ is the unaugmented matrix of covariates, 
+\begin_inset Formula $L_{i}=\text{diag}\{s_{i'_{1}}-s_{i_{1}}\}$
+\end_inset
+
+ and 
+\begin_inset Formula $M_{i}=\text{diag}\{s_{i'_{2}}-s_{i_{2}}\}$
+\end_inset
+
+ for 
+\begin_inset Formula $i'=1,\dots,n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now we have that 
+\begin_inset Formula $Y(\bm{s}_{i})=\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{\zeta}(\bm{s}_{i})+\varepsilon(\bm{s}_{i})$
+\end_inset
+
+, where 
+\begin_inset Formula $\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}$
+\end_inset
+
+ is the 
+\begin_inset Formula $i$
+\end_inset
+
+th row of the matrix 
+\begin_inset Formula $\bm{Z}(\bm{s}_{i})$
+\end_inset
+
+ as a row vector, and 
+\begin_inset Formula $\bm{\zeta}(\bm{s}_{i})$
+\end_inset
+
+ is the vector of local coefficients at location 
+\begin_inset Formula $\bm{s}_{i}$
+\end_inset
+
+, augmented with the local gradients of the coefficient surfaces in the
+ two spatial dimensions, indicated by 
+\begin_inset Formula $\nabla_{u}$
+\end_inset
+
+ and 
+\begin_inset Formula $\nabla_{v}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\bm{\zeta}(\bm{s}_{i})=\left(\bm{\beta}(\bm{s}_{i})^{T}\;\;\nabla_{u}\bm{\beta}(\bm{s}_{i})^{T}\;\;\nabla_{v}\bm{\beta}(\bm{s}_{i})^{T}\right)^{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Local likelihood
+\end_layout
+
+\begin_layout Standard
+The total log-likelihood of the observed data is the sum of the log-likelihood
+ of each individual observation: 
+\begin_inset Formula 
+\begin{align}
+\ell\left\{ \bm{\zeta}\right\} =-(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}_{i})\right\} ^{2}\right].\label{eq:coefficients}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since there are a total of 
+\begin_inset Formula $n\times3(p+1)+1$
+\end_inset
+
+ parameters for 
+\begin_inset Formula $n$
+\end_inset
+
+ observations, the model is not identifiable and it is not possible to directly
+ maximize the total likelihood.
+ But since the coefficient functions are smooth, the coefficients at location
+ 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ can approximate the coefficients within some neighborhood of 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+, with the quality of the approximation declining as the distance from 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ increases.
+\end_layout
+
+\begin_layout Standard
+This intuition is formalized by the local likelihood, which is maximized
+ at location 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ to estimate the local coefficients 
+\begin_inset Formula $\bm{\zeta}(\bm{s})$
+\end_inset
+
+: 
+\begin_inset Formula 
+\begin{align}
+\mathcal{L}\left\{ \bm{\zeta}(\bm{s})\right\}  & =\prod_{i=1}^{n}\left\{ \left(2\pi\sigma^{2}\right)^{-1/2}\exp\left[-(1/2)\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ^{2}\right]\right\} ^{K_{h}(\|\bm{s}-\bm{s}_{i}\|)},\label{eq:local-likelihood}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The weights are computed from a kernel function 
+\begin_inset Formula $K_{h}(\cdot)$
+\end_inset
+
+ such as the Epanechnikov kernel: 
+\begin_inset Formula 
+\begin{align}
+K_{h}(\|\bm{s}_{i}-\bm{s}_{i'}\|) & =h^{-2}K\left(h^{-1}\|\bm{s}_{i}-\bm{s}_{i'}\|\right)\notag\label{eq:epanechnikov}\\
+K(x) & =\begin{cases}
+(3/4)(1-x^{2}) & \mbox{ if }x<1,\\
+0 & \mbox{ if }x\geq1.
+\end{cases}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus, the local log-likelihood function is, up to an additive constant:
+ 
+\begin_inset Formula 
+\begin{align}
+\ell\left\{ \bm{\zeta}(\bm{s})\right\}  & =-(1/2)\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ^{2}\right].\label{eq:local-log-likelihood}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Estimating the coefficients
+\end_layout
+
+\begin_layout Standard
+Letting 
+\begin_inset Formula $\bm{W}(\bm{s})$
+\end_inset
+
+ be a diagonal weight matrix where 
+\begin_inset Formula $W_{ii}(\bm{s})=K_{h}(\|\bm{s}-\bm{s}_{i}\|)$
+\end_inset
+
+, the local likelihood is maximized by weighted least squares: 
+\begin_inset Formula 
+\begin{align}
+\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\}  & =(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\notag\label{eq:zeta-hat}\\
+\therefore\tilde{\bm{\zeta}}(\bm{s}) & =\left\{ \bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Y}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now Theorem 3 of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Sun-Yan-Zhang-Lu-2014"
+
+\end_inset
+
+ says that, for any given 
+\begin_inset Formula $\bm{{s}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Local variable selection with LAGR
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:lagr-gaussian"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Estimating the local coefficients by (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:zeta-hat"
+
+\end_inset
+
+) relies on 
+\emph on
+a priori
+\emph default
+ variable selection.
+ The goal of local adaptive grouped regularization (LAGR) is to simultaneously
+ select the locally relevant predictors and estimate the local coefficients.
+ The proposed LAGR penalty is an adaptive 
+\begin_inset Formula $\ell_{1}$
+\end_inset
+
+ penalty akin to the adaptive group lasso 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Wang-Leng-2008,Zou-2006"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Variable groupings
+\end_layout
+
+\begin_layout Standard
+Each raw covariate in a LAGR model is grouped with its covariate-by-location
+ interactions.
+ That is, 
+\begin_inset Formula $\bm{\zeta}_{j}(\bm{s})=\left(\beta_{j}(\bm{s})\;\;\;\nabla_{u}\beta_{j}(\bm{s})\;\;\;\nabla_{v}\beta_{j}(\bm{s})\right)^{T}$
+\end_inset
+
+ for 
+\begin_inset Formula $j=1,\dots,p$
+\end_inset
+
+.
+ By the mechanism of the group lasso, variables within the same group are
+ included in or dropped from the model together.
+ The intercept group is left unpenalized.
+\end_layout
+
+\begin_layout Subsection
+Write down the LAGR-penalized local likelihood
+\end_layout
+
+\begin_layout Standard
+The objective function for the LAGR at location 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ is the penalized local sum of squares: 
+\begin_inset Formula 
+\begin{align}
+Q\{\bm{\zeta}(\bm{s})\} & =\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\} +\mathcal{J}\{\bm{\zeta}(\bm{s})\}\notag\label{eq:adaptive-lasso-WLS}\\
+ & =(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is the sum of the weighted sum of squares 
+\begin_inset Formula $\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\} $
+\end_inset
+
+ and the LAGR penalty 
+\begin_inset Formula $\mathcal{J}\{\bm{\zeta}(\bm{s})\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The LAGR penalty for the 
+\begin_inset Formula $j$
+\end_inset
+
+th group of coefficients 
+\begin_inset Formula $\bm{\zeta}_{j}(\bm{s})$
+\end_inset
+
+ at location 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ is 
+\begin_inset Formula $\phi_{j}(\bm{s})=\lambda_{n}(\bm{s})\|\tilde{\bm{\zeta}}_{j}(\bm{s})\|^{-\gamma}$
+\end_inset
+
+, where 
+\begin_inset Formula $\lambda_{n}(\bm{s})>0$
+\end_inset
+
+ is a the local tuning parameter applied to all coefficients at location
+ 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{\bm{\zeta}}_{j}(\bm{s})$
+\end_inset
+
+ is the vector of unpenalized local coefficients from (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:zeta-hat"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsection
+Oracle properties of LAGR
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "theorem:normality"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Asymptotic normality
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+If 
+\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
+\end_inset
+
+ and 
+\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+\end_inset
+
+ then 
+\begin_inset Formula 
+\[
+h\sqrt{n}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\}\right]\xrightarrow{d}N(0,f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout --Separator--
+
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "theorem:selection"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Selection consistency
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+If 
+\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}\infty$
+\end_inset
+
+ and 
+\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+\end_inset
+
+ then 
+\begin_inset Formula $P\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=0\right\} \to0$
+\end_inset
+
+ if 
+\begin_inset Formula $j\le p_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $P\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=0\right\} \to1$
+\end_inset
+
+ if 
+\begin_inset Formula $j>p_{0}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Paragraph
+Remarks
+\end_layout
+
+\begin_layout Standard
+Together, Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:normality"
+
+\end_inset
+
+ and Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:selection"
+
+\end_inset
+
+ indicate that the LAGR estimates have the same asymptotic distribution
+ as a local regression model where the nonzero coefficients are known in
+ advance 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Sun-Yan-Zhang-Lu-2014"
+
+\end_inset
+
+, and that the LAGR estimates of true zero coefficients go to zero with
+ probability one.
+ Thus, selection and estimation by LAGR has the oracle property.
+\end_layout
+
+\begin_layout Paragraph
+A note on rates
+\end_layout
+
+\begin_layout Standard
+To prove the oracle properties of LAGR, we assumed that 
+\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
+\end_inset
+
+ and 
+\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+\end_inset
+
+.
+ Therefore, 
+\begin_inset Formula $h^{-1}n^{-1/2}\lambda_{n}(\bm{s})\to0$
+\end_inset
+
+ for 
+\begin_inset Formula $j\le p_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $hn^{-1/2}\lambda_{n}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|^{-\gamma}\to\infty$
+\end_inset
+
+ for 
+\begin_inset Formula $j>p_{0}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We require that 
+\begin_inset Formula $\lambda_{n}(\bm{s})$
+\end_inset
+
+ can satisfy both assumptions.
+ Suppose 
+\begin_inset Formula $\lambda_{n}(\bm{s})=n^{\alpha}$
+\end_inset
+
+, and recall that 
+\begin_inset Formula $h=O(n^{-1/6})$
+\end_inset
+
+ and 
+\begin_inset Formula $\|\tilde{\bm{\zeta}}_{p}(\bm{s})\|=O(h^{-1}n^{-1/2})$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $h^{-1}n^{-1/2}\lambda_{n}(\bm{s})=O(n^{-1/3+\alpha})$
+\end_inset
+
+ and 
+\begin_inset Formula $hn^{-1/2}\lambda_{n}(\bm{s})\|\tilde{\bm{\zeta}}_{p}(\bm{s}\|^{-\gamma}=O(n^{-2/3+\alpha+\gamma/3})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+So 
+\begin_inset Formula $(2-\gamma)/3<\alpha<1/3$
+\end_inset
+
+, which can only be satisfied for 
+\begin_inset Formula $\gamma>1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Extension to GLLMs
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:lagr-gllm"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Model
+\end_layout
+
+\begin_layout Standard
+Generalized linear models (GLM) extend the linear model to distributions
+ other than gaussian.
+ The generalized local linear model (GLLM) is an extension of the GLM to
+ varying coefficient models via local regression.
+\end_layout
+
+\begin_layout Standard
+As was the case for local linear regression models, the GLLM coefficients
+ are smooth functions of location, called 
+\begin_inset Formula $\bm{\beta}(\bm{s})$
+\end_inset
+
+.
+ If the response variable 
+\begin_inset Formula $y$
+\end_inset
+
+ is from an exponential-family distribution then its density is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} =c\left\{ y(\bm{s})\right\} \times\exp\left[\frac{\theta(\bm{s})y(\bm{s})-b\left\{ \theta(\bm{s})\right\} }{a\left\{ \phi(\bm{s})\right\} }\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\phi$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta$
+\end_inset
+
+ are parameters and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left\{ \theta(\bm{s})\right\} \\
+\theta(\bm{s})= & (g\circ b')^{-1}\left\{ \eta(\bm{s})\right\} \\
+\eta(\bm{s})= & \bm{x}^{T}(\bm{s})\bm{\beta}(\bm{s})=g\left\{ \mu(\bm{s})\right\} \\
+\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & b''\left\{ \theta(\bm{s})\right\} a\left\{ \phi(\bm{s})\right\} 
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The function 
+\begin_inset Formula $g(\cdot)$
+\end_inset
+
+ is called the link function.
+ If its inverse 
+\begin_inset Formula $g^{-1}(\cdot)=b'(\cdot)$
+\end_inset
+
+ then the composition 
+\begin_inset Formula $(g\circ b')(\cdot)$
+\end_inset
+
+ is the identity function.
+ This particular choice of 
+\begin_inset Formula $g$
+\end_inset
+
+ is called the canonical link.
+ We follow the practice of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fan-Heckman-Wand-1995"
+
+\end_inset
+
+ in assuming the use of the canonical link because it is simple and because
+ using an alternative link function would hardly affect the local fit.
+\end_layout
+
+\begin_layout Standard
+Under the canonical link function, the expressions for the mean and variance
+ of the response variable can be simplified to
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left\{ \eta(\bm{s})\right\} \\
+\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & a\left\{ \phi(\bm{s})\right\} /g'\left\{ \mu(\bm{s})\right\} =V\left\{ \mu(\bm{s})\right\} \times a\left\{ \phi(\bm{s})\right\} 
+\end{align*}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsection
+Local quasi-likelihood
+\end_layout
+
+\begin_layout Standard
+Assuming the canonical link, all that is required is to specify the mean-varianc
+e relationship via the variance function, 
+\begin_inset Formula $V\left\{ \mu(\bm{s})\right\} $
+\end_inset
+
+.
+ Then the GLLM coefficients can be estimated by maximizing the local quasi-likel
+ihood 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\ell\left\{ \bm{\zeta}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right].
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The local quasi-likelihood generalizes the local log-likelihood that was
+ used to estimate coefficients in the local linear model case.
+ The quasi-likelihood is convex, and is defined in terms of its derivative,
+ the quasi-score function
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial}{\partial\mu}Q(\mu,y)=\frac{y-\mu}{V(\mu)}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Estimation
+\end_layout
+
+\begin_layout Standard
+Under these conditions, the local quasi-likelihood is maximized where
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\ell'\left\{ \hat{{\bm{\zeta}}}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\frac{y(\bm{s}_{i})-\hat{\mu}(\bm{s}_{i})}{V\left\{ \hat{\mu}(\bm{s}_{i})\right\} g'\left\{ \hat{\mu}(\bm{s}_{i})\right\} }\bm{z}(\bm{s}_{i})=\bm{0}_{3p}.
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Except for the 
+\begin_inset Formula $K_{h}(\|\bm{s}-\bm{s}_{i}\|)$
+\end_inset
+
+ term, this is the same as the normal equations for estimating coefficients
+ in a GLM.
+ The method of iteratively reweighted least squares (IRLS) is used to solve
+ for 
+\begin_inset Formula $\hat{{\bm{\zeta}}}(\bm{s})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Distribution of the local coefficients
+\end_layout
+
+\begin_layout Standard
+The asymptotic distribution of the local coefficients in a varying-coefficients
+ GLM with a one-dimensional effect-modifying parameter are given in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Cai-Fan-Li-2000"
+
+\end_inset
+
+.
+ For coefficients that vary in two dimensions (e.g.
+ spatial location), the asymptotic distribution under the canonical link
+ is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}V\left\{ \mu(\bm{s})\right\} \Psi^{-1}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+LAGR penalty
+\end_layout
+
+\begin_layout Standard
+As in the case of linear models, the LAGR for GLMs is a grouped 
+\begin_inset Formula $\ell_{1}$
+\end_inset
+
+ regularization method.
+ 
+\end_layout
+
+\begin_layout Subsection
+Oracle properties of LAGR in the GLM setting
+\end_layout
+
+\begin_layout Section
+Simulations
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:simulations"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A simulation study was conducted to assess the performance of the method
+ described in Sections 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:vcr"
+
+\end_inset
+
+--
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:lagr-gaussian"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Data were simulated on the domain 
+\begin_inset Formula $[0,1]^{2}$
+\end_inset
+
+, which was divided into a 
+\begin_inset Formula $30\times30$
+\end_inset
+
+ grid.
+ Each of 
+\begin_inset Formula $p=5$
+\end_inset
+
+ covariates 
+\begin_inset Formula $X_{1},\dots,X_{5}$
+\end_inset
+
+ was simulated by a Gaussian random field with mean zero and exponential
+ covariance function 
+\begin_inset Formula $\text{Cov}\left(X_{ji},X_{ji'}\right)=\sigma_{x}^{2}\exp{\left(-\tau_{x}^{-1}\delta_{ii'}\right)}$
+\end_inset
+
+ where 
+\begin_inset Formula $\sigma_{x}^{2}=1$
+\end_inset
+
+ is the variance, 
+\begin_inset Formula $\tau_{x}=0.1$
+\end_inset
+
+ is the range parameter, and 
+\begin_inset Formula $\delta_{ii'}$
+\end_inset
+
+ is the Euclidean distance 
+\begin_inset Formula $\|\bm{s}_{i}-\bm{s}_{i'}\|_{2}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Correlation was induced between the covariates by multiplying the matrix
+ 
+\begin_inset Formula $\bm{X}=\left(X_{1}\cdots X_{5}\right)$
+\end_inset
+
+ by 
+\begin_inset Formula $\bm{R}$
+\end_inset
+
+, where 
+\begin_inset Formula $\bm{R}$
+\end_inset
+
+ is the Cholesky decomposition of the covariance matrix 
+\begin_inset Formula $\bm{\Sigma}=\bm{R}'\bm{R}$
+\end_inset
+
+.
+ The covariance matrix 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ is a 
+\begin_inset Formula $5\times5$
+\end_inset
+
+ matrix that has ones on the diagonal and 
+\begin_inset Formula $\rho$
+\end_inset
+
+ for all off-diagonal entries, where 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is the between-covariate correlation.
+ 
+\end_layout
+
+\begin_layout Standard
+The simulated response was 
+\begin_inset Formula $y_{i}=\bm{x}'_{i}\bm{\beta}_{i}+\varepsilon_{i}$
+\end_inset
+
+ for 
+\begin_inset Formula $i=1,\dots,n$
+\end_inset
+
+ where 
+\begin_inset Formula $n=900$
+\end_inset
+
+ and the 
+\begin_inset Formula $\varepsilon_{i}$
+\end_inset
+
+'s were iid Gaussian with mean zero and variance 
+\begin_inset Formula $\sigma_{\varepsilon}^{2}$
+\end_inset
+
+.
+ The simulated data included the response 
+\begin_inset Formula $y$
+\end_inset
+
+ and five covariates 
+\begin_inset Formula $x_{1},\dots,x_{5}$
+\end_inset
+
+.
+ The true data-generating model uses only 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+.
+ The variables 
+\begin_inset Formula $x_{2},\dots,x_{5}$
+\end_inset
+
+ are included to assess performance in model selection.
+ 
+\end_layout
+
+\begin_layout Standard
+There were twelve simulation settings, each of which was simulated 100 times.
+ For each of the twelve settings, 
+\begin_inset Formula $\beta_{1}(\bm{s})$
+\end_inset
+
+, the true coefficient surface for 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+, was nonzero in at least part of the domain, with a minimum of zero and
+ maximum of one.
+ Three parameters were varied to produce the twelve settings: there were
+ three functional forms for the coefficient surface 
+\begin_inset Formula $\beta_{1}(\bm{s})$
+\end_inset
+
+, data was simulated both with (
+\begin_inset Formula $\rho=0.5$
+\end_inset
+
+) and without (
+\begin_inset Formula $\rho=0$
+\end_inset
+
+) correlation between the covariates, and simulations were made with low
+ (
+\begin_inset Formula $\sigma_{\varepsilon}^{2}=0.25$
+\end_inset
+
+) and high (
+\begin_inset Formula $\sigma_{\varepsilon}^{2}=1$
+\end_inset
+
+) variance for the random error term.
+ The twelve simulation settings are described in Table 
+\backslash
+ref{table:simulation_settings}.
+ 
+\end_layout
+
+\begin_layout Standard
+The three coefficient surfaces used to produce the response variable in
+ the simulations are pictured in Figure 
+\backslash
+ref{fig:sim-actual}.
+ The first is a 
+\begin_inset Quotes eld
+\end_inset
+
+step
+\begin_inset Quotes erd
+\end_inset
+
+ function, which is equal to zero in 40% of the spatial domain, equal to
+ one in a different 40% of the spatial domain, and increases linearly in
+ the middle 20% of the domain.
+ The second is a gradient function, which increases linearly from zero at
+ one end of the domain to one at the other.
+ The final coefficient function is a parabola taking its maximum value of
+ 1 at the center of the domain and falling to zero at each corner of the
+ domain.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../figures/simulation/step.pdf
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../figures/simulation/gradient.pdf
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../figures/simulation/parabola.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+These three functions were used to simulate the coefficient of the covariate
+ 
+\begin_inset Formula $X_{1}$
+\end_inset
+
+ in the VCR model 
+\begin_inset Formula $y(\bm{s}_{i})=x_{1}(\bm{s}_{i})\beta_{1}(\bm{s}_{i})+\varepsilon(\bm{s}_{i})$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The performance of LAGR was compared to that of a VCR model without any
+ variable selection and a VCR model with oracular selection.
+ Oracular selection means that exactly the correct set of covariates was
+ used to fit each local model.
+\end_layout
+
+\begin_layout Section
+Data example
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:example"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Use LAGR to estimate coefficients for a real data example.
+ Discuss the results, perhaps in comparison to some existing analysis.
+\end_layout
+
+\begin_layout Section
+\start_of_appendix
+Proofs of theorems
+\begin_inset CommandInset label
+LatexCommand label
+name "app:proofs"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Proof
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Proof of theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:normality"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Define 
+\begin_inset Formula $V_{4}^{(n)}(\bm{u})$
+\end_inset
+
+ to be the 
+\begin_inset Formula 
+\begin{align}
+\mkern-36muV_{4}^{(n)}(\bm{u}) & =Q\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} -Q\left\{ \bm{\zeta}(\bm{s})\right\} \notag\label{eq:consistency}\\
+ & \mkern-36mu=(1/2)\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} \right]^{T}\bm{W}(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} \right]\notag\\
+ & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|\notag\\
+ & -(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} -\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|\notag\\
+ & \mkern-36mu=(1/2)\bm{u}^{T}\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}-\bm{u}^{T}\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\notag\\
+ & +\sum_{j=1}^{p}n^{-1/2}\phi_{j}(\bm{s})n^{1/2}\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} 
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note the different limiting behavior of the third term between the cases
+ 
+\begin_inset Formula $j\le p_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $j>p_{0}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Paragraph
+Case 
+\begin_inset Formula $j\le p_{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $j\le p_{0}$
+\end_inset
+
+ then 
+\begin_inset Formula $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|^{-\gamma}$
+\end_inset
+
+ and 
+\begin_inset Formula $|\sqrt{n}\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{j}\|$
+\end_inset
+
+ so 
+\begin_inset Formula 
+\[
+\lim\limits _{n\to\infty}\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)\le h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\le h^{-1}n^{-1/2}a_{n}\|\bm{u}_{j}\|\to0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Case 
+\begin_inset Formula $j>p_{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $j>p_{0}$
+\end_inset
+
+ then 
+\begin_inset Formula $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)=\phi_{j}(\bm{s})h^{-1}n^{-1/2}\|\bm{u}_{j}\|$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+And note that 
+\begin_inset Formula $h=O(n^{-1/6})$
+\end_inset
+
+ so that if 
+\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+\end_inset
+
+ then 
+\begin_inset Formula $h^{-1}n^{-1/2}b_{n}\xrightarrow{p}\infty$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now, if 
+\begin_inset Formula $\|\bm{u}_{j}\|\ne0$
+\end_inset
+
+ then 
+\begin_inset Formula 
+\[
+h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\ge h^{-1}n^{-1/2}b_{n}\|\bm{u}_{j}\|\to\infty
+\]
+
+\end_inset
+
+.
+ On the other hand, if 
+\begin_inset Formula $\|\bm{u}_{j}\|=0$
+\end_inset
+
+ then 
+\begin_inset Formula $h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Thus, the limit of 
+\begin_inset Formula $V_{4}^{(n)}(\bm{u})$
+\end_inset
+
+ is the same as the limit of 
+\begin_inset Formula $V_{4}^{*(n)}(\bm{u})$
+\end_inset
+
+ where
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mkern-72muV_{4}^{*(n)}(\bm{u})=\begin{cases}
+(1/2)\bm{u}^{T}\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}-\bm{u}^{T}\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right] & \mbox{ if }\|\bm{u}_{j}\|=0\;\forall j>p_{0}\\
+\infty & \mbox{ otherwise }
+\end{cases}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From which it is clear that 
+\begin_inset Formula $V_{4}^{*(n)}(\bm{u})$
+\end_inset
+
+ is convex and its unique minimizer is 
+\begin_inset Formula $\hat{\bm{u}}^{(n)}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+0 & =\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} \hat{\bm{u}}^{(n)}-\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\notag\label{eq:limit}\\
+\therefore\hat{\bm{u}}^{(n)} & =\left\{ n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\left[hn^{-1/2}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\notag\\
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By the epiconvergence results of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Geyer-1994"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Knight-Fu-2000"
+
+\end_inset
+
+, the minimizer of the limiting function is the limit of the minimizers
+ 
+\begin_inset Formula $\hat{\bm{u}}^{(n)}$
+\end_inset
+
+.
+ And since, by Lemma 2 of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sun-Yan-Zhang-Lu-2014"
+
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\hat{\bm{u}}^{(n)}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\},f(\bm{s})\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
+\end{equation}
+
+\end_inset
+
+the result is proven.
+\end_layout
+
+\begin_layout Proof
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Proof of theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:selection"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+We showed in Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:normality"
+
+\end_inset
+
+ that 
+\begin_inset Formula $\hat{\bm{\zeta}}_{j}(\bm{s})\xrightarrow{p}\bm{\zeta}_{j}(\bm{s})+\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\}$
+\end_inset
+
+, so to complete the proof of selection consistency, it only remains to
+ show that 
+\begin_inset Formula $P\left\{ \hat{\bm{\zeta}}_{j}(\bm{s})=0\right\} \to1$
+\end_inset
+
+ if 
+\begin_inset Formula $j>p_{0}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The proof is by contradiction.
+ Without loss of generality we consider only the case 
+\begin_inset Formula $j=p$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Assume 
+\begin_inset Formula $\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ne0$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $Q\left\{ \bm{\zeta}(\bm{s})\right\} $
+\end_inset
+
+ is differentiable w.r.t.
+ 
+\begin_inset Formula $\bm{\zeta}_{p}(\bm{s})$
+\end_inset
+
+ and is minimized where 
+\begin_inset Formula 
+\begin{align}
+0 & =\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}_{-p}(\bm{s})\hat{\bm{\zeta}}_{-p}(\bm{s})-\bm{Z}_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})\right\} -\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag\\
+ & =\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\notag\\
+ & \mkern+72mu+\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{-p}(\bm{s})\left[\bm{\zeta}_{-p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{-p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{-p}(\bm{s})\right]\notag\\
+ & \mkern+72mu+\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{p}(\bm{s})\left[\bm{\zeta}_{p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{p}(\bm{s})\right]\notag\\
+ & \mkern+72mu-\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag\\
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So 
+\begin_inset Formula 
+\begin{align}
+\frac{h}{\sqrt{n}}\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|} & =\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\frac{h}{\sqrt{n}}\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\notag\label{eq:selection}\\
+ & +\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{-p}(\bm{s})\right\} h\sqrt{n}\left[\bm{\zeta}_{-p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{-p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{-p}(\bm{s})\right]\notag\\
+ & +\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{p}(\bm{s})\right\} h\sqrt{n}\left[\bm{\zeta}_{p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{p}(\bm{s})\right]
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From Lemma 2 of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sun-Yan-Zhang-Lu-2014"
+
+\end_inset
+
+, 
+\begin_inset Formula $\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{-p}(\bm{s})\right\} =O_{p}(1)$
+\end_inset
+
+ and 
+\begin_inset Formula $\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{p}(\bm{s})\right\} =O_{p}(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+From Theorem 3 of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sun-Yan-Zhang-Lu-2014"
+
+\end_inset
+
+, we have that 
+\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{-p}(\bm{s})-\bm{\zeta}_{-p}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{-p}(\bm{s})+\nabla_{vv}^{2}\zeta_{-p}(\bm{s})\right\} \right]=O_{p}(1)$
+\end_inset
+
+ and 
+\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{p}(\bm{s})-\bm{\zeta}_{p}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{p}(\bm{s})+\nabla_{vv}^{2}\zeta_{p}(\bm{s})\right\} \right]=O_{p}(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+So the second and third terms of the sum in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:selection"
+
+\end_inset
+
+) are 
+\begin_inset Formula $O_{p}(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We showed in the proof of 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:normality"
+
+\end_inset
+
+ that 
+\begin_inset Formula $h\sqrt{n}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]=O_{p}(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The three terms of the sum to the right of the equals sign in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:selection"
+
+\end_inset
+
+) are 
+\begin_inset Formula $O_{p}(1)$
+\end_inset
+
+, so for 
+\begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})$
+\end_inset
+
+ to be a solution, we must have that 
+\begin_inset Formula $hn^{-1/2}\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|=O_{p}(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+But since by assumption 
+\begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})\ne0$
+\end_inset
+
+, there must be some 
+\begin_inset Formula $k\in\{1,\dots,3\}$
+\end_inset
+
+ such that 
+\begin_inset Formula $|\hat{\zeta}_{p_{k}}(\bm{s})|=\max\{|\hat{\zeta}_{p_{k'}}(\bm{s})|:1\le k'\le3\}$
+\end_inset
+
+.
+ And for this 
+\begin_inset Formula $k$
+\end_inset
+
+, we have that 
+\begin_inset Formula $|\hat{\zeta}_{p_{k}}(\bm{s})|/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ge1/\sqrt{3}>0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now since 
+\begin_inset Formula $hn^{-1/2}b_{n}\to\infty$
+\end_inset
+
+, we have that 
+\begin_inset Formula $hn^{-1/2}\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ge hb_{n}/\sqrt{3n}\to\infty$
+\end_inset
+
+ and therefore the term to the left of the equals sign dominates the sum
+ to the right of the equals sign in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:selection"
+
+\end_inset
+
+).
+ So for large enough 
+\begin_inset Formula $n$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})\ne0$
+\end_inset
+
+ cannot maximize 
+\begin_inset Formula $Q$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+So 
+\begin_inset Formula $P\left\{ \hat{\bm{\zeta}}_{(b)}(\bm{s})=0\right\} \to1$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "../../references/gwr"
+options "chicago"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

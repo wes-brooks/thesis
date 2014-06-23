@@ -1,0 +1,3108 @@
+#LyX file created by tex2lyx 2.1
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass elsarticle
+\begin_preamble
+
+
+\setlength{\textwidth}{6.5in}
+%\setlength{\textheight}{9in}
+\setlength{\topmargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+
+\usepackage{amsthm}
+\usepackage{mathabx}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{epstopdf}
+\usepackage{longtable}
+\usepackage{rotating}
+\usepackage[nolists,nomarkers]{endfloat}
+\DeclareDelayedFloatFlavour{sidewaystable}{table}
+
+\usepackage{relsize}
+%\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fullpage}
+\usepackage{booktabs}
+
+
+
+
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+\DeclareMathOperator*{\bw}{\mbox{bw}}
+\DeclareMathOperator*{\df}{\mbox{df}}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\E}{\mathop{\mathbb E}}
+
+
+
+
+
+
+
+\title{Local Variable Selection and Parameter Estimation of Spatially Varying Coefficient Regression Models}
+\author{Wesley Brooks}
+                                           % Activate to display a given date or no date
+
+
+
+\end_preamble
+\options authoryear,review
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing other 2
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+begin{abstract}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%Researchers who analyze spatial data often wish to discern how a certain response variable is related to a set of covariates. When it is believed that the effect of a given covariate may be different at different locations, a spatially varying coefficient regression model, in which the effects of the covariates are allowed to vary across the spatial domain, may be appropriate. In this case, it may be the case that the covariate has a meaningful association with the response in some parts of the spatial domain but not in others. Identifying the covariates that are associated with the response at a given location is called local model selection. Geographically weighted regression, a kernel-based method for estimating the local regression coefficients in a spatially varying coefficient regression model, is considered here. A new method is introduced for local model selection and coefficient estimation in spatially varying coefficient regression models. The idea is to apply a penalty of the elastic net type to a local likelihood function, with a local elastic net tuning parameter and a global bandwidth parameter selected via information criteria. Simulations are used to evaluate the performance of the new method in model selection and coefficient estimation, and the method is applied to a real data example in spatial demography.
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+end{abstract}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+maketitle
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+section{}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+subsection{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%Pastebin:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%Varying coefficient regression
+\end_layout
+
+\end_inset
+
+ Whereas the coefficients in traditional linear regression are scalar constants, the coefficients in a varying coefficient regression (VCR) model are functions - often 
+\emph on
+smooth
+\emph default
+ functions - of some effect modifying variable 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Hastie:1993a"
+
+\end_inset
+
+. When the effect modifying variable represents location in a spatial domain, a VCR model implies a spatially varying coefficient regression (SVCR) model wherein that the regression coefficients vary over space. Statistical inference for the coefficients as functions of location in an SVCR model is more complicated than estimating the coefficients in a traditional linear regression model where the coefficients are constant across the spatial domain. My research concerns the development of new methodology for the analysis of spatial data using SVCR.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%Spatial data / spatial regression
+\end_layout
+
+\end_inset
+
+The methodology described herein is applicable to geostatistical data and areal data. Let 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+ be a spatial domain on which data is collected. For geostatistical data, let 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ denote a location in 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+. Let a univariate spatial process 
+\begin_inset Formula $\left\{Y(\bm{s}) : \bm{s} \in \mathcal{D}\right\}$
+\end_inset
+
+ and a possibly multivariate spatial process 
+\begin_inset Formula $\left\{\bm{X}(\bm{s}) : \bm{s} \in \mathcal{D}\right\}$
+\end_inset
+
+ denote random fields of the response and the covariates, respectively. For 
+\begin_inset Formula $i = 1, \dots, n$
+\end_inset
+
+, let 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+ denote the sampling location in 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+ of the 
+\begin_inset Formula $i$
+\end_inset
+
+th observation of the response and the covariates. Let the observed data be denoted 
+\begin_inset Formula $\left\{y(\bm{s}_i), \bm{x}(\bm{s}_i)\right\}$
+\end_inset
+
+, 
+\begin_inset Formula $i=1, \dots, n$
+\end_inset
+
+. Then the data are a realization of the random fields at the sampling locations 
+\begin_inset Formula $\left\{Y(\bm{s}_i), \bm{X}(\bm{s}_i)\right\}$
+\end_inset
+
+ for 
+\begin_inset Formula $i=1, \dots, n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For areal data, the spatial domain 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+ is partitioned into 
+\begin_inset Formula $n$
+\end_inset
+
+ regions 
+\begin_inset Formula $\{D_1, \dots, D_n\}$
+\end_inset
+
+ such that 
+\begin_inset Formula $\mathcal{D} = \bigcup \limits_{i=1}^n D_i$
+\end_inset
+
+. In the case of areal data, the random variables 
+\begin_inset Formula $\left\{Y(D_i), \bm{X}(D_i)\right\}$
+\end_inset
+
+ are defined for regions instead of for point locations; population and spatial mean temperature are examples of areal data. The analytical method described herein can be applied to areal data if they are recast as geostatistical data by assuming that the data are point-referenced to a representative location of each region, such as the centroid. That is, 
+\begin_inset Formula $\left\{\bm{X}(\bm{s}_i), Y(\bm{s}_i)\right\} $
+\end_inset
+
+ where 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+ is the centroid of 
+\begin_inset Formula $D_i$
+\end_inset
+
+ for 
+\begin_inset Formula $i=1, \dots, n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Common practice in the analysis of geostatistical and areal data is to model the response variable with a spatial linear regression model consisting of the sum of a fixed mean function, a spatial random effect, and random error all on domain 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+, as in: 
+\begin_inset Formula \begin{align}\label{eq:spatial-regression}
+    Y(\bm{s}) = \bm{X}(\bm{s})'\bm{\beta} + W(\bm{s}) + \varepsilon(\bm{s})
+\end{align}
+\end_inset
+
+where 
+\begin_inset Formula $\bm{X}(\bm{s})'\bm{\beta}$
+\end_inset
+
+ is the mean function consisting of a vector of covariates 
+\begin_inset Formula $\bm{X}(\bm{s})$
+\end_inset
+
+, and a vector of regression coefficients 
+\begin_inset Formula $\bm{\beta}$
+\end_inset
+
+. The random error 
+\begin_inset Formula $\varepsilon(\bm{s})$
+\end_inset
+
+ denotes white noise such that the errors are independent and identically distributed with mean zero and variance 
+\begin_inset Formula $\sigma^2$
+\end_inset
+
+, while the random component 
+\begin_inset Formula $W(\bm{s})$
+\end_inset
+
+ denotes a mean-zero, second-order stationary random field that is independent of the random error. The mean function captures the large-scale systematic trend of the response, the spatial random field 
+\begin_inset Formula $W(\bm{s})$
+\end_inset
+
+ can be thought of as a small-scale spatial random effect, and the error term 
+\begin_inset Formula $\varepsilon(\bm{s})$
+\end_inset
+
+ captures micro-scale variation 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Cressie:1993"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+It is common to pre-specify the form of a covariance function for the spatial random effect 
+\begin_inset Formula $W(\bm{s})$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Diggle:2007"
+
+\end_inset
+
+. For example, the exponential covariance function (a special case of the Matérn class of covariance functions) has the form 
+\begin_inset Formula \begin{align}\label{eq:exponential-covariance}
+    \text{Cov}(W(\bm{s}), W(\bm{t})) = \sigma^2 \exp\left\{-\phi^{-1} \delta(\bm{s}, \bm{t}) \right\}
+\end{align}
+\end_inset
+
+where 
+\begin_inset Formula $\sigma^2$
+\end_inset
+
+ is a variance parameter, 
+\begin_inset Formula $\phi$
+\end_inset
+
+ is a range parameter, and 
+\begin_inset Formula $\delta(\bm{s}, \bm{t})$
+\end_inset
+
+ is the Euclidean distance between locations 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{t}$
+\end_inset
+
+. The general form of a covariance function in the Matérn class is 
+\begin_inset Formula \begin{align}\label{eq:matern-covarinace}
+    \text{Cov}(W(\bm{s}), W(\bm{t})) = \left\{\Gamma(\nu) 2^{\nu-1} \right\}^{-1} \left\{\delta(\bm{s}, \bm{t}) \phi^{-1}\sqrt{2\nu}\right\}^\nu K_{\nu} \left(\delta(\bm{s}, \bm{t}) \phi^{-1}\sqrt{2\nu}\right)
+    \end{align}
+\end_inset
+
+where 
+\begin_inset Formula $\nu$
+\end_inset
+
+ denotes the degree of smoothness, 
+\begin_inset Formula $K_{\nu}$
+\end_inset
+
+ denotes the modified Bessel equation of the second kind, and as before 
+\begin_inset Formula $\phi$
+\end_inset
+
+ denotes a range parameter and 
+\begin_inset Formula $\delta(\bm{s}, \bm{t})$
+\end_inset
+
+ the Euclidean distance between locations 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{t}$
+\end_inset
+
+. The exponential covariance function corresponds to a Matérn class covariance function with 
+\begin_inset Formula $\nu = 1/2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%SVCR - justification
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%Stationarity in spatial linear regression
+\end_layout
+
+\end_inset
+
+A random field is said to be stationary if the joint distribution of a the response at a finite set of locations does not change when the set of locations are all shifted in space by a fixed spatial lag. That is, letting 
+\begin_inset Formula $\left\{T(\bm{s}) : \bm{s} \in \mathcal{D}\right\}$
+\end_inset
+
+ be a random field on spatial domain 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+ that takes value 
+\begin_inset Formula $T(\bm{s}_i)$
+\end_inset
+
+ at location 
+\begin_inset Formula $\bm{s}_i \in \mathcal{D}$
+\end_inset
+
+ for 
+\begin_inset Formula $i = 1, \dots, n$
+\end_inset
+
+, the random field 
+\begin_inset Formula $T(\bm{s})$
+\end_inset
+
+ is stationary if 
+\begin_inset Formula $F_n\left(T(\bm{s}_1), \dots, T(\bm{s}_n)\right) = F_n\left(T(\bm{s}_1+\bm{h}), \dots, T(\bm{s}_n+\bm{h})\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $F_n(\cdot)$
+\end_inset
+
+ is the joint distribution of a length 
+\begin_inset Formula $n$
+\end_inset
+
+ sample from 
+\begin_inset Formula $T(\bm{s})$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{h}$
+\end_inset
+
+ is a fixed spatial lag. The random field 
+\begin_inset Formula $\left\{T(\bm{s}) : \bm{s} \in \mathcal{D}\right\}$
+\end_inset
+
+ is second-order stationary if the following are satisfied: 
+\begin_inset Formula \begin{align}
+		E\left\{ T(\bm{s}) \right\} &= \mu \text{ for all } \bm{s} \in \mathcal{D} \notag \\
+		\text{var}\left\{T(\bm{s})\right\} &= \sigma^2 < \infty \text{ for all } \bm{s} \in \mathcal{D} \notag \\
+		\text{cov}\left\{ T(\bm{s}), T(\bm{s} + \bm{h}) \right\} &= C(\bm{h})
+	\end{align}
+\end_inset
+
+where the function 
+\begin_inset Formula $C(\cdot)$
+\end_inset
+
+ depends only on the spatial lag 
+\begin_inset Formula $\bm{h}$
+\end_inset
+
+ and not on the location 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%the joint distribution at any two locations in the domain does not change when the locations are shifted by a fixed spatial lag.
+\end_layout
+
+\end_inset
+
+ The coefficient vector 
+\begin_inset Formula $\bm{\beta}$
+\end_inset
+
+ in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:spatial-regression"
+
+\end_inset
+
+) is a fixed constant. The model can be made more flexible if the coefficients are described by a stationary random field. Such a model is written 
+\begin_inset Formula \begin{align}\label{eq:SVCR-process}
+    Y(\bm{s}) = \bm{X}(\bm{s})'\bm{\beta}(\bm{s}) + \varepsilon(\bm{s})
+\end{align}
+\end_inset
+
+where 
+\begin_inset Formula $\bm{\beta}(\bm{s})$
+\end_inset
+
+ is a random coefficient field with a Matérn-class covariance function and the spatial random effect 
+\begin_inset Formula $W(\bm{s})$
+\end_inset
+
+ included in the intercept 
+\begin_inset Formula $\beta_0(\bm{s})$
+\end_inset
+
+. The random coefficient field 
+\begin_inset Formula $\bm{\beta}(\bm{s})$
+\end_inset
+
+ can be estimated by Markov Chain Monte Carlo (MCMC) methods under the assumption that 
+\begin_inset Formula $\bm{\beta}(\bm{s})$
+\end_inset
+
+ is stationary 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Gelfand:2003"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%The spatial random effect describes the spatial pattern in the deviations from the systematic part of the model. When fitting the spatial regression model (
+\backslash
+ref{eq:spatial-regression}), it is usually required that the the fitted values of the spatial random effect and of the residuals sum to zero, i.e. $
+\backslash
+sum
+\backslash
+limits_{i=1}^n
+\backslash
+hat{W}(
+\backslash
+bm{s}_i) = 0$ and $
+\backslash
+sum
+\backslash
+limits_{i=1}^n
+\backslash
+hat{
+\backslash
+varepsilon}(
+\backslash
+bm{s}_i) = 0$. This mode of analysis is appropriate when the systematic part of the regression model does not vary between locations. On the other hand, a VCR model is appropriate for the case where the systematic part of the regression model does vary across locations.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%Spatial VCR
+\end_layout
+
+\end_inset
+
+Alternatively, kernel-based and spline-based methods can be considered for fitting VCR models without assuming the coefficients are described by a stationary random field.
+\end_layout
+
+\begin_layout Standard
+Coefficients for a spline-based VCR model are estimated by maximizing a penalized global likelihood, with the penalty calculated from the wiggliness of the coefficient surface 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Wood:2006"
+
+\end_inset
+
+. This contrasts to kernel-based estimates of the coefficients in a VCR model, which maximize a local likelihood to estimate the local coefficients at each sampling location 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Loader:1999"
+
+\end_inset
+
+. 
+\begin_inset CommandInset citation
+LatexCommand citet
+after ""
+before ""
+key "Fan:1999"
+
+\end_inset
+
+ demonstrated that the optimal kernel bandwidth estimate for a VCR model can be found via a two-step technique.
+\end_layout
+
+\begin_layout Standard
+Model selection in VCR models may be local or global. Global selection means including or excluding variables everywhere in the spatial domain, while local selection means including or excluding variables at individual locations within the spatial domain. For global model selection in spline-based VCR models, 
+\begin_inset CommandInset citation
+LatexCommand citet
+after ""
+before ""
+key "Wang:2008a"
+
+\end_inset
+
+ proposed a SCAD penalty 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Fan:2001"
+
+\end_inset
+
+ for variable selection in spline-based VCR models with a univariate effect-modifying variable. 
+\begin_inset CommandInset citation
+LatexCommand citet
+after ""
+before ""
+key "Antoniadis:2012a"
+
+\end_inset
+
+ used the nonnegative Garrote penalty 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Breiman:1995"
+
+\end_inset
+
+ in P-spline-based VCR models having a univariate effect-modifying variable.
+\end_layout
+
+\begin_layout Standard
+Wavelet methods for fitting SVCR models were explored by 
+\begin_inset CommandInset citation
+LatexCommand citet
+after ""
+before ""
+key "Shang-2011"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand citet
+after ""
+before ""
+key "Zhang-2011"
+
+\end_inset
+
+. Sparsity in the wavelet coefficients is achieved either by 
+\begin_inset Formula $\ell_1$
+\end_inset
+
+-penalization (also known as the Lasso 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Tibshirani:1996"
+
+\end_inset
+
+) 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Shang-2011"
+
+\end_inset
+
+ or by Bayesian variable selection 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Zhang-2011"
+
+\end_inset
+
+. Sparsity in the wavelet domain does not imply sparsity in the covariates, though, so neither method is suitable for local variable selection.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%GWR
+\end_layout
+
+\end_inset
+
+Geographically weighted regression (GWR) is a kernel-based method for estimating the coefficients of an SVCR model where the kernel weights are based on the distance between sampling locations 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Brundson:1998a, Fotheringham:2002"
+
+\end_inset
+
+. At each sampling location, traditional GWR estimates the local regression coefficients by the local likelihood 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Loader:1999"
+
+\end_inset
+
+. As a kernel-based smoother for regression coefficients, traditional GWR tends to exhibit bias near the boundary of the region being modeled 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Hastie:1993b"
+
+\end_inset
+
+. One way to reduce the boundary-effect bias is to model the coefficient surface as locally linear rather than locally constant by including coefficient-by-location interactions 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Wang:2008b"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%Local variable selection
+\end_layout
+
+\end_inset
+
+Traditional GWR relies on 
+\emph on
+a priori
+\emph default
+ global model selection to decide which variables should be included in the model. The idea of using Lasso regularization for local variable selection in a GWR model appears in the literature as the geographically weighted Lasso (GWL) 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Wheeler:2009"
+
+\end_inset
+
+. The GWL applies the Lasso for local variable selection and uses a jackknife criterion for selection of the Lasso tuning parameters. Because the jackknife criterion can only be computed at sampling locations where the response variable is observed, the GWL cannot be used to impute missing values of the response variable nor to interpolate the coefficient surface and/or the response variable between sampling locations.
+\end_layout
+
+\begin_layout Standard
+Lasso regularization for model selection, while popular, can leave relevant covariates out of the model when they are correlated with other covariates, and the predictive performance of the Lasso may be dominated in such a case by ridge regression, which does not allow for local model selection 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Tibshirani:1996"
+
+\end_inset
+
+. The elastic net is a regularization method that combines a 
+\begin_inset Formula $\ell_1$
+\end_inset
+
+ (Lasso) and a 
+\begin_inset Formula $\ell_2$
+\end_inset
+
+ (ridge) penalty on the estimated coefficients, overcoming these drawbacks of the Lasso 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Zou:2005"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Additionally, Lasso regularization does not generally produce consistent estimates of the relevant covariates 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Leng-2006"
+
+\end_inset
+
+. The adaptive Lasso (AL) 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Zou:2006"
+
+\end_inset
+
+ is an improvement to the Lasso that does produce consistent estimates of the coefficients and has been shown to have appealing properties for automating variable selection, which under suitable conditions include the 
+\begin_inset Quotes eld
+\end_inset
+
+oracle" property of asymptotically selecting exactly the correct set of covariates for inclusion in a regression model.
+\end_layout
+
+\begin_layout Standard
+The remainder of this document is organized as follows. In Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "section:simulation"
+
+\end_inset
+
+, a simulation study is conducted to assess the performance of the GWEN in variable selection and coefficient estimation. An application to real data is presented in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "section:data-analysis"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Spatially varying coefficients regression 
+\begin_inset CommandInset label
+LatexCommand label
+name "section:SVCR"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Model
+\end_layout
+
+\begin_layout Standard
+Consider 
+\begin_inset Formula $n$
+\end_inset
+
+ data points, observed at sampling locations 
+\begin_inset Formula $\bm{s}_1, \dots, \bm{s}_n$
+\end_inset
+
+, which are distributed in a spatial domain 
+\begin_inset Formula $D \subset \mathbb{R}^2$
+\end_inset
+
+ according to a density 
+\begin_inset Formula $f(\bm{s})$
+\end_inset
+
+. For 
+\begin_inset Formula $i = 1, \dots, n$
+\end_inset
+
+, let 
+\begin_inset Formula $y(\bm{s}_i)$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{x}(\bm{s}_i)$
+\end_inset
+
+ denote the univariate response variable, and a 
+\begin_inset Formula $(p+1)$
+\end_inset
+
+-variate vector of covariates measured at location 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+, respectively. At each location 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+, assume that the outcome is related to the covariates by a linear model where the coefficients 
+\begin_inset Formula $\bm{\beta}(\bm{s}_i)$
+\end_inset
+
+ may be spatially-varying and 
+\begin_inset Formula $\varepsilon(\bm{s}_i)$
+\end_inset
+
+ is random error at location 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+. That is, 
+\begin_inset Formula \begin{align}\label{eq:lm(s)}
+		y(\bm{s}_i) = \bm{x}(\bm{s}_i)' \bm{\beta}(\bm{s}_i) + \varepsilon(\bm{s}_i).
+	\end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Further assume that the error term 
+\begin_inset Formula $\varepsilon(\bm{s}_i)$
+\end_inset
+
+ is normally distributed with zero mean and variance 
+\begin_inset Formula $\sigma^2$
+\end_inset
+
+, and that 
+\begin_inset Formula $\varepsilon(\bm{s}_i)$
+\end_inset
+
+, 
+\begin_inset Formula $i=1, \dots, n$
+\end_inset
+
+ are independent. That is, 
+\begin_inset Formula \begin{align} \label{eq:err}
+		\varepsilon(\bm{s}_i) \overset{iid}{\sim} \mathcal{N} \left( 0,\sigma^2 \right).
+	\end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In order to simplify the notation, let 
+\begin_inset Formula $\bm{x}(\bm{s}_i) \equiv \bm{x}_i \equiv \left( 1, x_{i1}, \dots, x_{ip} \right)'$
+\end_inset
+
+, 
+\begin_inset Formula $\bm{\beta}(\bm{s}_i) \equiv \bm{\beta}_i \equiv \left(\beta_{i0}, \beta_{i1}, \dots, \beta_{ip} \right)'$
+\end_inset
+
+, and 
+\begin_inset Formula $y(\bm{s}_i) \equiv y_i$
+\end_inset
+
+. Equations (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:lm(s)"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:err"
+
+\end_inset
+
+) can be rewritten 
+\begin_inset Formula \begin{align}
+		y_i = \bm{x}'_i \bm{\beta}_i + \varepsilon_i \text{ and } \varepsilon_i \overset{iid}{\sim} \mathcal{N} \left( 0,\sigma^2 \right).
+	\end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Further, let 
+\begin_inset Formula $\bm{X} = \left( \bm{x}_1, \dots, \bm{x}_n \right)'$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{y} = \left( y_1, \dots, y_n \right)'$
+\end_inset
+
+. Thus, conditional on the design matrix 
+\begin_inset Formula $\bm{X}$
+\end_inset
+
+, observations of the response variable at different locations are independent of each other.
+\end_layout
+
+\begin_layout Standard
+An SVCR model that estimates the regression coefficients as locally constant, as in the class of Nadaraya-Watson kernel smoothers 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Hardle-1990"
+
+\end_inset
+
+, suffers the problem of biased estimation that is common to that class of models - particularly where there is a gradient to the coefficient surface at the boundary of the domain 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Hastie:1993b"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In the context of nonparametric regression, the boundary-effect bias can be reduced by local polynomial modeling, usually in the form of a locally linear model 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Fan-1996"
+
+\end_inset
+
+. Here, locally linear coefficients are estimated by augmenting the local design matrix with covariate-by-location interactions in two dimensions as proposed by 
+\begin_inset CommandInset citation
+LatexCommand citet
+after ""
+before ""
+key "Wang:2008b"
+
+\end_inset
+
+. The augmented local design matrix at location 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+ is 
+\begin_inset Formula \begin{align}
+		\bm{Z}_i = \left( \bm{X}  \:\: L_i \bm{X} \:\: M_i \bm{X} \right)
+	\end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\bm{X}$
+\end_inset
+
+ is the unaugmented matrix of covariates, 
+\begin_inset Formula $L_i = \text{diag}\{s_{i',x} - s_{i,x}\}$
+\end_inset
+
+ and 
+\begin_inset Formula $M_i = \text{diag}\{s_{i',y} - s_{i,y}\}$
+\end_inset
+
+ for 
+\begin_inset Formula $i' = 1, \dots, n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Estimation
+\end_layout
+
+\begin_layout Standard
+The total log-likelihood of the observed data is the sum of the log-likelihood of each individual observation: 
+\begin_inset Formula \begin{align} \label{eq:coefficients}
+  	\ell(\bm{\beta}_i) = -(1/2) \sum_{i'=1}^n \left\{ \log{\sigma^2_i}  + \sigma^{-2}_i  \left(y_{i'} - \bm{z}'_{i'} \bm{\beta}_i \right)^2 \right\}.
+	\end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since there are a total of 
+\begin_inset Formula $n \times 3(p+1)$
+\end_inset
+
+ free parameters for 
+\begin_inset Formula $n$
+\end_inset
+
+ observations, the model is not identifiable and it is not possible to directly maximize the total likelihood.
+\end_layout
+
+\begin_layout Standard
+The values of the local coefficients 
+\begin_inset Formula $\bm{\beta}_i$
+\end_inset
+
+ are estimated at 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+ by the weighted likelihood 
+\begin_inset Formula \begin{align}\label{eq:local-likelihood}
+		\mathcal{L}_i \left(\bm{\beta}_i \right) &= \prod_{i'=1}^n \left[ \left(2 \pi \sigma^2_i  \right)^{-1/2}  \exp\left\{- 1/2 \sigma^{-2}_i  \left(y_{i'} - \bm{z}'_{i'} \bm{\beta}_i \right)^2 \right\} \right] ^ {w_{ii'}},
+	\end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the weights are calculated by a kernel function 
+\begin_inset Formula $K_h(\cdot)$
+\end_inset
+
+ such as the Epanechnikov kernel: 
+\begin_inset Formula \begin{align}\label{eq:epanechnikov}
+	  w_{ii'} &= K_h(\delta_{ii'}) = h^{-2} K\left( h^{-1} \delta_{ii'} \right) \notag \\
+    K(x) &= \begin{cases} (3/4) (1-x^2) &\mbox{ if } \delta_{ii'} < h, \\ 0 &\mbox{ if } \delta_{ii'} \geq h. \end{cases}
+	\end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus, the local log-likelihood function is, up to an additive constant: 
+\begin_inset Formula \begin{align}\label{eq:local-log-likelihood}
+		\ell_i\left(\bm{\beta}_i\right) &= -(1/2) \sum_{i'=1}^n w_{ii'} \left\{ \log{\sigma^2_i}  + \sigma^{-2}_i  \left(y_{i'} - \bm{z}'_{i'} \bm{\beta}_i \right)^2 \right\}.
+  \end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This local likelihood can be maximized by weighted least squares 
+\begin_inset Formula \begin{align}\label{eq:beta-hat}
+    \hat{\bm{\beta}}(\bm{s}_i) = \left( \bm{Z}^T \bm{W}_i \bm{Z} \right)^{-1} \bm{Z}^T \bm{W}_i \bm{Y}.
+  \end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:local-log-likelihood"
+
+\end_inset
+
+), the maximum local likelihood estimate 
+\begin_inset Formula $\hat{\sigma}_i^2$
+\end_inset
+
+ is: 
+\begin_inset Formula \begin{align}
+    \hat{\sigma}_i^2 = \left(\sum \limits_{i'=1}^{n} w_{ii'} \right)^{-1} \sum \limits_{i'=1}^n w_{ii'}\left(y_{i'} - \bm{z}_{i'}'\hat{\bm{\beta}}_i\right)^2
+  \end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Local variable selection and parameter estimation 
+\begin_inset CommandInset label
+LatexCommand label
+name "section:model-selection"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Local variable selection
+\end_layout
+
+\begin_layout Standard
+The adaptive group lasso (AGL) is explored as a penalty function for local variable selection in SVCR models. The proposed local variable selection with AGL penalty is an 
+\begin_inset Formula $\ell_1$
+\end_inset
+
+ regularization method for variable selection in regression models 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Wang-Leng-2008,Zou:2006"
+
+\end_inset
+
+. The adaptive group lasso selects groups of covariates for inclusion or exclusion in the model. For an SVCR model, each variable group is a covariate and its interactions on location.
+\end_layout
+
+\begin_layout Subsubsection
+Local variable selection and coefficient estimation with the adaptive group lasso
+\end_layout
+
+\begin_layout Standard
+The objective function for the AGL at 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+ consists of the local log-likelihood and an additive penalty:
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+% that is the weighted $
+\backslash
+ell_1$-norm of the coefficients, defined to be
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula \begin{align}\label{eq:adaptive-lasso-WLS}
+		\mathcal{S}(\bm{\beta}_i) &= -2\ell_i\left(\bm{\beta}_i\right) + \mathcal{J}_1(\bm{\beta}_i) \notag \\
+		&= \sum_{i'=1}^n w_{ii'}  \left\{ \log{\sigma^2_i}  + \sigma^{-2}_i  \left(y_{i'} - \bm{z}'_{i'} \bm{\beta}_i \right)^2 \right\} +  \lambda_i \sum_{j=1}^p \|\beta_{ij}\| / \gamma_{ij}
+	\end{align}
+\end_inset
+
+where 
+\begin_inset Formula $\sum_{i'=1}^n w_{ii'} \left(y_{i'} - \bm{z}'_{i'} \bm{\beta}_i \right)^2$
+\end_inset
+
+ is the weighted sum of squares minimized by traditional GWR, and 
+\begin_inset Formula $\mathcal{J}_1(\bm{\beta}_i) = \lambda_i \sum_{j=1}^p \|\beta_{ij}\| / \gamma_{ij}$
+\end_inset
+
+ is the AGL penalty. With the vector of unpenalized local coefficients 
+\begin_inset Formula $\bm{\gamma}_i$
+\end_inset
+
+, the AL penalty for the 
+\begin_inset Formula $j$
+\end_inset
+
+th group of coefficients 
+\begin_inset Formula $\beta_{ij}$
+\end_inset
+
+ at location 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+ is 
+\begin_inset Formula $\lambda_i / \gamma_{ij}$
+\end_inset
+
+, where 
+\begin_inset Formula $\lambda_i > 0$
+\end_inset
+
+ is a the local tuning parameter applied to all coefficients at location 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{\gamma}_i = \left(\gamma_{i1}, \dots, \gamma_{ip}\right)'$
+\end_inset
+
+ is the vector of adaptive weights at location 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Tuning parameter selection
+\end_layout
+
+\begin_layout Standard
+A local tuning parameter 
+\begin_inset Formula $\lambda_i$
+\end_inset
+
+ is required for the variable selection step of fitting each local model by the AGL. The corrected AIC is used to select 
+\begin_inset Formula $\lambda_i$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Hurvich:1998"
+
+\end_inset
+
+: 
+\begin_inset Formula \begin{align}\label{eq:BIC_loc}
+		\mbox{AIC}_{\text{c}, i} &= -2 \sum_{i'=1}^n \ell_{ii'}  + 2 \nu_i + \frac{2 \nu_i (\nu_i + 1)}{\sum_{i'=1}^n w_{ii'}  -\nu_i - 1}\notag\\
+		&= \sum_{i'=1}^n w_{ii'} \left\{ \log \left(2 \pi \right) + \log \hat{\sigma}_i^2 + \hat{\sigma}_i^{-2} \left(y_{i'} - \bm{x}_{i'}' \hat{\bm{\beta}}_{i'} \right)^2 \right\} + 2 \nu_i + \frac{2 \nu_i (\nu_i + 1)}{\sum_{i'=1}^n w_{ii'}  -\nu_i - 1}
+	\end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The local 
+\begin_inset Formula $\text{AIC}_c$
+\end_inset
+
+ is calculated by adding a penalty to the local likelihood, with the sum of the weights around 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+, 
+\begin_inset Formula $\sum_{i'=1}^n w_{ii'}$
+\end_inset
+
+, playing the role of the sample size and the 
+\begin_inset Quotes eld
+\end_inset
+
+degrees of freedom" (
+\begin_inset Formula $\nu_i$
+\end_inset
+
+) at 
+\begin_inset Formula $\bm{s}_i$
+\end_inset
+
+ given by 
+\begin_inset Formula \begin{align}
+     \nu_i = \sum_{j=1}^p I \left\{ \| \hat{\bm{\beta}}_j(\bm{s}_i) \| > 0 \right\} + \sum_{j=1}^p \frac{\|\hat{\bm{\beta}}_j(\bm{s}_i)\|}{\|\tilde{\bm{\beta}}_j(\bm{s}_i)\|} (d_j - 1)
+   \end{align}
+\end_inset
+
+where 
+\begin_inset Formula $d_j$
+\end_inset
+
+ is the number of variables in group 
+\begin_inset Formula $j$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{\bm{\beta}}_j(\bm{s}_i)$
+\end_inset
+
+ is the ordinary SVCR coefficient estimate for 
+\begin_inset Formula $\bm{\beta}_j(\bm{s}_i)$
+\end_inset
+
+. The equation for 
+\begin_inset Formula $\nu_i$
+\end_inset
+
+ is due to 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Wang-Leng-2008"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%	For the geographically weighted Lasso (GWL), 
+\backslash
+cite{Wheeler:2009} proposed selecting the local Lasso tuning parameters for local selection in a SVCR model at location $
+\backslash
+bm{s}_i$ to minimize the local jackknife prediction error $|y_i - 
+\backslash
+hat{y}_i^{(i)}|$. Because the jackknife prediction error is undefined everywhere except for at the sampling locations, this choice restricts coefficient estimation to occur at the locations where data has been observed. By contrast, the local BIC can be calculated at any location where the local log-likelihood can be obtained. As a practical matter this allows for variable selection and coefficient surface estimation to be done at locations where no data are observed and for imputation of missing values of the response variable.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Bandwidth parameter estimation
+\end_layout
+
+\begin_layout Standard
+The bandwidth parameter is estimated to minimize an information criterion. It is common in nonparametric regression to select the bandwdth to minimize a corrected AIC where the degrees of freedom are given by the trace of a smoothing matrix 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Hurvich:1998"
+
+\end_inset
+
+. Because 
+\begin_inset Formula $\ell_1$
+\end_inset
+
+ penalization procedures like the AGL are not linear smoothers, there is no smoothing matrix for the AGL. There is need for a procedure to estimate the degrees of freedom of a nonparametric AGL model.
+\end_layout
+
+\begin_layout Standard
+The degrees of freedom used to estimate the 
+\begin_inset Formula $\hat{y}_i$
+\end_inset
+
+ are estimated by 
+\begin_inset Formula $\nu_i w_{ii} / \sum_{j=1}^n w_{ij}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Section
+Simulation study 
+\begin_inset CommandInset label
+LatexCommand label
+name "section:simulation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Simulation setup
+\end_layout
+
+\begin_layout Standard
+A simulation study was conducted to assess the performance of the method described in Sections 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "section:GWR"
+
+\end_inset
+
+--
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "section:model-selection"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Data were simulated on the domain 
+\begin_inset Formula $[0,1]^2$
+\end_inset
+
+, which was divided into a 
+\begin_inset Formula $30 \times 30$
+\end_inset
+
+ grid. Each of 
+\begin_inset Formula $p=5$
+\end_inset
+
+ covariates 
+\begin_inset Formula $X_1, \dots, X_5$
+\end_inset
+
+ was simulated by a Gaussian random field (GRF) with mean zero and exponential covariance function 
+\begin_inset Formula $\text{Cov} \left(X_{ji}, X_{ji'} \right) = \sigma_x^2 \exp{\left( -\tau_x^{-1} \delta_{ii'} \right)}$
+\end_inset
+
+ where 
+\begin_inset Formula $\sigma_x^2=1$
+\end_inset
+
+ is the variance, 
+\begin_inset Formula $\tau_x = 0.1$
+\end_inset
+
+ is the range parameter, and 
+\begin_inset Formula $\delta_{ii'}$
+\end_inset
+
+ is the Euclidean distance 
+\begin_inset Formula $\|\bm{s}_i - \bm{s}_{i'}\|_2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Correlation was induced between the covariates by multiplying the matrix 
+\begin_inset Formula $\bm{X} = \left(X_1 \cdots X_5\right)$
+\end_inset
+
+ by 
+\begin_inset Formula $\bm{R}$
+\end_inset
+
+, where 
+\begin_inset Formula $\bm{R}$
+\end_inset
+
+ is the Cholesky decomposition of the covariance matrix 
+\begin_inset Formula $\bm{\Sigma} = \bm{R}'\bm{R}$
+\end_inset
+
+. The covariance matrix 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ is a 
+\begin_inset Formula $5 \times 5$
+\end_inset
+
+ matrix that has ones on the diagonal and 
+\begin_inset Formula $\rho$
+\end_inset
+
+ for all off-diagonal entries, where 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is the between-covariate correlation.
+\end_layout
+
+\begin_layout Standard
+The simulated response was 
+\begin_inset Formula $y_i = \bm{x}'_i \bm{\beta}_i + \varepsilon_i$
+\end_inset
+
+ for 
+\begin_inset Formula $i=1, \dots, n$
+\end_inset
+
+ where 
+\begin_inset Formula $n=900$
+\end_inset
+
+ and the 
+\begin_inset Formula $\varepsilon_i$
+\end_inset
+
+'s were iid Gaussian with mean zero and variance 
+\begin_inset Formula $\sigma_\varepsilon^2$
+\end_inset
+
+. The simulated data included the response 
+\begin_inset Formula $y$
+\end_inset
+
+ and five covariates 
+\begin_inset Formula $x_1, \dots, x_5$
+\end_inset
+
+. The true data-generating model uses only 
+\begin_inset Formula $x_1$
+\end_inset
+
+. The variables 
+\begin_inset Formula $x_2, \dots, x_5$
+\end_inset
+
+ are included to assess performance in model selection.
+\end_layout
+
+\begin_layout Standard
+There were twelve simulation settings, each of which was simulated 100 times. For each of the twelve settings, 
+\begin_inset Formula $\beta_1(\bm{s})$
+\end_inset
+
+, the true coefficient surface for 
+\begin_inset Formula $x_1$
+\end_inset
+
+, was nonzero in at least part of the domain, with a minimum of zero and maximum of one. Three parameters were varied to produce the twelve settings: there were three functional forms for the coefficient surface 
+\begin_inset Formula $\beta_1(\bm{s})$
+\end_inset
+
+, data was simulated both with (
+\begin_inset Formula $\rho = 0.5$
+\end_inset
+
+) and without (
+\begin_inset Formula $\rho = 0$
+\end_inset
+
+) correlation between the covariates, and simulations were made with low (
+\begin_inset Formula $\sigma_\varepsilon^2 = 0.25$
+\end_inset
+
+) and high (
+\begin_inset Formula $\sigma_\varepsilon^2 = 1$
+\end_inset
+
+) variance for the random error term. The twelve simulation settings are described in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "table:simulation_settings"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The three coefficient surfaces used to produce the response variable in the simulations are pictured in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sim-actual"
+
+\end_inset
+
+. The first is a 
+\begin_inset Quotes eld
+\end_inset
+
+step" function, which is equal to zero in 40% of the spatial domain, equal to one in a different 40% of the spatial domain, and increases linearly in the middle 20% of the domain. The second is a gradient function, which increases linearly from zero at one end of the domain to one at the other. The final coefficient function is a parabola taking its maximum value of 1 at the center of the domain and falling to zero at each corner of the domain.
+\end_layout
+
+\begin_layout Standard
+The performance of the GWEN, GWAL, GWEN-LLE, and GWAL-LLE were compared to that of the traditional GWR algorithm of 
+\begin_inset CommandInset citation
+LatexCommand citet
+after ""
+before ""
+key "Fotheringham:2002"
+
+\end_inset
+
+ and that of 
+\begin_inset Quotes eld
+\end_inset
+
+oracular" GWR, which is traditional GWR with oracular variable selection and locally linear fitting as described in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "section:LLE"
+
+\end_inset
+
+. Oracular selection means that exactly the correct set of covariates was used to fit the GWR model at each location in the simulation. The implementation of the AEN uses coordinate descent via the 
+\family typewriter
+R
+\family default
+\series default
+\shape default
+ package 
+\family typewriter
+glmnet
+\family default
+\series default
+\shape default
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+after ""
+before ""
+key "Friedman:2010"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+% latex table generated in R 2.15.1 by xtable 1.7-0 package
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+% Fri Jan 18 10:19:47 2013
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float table
+placement h!
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+\align center
+
+\begin_inset Tabular 
+<lyxtabular version="3" rows="13" columns="4">
+<features rotate="0" tabularvalignment="middle" tabularwidth="0pt">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Setting 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+function 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\begin_inset Formula $\rho$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\begin_inset Formula $\sigma^2$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+step 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0.25 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+step 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+1 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+step 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0.5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0.25 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+step 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0.5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+1 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+gradient 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0.25 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+gradient 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+1 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+7 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+gradient 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0.5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0.25 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+8 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+gradient 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0.5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+1 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+9 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+parabola 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0.25 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+10 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+parabola 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+1 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+11 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+parabola 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0.5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0.25 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+12 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+parabola 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+0.5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+1 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Caption Standard
+
+\begin_layout Standard
+Simulation parameters for each setting.
+\begin_inset CommandInset label
+LatexCommand label
+name "table:simulation_settings"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+\align center
+
+\begin_inset Graphics 
+	filename ../../figures/simulation/step.pdf
+	width 32text%
+
+\end_inset
+
+ 
+\begin_inset Graphics 
+	filename ../../figures/simulation/gradient.pdf
+	width 32text%
+
+\end_inset
+
+ 
+\begin_inset Graphics 
+	filename ../../figures/simulation/parabola.pdf
+	width 32text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Standard
+The actual 
+\begin_inset Formula $\beta_1$
+\end_inset
+
+ coefficient surface used in the simulation.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:sim-actual"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+\align center
+
+\begin_inset Graphics 
+	filename ../../figures/simulation/summary-locations.pdf
+	width 50text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Standard
+Locations where the variable selection and coefficient estimation of GWL were summarized.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:summary-locations"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Results of the simulation were summarized at five locations on the domain (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:summary-locations"
+
+\end_inset
+
+). Due to edge effects, we expect biased estimation at locations one and five (which are at opposite corners of the domain) from traditional GWR, particularly when the coefficient surface has nonzero gradient at the boundary (which is the case for the gradient and parabola functions). Because the GWEN-LLE, GWAL-LLE, and oracular GWR use locally linear fitting, they are expected to exhibit less bias at the boundaries.
+\end_layout
+
+\begin_layout Standard
+Locations two and four are at the `corners' of the step function. Because the step function is undifferentiable at these locations, locally linear fitting is not expected to be as effective at reducing bias here as at the boundaries of the gradient and parabola functions.
+\end_layout
+
+\begin_layout Standard
+Local variable selection is expected to be ambiguous at locations where the underlying coefficient surface transitions from zero to nonzero. In the simulations, that occurs at location four of the step function, location five of the gradient, and locations one and five of the parabola.
+\end_layout
+
+\begin_layout Standard
+Unlike the other two functions, the gradient is actually constant across the domain in terms of the covariate-by-location interaction. As a result, the optimal kernel bandwidth 
+\begin_inset Formula $\phi$
+\end_inset
+
+ is expected to be larger for estimating the gradient coefficient surface than for the step or the parabola. The result should be that the estimation is more accurate for the gradient function in terms of bias, variance, and MSE.
+\end_layout
+
+\begin_layout Subsection
+Simulation results
+\end_layout
+
+\begin_layout Paragraph
+Variable selection
+\end_layout
+
+\begin_layout Standard
+Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "table:selection"
+
+\end_inset
+
+ lists the results of variable selection. The correct covariate was usually included in the local models, and the unimportant covariates were usually excluded. Ignore for now the ambiguous locations where the true 
+\begin_inset Formula $\beta_1$
+\end_inset
+
+ surface transitions from zero to nonzero. Of the eighty simulated cases where 
+\begin_inset Formula $\beta_1(\bm{s})$
+\end_inset
+
+ is unambiguously nonzero, more than half (52) saw no false negatives (over 100 simulations). The number with no false negatives and no false positives (i.e. exactly the correct model was recovered in all 100 simulations) was 26. Of the 120 total simulated cases, 72 had no false positives (i.e. no variable whose true coefficient is zero was included in the model during any of the 100 simulation runs).
+\end_layout
+
+\begin_layout Standard
+Selection performance worsens at the increase of the noise variance from 
+\begin_inset Formula $\sigma^2_{\varepsilon}=0.25$
+\end_inset
+
+ to 
+\begin_inset Formula $\sigma^2_{\varepsilon}=1$
+\end_inset
+
+ and at the increase in colinearity from 
+\begin_inset Formula $\rho = 0$
+\end_inset
+
+ to 
+\begin_inset Formula $\rho = 0.5$
+\end_inset
+
+. Of the 44 cases where model selection recovered exactly the correct model in all 100 runs of the simulation, only five arose from cases where 
+\begin_inset Formula $\sigma^2_{\varepsilon}=1$
+\end_inset
+
+, while 19 arose from cases where 
+\begin_inset Formula $\rho = 0.5$
+\end_inset
+
+. The worst error rates that were observed in these unambiguous cases were a false positive rate of 6% (location one of the step function with 
+\begin_inset Formula $\sigma^2_{\varepsilon}=1$
+\end_inset
+
+, 
+\begin_inset Formula $\rho=0.5$
+\end_inset
+
+, and selection via the elastic net) and a false negative rate of 16% (location three of the step function with 
+\begin_inset Formula $\sigma^2_{\varepsilon}=1$
+\end_inset
+
+, 
+\begin_inset Formula $\rho=0.5$
+\end_inset
+
+, and selection via the lasso).
+\end_layout
+
+\begin_layout Standard
+Model selection was ambiguous at locations where the true 
+\begin_inset Formula $\beta_1(\bm{s})$
+\end_inset
+
+ transitions from zero to nonzero. At location four of the step function, the selection rate of 
+\begin_inset Formula $\beta_1$
+\end_inset
+
+ ranged from 43% to 60% among the different simulation settings. At location five of the gradient, the range of selection rates was 63% to 82%, and the selection rate across locations one and five of the parabola ranged from 27% to 66%.
+\end_layout
+
+\begin_layout Standard
+There is no indication that the GWEN performed better in selection than the GWAL, even in cases where the covariates were moderately correlated (
+\begin_inset Formula $\rho=0.5$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Paragraph
+Coefficient estimation
+\end_layout
+
+\begin_layout Standard
+The mean squared error, bias, and variance of 
+\begin_inset Formula $\hat{\beta}_1$
+\end_inset
+
+ (MSE
+\begin_inset Formula $(\beta_1)$
+\end_inset
+
+, bias
+\begin_inset Formula $(\hat{\beta}_1)$
+\end_inset
+
+, var
+\begin_inset Formula $(\hat{\beta}_1)$
+\end_inset
+
+) are listed in Tables 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "table:msex"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "table:bx"
+
+\end_inset
+
+, and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "table:varx"
+
+\end_inset
+
+, respectively. The method of oracular selection led to the best MSE
+\begin_inset Formula $(\hat{\beta}_1)$
+\end_inset
+
+ in 41 of the 60 cases.
+\end_layout
+
+\begin_layout Standard
+In terms of MSE
+\begin_inset Formula $(\hat{\beta}_1)$
+\end_inset
+
+, while oracular selection clearly was the most accurate estimation method in most cases, the difference in accuracy between the estimation methods was modest in most cases. There were a few cases when the difference in MSE
+\begin_inset Formula $(\hat{\beta}_1)$
+\end_inset
+
+ between estimation methods amounted to at least an order of magnitude. At locations one and five of the parabola, oracular selection produces much more accurate estimation than GWEN, GWAL, or GWR because locations one and five are on the domain boundary where the parabola has a strong gradient, and those methods don't use locally linear fits to account for the boundary effect. This can also be seen from the fact that the bias
+\begin_inset Formula $(\bm{\beta}_1)$
+\end_inset
+
+ of GWEN, GWAL, and GWR is large at locations one and five of the parabola, where it is nearly zero for GWEN-LLE, GWAL-LLE, and oracular GWR.
+\end_layout
+
+\begin_layout Standard
+A similar boundary effect is apparent at location five of the gradient, where GWEN, GWAL, and GWR produce a bias
+\begin_inset Formula $(\hat{\beta}_1)$
+\end_inset
+
+ and MSE
+\begin_inset Formula $(\hat{\beta}_1)$
+\end_inset
+
+ that are an order of magnitude or more greater than those of GWEN-LLE, GWAL-LLE, and oracular GWR (the differences in var
+\begin_inset Formula $(\hat{\beta}_1)$
+\end_inset
+
+ are smaller).
+\end_layout
+
+\begin_layout Standard
+At location one of the step function, the MSE
+\begin_inset Formula $(\hat{\beta}_1)$
+\end_inset
+
+ and var
+\begin_inset Formula $(\hat{\beta}_1)$
+\end_inset
+
+ for GWR are much smaller than for the other estimation methods, including oracular GWR, while the bias
+\begin_inset Formula $(\hat{\beta}_1)$
+\end_inset
+
+ doesn't vary much between estimation methods. It is not clear why this is the case.
+\end_layout
+
+\begin_layout Standard
+As was the case for selection, accuracy in coefficient estimation seemed to suffer at the increase of the noise variance or the increase of correlation in the covariates. Once again, this effect is probably most apparent at location three of the step function.
+\end_layout
+
+\begin_layout Paragraph
+Fitted Values
+\end_layout
+
+\begin_layout Standard
+The MSE of the 
+\begin_inset Formula $\hat{y}$
+\end_inset
+
+, MSE
+\begin_inset Formula $(\hat{y})$
+\end_inset
+
+, is listed in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "table:msey"
+
+\end_inset
+
+. Nominally, MSE
+\begin_inset Formula $(\hat{y})$
+\end_inset
+
+ should be equal to the noise variance, 
+\begin_inset Formula $\sigma_{\varepsilon}^2$
+\end_inset
+
+, which is 1 for odd-numbered rows and 0.25 for even numbered rows. Of the 60 simulation cases, GWR's MSE
+\begin_inset Formula $(\hat{y})$
+\end_inset
+
+ was nearest to the known noise variance for 16, compared to 15 for oracular GWR, 14 for the GWAL-LLE, nine for each of the GWEN and the GWAL, and seven for the GWAL-LLE.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+input{../../output/simulation/selection}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+input{../../output/simulation/msex}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+input{../../output/simulation/bx}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+input{../../output/simulation/varx}			
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+input{../../output/simulation/msey}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Data example
+\begin_inset CommandInset label
+LatexCommand label
+name "section:data-analysis"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+An example data analysis is presented, demonstrating application of the GWEN-LLE for local model selection in a SVCR model of the poverty rate in the Upper Midwest states of the U.S. (Minnesota, Iowa, Wisconsin, Illinois, Indiana, and Michigan). The GWEN-LLE model is compared to a traditional GWR model for the same data.
+\end_layout
+
+\begin_layout Standard
+The response variable for the models is the logit-transformed proportion of individuals in each county who were living below the poverty line in 1970. The covariates are related to the employment structure of each county, namely the proportion of each county's residents who were employed in the economic sectors of agriculture; finance, insurance, and real estate; manufacturing; mining; services; and other professions. While the response variable was logit transformed, raw proportions were used as the covariates.
+\end_layout
+
+\begin_layout Standard
+The data used in this example are aggregated at the level of counties, which are areal units. Each county's sampling location is assumed to be its centroid. The data are from the U.S. Census Bureau's decennial census in the year 1970. The county-level poverty rate for the Upper Midwest from the 1970 census is plotted in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:1970-response"
+
+\end_inset
+
+, and the covariates are plotted in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:1970-covariates"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The coefficient estimates are plotted on maps of the upper midwest in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:unshrunk-enet-coefs-1970"
+
+\end_inset
+
+ (based on the GWEN-LLE) and Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:gwr-coefs-1970"
+
+\end_inset
+
+ (based on traditional GWR). The GWR coefficient estimates are compared to those from the GWEN-LLE in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:gwen-gwr-comparison-1970"
+
+\end_inset
+
+, where a 1-1 line is included as a guide for where the points would lie if the two methods produced identical coefficient estimates.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+\align center
+
+\begin_inset Graphics 
+	filename ../../figures/practice-talk/poverty-response.pdf
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Standard
+County-level poverty rate from the decennial U.S. census of 1970 for the Upper Midwest. 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:1970-response"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+\align center
+
+\begin_inset Graphics 
+	filename ../../figures/poverty/1970-covariates.pdf
+	height 8in
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Standard
+Covariates for the model of poverty for 1970. 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:1970-covariates"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+\align center
+
+\begin_inset Graphics 
+	filename ../../figures/poverty/1970-GWEN-coefficients.pdf
+	height 8in
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Standard
+Local coefficient estimates for GWEN-LLE model of the logit of poverty rate, based on the 1970 census. 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:unshrunk-enet-coefs-1970"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+\align center
+
+\begin_inset Graphics 
+	filename ../../figures/poverty/1970-GWR-coefficients.pdf
+	height 8in
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Standard
+Local coefficient estimates for GWR model of the logit of poverty rate, based on the 1970 census. 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:gwr-coefs-1970"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+\align center
+
+\begin_inset Graphics 
+	filename ../../figures/poverty/1970-GWEN-GWR-comparison.pdf
+	height 8in
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Standard
+Comparison of the coefficients of employment structure variables for a SVCR model of poverty rate in the Upper Midwest states in 1970. Each plot includes a 1-1 line, along which the points would lie if GWR and the GWEN produced identical coefficient estimates. 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:gwen-gwr-comparison-1970"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The coefficient surfaces estimated by the GWEN-LLE are relatively constant as compared to the those estimated by GWR. The GWEN-LLE indicates that the proportion of residents employed in services or in the 
+\begin_inset Quotes eld
+\end_inset
+
+other professions" category does not affect the poverty rate anywhere within the Upper Midwest states, while the proportion of residents employed in manufacturing or in finance, insurance, and real estate have negative coefficients (meaning a negative association with poverty rate) in all but one county of the Upper Midwest states (that one county is at the extreme northwest corner of Minnesota).
+\end_layout
+
+\begin_layout Standard
+The coefficient of employment in finance, insurance, and real estate has a larger magnitude than the other covariates (minimum value near -20, as opposed to the next-largest-magnitude coefficient, that of manufacturing employment, with a minimum near -3), indicating that counties with many workers in this sector tended to have low poverty rates in 1970. The local coefficients for employment in finance, insurance and real estate as estimated by GWR are comparable to those estimated by the GWEN-LLE.
+\end_layout
+
+\begin_layout Standard
+Manufacturing employment was also associated with reduced poverty rates across the entire Upper Midwest in 1970. While the coefficient is smaller than for employment in the finance, insurance and real estate sector, there were many more people employed in manufacturing. In the eastern part of the Upper Midwest, many counties have about half of their workers employed in manufacturing, while there are just a few counties scattered through the Upper Midwest that approach the maximum of ten percent of workers employed in finance, insurance, and real estate (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:1970-covariates"
+
+\end_inset
+
+). Like the GWEN-LLE, traditional GWR estimates that the coefficient of manufacturing employment was negative across most of the Upper Midwest, but traditional GWR estimates that the coefficient was very slightly greater than zero around Chicago and in northwestern Minnesota.
+\end_layout
+
+\begin_layout Standard
+The proportion of residents employed in agriculture is estimated to have affected the poverty rate of 1970 only in the western half of Iowa. In the counties where agricultural employment was associated with the poverty rate, there was a north-south gradient to the coefficient surface, from 0.5 in the northern part of western Iowa to -1 in the southern part. In those counties, the proportion of residents employed in agriculture is between 0.25 and 0.5. In this part of western Iowa, GWR finds a very slight positive association between agricultural employment and the poverty rate. The coefficient estimated by GWR is of a greater magnitude almost everywhere else in the domain than in western Iowa.
+\end_layout
+
+\begin_layout Standard
+There were relatively few people employed in mining in the Upper Midwest in 1970. In the extreme northern part of the domain, some sparsely populated counties had about 25% of residents working in mining, and in the extreme southern part of the domain, several counties had about 10% of residents employed in mining. According to the GWEN-LLE, the coefficient of mining employment is zero except in the far southern part of the domain. There, mining employment is associated with an increased poverty rate (the coefficient is about 3). Within the far southern part of the domain, GWR and the GWEN-LLE produce similar estimates of the coefficient of mining employment, but in parts of the Upper Midwest where the GWEN-LLE says that mining employment is not associated with the poverty rate, GWR estimates large local coefficients for mining employment, ranging between 20 and -15. 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+References
+\end_layout
+
+\begin_layout Standard
+ 
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "../../references/gwr"
+options "chicago"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
