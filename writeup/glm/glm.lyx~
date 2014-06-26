@@ -207,14 +207,38 @@ Consider
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-f_{Y|X}(y|x)= & \exp\{y\theta-b(\theta)\}\\
-\eta(\bm{s}_{i})= & \bm{x}(\bm{s}_{i})'\bm{\beta}(\bm{s}_{i})\\
-\mu(\bm{s}_{i})= & g^{-1}\left\{ \eta(\bm{s}_{i})\right\} 
+f_{Y|X}(y|x)= & \exp\{y\theta_{i}-b(\theta_{i})\}\\
+\theta_{i}= & (g\circ b')^{-1}\{\eta(\bm{{s}}_{i})\}\\
+\mu(\bm{s}_{i})= & g^{-1}\left\{ \eta(\bm{s}_{i})\right\} \\
+\eta(\bm{s}_{i})= & \bm{x}(\bm{s}_{i})'\bm{\beta}(\bm{s}_{i})
 \end{align*}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Letting 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+g=(b')^{-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+is called the canonical link, under which 
+\begin_inset Formula $\theta_{i}=\eta(\bm{{s}}_{i})$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard

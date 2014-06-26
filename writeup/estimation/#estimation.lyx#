@@ -7,6 +7,7 @@
 \begin_modules
 theorems-ams-bytype
 natbibapa
+knitr
 \end_modules
 \maintain_unincluded_children false
 \language english
@@ -108,6 +109,13 @@ Here goes the literature review.
 
 \begin_layout Section
 Varying coefficient models
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:vcr"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -474,6 +482,13 @@ key "Sun-Yan-Zhang-Lu-2014"
 
 \begin_layout Section
 Local variable selection with LAGR
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:lagr-gaussian"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -812,6 +827,13 @@ So
 
 \begin_layout Section
 Extension to GLLMs
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:lagr-gllm"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -988,7 +1010,11 @@ Under these conditions, the local quasi-likelihood is maximized where
 \end_layout
 
 \begin_layout Standard
-This is recognizable as a the normal equations for estimating coefficients
+Except for the 
+\begin_inset Formula $K_{h}(\|\bm{s}-\bm{s}_{i}\|)$
+\end_inset
+
+ term, this is the same as the normal equations for estimating coefficients
  in a GLM.
  The method of iteratively reweighted least squares (IRLS) is used to solve
  for 
@@ -1047,20 +1073,1395 @@ Oracle properties of LAGR in the GLM setting
 
 \begin_layout Section
 Simulations
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:simulations"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Run LAGR on simulated data and discuss the results.
- Compare to oracle and GWR.
+A simulation study was conducted to assess the performance of the method
+ described in Sections 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:vcr"
+
+\end_inset
+
+--
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:lagr-gaussian"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Data were simulated on the domain 
+\begin_inset Formula $[0,1]^{2}$
+\end_inset
+
+, which was divided into a 
+\begin_inset Formula $30\times30$
+\end_inset
+
+ grid.
+ Each of 
+\begin_inset Formula $p=5$
+\end_inset
+
+ covariates 
+\begin_inset Formula $X_{1},\dots,X_{5}$
+\end_inset
+
+ was simulated by a Gaussian random field with mean zero and exponential
+ covariance function 
+\begin_inset Formula $\text{Cov}\left(X_{ji},X_{ji'}\right)=\sigma_{x}^{2}\exp{\left(-\tau_{x}^{-1}\delta_{ii'}\right)}$
+\end_inset
+
+ where 
+\begin_inset Formula $\sigma_{x}^{2}=1$
+\end_inset
+
+ is the variance, 
+\begin_inset Formula $\tau_{x}=0.1$
+\end_inset
+
+ is the range parameter, and 
+\begin_inset Formula $\delta_{ii'}$
+\end_inset
+
+ is the Euclidean distance 
+\begin_inset Formula $\|\bm{s}_{i}-\bm{s}_{i'}\|_{2}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Correlation was induced between the covariates by multiplying the matrix
+ 
+\begin_inset Formula $\bm{X}=\left(X_{1}\cdots X_{5}\right)$
+\end_inset
+
+ by 
+\begin_inset Formula $\bm{R}$
+\end_inset
+
+, where 
+\begin_inset Formula $\bm{R}$
+\end_inset
+
+ is the Cholesky decomposition of the covariance matrix 
+\begin_inset Formula $\bm{\Sigma}=\bm{R}'\bm{R}$
+\end_inset
+
+.
+ The covariance matrix 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ is a 
+\begin_inset Formula $5\times5$
+\end_inset
+
+ matrix that has ones on the diagonal and 
+\begin_inset Formula $\rho$
+\end_inset
+
+ for all off-diagonal entries, where 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is the between-covariate correlation.
+ 
+\end_layout
+
+\begin_layout Standard
+The simulated response was 
+\begin_inset Formula $y_{i}=\bm{x}'_{i}\bm{\beta}_{i}+\varepsilon_{i}$
+\end_inset
+
+ for 
+\begin_inset Formula $i=1,\dots,n$
+\end_inset
+
+ where 
+\begin_inset Formula $n=900$
+\end_inset
+
+ and the 
+\begin_inset Formula $\varepsilon_{i}$
+\end_inset
+
+'s were iid Gaussian with mean zero and variance 
+\begin_inset Formula $\sigma_{\varepsilon}^{2}$
+\end_inset
+
+.
+ The simulated data included the response 
+\begin_inset Formula $y$
+\end_inset
+
+ and five covariates 
+\begin_inset Formula $x_{1},\dots,x_{5}$
+\end_inset
+
+.
+ The true data-generating model uses only 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+.
+ The variables 
+\begin_inset Formula $x_{2},\dots,x_{5}$
+\end_inset
+
+ are included to assess performance in model selection.
+ 
+\end_layout
+
+\begin_layout Standard
+Three different functions were used for the coefficient surface 
+\begin_inset Formula $\beta_{1}(\bm{s})$
+\end_inset
+
+.
+ They are plotted in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:simulation-coefficient-functions"
+
+\end_inset
+
+, and their mathematical forms are listed in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:simulation-coefficient-functions"
+
+\end_inset
+
+).
+ The first is a step function, which is equal to zero in 40% of the spatial
+ domain, equal to one in a different 40% of the spatial domain, and increases
+ linearly in the middle 20% of the domain.
+ The second is a gradient function, which increases linearly from zero at
+ one end of the domain to one at the other.
+ The final coefficient function is a parabola taking its maximum value of
+ 1 at the center of the domain and falling to zero at each corner of the
+ domain.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../figures/simulation/step.pdf
+	width 33text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../figures/simulation/gradient.pdf
+	width 33text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../figures/simulation/parabola.pdf
+	width 33text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+These are, respectively, the step, gradient, and parabola functions that
+ were used for the coefficient function 
+\begin_inset Formula $\beta_{1}(\bm{s})$
+\end_inset
+
+ in the VCR model 
+\begin_inset Formula $y(\bm{s}_{i})=x_{1}(\bm{s}_{i})\beta_{1}(\bm{s}_{i})+\varepsilon(\bm{s}_{i})$
+\end_inset
+
+ when generating the data for the simulation study.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:simulation-coefficient-functions"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\beta_{step}(\bm{s})= & \ \ \begin{cases}
+1 & if\ s_{x}>0.6\\
+5s_{x}-2 & if\ 0.4<s_{x}\le0.6\\
+0 & o.w.
+\end{cases}\nonumber \\
+\beta_{gradient}(\bm{s})= & \ \ s_{x}\nonumber \\
+\beta_{parabola}(\bm{s})= & \ \ 1-\frac{(s_{x}-0.5)^{2}+(s_{y}-0.5)^{2}}{0.5}\label{eq:simulation-coefficient-functions}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In total, three parameters were varied to produce 18 settings, each of which
+ was simulated 100 times.
+ There were three functional forms for the coefficient surface 
+\begin_inset Formula $\beta_{1}(\bm{s})$
+\end_inset
+
+; data was simulated both with low (
+\begin_inset Formula $\rho=0$
+\end_inset
+
+), medium (
+\begin_inset Formula $\rho=0.5$
+\end_inset
+
+), and high (
+\begin_inset Formula $\rho=0.9$
+\end_inset
+
+) correlation between the covariates; and simulations were made with low
+ (
+\begin_inset Formula $\sigma_{\varepsilon}^{2}=0.25$
+\end_inset
+
+) and high (
+\begin_inset Formula $\sigma_{\varepsilon}^{2}=1$
+\end_inset
+
+) variance for the random error term.
+ The simulation settings are enumerated in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:simulation-settings"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="19" columns="3">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\beta_{1}(\bm{s})$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\sigma_{\varepsilon}^{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+step
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+gradient
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+parabola
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Listing of the simulation settings used to assess the performance of LAGR
+ models versus oracle selection and no selection.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:simulation-settings"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Methods for comparison
+\end_layout
+
+\begin_layout Standard
+The performance of LAGR was compared to that of a VCR model without variable
+ selection, and to a VCR model with oracular selection.
+ Oracular selection means that exactly the correct set of covariates was
+ used to fit each local model.
+\end_layout
+
+\begin_layout Subsection
+Results
+\end_layout
+
+\begin_layout Standard
+The results are presented in terms of the mean integrated squared error
+ (MISE) of the coefficient surface estimates 
+\begin_inset Formula $\hat{\beta}_{1}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$
+\end_inset
+
+, the MISE of the fitted response 
+\begin_inset Formula $\hat{y}(\bm{s})$
+\end_inset
+
+, and the frequency with which the coefficient surface estimates 
+\begin_inset Formula $\hat{\beta}_{1}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$
+\end_inset
+
+ in the LAGR model were zero.
+\end_layout
+
+\begin_layout Standard
+The MISE of the estimates of 
+\begin_inset Formula $\beta_{1}(\bm{s})$
+\end_inset
+
+ are in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:x1-mise"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<MISE-X1, echo=FALSE, results='asis', message=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+#Imports:
+\end_layout
+
+\begin_layout Plain Layout
+
+require(xtable)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(brooks)
+\end_layout
+
+\begin_layout Plain Layout
+
+load("~/scratch/gwr-sim-output.RData")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Calculate the MISE for the first coefficient:
+\end_layout
+
+\begin_layout Plain Layout
+
+mise = matrix(0, nrow=0, ncol=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+for (setting in 1:18) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    #Get the proper coefficient surface
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (setting < 7) {B1 = step}
+\end_layout
+
+\begin_layout Plain Layout
+
+    else if (setting < 13) {B1 = gradient}
+\end_layout
+
+\begin_layout Plain Layout
+
+    else {B1 = parabola}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    #compute the MISE
+\end_layout
+
+\begin_layout Plain Layout
+
+    row = sapply(c('lagr', 'gwr', 'oracle'),
+\end_layout
+
+\begin_layout Plain Layout
+
+                  function(selection.method) {
+\end_layout
+
+\begin_layout Plain Layout
+
+                     mean(sweep(output[[setting]][[selection.method]][['X1']],
+ 1, as.vector(B1))**2)                  			}
+\end_layout
+
+\begin_layout Plain Layout
+
+	)
+\end_layout
+
+\begin_layout Plain Layout
+
+    mise = rbind(mise, row)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Which entries should be bolded (for having the lowest MISE)?
+\end_layout
+
+\begin_layout Plain Layout
+
+bold = matrix(FALSE, nrow=nrow(mise), ncol=ncol(mise))
+\end_layout
+
+\begin_layout Plain Layout
+
+for (i in 1:nrow(mise)){
+\end_layout
+
+\begin_layout Plain Layout
+
+    bold[i,which.min(mise[i,])] = TRUE
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Which entries should be italicised (for having the second-lowest MISE)?
+\end_layout
+
+\begin_layout Plain Layout
+
+ital = matrix(FALSE, nrow=nrow(mise), ncol=ncol(mise))
+\end_layout
+
+\begin_layout Plain Layout
+
+for (i in 1:nrow(mise)){
+\end_layout
+
+\begin_layout Plain Layout
+
+    ital[i,order(mise[i,])[2]] = TRUE
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Put names on the table
+\end_layout
+
+\begin_layout Plain Layout
+
+rownames(mise) = NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+colnames(mise) = c("LAGR", "none", "oracle")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Generate the table, caption it, and print it with emphasis.
+\end_layout
+
+\begin_layout Plain Layout
+
+mise.table = xtable(mise)
+\end_layout
+
+\begin_layout Plain Layout
+
+caption(mise.table) = "The MISE for the estimates of  in each simulation
+ setting, under variable selection via LAGR, no variable selection, and
+ oracular variable selection.
+ Highlighting indicates the 
+\backslash
+
+\backslash
+textbf{lowest} and 
+\backslash
+
+\backslash
+emph{next-lowest} MISE."
+\end_layout
+
+\begin_layout Plain Layout
+
+label(mise.table) = "tab:x1-mise"
+\end_layout
+
+\begin_layout Plain Layout
+
+xtable.printbold(mise.table, table.placement=NULL, which.bold=bold, which.ital=ital,
+ hline.after=c(0))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
 Data example
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:example"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Use LAGR to estimate coefficients for a real data example.
- Discuss the results, perhaps in comparison to some existing analysis.
+The proposed LAGR estimation method was used to estimate the coefficients
+ in a VCR model of the effect of some covariates on the price of homes in
+ Boston.
+ The data source is the Boston house price data set of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997"
+
+\end_inset
+
+, which is based on the 1970 U.S.
+ census.
+ In the data, we have the median price of homes sold in 506 census tracts
+ (MEDV), along with some potential predictor variables.
+ The predictor variables are CRIM (the per-capita crime rate in the tract),
+ RM (the mean number of rooms for houses sold in the tract), RAD (an index
+ of how accessible the tract is from Boston's radial roads), TAX (the property
+ tax per $10,000 of property value), and LSTAT (the percentage of the tract's
+ residents who are considered 
+\begin_inset Quotes eld
+\end_inset
+
+lower status
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+The bandwidth parameter was set to 0.2 for a nearest neighbors-type bandwidth,
+ meaning that the sum of kernel weights for each local model was 20% of
+ the total number of observations.
+ The kernel used was the Epanechnikov kernel.
+\end_layout
+
+\begin_layout Subsection
+Results
+\end_layout
+
+\begin_layout Standard
+Estimates of the regression coefficients are plotted in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:boston-lagr-coefs"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{figure}
+\end_layout
+
+\begin_layout Plain Layout
+
+<<boston-plots, echo=FALSE, results='asis', message=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+require(brooks)
+\end_layout
+
+\begin_layout Plain Layout
+
+load("~/git/gwr/scratch/boston-preset-bw.RData")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+bmap = list()
+\end_layout
+
+\begin_layout Plain Layout
+
+for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    bmap[[v]] = ggplot(boston.map) +
+\end_layout
+
+\begin_layout Plain Layout
+
+        aes(x=PolyCoordsY, y=PolyCoordsX, group=Poly_Name) +
+\end_layout
+
+\begin_layout Plain Layout
+
+        aes_string(fill=paste('coef', v, sep='')) +
+\end_layout
+
+\begin_layout Plain Layout
+
+        geom_polygon() +
+\end_layout
+
+\begin_layout Plain Layout
+
+        scale_fill_gradient2(low='orange', mid='white', high="purple", midpoint=
+0) +
+\end_layout
+
+\begin_layout Plain Layout
+
+        xlab("longitude") +
+\end_layout
+
+\begin_layout Plain Layout
+
+        ylab("latitude")
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+multiplot(plotlist=bmap, cols=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+caption{The coefficients for the boston house price data as estimated by
+ LAGR.
+\backslash
+label{fig:boston-lagr-coefs}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{figure}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+One interesting result is that the 
 \end_layout
 
 \begin_layout Section
