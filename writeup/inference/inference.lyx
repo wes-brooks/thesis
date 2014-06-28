@@ -256,36 +256,52 @@ However, the degrees of freedom are calculated based on the coefficient
 \begin_inset Formula 
 \begin{align*}
 W= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
-\omega_{i}=\\
+\hat{df}(\bm{s};\bm{s}_{i})= & \frac{\partial\hat{\mu}(\bm{s};\bm{s}_{i})}{\partial y(\bm{s}_{i})}\\
+\omega_{i}= & E\left\{ \hat{df}(\bm{s};\bm{s}_{i})\right\} \\
+\sigma_{i}^{2}= & var\left\{ \hat{df}(\bm{s};\bm{s}_{i})\right\} 
 \end{align*}
 
 \end_inset
 
-
-\begin_inset Formula $W=\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)$
-\end_inset
-
-, 
-\begin_inset Formula $\omega_{i}=E\left\{ \frac{\partial\hat{\mu}(\bm{s}_{i};\bm{s}_{i})}{\partial y(\bm{s}_{i})}\right\} $
-\end_inset
-
- where 
-\begin_inset Formula $\hat{\mu}(\bm{s}_{j};\bm{s}_{i})$
+where 
+\begin_inset Formula $\hat{\mu}(\bm{s};\bm{s}_{i})$
 \end_inset
 
  is the fitted mean at location 
-\begin_inset Formula $\bm{s}_{j}$
+\begin_inset Formula $\bm{s}$
 \end_inset
 
  based on a model centered at location 
 \begin_inset Formula $\bm{s}_{i}$
 \end_inset
 
-, and 
-\begin_inset Formula $\sigma_{i}^{2}=var\left\{ \frac{\partial\hat{\mu}(\bm{s}_{i};\bm{s}_{i})}{\partial y(\bm{s}_{i})}\right\} $
+.
+ Now note that 
+\begin_inset Formula $E\left\{ K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})\right\} =\omega_{i}K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)$
 \end_inset
 
-; then for any 
+ and 
+\begin_inset Formula $var\left\{ K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})\right\} =\sigma_{i}^{2}K_{h}^{2}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)$
+\end_inset
+
+.
+ Thus, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\omega_{i}= & \sum_{j=1}^{n}E\left\{ W^{-1}K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})\right\} \\
+\sigma_{i}^{2}W^{-2}\sum_{i=1}^{n}K_{h}^{2}\left(\|\bm{s}-\bm{s}_{i}\|\right)= & \sum_{j=1}^{n}var\left\{ W^{-1}K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})\right\} 
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now for any 
 \begin_inset Formula $\epsilon$
 \end_inset
 
@@ -294,7 +310,7 @@ W= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
 \begin_inset Formula $df$
 \end_inset
 
-, using Chebyshev's inequality:
+ by Chebyshev's inequality:
 \end_layout
 
 \begin_layout Standard
@@ -304,8 +320,8 @@ First, note that
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\text{Pr}\left(\left|\frac{\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)df(\bm{s}_{i})}{W}-\omega_{i}\right|<\epsilon\right) & =1-\text{Pr}\left(\left|\frac{\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)df(\bm{s}_{i})}{W}-\omega_{i}\right|\ge\epsilon\right)\\
-\text{Pr}\left(\left|\frac{\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)df(\bm{s}_{i})}{W}-\omega_{i}\right|\ge\epsilon\right)< & \frac{\sum_{i=1}^{n}K_{h}^{2}\left(\|\bm{s}-\bm{s}_{i}\|\right)}{W^{2}\epsilon^{2}}
+\text{Pr}\left(\left|\frac{\sum_{j=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})}{W}-\omega_{i}\right|<\epsilon\right) & =1-\text{Pr}\left(\left|\frac{\sum_{j=1}^{n}K_{h}\left(\|\bm{s}_{J}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})}{W}-\omega_{i}\right|\ge\epsilon\right)\\
+\text{Pr}\left(\left|\frac{\sum_{j=1}^{n}K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})}{W}-\omega_{i}\right|\ge\epsilon\right)< & \frac{\sigma_{i}^{2}\sum_{i=1}^{n}K_{h}^{2}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)}{W^{2}\epsilon^{2}}
 \end{align*}
 
 \end_inset
