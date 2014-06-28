@@ -2,5 +2,5 @@
 
 lyx --export pdflatex estimation.lyx
 xelatex estimation
-bibtex estimation
+biber estimation
 xelatex estimation

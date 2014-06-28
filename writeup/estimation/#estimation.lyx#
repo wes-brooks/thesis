@@ -27,7 +27,7 @@ knitr
 \graphics default
 \default_output_format default
 \output_sync 0
-\bibtex_command default
+\bibtex_command bibtex8
 \index_command default
 \paperfontsize default
 \spacing double
@@ -44,8 +44,8 @@ knitr
 \use_package stackrel 1
 \use_package stmaryrd 1
 \use_package undertilde 1
-\cite_engine basic
-\cite_engine_type default
+\cite_engine natbib
+\cite_engine_type authoryear
 \biblio_style plain
 \use_bibtopic false
 \use_indices false
@@ -87,28 +87,804 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Here goes the literature review.
- Essetial elements are:
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Whereas the coefficients in traditional linear regression are scalar constants,
+ the coefficients in a varying coefficient regression (VCR) model are functions
+ - often 
+\backslash
+emph{smooth} functions - of some effect modifying variable 
+\backslash
+citep{Hastie:1993a}.
+ 
 \end_layout
 
-\begin_layout Standard
-- nonparametric regression
+\begin_layout Plain Layout
+The methodology described herein is applicable to geostatistical data and
+ areal data.
+ Let $
+\backslash
+mathcal{D}$ be a spatial domain on which data is collected.
+ For geostatistical data, let $
+\backslash
+bm{s}$ denote a location in $
+\backslash
+mathcal{D}$.
+ Let a univariate spatial process $
+\backslash
+left
+\backslash
+{Y(
+\backslash
+bm{s}) : 
+\backslash
+bm{s} 
+\backslash
+in 
+\backslash
+mathcal{D}
+\backslash
+right
+\backslash
+}$ and a possibly multivariate spatial process $
+\backslash
+left
+\backslash
+{
+\backslash
+bm{X}(
+\backslash
+bm{s}) : 
+\backslash
+bm{s} 
+\backslash
+in 
+\backslash
+mathcal{D}
+\backslash
+right
+\backslash
+}$ denote random fields of the response and the covariates, respectively.
+ For $i = 1, 
+\backslash
+dots, n$, let $
+\backslash
+bm{s}_i$ denote the sampling location in $
+\backslash
+mathcal{D}$ of the $i$th observation of the response and the covariates.
+ Let the observed data be denoted $
+\backslash
+left
+\backslash
+{y(
+\backslash
+bm{s}_i), 
+\backslash
+bm{x}(
+\backslash
+bm{s}_i)
+\backslash
+right
+\backslash
+}$, $i=1, 
+\backslash
+dots, n$.
+ Then the data are a realization of the random fields at the sampling locations
+ $
+\backslash
+left
+\backslash
+{Y(
+\backslash
+bm{s}_i), 
+\backslash
+bm{X}(
+\backslash
+bm{s}_i)
+\backslash
+right
+\backslash
+}$ for $i=1, 
+\backslash
+dots, n$.
+ 
 \end_layout
 
-\begin_layout Standard
-- varying coefficients regression
+\begin_layout Plain Layout
+For areal data, the spatial domain $
+\backslash
+mathcal{D}$ is partitioned into $n$ regions $
+\backslash
+{D_1, 
+\backslash
+dots, D_n
+\backslash
+}$ such that $
+\backslash
+mathcal{D} = 
+\backslash
+bigcup 
+\backslash
+limits_{i=1}^n D_i$.
+ In the case of areal data, the random variables $
+\backslash
+left
+\backslash
+{Y(D_i), 
+\backslash
+bm{X}(D_i)
+\backslash
+right
+\backslash
+}$ are defined for regions instead of for point locations; population and
+ spatial mean temperature are examples of areal data.
+ The analytical method described herein can be applied to areal data if
+ they are recast as geostatistical data by assuming that the data are point-refe
+renced to a representative location of each region, such as the centroid.
+ That is, $
+\backslash
+left
+\backslash
+{
+\backslash
+bm{X}(
+\backslash
+bm{s}_i), Y(
+\backslash
+bm{s}_i)
+\backslash
+right
+\backslash
+} $ where $
+\backslash
+bm{s}_i$ is the centroid of $D_i$ for $i=1, 
+\backslash
+dots, n$.
+ 
 \end_layout
 
-\begin_layout Standard
-- adaptive lasso
+\begin_layout Plain Layout
+Common practice in the analysis of geostatistical and areal data is to model
+ the response variable with a spatial linear regression model consisting
+ of the sum of a fixed mean function, a spatial random effect, and random
+ error all on domain $
+\backslash
+mathcal{D}$, as in: 
+\backslash
+begin{align}
+\backslash
+label{eq:spatial-regression} Y(
+\backslash
+bm{s}) = 
+\backslash
+bm{X}(
+\backslash
+bm{s})'
+\backslash
+bm{
+\backslash
+beta} + W(
+\backslash
+bm{s}) + 
+\backslash
+varepsilon(
+\backslash
+bm{s}) 
+\backslash
+end{align} where $
+\backslash
+bm{X}(
+\backslash
+bm{s})'
+\backslash
+bm{
+\backslash
+beta}$ is the mean function consisting of a vector of covariates $
+\backslash
+bm{X}(
+\backslash
+bm{s})$, and a vector of regression coefficients $
+\backslash
+bm{
+\backslash
+beta}$.
+ The random error $
+\backslash
+varepsilon(
+\backslash
+bm{s})$ denotes white noise such that the errors are independent and identically
+ distributed with mean zero and variance $
+\backslash
+sigma^2$, while the random component $W(
+\backslash
+bm{s})$ denotes a mean-zero, second-order stationary random field that is
+ independent of the random error.
+ The mean function captures the large-scale systematic trend of the response,
+ the spatial random field $W(
+\backslash
+bm{s})$ can be thought of as a small-scale spatial random effect, and the
+ error term $
+\backslash
+varepsilon(
+\backslash
+bm{s})$ captures micro-scale variation 
+\backslash
+citep{Cressie:1993}.
 \end_layout
 
-\begin_layout Standard
-- generalized linear models
+\begin_layout Plain Layout
+It is common to pre-specify the form of a covariance function for the spatial
+ random effect $W(
+\backslash
+bm{s})$ 
+\backslash
+citep{Diggle:2007}.
+ For example, the exponential covariance function (a special case of the
+ Mat
+\backslash
+'{e}rn class of covariance functions) has the form 
+\backslash
+begin{align}
+\backslash
+label{eq:exponential-covariance} 
+\backslash
+text{Cov}(W(
+\backslash
+bm{s}), W(
+\backslash
+bm{t})) = 
+\backslash
+sigma^2 
+\backslash
+exp
+\backslash
+left
+\backslash
+{-
+\backslash
+phi^{-1} 
+\backslash
+delta(
+\backslash
+bm{s}, 
+\backslash
+bm{t}) 
+\backslash
+right
+\backslash
+} 
+\backslash
+end{align} where $
+\backslash
+sigma^2$ is a variance parameter, $
+\backslash
+phi$ is a range parameter, and $
+\backslash
+delta(
+\backslash
+bm{s}, 
+\backslash
+bm{t})$ is the Euclidean distance between locations $
+\backslash
+bm{s}$ and $
+\backslash
+bm{t}$.
+ The general form of a covariance function in the Mat
+\backslash
+'{e}rn class is 
+\backslash
+begin{align}
+\backslash
+label{eq:matern-covarinace} 
+\backslash
+text{Cov}(W(
+\backslash
+bm{s}), W(
+\backslash
+bm{t})) = 
+\backslash
+left
+\backslash
+{
+\backslash
+Gamma(
+\backslash
+nu) 2^{
+\backslash
+nu-1} 
+\backslash
+right
+\backslash
+}^{-1} 
+\backslash
+left
+\backslash
+{
+\backslash
+delta(
+\backslash
+bm{s}, 
+\backslash
+bm{t}) 
+\backslash
+phi^{-1}
+\backslash
+sqrt{2
+\backslash
+nu}
+\backslash
+right
+\backslash
+}^
+\backslash
+nu K_{
+\backslash
+nu} 
+\backslash
+left(
+\backslash
+delta(
+\backslash
+bm{s}, 
+\backslash
+bm{t}) 
+\backslash
+phi^{-1}
+\backslash
+sqrt{2
+\backslash
+nu}
+\backslash
+right) 
+\backslash
+end{align} where $
+\backslash
+nu$ denotes the degree of smoothness, $K_{
+\backslash
+nu}$ denotes the modified Bessel equation of the second kind, and as before
+ $
+\backslash
+phi$ denotes a range parameter and $
+\backslash
+delta(
+\backslash
+bm{s}, 
+\backslash
+bm{t})$ the Euclidean distance between locations $
+\backslash
+bm{s}$ and $
+\backslash
+bm{t}$.
+ The exponential covariance function corresponds to a Mat
+\backslash
+'{e}rn class covariance function with $
+\backslash
+nu = 1/2$.
+\end_layout
+
+\begin_layout Plain Layout
+%SVCR - justification %Stationarity in spatial linear regression A random
+ field is said to be stationary if the joint distribution of a the response
+ at a finite set of locations does not change when the set of locations
+ are all shifted in space by a fixed spatial lag.
+ That is, letting $
+\backslash
+left
+\backslash
+{T(
+\backslash
+bm{s}) : 
+\backslash
+bm{s} 
+\backslash
+in 
+\backslash
+mathcal{D}
+\backslash
+right
+\backslash
+}$ be a random field on spatial domain $
+\backslash
+mathcal{D}$ that takes value $T(
+\backslash
+bm{s}_i)$ at location $
+\backslash
+bm{s}_i 
+\backslash
+in 
+\backslash
+mathcal{D}$ for $i = 1, 
+\backslash
+dots, n$, the random field $T(
+\backslash
+bm{s})$ is stationary if $F_n
+\backslash
+left(T(
+\backslash
+bm{s}_1), 
+\backslash
+dots, T(
+\backslash
+bm{s}_n)
+\backslash
+right) = F_n
+\backslash
+left(T(
+\backslash
+bm{s}_1+
+\backslash
+bm{h}), 
+\backslash
+dots, T(
+\backslash
+bm{s}_n+
+\backslash
+bm{h})
+\backslash
+right)$ where $F_n(
+\backslash
+cdot)$ is the joint distribution of a length $n$ sample from $T(
+\backslash
+bm{s})$ and $
+\backslash
+bm{h}$ is a fixed spatial lag.
+ The random field $
+\backslash
+left
+\backslash
+{T(
+\backslash
+bm{s}) : 
+\backslash
+bm{s} 
+\backslash
+in 
+\backslash
+mathcal{D}
+\backslash
+right
+\backslash
+}$ is second-order stationary if the following are satisfied: 
+\backslash
+begin{align} E
+\backslash
+left
+\backslash
+{ T(
+\backslash
+bm{s}) 
+\backslash
+right
+\backslash
+} &= 
+\backslash
+mu 
+\backslash
+text{ for all } 
+\backslash
+bm{s} 
+\backslash
+in 
+\backslash
+mathcal{D} 
+\backslash
+notag 
+\backslash
+
+\backslash
+ 
+\backslash
+text{var}
+\backslash
+left
+\backslash
+{T(
+\backslash
+bm{s})
+\backslash
+right
+\backslash
+} &= 
+\backslash
+sigma^2 < 
+\backslash
+infty 
+\backslash
+text{ for all } 
+\backslash
+bm{s} 
+\backslash
+in 
+\backslash
+mathcal{D} 
+\backslash
+notag 
+\backslash
+
+\backslash
+ 
+\backslash
+text{cov}
+\backslash
+left
+\backslash
+{ T(
+\backslash
+bm{s}), T(
+\backslash
+bm{s} + 
+\backslash
+bm{h}) 
+\backslash
+right
+\backslash
+} &= C(
+\backslash
+bm{h}) 
+\backslash
+end{align} where the function $C(
+\backslash
+cdot)$ depends only on the spatial lag $
+\backslash
+bm{h}$ and not on the location $
+\backslash
+bm{s}$.
+ %the joint distribution at any two locations in the domain does not change
+ when the locations are shifted by a fixed spatial lag.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+The coefficient vector $
+\backslash
+bm{
+\backslash
+beta}$ in (
+\backslash
+ref{eq:spatial-regression}) is a fixed constant.
+ The model can be made more flexible if the coefficients are described by
+ a stationary random field.
+ Such a model is written 
+\backslash
+begin{align}
+\backslash
+label{eq:SVCR-process} Y(
+\backslash
+bm{s}) = 
+\backslash
+bm{X}(
+\backslash
+bm{s})'
+\backslash
+bm{
+\backslash
+beta}(
+\backslash
+bm{s}) + 
+\backslash
+varepsilon(
+\backslash
+bm{s}) 
+\backslash
+end{align} where $
+\backslash
+bm{
+\backslash
+beta}(
+\backslash
+bm{s})$ is a random coefficient field with a Mat
+\backslash
+'{e}rn-class covariance function and the spatial random effect $W(
+\backslash
+bm{s})$ included in the intercept $
+\backslash
+beta_0(
+\backslash
+bm{s})$.
+ The random coefficient field $
+\backslash
+bm{
+\backslash
+beta}(
+\backslash
+bm{s})$ can be estimated by Markov Chain Monte Carlo (MCMC) methods under
+ the assumption that $
+\backslash
+bm{
+\backslash
+beta}(
+\backslash
+bm{s})$ is stationary 
+\backslash
+citep{Gelfand:2003}.
+\end_layout
+
+\begin_layout Plain Layout
+%The spatial random effect describes the spatial pattern in the deviations
+ from the systematic part of the model.
+ When fitting the spatial regression model (
+\backslash
+ref{eq:spatial-regression}), it is usually required that the the fitted
+ values of the spatial random effect and of the residuals sum to zero, i.e.
+ $
+\backslash
+sum
+\backslash
+limits_{i=1}^n
+\backslash
+hat{W}(
+\backslash
+bm{s}_i) = 0$ and $
+\backslash
+sum
+\backslash
+limits_{i=1}^n
+\backslash
+hat{
+\backslash
+varepsilon}(
+\backslash
+bm{s}_i) = 0$.
+ This mode of analysis is appropriate when the systematic part of the regression
+ model does not vary between locations.
+ On the other hand, a VCR model is appropriate for the case where the systematic
+ part of the regression model does vary across locations.
+\end_layout
+
+\begin_layout Plain Layout
+%Spatial VCR Alternatively, kernel-based and spline-based methods can be
+ considered for fitting VCR models without assuming the coefficients are
+ described by a stationary random field.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+Coefficients for a spline-based VCR model are estimated by maximizing a
+ penalized global likelihood, with the penalty calculated from the wiggliness
+ of the coefficient surface 
+\backslash
+citep{Wood:2006}.
+ This contrasts to kernel-based estimates of the coefficients in a VCR model,
+ which maximize a local likelihood to estimate the local coefficients at
+ each sampling location 
+\backslash
+citep{Loader:1999}.
+ 
+\backslash
+cite{Fan:1999} demonstrated that the optimal kernel bandwidth estimate for
+ a VCR model can be found via a two-step technique.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+Model selection in VCR models may be local or global.
+ Global selection means including or excluding variables everywhere in the
+ spatial domain, while local selection means including or excluding variables
+ at individual locations within the spatial domain.
+ For global model selection in spline-based VCR models, 
+\backslash
+cite{Wang:2008a} proposed a SCAD penalty 
+\backslash
+citep{Fan:2001} for variable selection in spline-based VCR models with a
+ univariate effect-modifying variable.
+ 
+\backslash
+cite{Antoniadis:2012a} used the nonnegative Garrote penalty 
+\backslash
+citep{Breiman:1995} in P-spline-based VCR models having a univariate effect-modi
+fying variable.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+Wavelet methods for fitting SVCR models were explored by 
+\backslash
+cite{Shang-2011} and 
+\backslash
+cite{Zhang-2011}.
+ Sparsity in the wavelet coefficients is achieved either by $
+\backslash
+ell_1$-penalization (also known as the Lasso 
+\backslash
+citep{Tibshirani:1996}) 
+\backslash
+citep{Shang-2011} or by Bayesian variable selection 
+\backslash
+citep{Zhang-2011}.
+ Sparsity in the wavelet domain does not imply sparsity in the covariates,
+ though, so neither method is suitable for local variable selection.
+\end_layout
+
+\begin_layout Plain Layout
+Geographically weighted regression (GWR) is a kernel-based method for estimating
+ the coefficients of an SVCR model where the kernel weights are based on
+ the distance between sampling locations 
+\backslash
+citep{Brundson:1998a, Fotheringham:2002}.
+ At each sampling location, traditional GWR estimates the local regression
+ coefficients by the local likelihood 
+\backslash
+citep{Loader:1999}.
+ As a kernel-based smoother for regression coefficients, traditional GWR
+ tends to exhibit bias near the boundary of the region being modeled 
+\backslash
+citep{Hastie:1993b}.
+ One way to reduce the boundary-effect bias is to model the coefficient
+ surface as locally linear rather than locally constant by including coefficient
+-by-location interactions 
+\backslash
+citep{Wang:2008b}.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+Current practice for VCR models relies on 
+\shape italic
+a priori
+\shape default
+ global model selection to decide which variables should be included in
+ the model.
+ The idea of using Lasso regularization for local variable selection in
+ a VCR model has appeared in the literature as the geographically weighted
+ Lasso (GWL) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Wheeler-2009"
+
+\end_inset
+
+.
+ The GWL applies the Lasso for local variable selection and uses a jackknife
+ criterion for selection of the Lasso tuning parameters.
+ However, there are several drawbacks to the GWL.
+ First, the GWL is a lasso procedure, but the lasso does not generally produce
+ consistent estimates of the relevant covariates 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Leng-2006"
+
+\end_inset
+
+.
+ Because the jackknife criterion can only be computed at sampling locations
+ where the response variable is observed, the GWL cannot be used to impute
+ missing values of the response variable nor to interpolate the coefficient
+ surface and/or the response variable between sampling locations.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+The adaptive Lasso (AL) 
+\backslash
+citep{Zou:2006} is an improvement to the Lasso that does produce consistent
+ estimates of the coefficients and has been shown to have appealing properties
+ for automating variable selection, which under suitable conditions include
+ the ``oracle" property of asymptotically selecting exactly the correct
+ set of covariates for inclusion in a regression model.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+The remainder of this document is organized as follows.
+ In Section 
+\backslash
+ref{section:simulation}, a simulation study is conducted to assess the performan
+ce of the GWEN in variable selection and coefficient estimation.
+ An application to real data is presented in Section 
+\backslash
+ref{section:data-analysis}.
+ 
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
-Varying coefficient models
+Varying coefficients regression
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:vcr"
@@ -542,7 +1318,7 @@ Each raw covariate in a LAGR model is grouped with its covariate-by-location
 \end_layout
 
 \begin_layout Subsection
-Write down the LAGR-penalized local likelihood
+The LAGR-penalized local likelihood
 \end_layout
 
 \begin_layout Standard
@@ -825,6 +1601,96 @@ So
 .
 \end_layout
 
+\begin_layout Subsection
+Selecting the tuning parameter 
+\begin_inset Formula $\lambda_{n}(\bm{s})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In practical application, it is necessary to select the LAGR tuning parameter
+ 
+\begin_inset Formula $\lambda_{n}(\bm{s})$
+\end_inset
+
+ for each local model.
+ A popular approach in other lasso-type problems is to select the tuning
+ parameter that maximizes a criterion that approximates the expected log-likelih
+ood of a new, independent data set drawn from the same distribution.
+ This is the framework of Mallows' Cp 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Mallows-1973"
+
+\end_inset
+
+, Stein's unbiased risk estimate (SURE) 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Stein-1981"
+
+\end_inset
+
+ and Akaike's information criterion (AIC) 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Akaike-1973"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+These criteria use a so-called covariance penalty 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Efron:2004a"
+
+\end_inset
+
+ to estimate the bias due to using the same data set to select a model and
+ to estimate its parameters.
+ We adopt the approximate degrees of freedom for the adaptive group lasso
+ from 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Yuan-Lin-2006"
+
+\end_inset
+
+ and use the AICc 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hurvich-1998"
+
+\end_inset
+
+ to select the tuning parameter 
+\begin_inset Formula $\lambda_{n}(\bm{s})$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\hat{df}(\lambda;\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\bm{s})\|>0\right)+\sum_{j=1}^{p}\frac{\|\hat{\bm{\zeta}}(\bm{s})\|}{\|\tilde{\bm{\zeta}}(\bm{s})\|}(p_{j}-1)\\
+\text{AIC}_{c}(\lambda;\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left\{ y(\bm{s}_{i})-z'(\bm{s}_{i})\bm{}\right\} 
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
 \begin_layout Section
 Extension to GLLMs
 \begin_inset CommandInset label
@@ -840,14 +1706,14 @@ name "sec:lagr-gllm"
 Model
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Generalized linear models (GLM) extend the linear model to distributions
  other than gaussian.
  The generalized local linear model (GLLM) is an extension of the GLM to
  varying coefficient models via local regression.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 As was the case for local linear regression models, the GLLM coefficients
  are smooth functions of location, called 
 \begin_inset Formula $\bm{\beta}(\bm{s})$
@@ -861,7 +1727,7 @@ As was the case for local linear regression models, the GLLM coefficients
  is from an exponential-family distribution then its density is 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \[
 f\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} =c\left\{ y(\bm{s})\right\} \times\exp\left[\frac{\theta(\bm{s})y(\bm{s})-b\left\{ \theta(\bm{s})\right\} }{a\left\{ \phi(\bm{s})\right\} }\right]
@@ -872,7 +1738,7 @@ f\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} =c\left\{ y(\bm{s})\right\} \times\exp
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 where 
 \begin_inset Formula $\phi$
 \end_inset
@@ -884,7 +1750,7 @@ where
  are parameters and
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align*}
 E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left\{ \theta(\bm{s})\right\} \\
@@ -898,7 +1764,7 @@ E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left\{ \theta(\bm{s
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The function 
 \begin_inset Formula $g(\cdot)$
 \end_inset
@@ -925,16 +1791,15 @@ key "Fan-Heckman-Wand-1995"
 
 \end_inset
 
- in assuming the use of the canonical link because it is simple and because
- using an alternative link function would hardly affect the local fit.
+ in assuming the use of the canonical link.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Under the canonical link function, the expressions for the mean and variance
  of the response variable can be simplified to
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align*}
 E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left\{ \eta(\bm{s})\right\} \\
@@ -950,7 +1815,7 @@ E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left\{ \eta(\bm{s})\right\}
 Local quasi-likelihood
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Assuming the canonical link, all that is required is to specify the mean-varianc
 e relationship via the variance function, 
 \begin_inset Formula $V\left\{ \mu(\bm{s})\right\} $
@@ -961,7 +1826,7 @@ e relationship via the variance function,
 ihood 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
 \ell\left\{ \bm{\zeta}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right].
@@ -972,14 +1837,14 @@ ihood
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The local quasi-likelihood generalizes the local log-likelihood that was
  used to estimate coefficients in the local linear model case.
  The quasi-likelihood is convex, and is defined in terms of its derivative,
  the quasi-score function
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \[
 \frac{\partial}{\partial\mu}Q(\mu,y)=\frac{y-\mu}{V(\mu)}.
@@ -994,14 +1859,14 @@ The local quasi-likelihood generalizes the local log-likelihood that was
 Estimation
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Under these conditions, the local quasi-likelihood is maximized where
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
-\ell'\left\{ \hat{{\bm{\zeta}}}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\frac{y(\bm{s}_{i})-\hat{\mu}(\bm{s}_{i})}{V\left\{ \hat{\mu}(\bm{s}_{i})\right\} g'\left\{ \hat{\mu}(\bm{s}_{i})\right\} }\bm{z}(\bm{s}_{i})=\bm{0}_{3p}.
+\left(\frac{\partial}{\partial\bm{\zeta}}\ell\right)\left\{ \hat{{\bm{\zeta}}}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\frac{y(\bm{s}_{i})-\hat{\mu}(\bm{s}_{i})}{V\left\{ \hat{\mu}(\bm{s}_{i})\right\} g'\left\{ \hat{\mu}(\bm{s}_{i})\right\} }\bm{z}(\bm{s}_{i})=\bm{0}_{3p}.
 \end{align}
 
 \end_inset
@@ -1009,7 +1874,7 @@ Under these conditions, the local quasi-likelihood is maximized where
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Except for the 
 \begin_inset Formula $K_{h}(\|\bm{s}-\bm{s}_{i}\|)$
 \end_inset
@@ -1028,7 +1893,7 @@ Except for the
 Distribution of the local coefficients
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The asymptotic distribution of the local coefficients in a varying-coefficients
  GLM with a one-dimensional effect-modifying parameter are given in 
 \begin_inset CommandInset citation
@@ -1043,10 +1908,10 @@ key "Cai-Fan-Li-2000"
  is
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \[
-\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}V\left\{ \mu(\bm{s})\right\} \Psi^{-1}\right)
+\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left\{ \bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right\} 
 \]
 
 \end_inset
@@ -1054,21 +1919,171 @@ key "Cai-Fan-Li-2000"
 
 \end_layout
 
+\begin_layout Plain Layout
+where 
+\begin_inset Formula $\Gamma(\bm{s})=E\left[V\left\{ \mu(\bm{s})\right\} X(\bm{s})X(\bm{s})^{T}\right]$
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Subsection
 LAGR penalty
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 As in the case of linear models, the LAGR for GLMs is a grouped 
 \begin_inset Formula $\ell_{1}$
 \end_inset
 
  regularization method.
+ Now, though, we use a penalized local quasi-likelihood:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{align}
+Q\{\bm{\zeta}(\bm{s})\} & =\mathcal{\ell}\left\{ \bm{\zeta}(\bm{s})\right\} +\mathcal{J}\{\bm{\zeta}(\bm{s})\}\notag\label{eq:adaptive-lasso-GLLM}\\
+ & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right]+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+and similarly to the case for gaussian data, 
+\begin_inset Formula $\phi_{j}(\bm{s})=\lambda_{n}(\bm{s})\|\tilde{\bm{\zeta}}_{j}(\bm{s})\|^{-\gamma}$
+\end_inset
+
+, where 
+\begin_inset Formula $\lambda_{n}(\bm{s})>0$
+\end_inset
+
+ is a the local tuning parameter applied to all coefficients at location
  
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{\bm{\zeta}}_{j}(\bm{s})$
+\end_inset
+
+ is the vector of unpenalized local coefficients.
 \end_layout
 
 \begin_layout Subsection
 Oracle properties of LAGR in the GLM setting
+\end_layout
+
+\begin_layout Plain Layout
+The oracle properties for LAGR in the GLM setting are similar to those in
+ the gaussian setting:
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "theorem:normality-glm"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Asymptotic normality
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+If 
+\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
+\end_inset
+
+ and 
+\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+\end_inset
+
+ then 
+\begin_inset Formula 
+\[
+h\sqrt{n}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\}\right]\xrightarrow{d}N(0,f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s}))
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout --Separator--
+
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "theorem:selection-glm"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Selection consistency
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+If 
+\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}\infty$
+\end_inset
+
+ and 
+\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+\end_inset
+
+ then 
+\begin_inset Formula $P\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=0\right\} \to0$
+\end_inset
+
+ if 
+\begin_inset Formula $j\le p_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $P\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=0\right\} \to1$
+\end_inset
+
+ if 
+\begin_inset Formula $j>p_{0}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -2237,9 +3252,16 @@ mise.table = xtable(mise)
 
 \begin_layout Plain Layout
 
-caption(mise.table) = "The MISE for the estimates of  in each simulation
- setting, under variable selection via LAGR, no variable selection, and
- oracular variable selection.
+caption(mise.table) = "The MISE for the estimates of $
+\backslash
+
+\backslash
+beta_1(
+\backslash
+
+\backslash
+bm{s})$ in each simulation setting, under variable selection via LAGR, no
+ variable selection, and oracular variable selection.
  Highlighting indicates the 
 \backslash
 
@@ -2274,6 +3296,672 @@ xtable.printbold(mise.table, table.placement=NULL, which.bold=bold, which.ital=i
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Recall that 
+\begin_inset Formula $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+\end_inset
+
+ are exactly zero across the entire domain.
+ Oracle selection will estimate these coefficients perfectly, so we focus
+ on the comparison between estimation by LAGR and by the VCR model with
+ no selection.
+ The MISE of the estimates of 
+\begin_inset Formula $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+\end_inset
+
+ for each simulation setting are enumerated in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:x2-x5-mise"
+
+\end_inset
+
+, which shows that for every simulation setting, LAGR selection and estimation
+ is more accurate than the standard VCR model.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<MISE-X2-X5, echo=FALSE, results='asis', message=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+#Imports:
+\end_layout
+
+\begin_layout Plain Layout
+
+require(xtable)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(brooks)
+\end_layout
+
+\begin_layout Plain Layout
+
+load("~/scratch/gwr-sim-output.RData")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Calculate the MISE for the first coefficient:
+\end_layout
+
+\begin_layout Plain Layout
+
+mise.x2.x5 = matrix(0, nrow=0, ncol=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+for (setting in 1:18) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    #Get the proper coefficient surface
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (setting < 7) {B1 = step}
+\end_layout
+
+\begin_layout Plain Layout
+
+    else if (setting < 13) {B1 = gradient}
+\end_layout
+
+\begin_layout Plain Layout
+
+    else {B1 = parabola}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    #compute the MISE
+\end_layout
+
+\begin_layout Plain Layout
+
+    row = sapply(c('lagr', 'gwr'),
+\end_layout
+
+\begin_layout Plain Layout
+
+		function(selection.method) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			mean(sapply(c('X2','X3','X4','X5'), function(vv) {
+\end_layout
+
+\begin_layout Plain Layout
+
+				output[[setting]][[selection.method]][[vv]]**2
+\end_layout
+
+\begin_layout Plain Layout
+
+			}))
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	)
+\end_layout
+
+\begin_layout Plain Layout
+
+    mise.x2.x5 = rbind(mise.x2.x5, row)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Which entries should be bolded (for having the lowest MISE)?
+\end_layout
+
+\begin_layout Plain Layout
+
+bold = matrix(FALSE, nrow=nrow(mise.x2.x5), ncol=ncol(mise.x2.x5))
+\end_layout
+
+\begin_layout Plain Layout
+
+for (i in 1:nrow(mise.x2.x5)){
+\end_layout
+
+\begin_layout Plain Layout
+
+    bold[i,which.min(mise.x2.x5[i,])] = TRUE
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Put names on the table
+\end_layout
+
+\begin_layout Plain Layout
+
+rownames(mise.x2.x5) = NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+colnames(mise.x2.x5) = c("LAGR", "none")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Generate the table, caption it, and print it with emphasis.
+\end_layout
+
+\begin_layout Plain Layout
+
+mise.x2.x5.table = xtable(mise.x2.x5, digits=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+caption(mise.x2.x5.table) = "The MISE for the estimates of $
+\backslash
+
+\backslash
+beta_2(
+\backslash
+
+\backslash
+bm{s}),
+\backslash
+
+\backslash
+dots,
+\backslash
+
+\backslash
+beta_5(
+\backslash
+
+\backslash
+bm{s})$ in each simulation setting, under variable selection via LAGR and
+ no variable selection.
+ Highlighting indicates the 
+\backslash
+
+\backslash
+textbf{lowest} MISE."
+\end_layout
+
+\begin_layout Plain Layout
+
+label(mise.x2.x5.table) = "tab:x2-x5-mise"
+\end_layout
+
+\begin_layout Plain Layout
+
+xtable.printbold(mise.x2.x5.table, table.placement=NULL, which.bold=bold, hline.after=c
+(0))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<PZERO, echo=FALSE, results='asis', message=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+#Imports:
+\end_layout
+
+\begin_layout Plain Layout
+
+require(xtable)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(brooks)
+\end_layout
+
+\begin_layout Plain Layout
+
+load("~/scratch/gwr-sim-output.RData")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+zz = vector()
+\end_layout
+
+\begin_layout Plain Layout
+
+for (i in 1:18) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    zz = c(zz, mean(sapply(pzero, function(x) x[i])))
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+zz = matrix(zz)
+\end_layout
+
+\begin_layout Plain Layout
+
+colnames(zz) = c("Frequency of exact zero")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Generate the table, caption it, and print it with emphasis.
+\end_layout
+
+\begin_layout Plain Layout
+
+pzero.table = xtable(zz)
+\end_layout
+
+\begin_layout Plain Layout
+
+caption(pzero.table) = "Proportion of local models under each setting in
+ which the coefficients $
+\backslash
+
+\backslash
+beta_2(
+\backslash
+
+\backslash
+bm{s}),
+\backslash
+
+\backslash
+dots,
+\backslash
+
+\backslash
+beta_5(
+\backslash
+
+\backslash
+bm{s})$ are estimated as exactly zero."
+\end_layout
+
+\begin_layout Plain Layout
+
+label(pzero.table) = "tab:pzero"
+\end_layout
+
+\begin_layout Plain Layout
+
+print(pzero.table, table.placement=NULL, hline.after=c(0))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:pzero"
+
+\end_inset
+
+ we see that LAGR has good ability to identify non-important predictors.
+ The frequency with which 
+\begin_inset Formula $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+\end_inset
+
+ were dropped from the LAGR models ranged from 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(min(zz),2)}
+\end_layout
+
+\end_inset
+
+ to 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(max(zz),2)}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<MISEY, echo=FALSE, results='asis', message=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+#Imports:
+\end_layout
+
+\begin_layout Plain Layout
+
+require(xtable)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(brooks)
+\end_layout
+
+\begin_layout Plain Layout
+
+load("~/scratch/gwr-sim-output.RData")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+std = matrix(rbind(c(0.25, 0.25, 0.25), c(1, 1, 1)), nrow=18, ncol=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+bold.misey = matrix(FALSE, nrow=nrow(mise), ncol=ncol(mise))
+\end_layout
+
+\begin_layout Plain Layout
+
+for (i in 1:nrow(mise)){
+\end_layout
+
+\begin_layout Plain Layout
+
+	bold.misey[i,which.min(abs(misey[i,] - std[i,]))] = TRUE
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Which entries should be italicised (for having the second-lowest MISE)?
+\end_layout
+
+\begin_layout Plain Layout
+
+ital.misey = matrix(FALSE, nrow=nrow(mise), ncol=ncol(mise))
+\end_layout
+
+\begin_layout Plain Layout
+
+for (i in 1:nrow(mise)){
+\end_layout
+
+\begin_layout Plain Layout
+
+	ital.misey[i,order(abs(misey[i,] - std[i,]))[2]] = TRUE
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Put names on the table
+\end_layout
+
+\begin_layout Plain Layout
+
+rownames(misey) = NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+colnames(misey) = c("LAGR", "none", "oracle")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Generate the table, caption it, and print it with emphasis.
+\end_layout
+
+\begin_layout Plain Layout
+
+misey.table = xtable(misey)
+\end_layout
+
+\begin_layout Plain Layout
+
+caption(misey.table) = "The MISE for the fitted output in each simulation
+ setting, under variable selection via LAGR, no variable selection, and
+ oracular variable selection.
+ Highlighting indicates the 
+\backslash
+
+\backslash
+textbf{closest} and 
+\backslash
+
+\backslash
+emph{next-closest} to the actual error variance $
+\backslash
+
+\backslash
+sigma_
+\backslash
+
+\backslash
+varepsilon^2$ for that setting."
+\end_layout
+
+\begin_layout Plain Layout
+
+label(misey.table) = "tab:misey"
+\end_layout
+
+\begin_layout Plain Layout
+
+xtable.printbold(misey.table, table.placement=NULL, which.bold=bold.misey, which.ital=
+ital.misey, hline.after=c(0))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The MISE of the fitted 
+\begin_inset Formula $\hat{y}(\bm{s})$
+\end_inset
+
+ is listed in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:misey"
+
+\end_inset
+
+, where the highlighting is based on which methods estimate an error variance
+ that is closest to the known truth for the simulation.
+ The results are all very similar to each other, indicating that no method
+ was consistently better than the others in this simulation at fitting the
+ model output.
+\end_layout
+
+\begin_layout Subsection
+Discussion
+\end_layout
+
+\begin_layout Standard
+The proposed LAGR method was accurate in selection and estimation, with
+ estimation accuracy for 
+\begin_inset Formula $\beta_{1}(\bm{s})$
+\end_inset
+
+ about equal to that of the VCR model with no selection, and with consistently
+ better accuracy for estimating 
+\begin_inset Formula $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+There was minimal difference in the performance of the proposed LAGR method
+ between low (
+\begin_inset Formula $\sigma_{\varepsilon}=0.5$
+\end_inset
+
+) and high (
+\begin_inset Formula $\sigma_{\varepsilon}=1$
+\end_inset
+
+) error variance, and between no (
+\begin_inset Formula $\rho=0$
+\end_inset
+
+) and moderate (
+\begin_inset Formula $\rho=0.5$
+\end_inset
+
+) correlation among the predictor variables.
+ But the selection and estimation accuracy did decline when there was high
+ (
+\begin_inset Formula $\rho=0.9$
+\end_inset
+
+) correlation among the predictor variables.
 \end_layout
 
 \begin_layout Section
@@ -2461,7 +4149,288 @@ end{figure}
 \end_layout
 
 \begin_layout Standard
-One interesting result is that the 
+One interesting result is that LAGR indicates that the TAX variable was
+ nowhere an important predictor of the median house price.
+ Another is that the coefficients of CRIM and LSTAT are everywhere negative
+ or zero (meaning that the increasing the crime rate or proportion of lower-stat
+us individuals reduces the median house price where the effect is discernable)
+ and that of RM is positive (meaning that when the average house in a tract
+ has more rooms, the median house will be more expensive), but the coefficient
+ of RAD is positive in some areas and negative in others.
+ This indicates that there are parts of Boston where improved access to
+ radial roads increases the median house price and parts where it decreases
+ the median house price.
+\end_layout
+
+\begin_layout Standard
+There is not an obvious spatial pattern to the local coefficients for RAD
+ - there are more tracts with negative coefficients than positive, and the
+ positive coefficients do appear to be clustered, but the tracts with positive
+ coefficients are also adjacent to tracts with negative coefficients.
+ Indeed, there is not an obvious spatial pattern to any of the coefficient
+ surfaces except for TAX, which is zero everywhere.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<boston-coef-table, echo=FALSE, results='asis', message=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+require(xtable)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(brooks)
+\end_layout
+
+\begin_layout Plain Layout
+
+load("~/git/gwr/scratch/boston-preset-bw.RData")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+vars = c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+boston.coef.summary = matrix(NA, nrow=0, ncol=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+for (v in vars) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	row = vector()
+\end_layout
+
+\begin_layout Plain Layout
+
+	colname.coef = paste("coef", v, sep="")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	#Add the table's elements to this row:
+\end_layout
+
+\begin_layout Plain Layout
+
+	row = c(row, mean(boston.tracts@data[,colname.coef]))
+\end_layout
+
+\begin_layout Plain Layout
+
+	row = c(row, sd(boston.tracts@data[,colname.coef]))
+\end_layout
+
+\begin_layout Plain Layout
+
+	row = c(row, mean(boston.tracts@data[,colname.coef]==0))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	#Add this row to the table:
+\end_layout
+
+\begin_layout Plain Layout
+
+	boston.coef.summary = rbind(boston.coef.summary, row)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+rownames(boston.coef.summary) = vars
+\end_layout
+
+\begin_layout Plain Layout
+
+colnames(boston.coef.summary) = c('Mean', 'SD', 'Prop.
+ zero')
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Generate the table, caption it, and print it with emphasis.
+\end_layout
+
+\begin_layout Plain Layout
+
+boston.coef.table = xtable(boston.coef.summary)
+\end_layout
+
+\begin_layout Plain Layout
+
+caption(boston.coef.table) = "The mean, standard deviation, and proportion
+ of zeros among the local coefficients in a model for the median house price
+ in census tracts in Boston, with coefficients selected and fitted by LAGR."
+\end_layout
+
+\begin_layout Plain Layout
+
+label(boston.coef.table) = "tab:boston-coefs-lagr"
+\end_layout
+
+\begin_layout Plain Layout
+
+print(boston.coef.table, table.placement=NULL, hline.after=c(0))
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A summary of the local coefficients is in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:boston-coefs-lagr"
+
+\end_inset
+
+.
+ It indicates that RM is the only predictor variable with a positive mean
+ of the local coefficients, but also that the mean of the local coefficients
+ of RM is the largest coefficient - at 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(boston.coef.summary['RM','Mean'],2)}
+\end_layout
+
+\end_inset
+
+, it is more than twice as large in magnitude as the mean local coefficient
+ of LSTAT (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(boston.coef.summary['LSTAT','Mean'],2)}
+\end_layout
+
+\end_inset
+
+), which is second-largest.
+\end_layout
+
+\begin_layout Standard
+The coefficient of the CRIM variable was estimated to be exactly zero at
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{100*round(boston.coef.summary['CRIM','Prop.
+ zero'],2)}
+\end_layout
+
+\end_inset
+
+% of the locations.
+ The percentage for the RAD variable was 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{100*round(boston.coef.summary['RAD','Prop.
+ zero'],2)}
+\end_layout
+
+\end_inset
+
+%.
+\end_layout
+
+\begin_layout Standard
+In their example using the same data, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Sun-Yan-Zhang-Lu-2014"
+
+\end_inset
+
+ estimated that the coefficients of RAD annd LSTAT should be constant, at
+ 0.36 and -0.45, respectively.
+ That conclusion differs from our result, which says that the mean local
+ coefficient of RAD is actually negative (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(boston.coef.summary['RAD','Mean'],2)}
+\end_layout
+
+\end_inset
+
+), while our mean fitted local coefficient for LSTAT was more negative than
+ the estimate of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Sun-Yan-Zhang-Lu-2014"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
@@ -2973,7 +4942,7 @@ So
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "../../references/gwr"
+bibfiles "/Users/wesley/git/gwr/references/gwr"
 options "chicago"
 
 \end_inset
