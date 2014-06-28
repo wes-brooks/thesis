@@ -1,0 +1,365 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\begin_modules
+knitr
+natbibapa
+theorems-ams-bytype
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex8
+\index_command default
+\paperfontsize default
+\spacing double
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip bigskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Inference for a LAGR model
+\end_layout
+
+\begin_layout Author
+Wesley Brooks
+\end_layout
+
+\begin_layout Abstract
+Pithy and concise abstract
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Write down the background to LAGR modeling
+\end_layout
+
+\begin_layout Section
+LAGR models
+\end_layout
+
+\begin_layout Standard
+Write the model for LAGR and briefly mention its oracle properties
+\end_layout
+
+\begin_layout Section
+Bandwidth inference
+\end_layout
+
+\begin_layout Standard
+Write about the need for bandwidth inference.
+\end_layout
+
+\begin_layout Standard
+Using AICc, we attempt to select the model that is closest, in a K-L sense,
+ to the unknown truth.
+ The bandwidth is a parameter in the model - our selection of bandwidth
+ minimizes the AICc, but our confidence is not total.
+\end_layout
+
+\begin_layout Standard
+The profile likelihood of the bandwidth parameter is approximated as 
+\begin_inset Formula $\exp\{\text{-{AICc}(\lambda) / 2\}}$
+\end_inset
+
+.
+ Draws from distribution implied by the profile likelihood are used 
+\end_layout
+
+\begin_layout Section
+Degrees of freedom
+\end_layout
+
+\begin_layout Standard
+Our framework for inference and parameter estimation is to maximize the
+ expected log likelihood (or quasi-likelihood) over a new data set, independent
+ of that used to estimate the parameters, drawn from the same distribution
+ as the observed data.
+ This is the framework of Mallows' Cp 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Mallows-1973"
+
+\end_inset
+
+, Stein's unbiased risk estimate (SURE) 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Stein-1981"
+
+\end_inset
+
+ and Akaike's information criterion (AIC) 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Akaike-1973"
+
+\end_inset
+
+.
+ These criteria use a so-called covariance penalty 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Efron:2004a"
+
+\end_inset
+
+ to estimate the bias in the log-likelihood due to using the same data set
+ both to select a model and to estimate its parameters.
+\end_layout
+
+\begin_layout Standard
+Just as selecting the LAGR tuning parameter 
+\begin_inset Formula $\lambda_{n}(\bm{s})$
+\end_inset
+
+ for each local model required an estimate of the degrees of freedom used
+ to compute the local model, selecting the optimal global bandwidth 
+\begin_inset Formula $\hat{h}$
+\end_inset
+
+ requires an estimate of the total degrees of freedom used to compute the
+ global model.
+\end_layout
+
+\begin_layout Standard
+For an arbitrary estimator 
+\begin_inset Formula $\mu(y)$
+\end_inset
+
+, the degrees of freedom used in fitting 
+\begin_inset Formula $\mu$
+\end_inset
+
+ are given by 
+\begin_inset Formula $\sum_{i=1}^{n}\frac{\text{cov}(y_{i},\hat{\mu_{i})}}{\sigma^{2}}=\text{tr}\left(\frac{\partial\hat{\bm{\mu}}}{\partial\bm{y}}\right)$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Ye-1998"
+
+\end_inset
+
+.
+ Recall our estimate 
+\begin_inset Formula $\hat{df}(\bm{s})$
+\end_inset
+
+ of the degrees of freedom used to fit the local model at location 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\hat{df}(\lambda;\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda;\bm{s})\|>0\right)+\sum_{j=1}^{p}\frac{\|\hat{\bm{\zeta}}(\lambda;\bm{s})\|}{\|\tilde{\bm{\zeta}}(\bm{s})\|}(p_{j}-1).
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+But note that this is our estimate of 
+\begin_inset Formula $\sum_{i=1}^{n}\frac{\partial\hat{\mu_{i}}}{\partial y_{i}}$
+\end_inset
+
+, which is a sum of the contributions to 
+\begin_inset Formula $\hat{df}$
+\end_inset
+
+ from each observation.
+ There is an equivalent sum for every local model.
+ Our global 
+\begin_inset Formula $df$
+\end_inset
+
+ should sum only the central element from each of these local sums.
+ 
+\end_layout
+
+\begin_layout Standard
+However, the degrees of freedom are calculated based on the coefficient
+ estimates, not directly from a sum over the observations.
+ Instead, we must estimate the degrees of freedom contributed by the central
+ observation for each local model.
+ Let:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+W= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+\omega_{i}=\\
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula $W=\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\omega_{i}=E\left\{ \frac{\partial\hat{\mu}(\bm{s}_{i};\bm{s}_{i})}{\partial y(\bm{s}_{i})}\right\} $
+\end_inset
+
+ where 
+\begin_inset Formula $\hat{\mu}(\bm{s}_{j};\bm{s}_{i})$
+\end_inset
+
+ is the fitted mean at location 
+\begin_inset Formula $\bm{s}_{j}$
+\end_inset
+
+ based on a model centered at location 
+\begin_inset Formula $\bm{s}_{i}$
+\end_inset
+
+, and 
+\begin_inset Formula $\sigma_{i}^{2}=var\left\{ \frac{\partial\hat{\mu}(\bm{s}_{i};\bm{s}_{i})}{\partial y(\bm{s}_{i})}\right\} $
+\end_inset
+
+; then for any 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ we have a law of large numbers for the weighted mean of the individual
+ contributions to each local 
+\begin_inset Formula $df$
+\end_inset
+
+, using Chebyshev's inequality:
+\end_layout
+
+\begin_layout Standard
+First, note that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\text{Pr}\left(\left|\frac{\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)df(\bm{s}_{i})}{W}-\omega_{i}\right|<\epsilon\right) & =1-\text{Pr}\left(\left|\frac{\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)df(\bm{s}_{i})}{W}-\omega_{i}\right|\ge\epsilon\right)\\
+\text{Pr}\left(\left|\frac{\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)df(\bm{s}_{i})}{W}-\omega_{i}\right|\ge\epsilon\right)< & \frac{\sum_{i=1}^{n}K_{h}^{2}\left(\|\bm{s}-\bm{s}_{i}\|\right)}{W^{2}\epsilon^{2}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now if we define 
+\begin_inset Formula $\delta$
+\end_inset
+
+ such that 
+\begin_inset Formula $\int K_{h}\left(\|\bm{z}\|\right)I\left\{ K_{h}\left(\|\bm{z}\|\right)>\delta\right\} d\bm{z}=0.5$
+\end_inset
+
+ then 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\frac{\sum_{i=1}^{n}K_{h}^{2}\left(\|\bm{s}-\bm{s}_{i}\|\right)df(\bm{s}_{i})}{W^{2}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Coefficient inference
+\end_layout
+
+\begin_layout Standard
+How do we do inference on the coefficients?
+\end_layout
+
+\begin_layout Standard
+The coefficients are selected by minimizing AICc, but again the confidence
+ is not total.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "../../references/gwr"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

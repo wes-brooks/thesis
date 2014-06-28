@@ -96,7 +96,7 @@ rownames(boston.loc) = boston.tracts@data$TRACTBASE
 #Make a lagr model for the bandwidth and save it:
 model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=0.2, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
 
-for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
+for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT', '(Intercept')) {
     boston.tracts@data[[paste('coef', v, sep='')]] = sapply(model[['model']], function(x) x[['coef']][[v]])
 }
 
