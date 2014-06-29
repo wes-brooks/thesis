@@ -17,4 +17,5 @@ writeup/*/*.ttt
 writeup/*/*.run.xml
 writeup/*/*.synctex.gz
 writeup/*/*~
+writeup/*/*#
 .Rproj.user
