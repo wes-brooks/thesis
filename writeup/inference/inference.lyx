@@ -255,10 +255,10 @@ However, the degrees of freedom are calculated based on the coefficient
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-W= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+W(\bm{s})= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
 \hat{df}(\bm{s};\bm{s}_{i})= & \frac{\partial\hat{\mu}(\bm{s};\bm{s}_{i})}{\partial y(\bm{s}_{i})}\\
-\omega_{i}= & E\left\{ \hat{df}(\bm{s};\bm{s}_{i})\right\} \\
-\sigma_{i}^{2}= & var\left\{ \hat{df}(\bm{s};\bm{s}_{i})\right\} 
+\omega(\bm{s}_{i})= & E\left\{ \hat{df}(\bm{s};\bm{s}_{i})|\bm{s}_{i}\right\} \\
+\sigma^{2}\left(\bm{s}_{i}\right)= & var\left\{ \hat{df}(\bm{s};\bm{s}_{i})|\bm{s}_{i}\right\} 
 \end{align*}
 
 \end_inset
@@ -277,11 +277,11 @@ where
 
 .
  Now note that 
-\begin_inset Formula $E\left\{ K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})\right\} =\omega_{i}K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)$
+\begin_inset Formula $E\left\{ K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})|\bm{s}_{i}\right\} =\omega\left(\bm{s}_{i}\right)\kappa_{0}$
 \end_inset
 
  and 
-\begin_inset Formula $var\left\{ K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})\right\} =\sigma_{i}^{2}K_{h}^{2}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)$
+\begin_inset Formula $var\left\{ K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})|\bm{s}_{i}\right\} =\sigma^{2}(\bm{s}_{i})\nu_{0}$
 \end_inset
 
 .
@@ -291,8 +291,8 @@ where
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\omega_{i}= & \sum_{j=1}^{n}E\left\{ W^{-1}K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})\right\} \\
-\sigma_{i}^{2}W^{-2}\sum_{i=1}^{n}K_{h}^{2}\left(\|\bm{s}-\bm{s}_{i}\|\right)= & \sum_{j=1}^{n}var\left\{ W^{-1}K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})\right\} 
+\omega(\bm{s}_{i})= & \sum_{j=1}^{n}E\left\{ W\left(\bm{s}_{i}\right)^{-1}K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})|\bm{s}_{i}\right\} \\
+\sigma_{i}^{2}W\left(\bm{s}_{i}\right)^{-2}\sum_{i=1}^{n}K_{h}^{2}\left(\|\bm{s}-\bm{s}_{i}\|\right)= & \sum_{j=1}^{n}var\left\{ W\left(\bm{s}_{i}\right)^{-1}K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})|\bm{s}_{i}\right\} 
 \end{align*}
 
 \end_inset

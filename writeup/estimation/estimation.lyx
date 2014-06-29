@@ -87,800 +87,182 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
 Whereas the coefficients in traditional linear regression are scalar constants,
- the coefficients in a varying coefficient regression (VCR) model are functions
+ the coefficients in a varying coefficients regression (VCR) model are functions
  - often 
-\backslash
-emph{smooth} functions - of some effect modifying variable 
-\backslash
-citep{Hastie:1993a}.
- 
-\end_layout
-
-\begin_layout Plain Layout
-The methodology described herein is applicable to geostatistical data and
- areal data.
- Let $
-\backslash
-mathcal{D}$ be a spatial domain on which data is collected.
- For geostatistical data, let $
-\backslash
-bm{s}$ denote a location in $
-\backslash
-mathcal{D}$.
- Let a univariate spatial process $
-\backslash
-left
-\backslash
-{Y(
-\backslash
-bm{s}) : 
-\backslash
-bm{s} 
-\backslash
-in 
-\backslash
-mathcal{D}
-\backslash
-right
-\backslash
-}$ and a possibly multivariate spatial process $
-\backslash
-left
-\backslash
-{
-\backslash
-bm{X}(
-\backslash
-bm{s}) : 
-\backslash
-bm{s} 
-\backslash
-in 
-\backslash
-mathcal{D}
-\backslash
-right
-\backslash
-}$ denote random fields of the response and the covariates, respectively.
- For $i = 1, 
-\backslash
-dots, n$, let $
-\backslash
-bm{s}_i$ denote the sampling location in $
-\backslash
-mathcal{D}$ of the $i$th observation of the response and the covariates.
- Let the observed data be denoted $
-\backslash
-left
-\backslash
-{y(
-\backslash
-bm{s}_i), 
-\backslash
-bm{x}(
-\backslash
-bm{s}_i)
-\backslash
-right
-\backslash
-}$, $i=1, 
-\backslash
-dots, n$.
- Then the data are a realization of the random fields at the sampling locations
- $
-\backslash
-left
-\backslash
-{Y(
-\backslash
-bm{s}_i), 
-\backslash
-bm{X}(
-\backslash
-bm{s}_i)
-\backslash
-right
-\backslash
-}$ for $i=1, 
-\backslash
-dots, n$.
- 
-\end_layout
-
-\begin_layout Plain Layout
-For areal data, the spatial domain $
-\backslash
-mathcal{D}$ is partitioned into $n$ regions $
-\backslash
-{D_1, 
-\backslash
-dots, D_n
-\backslash
-}$ such that $
-\backslash
-mathcal{D} = 
-\backslash
-bigcup 
-\backslash
-limits_{i=1}^n D_i$.
- In the case of areal data, the random variables $
-\backslash
-left
-\backslash
-{Y(D_i), 
-\backslash
-bm{X}(D_i)
-\backslash
-right
-\backslash
-}$ are defined for regions instead of for point locations; population and
- spatial mean temperature are examples of areal data.
- The analytical method described herein can be applied to areal data if
- they are recast as geostatistical data by assuming that the data are point-refe
-renced to a representative location of each region, such as the centroid.
- That is, $
-\backslash
-left
-\backslash
-{
-\backslash
-bm{X}(
-\backslash
-bm{s}_i), Y(
-\backslash
-bm{s}_i)
-\backslash
-right
-\backslash
-} $ where $
-\backslash
-bm{s}_i$ is the centroid of $D_i$ for $i=1, 
-\backslash
-dots, n$.
- 
-\end_layout
-
-\begin_layout Plain Layout
-Common practice in the analysis of geostatistical and areal data is to model
- the response variable with a spatial linear regression model consisting
- of the sum of a fixed mean function, a spatial random effect, and random
- error all on domain $
-\backslash
-mathcal{D}$, as in: 
-\backslash
-begin{align}
-\backslash
-label{eq:spatial-regression} Y(
-\backslash
-bm{s}) = 
-\backslash
-bm{X}(
-\backslash
-bm{s})'
-\backslash
-bm{
-\backslash
-beta} + W(
-\backslash
-bm{s}) + 
-\backslash
-varepsilon(
-\backslash
-bm{s}) 
-\backslash
-end{align} where $
-\backslash
-bm{X}(
-\backslash
-bm{s})'
-\backslash
-bm{
-\backslash
-beta}$ is the mean function consisting of a vector of covariates $
-\backslash
-bm{X}(
-\backslash
-bm{s})$, and a vector of regression coefficients $
-\backslash
-bm{
-\backslash
-beta}$.
- The random error $
-\backslash
-varepsilon(
-\backslash
-bm{s})$ denotes white noise such that the errors are independent and identically
- distributed with mean zero and variance $
-\backslash
-sigma^2$, while the random component $W(
-\backslash
-bm{s})$ denotes a mean-zero, second-order stationary random field that is
- independent of the random error.
- The mean function captures the large-scale systematic trend of the response,
- the spatial random field $W(
-\backslash
-bm{s})$ can be thought of as a small-scale spatial random effect, and the
- error term $
-\backslash
-varepsilon(
-\backslash
-bm{s})$ captures micro-scale variation 
-\backslash
-citep{Cressie:1993}.
-\end_layout
-
-\begin_layout Plain Layout
-It is common to pre-specify the form of a covariance function for the spatial
- random effect $W(
-\backslash
-bm{s})$ 
-\backslash
-citep{Diggle:2007}.
- For example, the exponential covariance function (a special case of the
- Mat
-\backslash
-'{e}rn class of covariance functions) has the form 
-\backslash
-begin{align}
-\backslash
-label{eq:exponential-covariance} 
-\backslash
-text{Cov}(W(
-\backslash
-bm{s}), W(
-\backslash
-bm{t})) = 
-\backslash
-sigma^2 
-\backslash
-exp
-\backslash
-left
-\backslash
-{-
-\backslash
-phi^{-1} 
-\backslash
-delta(
-\backslash
-bm{s}, 
-\backslash
-bm{t}) 
-\backslash
-right
-\backslash
-} 
-\backslash
-end{align} where $
-\backslash
-sigma^2$ is a variance parameter, $
-\backslash
-phi$ is a range parameter, and $
-\backslash
-delta(
-\backslash
-bm{s}, 
-\backslash
-bm{t})$ is the Euclidean distance between locations $
-\backslash
-bm{s}$ and $
-\backslash
-bm{t}$.
- The general form of a covariance function in the Mat
-\backslash
-'{e}rn class is 
-\backslash
-begin{align}
-\backslash
-label{eq:matern-covarinace} 
-\backslash
-text{Cov}(W(
-\backslash
-bm{s}), W(
-\backslash
-bm{t})) = 
-\backslash
-left
-\backslash
-{
-\backslash
-Gamma(
-\backslash
-nu) 2^{
-\backslash
-nu-1} 
-\backslash
-right
-\backslash
-}^{-1} 
-\backslash
-left
-\backslash
-{
-\backslash
-delta(
-\backslash
-bm{s}, 
-\backslash
-bm{t}) 
-\backslash
-phi^{-1}
-\backslash
-sqrt{2
-\backslash
-nu}
-\backslash
-right
-\backslash
-}^
-\backslash
-nu K_{
-\backslash
-nu} 
-\backslash
-left(
-\backslash
-delta(
-\backslash
-bm{s}, 
-\backslash
-bm{t}) 
-\backslash
-phi^{-1}
-\backslash
-sqrt{2
-\backslash
-nu}
-\backslash
-right) 
-\backslash
-end{align} where $
-\backslash
-nu$ denotes the degree of smoothness, $K_{
-\backslash
-nu}$ denotes the modified Bessel equation of the second kind, and as before
- $
-\backslash
-phi$ denotes a range parameter and $
-\backslash
-delta(
-\backslash
-bm{s}, 
-\backslash
-bm{t})$ the Euclidean distance between locations $
-\backslash
-bm{s}$ and $
-\backslash
-bm{t}$.
- The exponential covariance function corresponds to a Mat
-\backslash
-'{e}rn class covariance function with $
-\backslash
-nu = 1/2$.
-\end_layout
-
-\begin_layout Plain Layout
-%SVCR - justification %Stationarity in spatial linear regression A random
- field is said to be stationary if the joint distribution of a the response
- at a finite set of locations does not change when the set of locations
- are all shifted in space by a fixed spatial lag.
- That is, letting $
-\backslash
-left
-\backslash
-{T(
-\backslash
-bm{s}) : 
-\backslash
-bm{s} 
-\backslash
-in 
-\backslash
-mathcal{D}
-\backslash
-right
-\backslash
-}$ be a random field on spatial domain $
-\backslash
-mathcal{D}$ that takes value $T(
-\backslash
-bm{s}_i)$ at location $
-\backslash
-bm{s}_i 
-\backslash
-in 
-\backslash
-mathcal{D}$ for $i = 1, 
-\backslash
-dots, n$, the random field $T(
-\backslash
-bm{s})$ is stationary if $F_n
-\backslash
-left(T(
-\backslash
-bm{s}_1), 
-\backslash
-dots, T(
-\backslash
-bm{s}_n)
-\backslash
-right) = F_n
-\backslash
-left(T(
-\backslash
-bm{s}_1+
-\backslash
-bm{h}), 
-\backslash
-dots, T(
-\backslash
-bm{s}_n+
-\backslash
-bm{h})
-\backslash
-right)$ where $F_n(
-\backslash
-cdot)$ is the joint distribution of a length $n$ sample from $T(
-\backslash
-bm{s})$ and $
-\backslash
-bm{h}$ is a fixed spatial lag.
- The random field $
-\backslash
-left
-\backslash
-{T(
-\backslash
-bm{s}) : 
-\backslash
-bm{s} 
-\backslash
-in 
-\backslash
-mathcal{D}
-\backslash
-right
-\backslash
-}$ is second-order stationary if the following are satisfied: 
-\backslash
-begin{align} E
-\backslash
-left
-\backslash
-{ T(
-\backslash
-bm{s}) 
-\backslash
-right
-\backslash
-} &= 
-\backslash
-mu 
-\backslash
-text{ for all } 
-\backslash
-bm{s} 
-\backslash
-in 
-\backslash
-mathcal{D} 
-\backslash
-notag 
-\backslash
-
-\backslash
- 
-\backslash
-text{var}
-\backslash
-left
-\backslash
-{T(
-\backslash
-bm{s})
-\backslash
-right
-\backslash
-} &= 
-\backslash
-sigma^2 < 
-\backslash
-infty 
-\backslash
-text{ for all } 
-\backslash
-bm{s} 
-\backslash
-in 
-\backslash
-mathcal{D} 
-\backslash
-notag 
-\backslash
-
-\backslash
- 
-\backslash
-text{cov}
-\backslash
-left
-\backslash
-{ T(
-\backslash
-bm{s}), T(
-\backslash
-bm{s} + 
-\backslash
-bm{h}) 
-\backslash
-right
-\backslash
-} &= C(
-\backslash
-bm{h}) 
-\backslash
-end{align} where the function $C(
-\backslash
-cdot)$ depends only on the spatial lag $
-\backslash
-bm{h}$ and not on the location $
-\backslash
-bm{s}$.
- %the joint distribution at any two locations in the domain does not change
- when the locations are shifted by a fixed spatial lag.
- 
-\end_layout
-
-\begin_layout Plain Layout
-The coefficient vector $
-\backslash
-bm{
-\backslash
-beta}$ in (
-\backslash
-ref{eq:spatial-regression}) is a fixed constant.
- The model can be made more flexible if the coefficients are described by
- a stationary random field.
- Such a model is written 
-\backslash
-begin{align}
-\backslash
-label{eq:SVCR-process} Y(
-\backslash
-bm{s}) = 
-\backslash
-bm{X}(
-\backslash
-bm{s})'
-\backslash
-bm{
-\backslash
-beta}(
-\backslash
-bm{s}) + 
-\backslash
-varepsilon(
-\backslash
-bm{s}) 
-\backslash
-end{align} where $
-\backslash
-bm{
-\backslash
-beta}(
-\backslash
-bm{s})$ is a random coefficient field with a Mat
-\backslash
-'{e}rn-class covariance function and the spatial random effect $W(
-\backslash
-bm{s})$ included in the intercept $
-\backslash
-beta_0(
-\backslash
-bm{s})$.
- The random coefficient field $
-\backslash
-bm{
-\backslash
-beta}(
-\backslash
-bm{s})$ can be estimated by Markov Chain Monte Carlo (MCMC) methods under
- the assumption that $
-\backslash
-bm{
-\backslash
-beta}(
-\backslash
-bm{s})$ is stationary 
-\backslash
-citep{Gelfand:2003}.
-\end_layout
-
-\begin_layout Plain Layout
-%The spatial random effect describes the spatial pattern in the deviations
- from the systematic part of the model.
- When fitting the spatial regression model (
-\backslash
-ref{eq:spatial-regression}), it is usually required that the the fitted
- values of the spatial random effect and of the residuals sum to zero, i.e.
- $
-\backslash
-sum
-\backslash
-limits_{i=1}^n
-\backslash
-hat{W}(
-\backslash
-bm{s}_i) = 0$ and $
-\backslash
-sum
-\backslash
-limits_{i=1}^n
-\backslash
-hat{
-\backslash
-varepsilon}(
-\backslash
-bm{s}_i) = 0$.
- This mode of analysis is appropriate when the systematic part of the regression
- model does not vary between locations.
- On the other hand, a VCR model is appropriate for the case where the systematic
- part of the regression model does vary across locations.
-\end_layout
-
-\begin_layout Plain Layout
-%Spatial VCR Alternatively, kernel-based and spline-based methods can be
- considered for fitting VCR models without assuming the coefficients are
- described by a stationary random field.
- 
-\end_layout
-
-\begin_layout Plain Layout
-Coefficients for a spline-based VCR model are estimated by maximizing a
- penalized global likelihood, with the penalty calculated from the wiggliness
- of the coefficient surface 
-\backslash
-citep{Wood:2006}.
- This contrasts to kernel-based estimates of the coefficients in a VCR model,
- which maximize a local likelihood to estimate the local coefficients at
- each sampling location 
-\backslash
-citep{Loader:1999}.
- 
-\backslash
-cite{Fan:1999} demonstrated that the optimal kernel bandwidth estimate for
- a VCR model can be found via a two-step technique.
- 
-\end_layout
-
-\begin_layout Plain Layout
-Model selection in VCR models may be local or global.
- Global selection means including or excluding variables everywhere in the
- spatial domain, while local selection means including or excluding variables
- at individual locations within the spatial domain.
- For global model selection in spline-based VCR models, 
-\backslash
-cite{Wang:2008a} proposed a SCAD penalty 
-\backslash
-citep{Fan:2001} for variable selection in spline-based VCR models with a
- univariate effect-modifying variable.
- 
-\backslash
-cite{Antoniadis:2012a} used the nonnegative Garrote penalty 
-\backslash
-citep{Breiman:1995} in P-spline-based VCR models having a univariate effect-modi
-fying variable.
- 
-\end_layout
-
-\begin_layout Plain Layout
-Wavelet methods for fitting SVCR models were explored by 
-\backslash
-cite{Shang-2011} and 
-\backslash
-cite{Zhang-2011}.
- Sparsity in the wavelet coefficients is achieved either by $
-\backslash
-ell_1$-penalization (also known as the Lasso 
-\backslash
-citep{Tibshirani:1996}) 
-\backslash
-citep{Shang-2011} or by Bayesian variable selection 
-\backslash
-citep{Zhang-2011}.
- Sparsity in the wavelet domain does not imply sparsity in the covariates,
- though, so neither method is suitable for local variable selection.
-\end_layout
-
-\begin_layout Plain Layout
-Geographically weighted regression (GWR) is a kernel-based method for estimating
- the coefficients of an SVCR model where the kernel weights are based on
- the distance between sampling locations 
-\backslash
-citep{Brundson:1998a, Fotheringham:2002}.
- At each sampling location, traditional GWR estimates the local regression
- coefficients by the local likelihood 
-\backslash
-citep{Loader:1999}.
- As a kernel-based smoother for regression coefficients, traditional GWR
- tends to exhibit bias near the boundary of the region being modeled 
-\backslash
-citep{Hastie:1993b}.
- One way to reduce the boundary-effect bias is to model the coefficient
- surface as locally linear rather than locally constant by including coefficient
--by-location interactions 
-\backslash
-citep{Wang:2008b}.
- 
-\end_layout
-
-\begin_layout Plain Layout
-Current practice for VCR models relies on 
-\shape italic
-a priori
-\shape default
- global model selection to decide which variables should be included in
- the model.
- The idea of using Lasso regularization for local variable selection in
- a VCR model has appeared in the literature as the geographically weighted
- Lasso (GWL) 
+\emph on
+smooth
+\emph default
+ functions - of some effect-modifying variable 
 \begin_inset CommandInset citation
-LatexCommand cite
-key "Wheeler-2009"
+LatexCommand citep
+key "Hastie:1993a,Cleveland:1991"
 
 \end_inset
 
 .
- The GWL applies the Lasso for local variable selection and uses a jackknife
- criterion for selection of the Lasso tuning parameters.
- However, there are several drawbacks to the GWL.
- First, the GWL is a lasso procedure, but the lasso does not generally produce
- consistent estimates of the relevant covariates 
+\end_layout
+
+\begin_layout Standard
+Current practice for VCR models relies on global model selection to decide
+ which variables should be included in the model, meaning that predictors
+ are identified as relevant or irrelevant over the entire domain 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+.
+ 
 \begin_inset CommandInset citation
-LatexCommand cite
-key "Leng-2006"
+LatexCommand citet
+key "Antoniadis:2012a"
+
+\end_inset
+
+ describe a method for globally selecting the relevant predictors in a VCR
+ model where the coefficient functions are estimated with P-splines, and
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Wang-2008a"
+
+\end_inset
+
+ show a method for doing global variable selection in a VCR model where
+ the coefficient functions are estimated by basis expansion.
+\end_layout
+
+\begin_layout Standard
+Local adaptive grouped regularization (LAGR) is introduced as a method to
+ select only the locally relevant predictors at any specific location 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ in the domain 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+ of a VCR model.
+ The method of LAGR is applies to VCR models where the coefficients are
+ estimated using locally linear kernel smoothing.
+ We show that LAGR posesses the oracle properties of asymptotically selecting
+ exactly the correct local predictors and estimating their local coefficients
+ as accurately as would be possible if the relevant covaritates for the
+ local model were somehow known in advance.
+\end_layout
+
+\begin_layout Standard
+Using kernel smoothing for nonparametric regression is described in detail
+ in 
+\begin_inset CommandInset citation
+LatexCommand citet*
+key "Fan-Gijbels-1996"
 
 \end_inset
 
 .
- Because the jackknife criterion can only be computed at sampling locations
- where the response variable is observed, the GWL cannot be used to impute
- missing values of the response variable nor to interpolate the coefficient
- surface and/or the response variable between sampling locations.
- 
+ The extension to estimating VCR models is made by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Fan-Zhang-1999"
+
+\end_inset
+
+ for a VCR a univariate effect-modifying variable, and by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sun-Yan-Zhang-Lu-2014"
+
+\end_inset
+
+ for two-dimensional effect-modifying variable and autocorrelation among
+ the obverved response.
+ These methods minimize the boundary effect 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Hastie:1993b"
+
+\end_inset
+
+ by estimating the coefficients as local polynomials of odd degree (usually
+ locally linear).
 \end_layout
 
-\begin_layout Plain Layout
-The adaptive Lasso (AL) 
-\backslash
-citep{Zou:2006} is an improvement to the Lasso that does produce consistent
- estimates of the coefficients and has been shown to have appealing properties
- for automating variable selection, which under suitable conditions include
- the ``oracle" property of asymptotically selecting exactly the correct
- set of covariates for inclusion in a regression model.
- 
+\begin_layout Standard
+For linear regression models, the adaptive lasso (AL) 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Zou-2006"
+
+\end_inset
+
+ produces consistent estimates of the coefficients and has been shown to
+ have appealing properties for automating variable selection, which under
+ suitable conditions include the 
+\begin_inset Quotes eld
+\end_inset
+
+oracle
+\begin_inset Quotes erd
+\end_inset
+
+ property of asymptotically including exactly the correct set of covariates
+ and estimating their coefficients as well as if the correct covariates
+ were known in advance.
+ For data where the obvserved variables fall into mutually exclusive groups
+ that are known in advance, the adaptive group lasso 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Yuan-Lin-2006,Wang-Leng-2008"
+
+\end_inset
+
+ has similar oracle properties to the adaptive lasso while doing selection
+ at the level of groups rather than individual variables.
+ The proposed LAGR method uses the adaptive group lasso for local variable
+ selection and coefficient estimation in a locally linear regression model.
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 The remainder of this document is organized as follows.
- In Section 
-\backslash
-ref{section:simulation}, a simulation study is conducted to assess the performan
-ce of the GWEN in variable selection and coefficient estimation.
- An application to real data is presented in Section 
-\backslash
-ref{section:data-analysis}.
- 
-\end_layout
+ The kernel-based VCR model is described in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:vcr"
 
 \end_inset
 
+; the proposed LAGR technique and its oracle properties are presented in
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:lagr-gaussian"
 
+\end_inset
+
+; in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:simulations"
+
+\end_inset
+
+, the performance of the proposed LAGR technique is evaluated in a simulation
+ study, and in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:example"
+
+\end_inset
+
+ the proposed method is applied to the Boston house price dataset.
+ Proofs of the theorems appear in Appendix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "app:proofs"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
@@ -2411,13 +1793,23 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="19" columns="3">
+<lyxtabular version="3" rows="19" columns="4">
 <features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Setting
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2455,7 +1847,16 @@ status open
 </cell>
 </row>
 <row>
-<cell multirow="3" alignment="left" valignment="middle" bottomline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2484,7 +1885,16 @@ step
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2513,7 +1923,16 @@ step
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2542,7 +1961,16 @@ step
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2571,7 +1999,16 @@ step
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2600,7 +2037,16 @@ step
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2629,7 +2075,16 @@ step
 </cell>
 </row>
 <row>
-<cell multirow="3" alignment="left" valignment="middle" bottomline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2658,7 +2113,16 @@ gradient
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2687,7 +2151,16 @@ gradient
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2716,7 +2189,16 @@ gradient
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2745,7 +2227,16 @@ gradient
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2774,7 +2265,16 @@ gradient
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2803,7 +2303,16 @@ gradient
 </cell>
 </row>
 <row>
-<cell multirow="3" alignment="left" valignment="middle" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2832,7 +2341,16 @@ parabola
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2861,7 +2379,16 @@ parabola
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2890,7 +2417,16 @@ parabola
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2919,7 +2455,16 @@ parabola
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+17
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2948,7 +2493,16 @@ parabola
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4945,6 +4499,536 @@ So
 
 .
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Proof
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Proof of theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:normality-glm"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Define pseudodata for the 
+\begin_inset Formula $k$
+\end_inset
+
+th iteration of the IRLS algorithm: 
+\begin_inset Formula $\omega^{[k]}(\bm{s}_{i};\bm{s})=g'\left\{ \mu^{[k]}\left(\bm{s}_{i};\bm{s}\right)\right\} \left\{ y\left(\bm{s}_{i}\right)-\mu^{[k]}\left(\bm{s}_{i};\bm{s}\right)\right\} +\eta^{[k]}\left(\bm{s}_{i};\bm{s}\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\bm{\Omega}\left(\bm{s}\right)=\left\{ \omega\left(\bm{s}_{1};\bm{s}\right)\ \cdots\ \omega\left(\bm{s}_{n};\bm{s}\right)\right\} ^{T}$
+\end_inset
+
+ and define the diagonal weight matrices 
+\begin_inset Formula $\bm{V}\left(\bm{s}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{T}\text{\left(\bm{s}\right)}$
+\end_inset
+
+ such that 
+\begin_inset Formula $\left\{ \bm{V}\left(\bm{s}\right)\right\} _{ii}=K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)/V\left\{ \mu\left(\bm{s}_{i};\bm{s}\right)\right\} $
+\end_inset
+
+ and 
+\begin_inset Formula $\left\{ \bm{T}\left(\bm{s}\right)\right\} _{ii}=K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)/\left[V\left\{ \mu\left(\bm{s}_{i};\bm{s}\right)\right\} g'\left\{ \mu\left(\bm{s}_{i};\bm{s}\right)\right\} ^{2}\right]$
+\end_inset
+
+.
+ Then at convergence of the IRLS algorithm, we have that 
+\begin_inset Formula $\eta^{[k+1]}\left(\bm{s}_{i};\bm{s}\right)=\eta^{[k]}\left(\bm{s}_{i};\bm{s}\right)$
+\end_inset
+
+ and therefore 
+\begin_inset Formula $\left[\sqrt{\bm{T}\left(\bm{s}\right)}\left\{ \omega^{[k]}(\bm{s})-Z\left(\bm{s}\right)\right\} \right]_{ii}=\frac{K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\left\{ y\left(\bm{s}\right)-\mu\left(\bm{s}_{i};\bm{s}\right)\right\} }{V\left\{ \mu\left(\bm{s}_{i};\bm{s}\right)\right\} }$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+Define 
+\begin_inset Formula $V_{4}^{(n)}(\bm{u})$
+\end_inset
+
+ to be the 
+\begin_inset Formula 
+\begin{align}
+\mkern-36muV_{4}^{(n)}(\bm{u}) & =Q\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} -Q\left\{ \bm{\zeta}(\bm{s})\right\} \notag\label{eq:consistency-glm}\\
+ & \mkern-36mu=(1/2)\left[\bm{\Omega}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} \right]^{T}\bm{T}(\bm{s})\left[\bm{\Omega}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} \right]\notag\\
+ & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|\notag\\
+ & -(1/2)\left\{ \bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{T}(\bm{s})\left\{ \bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} -\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|\notag\\
+ & \mkern-36mu=(1/2)\bm{u}^{T}\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}-\bm{u}^{T}\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{T}(\bm{s})\left\{ \bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\notag\\
+ & +\sum_{j=1}^{p}n^{-1/2}\phi_{j}(\bm{s})n^{1/2}\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} 
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Note the different limiting behavior of the third term between the cases
+ 
+\begin_inset Formula $j\le p_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $j>p_{0}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Paragraph
+Case 
+\begin_inset Formula $j\le p_{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+If 
+\begin_inset Formula $j\le p_{0}$
+\end_inset
+
+ then 
+\begin_inset Formula $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|^{-\gamma}$
+\end_inset
+
+ and 
+\begin_inset Formula $|\sqrt{n}\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{j}\|$
+\end_inset
+
+ so 
+\begin_inset Formula 
+\[
+\lim\limits _{n\to\infty}\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)\le h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\le h^{-1}n^{-1/2}a_{n}\|\bm{u}_{j}\|\to0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Case 
+\begin_inset Formula $j>p_{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+If 
+\begin_inset Formula $j>p_{0}$
+\end_inset
+
+ then 
+\begin_inset Formula $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)=\phi_{j}(\bm{s})h^{-1}n^{-1/2}\|\bm{u}_{j}\|$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+And note that 
+\begin_inset Formula $h=O(n^{-1/6})$
+\end_inset
+
+ so that if 
+\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+\end_inset
+
+ then 
+\begin_inset Formula $h^{-1}n^{-1/2}b_{n}\xrightarrow{p}\infty$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+Now, if 
+\begin_inset Formula $\|\bm{u}_{j}\|\ne0$
+\end_inset
+
+ then 
+\begin_inset Formula 
+\[
+h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\ge h^{-1}n^{-1/2}b_{n}\|\bm{u}_{j}\|\to\infty
+\]
+
+\end_inset
+
+.
+ On the other hand, if 
+\begin_inset Formula $\|\bm{u}_{j}\|=0$
+\end_inset
+
+ then 
+\begin_inset Formula $h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+Thus, the limit of 
+\begin_inset Formula $V_{4}^{(n)}(\bm{u})$
+\end_inset
+
+ is the same as the limit of 
+\begin_inset Formula $V_{4}^{*(n)}(\bm{u})$
+\end_inset
+
+ where
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\mkern-72muV_{4}^{*(n)}(\bm{u})=\begin{cases}
+(1/2)\bm{u}^{T}\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}-\bm{u}^{T}\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{T}(\bm{s})\left\{ \bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right] & \mbox{ if }\|\bm{u}_{j}\|=0\;\forall j>p_{0}\\
+\infty & \mbox{ otherwise }
+\end{cases}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+From which it is clear that 
+\begin_inset Formula $V_{4}^{*(n)}(\bm{u})$
+\end_inset
+
+ is convex and its unique minimizer is 
+\begin_inset Formula $\hat{\bm{u}}^{(n)}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{align}
+0 & =\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}(\bm{s})\right\} \hat{\bm{u}}^{(n)}-\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{T}(\bm{s})\left\{ \bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\notag\label{eq:limit-glm}\\
+\therefore\hat{\bm{u}}^{(n)} & =\left\{ n^{-1}\bm{Z}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\left[hn^{-1/2}\bm{Z}^{T}(\bm{s})\bm{T}(\bm{s})\left\{ \bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\notag\\
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+By the epiconvergence results of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Geyer-1994"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Knight-Fu-2000"
+
+\end_inset
+
+, the minimizer of the limiting function is the limit of the minimizers
+ 
+\begin_inset Formula $\hat{\bm{u}}^{(n)}$
+\end_inset
+
+.
+ And if
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+\hat{\bm{u}}^{(n)}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\},f(\bm{s})\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Gamma\left(\bm{s}\right)^{-1}\right)
+\end{equation}
+
+\end_inset
+
+the result is proven.
+\end_layout
+
+\begin_layout Proof
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Proof of theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:selection-glm"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+We showed in Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:normality-glm"
+
+\end_inset
+
+ that 
+\begin_inset Formula $\hat{\bm{\zeta}}_{j}(\bm{s})\xrightarrow{p}\bm{\zeta}_{j}(\bm{s})+\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\}$
+\end_inset
+
+, so to complete the proof of selection consistency, it only remains to
+ show that 
+\begin_inset Formula $P\left\{ \hat{\bm{\zeta}}_{j}(\bm{s})=0\right\} \to1$
+\end_inset
+
+ if 
+\begin_inset Formula $j>p_{0}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+The proof is by contradiction.
+ Without loss of generality we consider only the case 
+\begin_inset Formula $j=p$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+Assume 
+\begin_inset Formula $\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ne0$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $Q\left\{ \bm{\zeta}(\bm{s})\right\} $
+\end_inset
+
+ is differentiable w.r.t.
+ 
+\begin_inset Formula $\bm{\zeta}_{p}(\bm{s})$
+\end_inset
+
+ and is minimized where 
+\begin_inset Formula 
+\begin{align}
+0 & =\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\left\{ \bm{\Omega}-\bm{Z}_{-p}(\bm{s})\hat{\bm{\zeta}}_{-p}(\bm{s})-\bm{Z}_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})\right\} -\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag\\
+ & =\bm{Z}_{p}^{T}(\bm{s})T(\bm{s})\left[\bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\notag\\
+ & \mkern+72mu+\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{-p}(\bm{s})\left[\bm{\zeta}_{-p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{-p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{-p}(\bm{s})\right]\notag\\
+ & \mkern+72mu+\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{p}(\bm{s})\left[\bm{\zeta}_{p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{p}(\bm{s})\right]\notag\\
+ & \mkern+72mu-\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag\\
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+So 
+\begin_inset Formula 
+\begin{align}
+\frac{h}{\sqrt{n}}\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|} & =\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\frac{h}{\sqrt{n}}\left[\bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\notag\label{eq:selection-glm}\\
+ & +\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{-p}(\bm{s})\right\} h\sqrt{n}\left[\bm{\zeta}_{-p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{-p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{-p}(\bm{s})\right]\notag\\
+ & +\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{p}(\bm{s})\right\} h\sqrt{n}\left[\bm{\zeta}_{p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{p}(\bm{s})\right]
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+By assumption, 
+\begin_inset Formula $\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{-p}(\bm{s})\right\} =O_{p}(1)$
+\end_inset
+
+ and 
+\begin_inset Formula $\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{p}(\bm{s})\right\} =O_{p}(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+From Theorem 3 of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sun-Yan-Zhang-Lu-2014"
+
+\end_inset
+
+, we have that 
+\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{-p}(\bm{s})-\bm{\zeta}_{-p}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{-p}(\bm{s})+\nabla_{vv}^{2}\zeta_{-p}(\bm{s})\right\} \right]=O_{p}(1)$
+\end_inset
+
+ and 
+\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{p}(\bm{s})-\bm{\zeta}_{p}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{p}(\bm{s})+\nabla_{vv}^{2}\zeta_{p}(\bm{s})\right\} \right]=O_{p}(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+So the second and third terms of the sum in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:selection-glm"
+
+\end_inset
+
+) are 
+\begin_inset Formula $O_{p}(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+We showed in the proof of 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:normality"
+
+\end_inset
+
+ that 
+\begin_inset Formula $h\sqrt{n}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\left[\bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]=O_{p}(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+The three terms of the sum to the right of the equals sign in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:selection-glm"
+
+\end_inset
+
+) are 
+\begin_inset Formula $O_{p}(1)$
+\end_inset
+
+, so for 
+\begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})$
+\end_inset
+
+ to be a solution, we must have that 
+\begin_inset Formula $hn^{-1/2}\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|=O_{p}(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+But since by assumption 
+\begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})\ne0$
+\end_inset
+
+, there must be some 
+\begin_inset Formula $k\in\{1,\dots,3\}$
+\end_inset
+
+ such that 
+\begin_inset Formula $|\hat{\zeta}_{p_{k}}(\bm{s})|=\max\{|\hat{\zeta}_{p_{k'}}(\bm{s})|:1\le k'\le3\}$
+\end_inset
+
+.
+ And for this 
+\begin_inset Formula $k$
+\end_inset
+
+, we have that 
+\begin_inset Formula $|\hat{\zeta}_{p_{k}}(\bm{s})|/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ge1/\sqrt{3}>0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+Now since 
+\begin_inset Formula $hn^{-1/2}b_{n}\to\infty$
+\end_inset
+
+, we have that 
+\begin_inset Formula $hn^{-1/2}\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ge hb_{n}/\sqrt{3n}\to\infty$
+\end_inset
+
+ and therefore the term to the left of the equals sign dominates the sum
+ to the right of the equals sign in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:selection-glm"
+
+\end_inset
+
+).
+ So for large enough 
+\begin_inset Formula $n$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})\ne0$
+\end_inset
+
+ cannot maximize 
+\begin_inset Formula $Q$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+So 
+\begin_inset Formula $P\left\{ \hat{\bm{\zeta}}_{(b)}(\bm{s})=0\right\} \to1$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
