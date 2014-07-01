@@ -277,11 +277,11 @@ where
 
 .
  Now note that 
-\begin_inset Formula $E\left\{ K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})|\bm{s}_{i}\right\} =\omega\left(\bm{s}_{i}\right)\kappa_{0}$
+\begin_inset Formula $E\left\{ K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})|\bm{s}_{i}\right\} =\omega\left(\bm{s}_{i}\right)f\left(\bm{s}_{i}\right)\kappa_{0}$
 \end_inset
 
  and 
-\begin_inset Formula $var\left\{ K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})|\bm{s}_{i}\right\} =\sigma^{2}(\bm{s}_{i})\nu_{0}$
+\begin_inset Formula $var\left\{ K_{h}\left(\|\bm{s}_{j}-\bm{s}_{i}\|\right)\hat{df}(\bm{s}_{j};\bm{s}_{i})|\bm{s}_{i}\right\} =\sigma^{2}(\bm{s}_{i})f\left(\bm{s}_{i}\right)\nu_{0}$
 \end_inset
 
 .
