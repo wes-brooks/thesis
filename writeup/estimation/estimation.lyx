@@ -75,11 +75,11 @@ knitr
 \begin_body
 
 \begin_layout Title
-LAGR and its oracle properties
+Local Adaptive Grouped Regularization and its Oracle Properties
 \end_layout
 
 \begin_layout Author
-Wesley Brooks
+Wesley Brooks, Jun Zhu, Zudi Lu
 \end_layout
 
 \begin_layout Section
@@ -132,8 +132,9 @@ key "Wang-2008a"
 \end_layout
 
 \begin_layout Standard
-Local adaptive grouped regularization (LAGR) is introduced as a method to
- select only the locally relevant predictors at any specific location 
+Local adaptive grouped regularization (LAGR) is developed here as a method
+ to select only the locally relevant predictors at any specific location
+ 
 \begin_inset Formula $\bm{s}$
 \end_inset
 
@@ -146,8 +147,8 @@ Local adaptive grouped regularization (LAGR) is introduced as a method to
  estimated using locally linear kernel smoothing.
  We show that LAGR posesses the oracle properties of asymptotically selecting
  exactly the correct local predictors and estimating their local coefficients
- as accurately as would be possible if the relevant covaritates for the
- local model were somehow known in advance.
+ as accurately as would be possible if the identity of the nonzero coefficients
+ for the local model were known in advance.
 \end_layout
 
 \begin_layout Standard
@@ -286,19 +287,23 @@ Consider
 \end_inset
 
  data points, observed at sampling locations 
-\begin_inset Formula $\bm{s}_{i}=(s_{i,1}\;\; s_{i,2})^{T}$
+\begin_inset Formula $\bm{s}_{i}=(s_{i,1},\; s_{i,2})^{T}$
 \end_inset
 
  for 
-\begin_inset Formula $i=1,\dots,\bm{s}_{n}$
+\begin_inset Formula $i=1,\dots,n$
 \end_inset
 
 , which are distributed in a spatial domain 
-\begin_inset Formula $D\subset\mathbb{R}^{2}$
+\begin_inset Formula $\mathcal{D}\subset\mathbb{R}^{2}$
 \end_inset
 
  according to a density 
 \begin_inset Formula $f(\bm{s})$
+\end_inset
+
+ with 
+\begin_inset Formula $\bm{s}\in\mathcal{D}$
 \end_inset
 
 .
@@ -327,7 +332,7 @@ Consider
 \begin_inset Formula $\bm{s}_{i}$
 \end_inset
 
-, assume that the outcome is related to the covariates by a linear model
+, assume that the outcome is related to the covariates by a linear regression
  where the coefficients 
 \begin_inset Formula $\bm{\beta}(\bm{s}_{i})$
 \end_inset
@@ -381,26 +386,22 @@ Further assume that the error term
 
 \end_layout
 
-\begin_layout Subsection
-Augment the covariates and the coefficients with location interactions
-\end_layout
-
 \begin_layout Standard
 In the context of nonparametric regression, the boundary-effect bias can
  be reduced by local polynomial modeling, usually in the form of a locally
  linear model 
 \begin_inset CommandInset citation
-LatexCommand cite
+LatexCommand citep
 key "Fan-Gijbels-1996"
 
 \end_inset
 
 .
- Here, locally linear coefficients are estimated by augmenting the local
- design matrix with covariate-by-location interactions in two dimensions
- as proposed by 
+ Here, to prepare for the estimation of locally linear coefficients, we
+ augment the local design matrix with covariate-by-location interactions
+ in two dimensions 
 \begin_inset CommandInset citation
-LatexCommand cite
+LatexCommand citep
 key "Wang-2008b"
 
 \end_inset
@@ -427,11 +428,11 @@ where
 \end_inset
 
  is the unaugmented matrix of covariates, 
-\begin_inset Formula $L_{i}=\text{diag}\{s_{i'_{1}}-s_{i_{1}}\}$
+\begin_inset Formula $\bm{L}_{i}=\text{diag}\{s_{i',1}-s_{i,1}\}$
 \end_inset
 
  and 
-\begin_inset Formula $M_{i}=\text{diag}\{s_{i'_{2}}-s_{i_{2}}\}$
+\begin_inset Formula $\bm{M}_{i}=\text{diag}\{s_{i',2}-s_{i,2}\}$
 \end_inset
 
  for 
@@ -481,7 +482,7 @@ th row of the matrix
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\bm{\zeta}(\bm{s}_{i})=\left(\bm{\beta}(\bm{s}_{i})^{T}\;\;\nabla_{u}\bm{\beta}(\bm{s}_{i})^{T}\;\;\nabla_{v}\bm{\beta}(\bm{s}_{i})^{T}\right)^{T}
+\bm{\zeta}(\bm{s}_{i})=\left(\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{u}\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{v}\bm{\beta}(\bm{s}_{i})^{T}\right)^{T}
 \]
 
 \end_inset
@@ -490,7 +491,7 @@ th row of the matrix
 \end_layout
 
 \begin_layout Subsection
-Local likelihood
+Local Likelihood and Coefficient Estimation
 \end_layout
 
 \begin_layout Standard
@@ -498,7 +499,7 @@ The total log-likelihood of the observed data is the sum of the log-likelihood
  of each individual observation: 
 \begin_inset Formula 
 \begin{align}
-\ell\left\{ \bm{\zeta}\right\} =-(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}_{i})\right\} ^{2}\right].\label{eq:coefficients}
+\ell\left(\bm{\zeta}\right)=-(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}_{i})\right\} ^{2}\right].\label{eq:coefficients}
 \end{align}
 
 \end_inset
@@ -517,7 +518,7 @@ Since there are a total of
 
  observations, the model is not identifiable and it is not possible to directly
  maximize the total likelihood.
- But since the coefficient functions are smooth, the coefficients at location
+ But when the coefficient functions are smooth, the coefficients at location
  
 \begin_inset Formula $\bm{s}$
 \end_inset
@@ -534,7 +535,7 @@ Since there are a total of
 \end_layout
 
 \begin_layout Standard
-This intuition is formalized by the local likelihood, which is maximized
+This intuition is formalized by the local (log-)likelihood, which is maximized
  at location 
 \begin_inset Formula $\bm{s}$
 \end_inset
@@ -543,10 +544,13 @@ This intuition is formalized by the local likelihood, which is maximized
 \begin_inset Formula $\bm{\zeta}(\bm{s})$
 \end_inset
 
-: 
+:
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\mathcal{L}\left\{ \bm{\zeta}(\bm{s})\right\}  & =\prod_{i=1}^{n}\left\{ \left(2\pi\sigma^{2}\right)^{-1/2}\exp\left[-(1/2)\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ^{2}\right]\right\} ^{K_{h}(\|\bm{s}-\bm{s}_{i}\|)},\label{eq:local-likelihood}
+\ell\left\{ \bm{\zeta}(\bm{s})\right\}  & =-(1/2)\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ^{2}\right]\label{eq:local-log-likelihood}
 \end{align}
 
 \end_inset
@@ -555,11 +559,27 @@ This intuition is formalized by the local likelihood, which is maximized
 \end_layout
 
 \begin_layout Standard
-The weights are computed from a kernel function 
-\begin_inset Formula $K_{h}(\cdot)$
+where 
+\begin_inset Formula $h$
 \end_inset
 
- such as the Epanechnikov kernel: 
+ is a bandwidth parameter and the 
+\begin_inset Formula $K_{h}(\|\bm{s}-\bm{s}_{i}\|)$
+\end_inset
+
+ for 
+\begin_inset Formula $i=1,\dots,n$
+\end_inset
+
+ are local weights from a kernel function.
+ For instance, the Epanechnikov kernel is defined as 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Samiuddin-el-Sayyad-1990"
+
+\end_inset
+
+: 
 \begin_inset Formula 
 \begin{align}
 K_{h}(\|\bm{s}_{i}-\bm{s}_{i'}\|) & =h^{-2}K\left(h^{-1}\|\bm{s}_{i}-\bm{s}_{i'}\|\right)\notag\label{eq:epanechnikov}\\
@@ -575,37 +595,31 @@ K(x) & =\begin{cases}
 \end_layout
 
 \begin_layout Standard
-Thus, the local log-likelihood function is, up to an additive constant:
- 
+Letting 
+\begin_inset Formula $\bm{W}(\bm{s})=diag\left\{ K_{h}(\|\bm{s}-\bm{s}_{i}\|)\right\} $
+\end_inset
+
+ be a diagonal matrix of kernel weights, the local likelihood is maximized
+ by weighted least squares: 
 \begin_inset Formula 
 \begin{align}
-\ell\left\{ \bm{\zeta}(\bm{s})\right\}  & =-(1/2)\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ^{2}\right].\label{eq:local-log-likelihood}
+\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\}  & =(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\notag\label{eq:zeta-hat}
 \end{align}
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Subsection
-Estimating the coefficients
 \end_layout
 
 \begin_layout Standard
-Letting 
-\begin_inset Formula $\bm{W}(\bm{s})$
-\end_inset
+Thus, we have
+\end_layout
 
- be a diagonal weight matrix where 
-\begin_inset Formula $W_{ii}(\bm{s})=K_{h}(\|\bm{s}-\bm{s}_{i}\|)$
-\end_inset
-
-, the local likelihood is maximized by weighted least squares: 
+\begin_layout Standard
 \begin_inset Formula 
-\begin{align}
-\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\}  & =(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\notag\label{eq:zeta-hat}\\
-\therefore\tilde{\bm{\zeta}}(\bm{s}) & =\left\{ \bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Y}
-\end{align}
+\[
+\tilde{\bm{\zeta}}(\bm{s})=\left\{ \bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Y}
+\]
 
 \end_inset
 
@@ -639,7 +653,7 @@ key "Sun-Yan-Zhang-Lu-2014"
 \end_layout
 
 \begin_layout Section
-Local variable selection with LAGR
+Local Variable Selection with LAGR
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:lagr-gaussian"
@@ -647,6 +661,10 @@ name "sec:lagr-gaussian"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+The LAGR-Penalized Local Likelihood
 \end_layout
 
 \begin_layout Standard
@@ -662,8 +680,22 @@ reference "eq:zeta-hat"
 a priori
 \emph default
  variable selection.
- The goal of local adaptive grouped regularization (LAGR) is to simultaneously
- select the locally relevant predictors and estimate the local coefficients.
+ A new method of penalized regression to simultaneously select the locally
+ relevant predictors and estimate the local coefficients.
+ For this purpose, each raw covariate is grouped with its covariate-by-location
+ interactions.
+ That is, 
+\begin_inset Formula $\bm{\zeta}_{j}(\bm{s})=\left(\beta_{j}(\bm{s})\;\;\;\nabla_{u}\beta_{j}(\bm{s})\;\;\;\nabla_{v}\beta_{j}(\bm{s})\right)^{T}$
+\end_inset
+
+ for 
+\begin_inset Formula $j=1,\dots,p$
+\end_inset
+
+.
+ By the mechanism of the group lasso, variables within the same group are
+ included in or dropped from the model together.
+ The intercept group is left unpenalized.
  The proposed LAGR penalty is an adaptive 
 \begin_inset Formula $\ell_{1}$
 \end_inset
@@ -678,41 +710,16 @@ key "Wang-Leng-2008,Zou-2006"
 .
 \end_layout
 
-\begin_layout Subsection
-Variable groupings
-\end_layout
-
 \begin_layout Standard
-Each raw covariate in a LAGR model is grouped with its covariate-by-location
- interactions.
- That is, 
-\begin_inset Formula $\bm{\zeta}_{j}(\bm{s})=\left(\beta_{j}(\bm{s})\;\;\;\nabla_{u}\beta_{j}(\bm{s})\;\;\;\nabla_{v}\beta_{j}(\bm{s})\right)^{T}$
-\end_inset
-
- for 
-\begin_inset Formula $j=1,\dots,p$
-\end_inset
-
-.
- By the mechanism of the group lasso, variables within the same group are
- included in or dropped from the model together.
- The intercept group is left unpenalized.
-\end_layout
-
-\begin_layout Subsection
-The LAGR-penalized local likelihood
-\end_layout
-
-\begin_layout Standard
-The objective function for the LAGR at location 
+More specifically, we consider the penalized local sum of squares at location
+ 
 \begin_inset Formula $\bm{s}$
 \end_inset
 
- is the penalized local sum of squares: 
+: 
 \begin_inset Formula 
 \begin{align}
-Q\{\bm{\zeta}(\bm{s})\} & =\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\} +\mathcal{J}\{\bm{\zeta}(\bm{s})\}\notag\label{eq:adaptive-lasso-WLS}\\
- & =(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|
+\mathcal{J}\{\bm{\zeta}(\bm{s})\} & =\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\} +\mathcal{P}\left\{ \bm{\zeta}(\bm{s})\right\} \notag\label{eq:adaptive-lasso-WLS}
 \end{align}
 
 \end_inset
@@ -721,15 +728,23 @@ Q\{\bm{\zeta}(\bm{s})\} & =\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\} +\mathc
 \end_layout
 
 \begin_layout Standard
-which is the sum of the weighted sum of squares 
-\begin_inset Formula $\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\} $
+where 
+\begin_inset Formula $\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\} =(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}$
 \end_inset
 
- and the LAGR penalty 
-\begin_inset Formula $\mathcal{J}\{\bm{\zeta}(\bm{s})\}$
+ is the locally weighted sum of squares, 
+\begin_inset Formula $\mathcal{P}\left\{ \bm{\zeta}(\bm{s})\right\} =\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|$
 \end_inset
 
-.
+ is a local adaptive grouped regularization (LAGR) penalty, and 
+\begin_inset Formula $\|\cdot\|$
+\end_inset
+
+ is the 
+\begin_inset Formula $L_{2}$
+\end_inset
+
+-norm.
 \end_layout
 
 \begin_layout Standard
@@ -753,8 +768,7 @@ th group of coefficients
 \begin_inset Formula $\lambda_{n}(\bm{s})>0$
 \end_inset
 
- is a the local tuning parameter applied to all coefficients at location
- 
+ is a local tuning parameter applied to all coefficients at location 
 \begin_inset Formula $\bm{s}$
 \end_inset
 
@@ -1120,7 +1134,7 @@ As was the case for local linear regression models, the GLLM coefficients
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-f\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} =c\left\{ y(\bm{s})\right\} \times\exp\left[\frac{\theta(\bm{s})y(\bm{s})-b\left\{ \theta(\bm{s})\right\} }{a\left\{ \phi(\bm{s})\right\} }\right]
+f\left\{ y(\bm{s})|\bm{x}(\bm{s}),\theta\left(\bm{s}\right)\right\} =c\left\{ y(\bm{s})\right\} \times\left[\exp\theta(\bm{s})y(\bm{s})-b\left\{ \theta(\bm{s})\right\} \right]
 \]
 
 \end_inset
@@ -1146,7 +1160,7 @@ where
 E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left\{ \theta(\bm{s})\right\} \\
 \theta(\bm{s})= & (g\circ b')^{-1}\left\{ \eta(\bm{s})\right\} \\
 \eta(\bm{s})= & \bm{x}^{T}(\bm{s})\bm{\beta}(\bm{s})=g\left\{ \mu(\bm{s})\right\} \\
-\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & b''\left\{ \theta(\bm{s})\right\} a\left\{ \phi(\bm{s})\right\} 
+\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & b''\left\{ \theta(\bm{s})\right\} 
 \end{align*}
 
 \end_inset
@@ -1193,7 +1207,8 @@ Under the canonical link function, the expressions for the mean and variance
 \begin_inset Formula 
 \begin{align*}
 E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left\{ \eta(\bm{s})\right\} \\
-\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & a\left\{ \phi(\bm{s})\right\} /g'\left\{ \mu(\bm{s})\right\} =V\left\{ \mu(\bm{s})\right\} \times a\left\{ \phi(\bm{s})\right\} 
+\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \left[g'\left\{ \mu(\bm{s})\right\} \right]^{-1}=V\left\{ \mu(\bm{s})\right\} \\
+\frac{d}{d\mu} & g^{-1}\left\{ \mu\left(\bm{s}\right)\right\} =V\left\{ \mu\left(\bm{s}\right)\right\} 
 \end{align*}
 
 \end_inset
@@ -1219,7 +1234,7 @@ ihood
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
-\ell\left\{ \bm{\zeta}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right].
+\mathcal{\ell}^{*}\left\{ \bm{\zeta}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ \bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right].
 \end{align}
 
 \end_inset
@@ -1256,7 +1271,7 @@ Under these conditions, the local quasi-likelihood is maximized where
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
-\left(\frac{\partial}{\partial\bm{\zeta}}\ell\right)\left\{ \hat{{\bm{\zeta}}}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\frac{y(\bm{s}_{i})-\hat{\mu}(\bm{s}_{i})}{V\left\{ \hat{\mu}(\bm{s}_{i})\right\} g'\left\{ \hat{\mu}(\bm{s}_{i})\right\} }\bm{z}(\bm{s}_{i})=\bm{0}_{3p}.
+\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left\{ \hat{{\bm{\zeta}}}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\frac{y(\bm{s}_{i})-\hat{\mu}(\bm{s}_{i};\bm{s})}{V\left\{ \hat{\mu}(\bm{s}_{i};\bm{s})\right\} }\bm{z}(\bm{s}_{i})=\bm{0}_{3p}
 \end{align}
 
 \end_inset
@@ -1265,7 +1280,24 @@ Under these conditions, the local quasi-likelihood is maximized where
 \end_layout
 
 \begin_layout Plain Layout
-Except for the 
+and 
+\begin_inset Formula $\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)=g^{-1}\left\{ \bm{z}'(\bm{s}_{i})\hat{\bm{\zeta}}\left(\bm{s}\right)\right\} $
+\end_inset
+
+ is the mean at location 
+\begin_inset Formula $\bm{s}_{i}$
+\end_inset
+
+ estimated using the coefficients 
+\begin_inset Formula $\hat{\bm{\zeta}}\left(\bm{s}\right)$
+\end_inset
+
+ fitted at location 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+.
+ Except for the 
 \begin_inset Formula $K_{h}(\|\bm{s}-\bm{s}_{i}\|)$
 \end_inset
 
@@ -1333,7 +1365,7 @@ As in the case of linear models, the LAGR for GLMs is a grouped
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
-Q\{\bm{\zeta}(\bm{s})\} & =\mathcal{\ell}\left\{ \bm{\zeta}(\bm{s})\right\} +\mathcal{J}\{\bm{\zeta}(\bm{s})\}\notag\label{eq:adaptive-lasso-GLLM}\\
+\mathcal{J}\left\{ \bm{\zeta}(\bm{s})\right\}  & =\mathcal{\ell}^{*}\left\{ \bm{\zeta}(\bm{s})\right\} +\mathcal{P}\{\bm{\zeta}(\bm{s})\}\notag\label{eq:adaptive-lasso-GLLM}\\
  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right]+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|
 \end{align}
 
@@ -4035,7 +4067,7 @@ Define
  to be the 
 \begin_inset Formula 
 \begin{align}
-\mkern-36muV_{4}^{(n)}(\bm{u}) & =Q\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} -Q\left\{ \bm{\zeta}(\bm{s})\right\} \notag\label{eq:consistency}\\
+\mkern-36muV_{4}^{(n)}(\bm{u}) & =\mathcal{J}\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} -\mathcal{J}\left\{ \bm{\zeta}(\bm{s})\right\} \notag\label{eq:consistency}\\
  & \mkern-36mu=(1/2)\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} \right]^{T}\bm{W}(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} \right]\notag\\
  & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|\notag\\
  & -(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} -\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|\notag\\
@@ -4526,61 +4558,107 @@ reference "theorem:normality-glm"
 \end_layout
 
 \begin_layout Proof
-Define pseudodata for the 
-\begin_inset Formula $k$
+Define the 
+\begin_inset Formula $q$
 \end_inset
 
-th iteration of the IRLS algorithm: 
-\begin_inset Formula $\omega^{[k]}(\bm{s}_{i};\bm{s})=g'\left\{ \mu^{[k]}\left(\bm{s}_{i};\bm{s}\right)\right\} \left\{ y\left(\bm{s}_{i}\right)-\mu^{[k]}\left(\bm{s}_{i};\bm{s}\right)\right\} +\eta^{[k]}\left(\bm{s}_{i};\bm{s}\right)$
-\end_inset
-
-, 
-\begin_inset Formula $\bm{\Omega}\left(\bm{s}\right)=\left\{ \omega\left(\bm{s}_{1};\bm{s}\right)\ \cdots\ \omega\left(\bm{s}_{n};\bm{s}\right)\right\} ^{T}$
-\end_inset
-
- and define the diagonal weight matrices 
-\begin_inset Formula $\bm{V}\left(\bm{s}\right)$
-\end_inset
-
- and 
-\begin_inset Formula $\bm{T}\text{\left(\bm{s}\right)}$
-\end_inset
-
- such that 
-\begin_inset Formula $\left\{ \bm{V}\left(\bm{s}\right)\right\} _{ii}=K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)/V\left\{ \mu\left(\bm{s}_{i};\bm{s}\right)\right\} $
-\end_inset
-
- and 
-\begin_inset Formula $\left\{ \bm{T}\left(\bm{s}\right)\right\} _{ii}=K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)/\left[V\left\{ \mu\left(\bm{s}_{i};\bm{s}\right)\right\} g'\left\{ \mu\left(\bm{s}_{i};\bm{s}\right)\right\} ^{2}\right]$
+-functions to be the derivatives of the quasi-likelihood: 
+\begin_inset Formula $q_{j}(t,y)=\left(\partial/\partial t\right)^{j}Q\left\{ g^{-1}\left(t\right),y\right\} $
 \end_inset
 
 .
- Then at convergence of the IRLS algorithm, we have that 
-\begin_inset Formula $\eta^{[k+1]}\left(\bm{s}_{i};\bm{s}\right)=\eta^{[k]}\left(\bm{s}_{i};\bm{s}\right)$
+ Then 
+\begin_inset Formula $q_{1}\left\{ \eta\left(\bm{s}\right),\mu\left(\bm{s}\right)\right\} =0$
 \end_inset
 
- and therefore 
-\begin_inset Formula $\left[\sqrt{\bm{T}\left(\bm{s}\right)}\left\{ \omega^{[k]}(\bm{s})-Z\left(\bm{s}\right)\right\} \right]_{ii}=\frac{K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\left\{ y\left(\bm{s}\right)-\mu\left(\bm{s}_{i};\bm{s}\right)\right\} }{V\left\{ \mu\left(\bm{s}_{i};\bm{s}\right)\right\} }$
+ and 
+\begin_inset Formula $q_{2}\left\{ \eta\left(\bm{s}\right),\mu\left(\bm{s}\right)\right\} =-b''\left\{ \eta\left(\bm{s}\right)\right\} $
 \end_inset
 
 .
+ Also define 
+\begin_inset Formula $\bar{\eta}_{i}\left(\right)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
 Define 
-\begin_inset Formula $V_{4}^{(n)}(\bm{u})$
+\begin_inset Formula $H^{(n)}(\bm{u})$
 \end_inset
 
- to be the 
+ to be 
 \begin_inset Formula 
 \begin{align}
-\mkern-36muV_{4}^{(n)}(\bm{u}) & =Q\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} -Q\left\{ \bm{\zeta}(\bm{s})\right\} \notag\label{eq:consistency-glm}\\
- & \mkern-36mu=(1/2)\left[\bm{\Omega}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} \right]^{T}\bm{T}(\bm{s})\left[\bm{\Omega}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} \right]\notag\\
- & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|\notag\\
- & -(1/2)\left\{ \bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{T}(\bm{s})\left\{ \bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} -\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|\notag\\
- & \mkern-36mu=(1/2)\bm{u}^{T}\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}-\bm{u}^{T}\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{T}(\bm{s})\left\{ \bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\notag\\
- & +\sum_{j=1}^{p}n^{-1/2}\phi_{j}(\bm{s})n^{1/2}\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} 
+H^{(n)}(\bm{u})= & \mathcal{J}^{*}\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} -\mathcal{J}^{*}\left\{ \bm{\zeta}(\bm{s})\right\} \notag\label{eq:consistency-glm}\\
+= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ \bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} ,Y(\bm{s}_{i})\right]\\
+ & -\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ \bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right]\\
+ & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\|-+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|
 \end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Letting 
+\begin_inset Formula $A_{1}^{T}\left(\bm{s}\right)=\sum_{i=1}^{n}q_{1}$
+\end_inset
+
+ taking the Taylor expansion of 
+\begin_inset Formula $\mathcal{J}^{*}\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} $
+\end_inset
+
+ around 
+\begin_inset Formula $\bm{\zeta}\left(\bm{s}\right)$
+\end_inset
+
+ give us:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{align}
+\mathcal{J}^{*}\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} = & \mathcal{J}^{*}\left\{ \bm{\zeta}(\bm{s})\right\} +A_{1}^{T}\left(\bm{s}\right)\bm{u}+(1/2)\bm{u}'A_{2}^{T}\left(\bm{s}\right)\bm{u}+\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left[\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right]\left[\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{u}\right]^{3}\label{eq:glm-Taylor-expansion}\\
+ & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\|\nonumber 
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+where 
+\begin_inset Formula $\tilde{\bm{\zeta}_{i}}$
+\end_inset
+
+ lies between 
+\begin_inset Formula $\bm{\zeta}(\bm{s})$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}$
+\end_inset
+
+.
+ Now the difference 
+\begin_inset Formula $H^{(n)}(\bm{u})=\mathcal{J}^{*}\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} -\mathcal{J}^{*}\left\{ \bm{\zeta}(\bm{s})\right\} $
+\end_inset
+
+ is 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{align*}
+H^{(n)}(\bm{u})= & h^{-1}n^{-1/2}\bm{u}\sum_{i=1}^{n}q_{1}\left\{ \bm{Z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}),Y\left(\bm{s}_{i}\right)\right\} K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+ & +h^{-2}n^{-1}\bm{u}'\bm{u}\sum_{i=1}^{n}q_{2}\left\{ \bm{Z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}),Y\left(\bm{s}_{i}\right)\right\} K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+ & +\left(h^{-1}n^{-1/2}\bm{u}\right)^{3}\sum_{i=1}^{n}q_{3}\left\{ \tilde{\eta}_{i},Y\left(\bm{s}_{i}\right)\right\} K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+ & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} 
+\end{align*}
 
 \end_inset
 
