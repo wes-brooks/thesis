@@ -1243,7 +1243,7 @@ ihood
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
-\ell_{n}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left(g^{-1}\left(\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right).
+\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left(g^{-1}\left(\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right).
 \end{align}
 
 \end_inset
@@ -1283,7 +1283,7 @@ Under these conditions, the local quasi-likelihood is maximized where
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
-\frac{\partial}{\partial\bm{\zeta}}\ell_{n}^{*}\left(\hat{\bm{\zeta}}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left\{ y(\bm{s}_{i})-\hat{\mu}(\bm{s}_{i};\bm{s})\right\} \bm{z}(\bm{s}_{i})/V\left(\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)\right)=\bm{0}_{3p}
+\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left(\hat{\bm{\zeta}}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left\{ y(\bm{s}_{i})-\hat{\mu}(\bm{s}_{i};\bm{s})\right\} \bm{z}(\bm{s}_{i})/V\left(\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)\right)=\bm{0}_{3p}
 \end{align}
 
 \end_inset
@@ -1324,6 +1324,44 @@ and
 \end_layout
 
 \begin_layout Subsection
+Distribution of the local coefficients
+\end_layout
+
+\begin_layout Plain Layout
+The asymptotic distribution of the local coefficients in a varying-coefficients
+ GLM with a one-dimensional effect-modifying parameter are given in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Cai-Fan-Li-2000"
+
+\end_inset
+
+.
+ For coefficients that vary in two dimensions (e.g.
+ spatial location), the asymptotic distribution under the canonical link
+ is
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left\{ \bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+where 
+\begin_inset Formula $\Gamma(\bm{s})=E\left[V\left(\mu\left(\bm{s}\right)\right)X(\bm{s})X(\bm{s})^{T}\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
 LAGR penalty
 \end_layout
 
@@ -1339,7 +1377,7 @@ As in the case of linear models, the LAGR for GLMs is a grouped
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
-\mathcal{J}\left(\bm{\zeta}(\bm{s})\right) & =\ell_{n}^{*}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\notag\label{eq:adaptive-lasso-GLLM}\\
+\mathcal{J}\left(\bm{\zeta}(\bm{s})\right) & =\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\notag\label{eq:adaptive-lasso-GLLM}\\
  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left(g^{-1}\left(z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),y(\bm{s}_{i})\right)+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|
 \end{align}
 
@@ -4349,7 +4387,7 @@ Assume
 
 .
  Then 
-\begin_inset Formula $\mathcal{J}\left(\bm{\zeta}(\bm{s})\right)$
+\begin_inset Formula $Q\left\{ \bm{\zeta}(\bm{s})\right\} $
 \end_inset
 
  is differentiable w.r.t.
@@ -4552,14 +4590,15 @@ Thus,
 \begin_inset Note Comment
 status open
 
-\begin_layout Lemma
+\begin_layout Proof
 \begin_inset Argument 1
 status open
 
 \begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "lemma:glm-distribution"
+Proof of theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:normality-glm"
 
 \end_inset
 
@@ -4568,56 +4607,7 @@ name "lemma:glm-distribution"
 
 \end_inset
 
-Distribution of the local coefficients
-\end_layout
 
-\begin_layout Plain Layout
-The asymptotic distribution of the local coefficients in a varying-coefficients
- GLM with a one-dimensional effect-modifying parameter are given in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Cai-Fan-Li-2000"
-
-\end_inset
-
-.
- For coefficients that vary in two dimensions (e.g.
- spatial location), the asymptotic distribution under the canonical link
- is a slight modification of Theorem 1 from 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Cai-Fan-Li-2000"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula 
-\begin{equation}
-\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left\{ \bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right\} \label{eq:unpenalized-local-glm}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-where 
-\begin_inset Formula $\Gamma(\bm{s})=E\left[\rho\left(s,\bm{X}\right)\bm{X}(\bm{s})\bm{X}(\bm{s})^{T}\right]$
-\end_inset
-
- and 
-\begin_inset Formula $\rho\left(\bm{s},\bm{x}\right)=\left\{ g_{1}\left(m\left(\bm{s},\bm{x}\right)\right)\right\} ^{2}\text{var}\left\{ Y\left(\bm{s}\right)|\bm{s},\bm{x}\left(\bm{s}\right)\right\} $
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Proof
-sflkjas
 \end_layout
 
 \begin_layout Proof
@@ -4648,13 +4638,13 @@ Define the
 
 \begin_layout Plain Layout
 Define 
-\begin_inset Formula $H_{n}(\bm{u})$
+\begin_inset Formula $H^{(n)}(\bm{u})$
 \end_inset
 
  to be 
 \begin_inset Formula 
 \begin{align}
-H_{n}(\bm{u})= & \ell_{n}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)-\ell_{n}^{*}\left(\bm{\zeta}(\bm{s})\right)\label{eq:consistency-glm}
+H^{(n)}(\bm{u})= & \mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})\right)\label{eq:consistency-glm}
 \end{align}
 
 \end_inset
@@ -4677,7 +4667,7 @@ Let
 
 .
  Then the Taylor expansion of 
-\begin_inset Formula $\ell_{n}^{*}\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} $
+\begin_inset Formula $\mathcal{J}^{*}\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} $
 \end_inset
 
  around 
@@ -4690,7 +4680,7 @@ Let
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align*}
-\ell_{n}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)= & \ell_{n}^{*}\left(\bm{\zeta}(\bm{s})\right)\\
+\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)= & \mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})\right)\\
  & +h^{-1}n^{-1/2}\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)q_{1}\left(\bar{\eta}_{i}\left(\bm{s}\right),y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{u}\\
  & +h^{-2}n^{-1}\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)q_{2}\left(\bar{\eta}_{i}\left(\bm{s}\right),y\left(\bm{s}_{i}\right)\right)\bm{u}^{T}\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{u}\\
  & +h^{-3}n^{-3/2}\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)q_{3}\left(\tilde{\eta}_{i},y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{u}\right]^{3}\\
@@ -4731,9 +4721,10 @@ where
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
-H_{n}(\bm{u})= & h^{-1}n^{-1/2}A_{1}\left(\bm{s}\right)\bm{u}\label{eq:glm-Taylor-expansion}\\
+H^{(n)}(\bm{u})= & h^{-1}n^{-1/2}A_{1}\left(\bm{s}\right)\bm{u}\label{eq:glm-Taylor-expansion}\\
  & +h^{-2}n^{-1}\bm{u}^{T}A_{2}\left(\bm{s}\right)\bm{u}\\
- & +h^{-3}n^{-3/2}\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)q_{3}\left(\tilde{\eta}_{i},y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{u}\right]^{3}.
+ & +h^{-3}n^{-3/2}\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)q_{3}\left(\tilde{\eta}_{i},y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{u}\right]^{3}\\
+ & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} \nonumber 
 \end{align}
 
 \end_inset
@@ -4742,111 +4733,32 @@ H_{n}(\bm{u})= & h^{-1}n^{-1/2}A_{1}\left(\bm{s}\right)\bm{u}\label{eq:glm-Taylo
 \end_layout
 
 \begin_layout Plain Layout
-The third term here is 
-\begin_inset Formula $o_{p}\left(1\right)$
+where 
+\begin_inset Formula $\tilde{\bm{\zeta}_{i}}$
+\end_inset
+
+ lies between 
+\begin_inset Formula $\bm{\zeta}(\bm{s})$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}$
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Plain Layout
-The expectation of 
-\begin_inset Formula $A_{2}\left(\bm{s}\right)$
+ Now the difference 
+\begin_inset Formula $H^{(n)}(\bm{u})=\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})\right)$
 \end_inset
 
  is 
-\end_layout
-
-\begin_layout Plain Layout
-The vaiance of 
-\begin_inset Formula $A_{2}\left(\bm{s}\right)$
-\end_inset
-
- is 
-\end_layout
-
-\begin_layout Plain Layout
-The expectation of 
-\begin_inset Formula $A_{1}\left(\bm{s}\right)$
-\end_inset
-
- is
-\end_layout
-
-\begin_layout Plain Layout
-The variance of 
-\begin_inset Formula $A_{1}\left(\bm{s}\right)$
-\end_inset
-
- is
-\end_layout
-
-\begin_layout Plain Layout
-Thus, 
-\begin_inset Formula 
-\[
-H_{n}(\bm{u})=h^{-1}n^{-1/2}A_{1}\left(\bm{s}\right)\bm{u}+h^{-2}n^{-1}\bm{u}^{T}A_{2}\left(\bm{s}\right)\bm{u}+o_{p}\left(1\right)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-and, by the quadratic approximation lemma, 
-\begin_inset Formula $H_{n}\left(\bm{u}\right)$
-\end_inset
-
- is minimized at
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula 
-\[
-\hat{\bm{u}}=A_{2}\left(\bm{s}\right)^{-1}A_{1}\left(\bm{s}\right)+o_{p}\left(1\right).
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Proof
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-Proof of theorem 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "theorem:normality-glm"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Proof
-Let the difference 
-\begin_inset Formula $H_{n}(\bm{u})=\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})\right)$
-\end_inset
-
-.
- Then 
 \end_layout
 
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align*}
-H_{n}(\bm{u})= & h^{-1}n^{-1/2}A_{1}\left(\bm{s}\right)\bm{u}\\
- & +h^{-2}n^{-1}\bm{u}^{T}A_{2}\left(\bm{s}\right)\bm{u}\\
- & +h^{-3}n^{-3/2}\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)q_{3}\left(\tilde{\eta}_{i},y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{u}\right]^{3}\\
+H^{(n)}(\bm{u})= & h^{-1}n^{-1/2}\bm{u}\sum_{i=1}^{n}q_{1}\left(\bm{Z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}),Y\left(\bm{s}_{i}\right)\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+ & +h^{-2}n^{-1}\bm{u}'\bm{u}\sum_{i=1}^{n}q_{2}\left(\bm{Z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}),Y\left(\bm{s}_{i}\right)\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+ & +\left(h^{-1}n^{-1/2}\bm{u}\right)^{3}\sum_{i=1}^{n}q_{3}\left(\tilde{\eta}_{i},Y\left(\bm{s}_{i}\right)\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
  & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} 
 \end{align*}
 
@@ -4960,82 +4872,11 @@ On the other hand, if
 \end_layout
 
 \begin_layout Plain Layout
-Thus, the limit of 
-\begin_inset Formula $H{}_{n}(\bm{u})$
-\end_inset
-
- is the same as the limit of 
-\begin_inset Formula $H_{n}^{*}(\bm{u})$
-\end_inset
-
- where
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula 
-\begin{align*}
-H_{n}^{*}(\bm{u})= & h^{-1}n^{-1/2}\bm{u}\sum_{i=1}^{n}q_{1}\left(\bm{Z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}),Y\left(\bm{s}_{i}\right)\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
- & +h^{-2}n^{-1}\bm{u}'\sum_{i=1}^{n}q_{2}\left(\bm{Z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}),Y\left(\bm{s}_{i}\right)\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\bm{u}\\
- & +\left(h^{-1}n^{-1/2}\bm{u}\right)^{3}\sum_{i=1}^{n}q_{3}\left(\tilde{\eta}_{i},Y\left(\bm{s}_{i}\right)\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)
-\end{align*}
-
-\end_inset
-
 
 \end_layout
 
 \begin_layout Plain Layout
-
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\uuline off
-\uwave off
-\noun off
-\color none
-if 
-\begin_inset Formula $\|\bm{u}_{j}\|=0\;\forall j>p_{0}$
-\end_inset
-
- and
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\bar default
-\strikeout default
-\uuline default
-\uwave default
-\noun default
-\color inherit
- 
-\begin_inset Formula $H_{n}^{*}(\bm{u})=\infty$
-\end_inset
-
- otherwise.
- Thus, the minimizer of 
-\begin_inset Formula $H_{n}^{*}(\bm{u})$
-\end_inset
-
- is the maximum quasi-likelihood estimator of the VCR model where 
-\begin_inset Formula $\bm{\zeta}_{\left(k\right)}\left(\bm{s}\right)\equiv\undertilde{0}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-for 
-\begin_inset Formula $k>p_{0}$
-\end_inset
-
-.
- By the epiconvergence results of 
+By the epiconvergence results of 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Geyer-1994"
@@ -5140,7 +4981,11 @@ Assume
  and is minimized where 
 \begin_inset Formula 
 \begin{align}
-0 & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\bar{\eta}_{i}\left(\bm{s}\right),y\left(\bm{s}_{i}\right)\right)\bm{Z}_{p}(\bm{s})+\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag
+0 & =\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\left\{ \bm{\Omega}-\bm{Z}_{-p}(\bm{s})\hat{\bm{\zeta}}_{-p}(\bm{s})-\bm{Z}_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})\right\} -\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag\\
+ & =\bm{Z}_{p}^{T}(\bm{s})T(\bm{s})\left[\bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\notag\\
+ & \mkern+72mu+\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{-p}(\bm{s})\left[\bm{\zeta}_{-p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{-p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{-p}(\bm{s})\right]\notag\\
+ & \mkern+72mu+\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{p}(\bm{s})\left[\bm{\zeta}_{p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{p}(\bm{s})\right]\notag\\
+ & \mkern+72mu-\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag\\
 \end{align}
 
 \end_inset
@@ -5152,7 +4997,9 @@ Assume
 So 
 \begin_inset Formula 
 \begin{align}
-\frac{h}{\sqrt{n}}\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}= & -\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\bar{\eta}_{i}\left(\bm{s}\right),y\left(\bm{s}_{i}\right)\right)\bm{Z}_{p}(\bm{s}).\label{eq:selection-glm}
+\frac{h}{\sqrt{n}}\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|} & =\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\frac{h}{\sqrt{n}}\left[\bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\notag\label{eq:selection-glm}\\
+ & +\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{-p}(\bm{s})\right\} h\sqrt{n}\left[\bm{\zeta}_{-p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{-p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{-p}(\bm{s})\right]\notag\\
+ & +\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{p}(\bm{s})\right\} h\sqrt{n}\left[\bm{\zeta}_{p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{p}(\bm{s})\right]
 \end{align}
 
 \end_inset
@@ -5161,41 +5008,79 @@ So
 \end_layout
 
 \begin_layout Plain Layout
-The right hand side of 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "eq:selection-glm"
-
+By assumption, 
+\begin_inset Formula $\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{-p}(\bm{s})\right\} =O_{p}(1)$
 \end_inset
 
- is a subset of the vector 
-\begin_inset Formula $W_{n}$
-\end_inset
-
- from the proof of Lemma 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "lemma:glm-distribution"
-
-\end_inset
-
-, and it was shown in the proof of that theorem that 
-\begin_inset Formula $W_{n}=O_{p}\left(1\right)$
+ and 
+\begin_inset Formula $\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{p}(\bm{s})\right\} =O_{p}(1)$
 \end_inset
 
 .
- Thus, the right hand side of 
+\end_layout
+
+\begin_layout Plain Layout
+From Theorem 3 of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sun-Yan-Zhang-Lu-2014"
+
+\end_inset
+
+, we have that 
+\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{-p}(\bm{s})-\bm{\zeta}_{-p}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{-p}(\bm{s})+\nabla_{vv}^{2}\zeta_{-p}(\bm{s})\right\} \right]=O_{p}(1)$
+\end_inset
+
+ and 
+\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{p}(\bm{s})-\bm{\zeta}_{p}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{p}(\bm{s})+\nabla_{vv}^{2}\zeta_{p}(\bm{s})\right\} \right]=O_{p}(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+So the second and third terms of the sum in (
 \begin_inset CommandInset ref
-LatexCommand eqref
+LatexCommand ref
 reference "eq:selection-glm"
 
 \end_inset
 
- is 
+) are 
 \begin_inset Formula $O_{p}(1)$
 \end_inset
 
-, and for 
+.
+\end_layout
+
+\begin_layout Plain Layout
+We showed in the proof of 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:normality"
+
+\end_inset
+
+ that 
+\begin_inset Formula $h\sqrt{n}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\left[\bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]=O_{p}(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+The three terms of the sum to the right of the equals sign in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:selection-glm"
+
+\end_inset
+
+) are 
+\begin_inset Formula $O_{p}(1)$
+\end_inset
+
+, so for 
 \begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})$
 \end_inset
 
@@ -5258,7 +5143,7 @@ reference "eq:selection-glm"
 \end_inset
 
  cannot maximize 
-\begin_inset Formula $\mathcal{J}^{*}$
+\begin_inset Formula $Q$
 \end_inset
 
 .
