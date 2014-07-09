@@ -2,13 +2,10 @@
 \lyxformat 474
 \begin_document
 \begin_header
-\textclass elsarticle
+\textclass article
 \begin_preamble
-\setlength{\topmargin}{0in}
-\setlength{\oddsidemargin}{0in}
-\setlength{\evensidemargin}{0in}
+\usepackage{multirow}
 \end_preamble
-\options authoryear,review, 12pt
 \use_default_options true
 \begin_modules
 theorems-ams-bytype
@@ -35,7 +32,7 @@ knitr
 \output_sync 0
 \bibtex_command bibtex
 \index_command default
-\paperfontsize 12
+\paperfontsize default
 \spacing double
 \use_hyperref false
 \papersize default
@@ -49,7 +46,7 @@ knitr
 \use_package mhchem 1
 \use_package stackrel 1
 \use_package stmaryrd 1
-\use_package undertilde 1
+\use_package undertilde 2
 \cite_engine natbib
 \cite_engine_type authoryear
 \biblio_style plain
@@ -63,11 +60,6 @@ knitr
 \shortcut idx
 \color #008000
 \end_index
-\paperwidth 6.5in
-\paperheight 8.5in
-\leftmargin 0cm
-\topmargin 0cm
-\rightmargin 0cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation skip
@@ -117,7 +109,11 @@ key "Hastie:1993a,Cleveland-Grosse-1991"
 \begin_layout Standard
 Current practice for VCR models relies on global model selection to decide
  which variables should be included in the model, meaning that predictors
- are identified as relevant or irrelevant over the entire domain.
+ are identified as relevant or irrelevant over the entire domain 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+.
  
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -152,7 +148,10 @@ Local adaptive grouped regularization (LAGR) is developed here as a method
  of a VCR model.
  The method of LAGR applies to VCR models where the coefficients are estimated
  using locally linear kernel smoothing.
- Using kernel smoothing for nonparametric regression is described in detail
+\end_layout
+
+\begin_layout Standard
+Using kernel smoothing for nonparametric regression is described in detail
  in 
 \begin_inset CommandInset citation
 LatexCommand citet*
@@ -189,9 +188,16 @@ key "Hastie:1993b"
 \end_layout
 
 \begin_layout Standard
-For linear regression models, the adaptive lasso (AL) produces consistent
- estimates of the coefficients and has been shown to have appealing properties
- for variable selection which, under suitable conditions, include the 
+For linear regression models, the adaptive lasso (AL) 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Zou-2006"
+
+\end_inset
+
+ produces consistent estimates of the coefficients and has been shown to
+ have appealing properties for automating variable selection, which under
+ suitable conditions include the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -201,29 +207,21 @@ oracle
 
  property of asymptotically including exactly the correct set of covariates
  and estimating their coefficients as well as if the correct covariates
- were known in advance 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Zou-2006"
-
-\end_inset
-
-.
+ were known in advance.
  For data where the obvserved variables fall into mutually exclusive groups
- that are known in advance, the adaptive group lasso has similar oracle
- properties to the adaptive lasso while doing selection at the level of
- groups rather than individual variables 
+ that are known in advance, the adaptive group lasso 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Yuan-Lin-2006,Wang-Leng-2008"
 
 \end_inset
 
-.
+ has similar oracle properties to the adaptive lasso while doing selection
+ at the level of groups rather than individual variables.
  The proposed LAGR method uses the adaptive group lasso for local variable
  selection and coefficient estimation in a locally linear regression model.
  We show that LAGR posesses the oracle properties of asymptotically selecting
- exactly the correct local predictors and estimating their local coefficients
+ exactly the correct local covariates and estimating their local coefficients
  as accurately as would be possible if the identity of the nonzero coefficients
  for the local model were known in advance.
 \end_layout
@@ -237,8 +235,7 @@ reference "sec:vcr"
 
 \end_inset
 
-.
- The proposed LAGR technique and its oracle properties are presented in
+; the proposed LAGR technique and its oracle properties are presented in
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -246,8 +243,7 @@ reference "sec:lagr-gaussian"
 
 \end_inset
 
-.
- In Section 
+; in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:simulations"
@@ -344,7 +340,7 @@ Consider
 \begin_inset Formula $\bm{\beta}(\bm{s}_{i})$
 \end_inset
 
- may be spatially-varying and 
+ are functions in two dimensions and 
 \begin_inset Formula $\varepsilon(\bm{s}_{i})$
 \end_inset
 
@@ -421,7 +417,7 @@ key "Wang-2008b"
  is 
 \begin_inset Formula 
 \begin{align}
-\bm{Z}(\bm{s}_{i})=\left(\bm{X}\:\: L_{i}\bm{X}\:\: M_{i}\bm{X}\right)
+\bm{Z}(\bm{s}_{i})=\left(\bm{X}\:\:\bm{L}_{i}\bm{X}\:\:\bm{M}_{i}\bm{X}\right)
 \end{align}
 
 \end_inset
@@ -578,7 +574,11 @@ where
 \begin_inset Formula $i=1,\dots,n$
 \end_inset
 
- are local weights from a kernel function.
+ are local weights from a kernel function and 
+\begin_inset Formula $h$
+\end_inset
+
+ is a bandwidth parameter.
  For instance, the Epanechnikov kernel is defined as 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -610,7 +610,7 @@ Letting
  by weighted least squares: 
 \begin_inset Formula 
 \begin{align}
-\mathcal{S}\left\{ \bm{\zeta}(\bm{s})\right\}  & =(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\notag\label{eq:zeta-hat}
+\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right) & =(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\notag\label{eq:zeta-hat}
 \end{align}
 
 \end_inset
@@ -634,15 +634,15 @@ Thus, we have
 \end_layout
 
 \begin_layout Standard
-Now Theorem 3 of 
+By Theorem 3 of 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Sun-Yan-Zhang-Lu-2014"
 
 \end_inset
 
- says that, for any given 
-\begin_inset Formula $\bm{{s}}$
+, for any given 
+\begin_inset Formula $\bm{s}$
 \end_inset
 
 
@@ -687,12 +687,12 @@ reference "eq:zeta-hat"
 a priori
 \emph default
  variable selection.
- A new method of penalized regression to simultaneously select the locally
- relevant predictors and estimate the local coefficients.
+ Here we develop a new method of penalized regression to simultaneously
+ select local covariates and estimate the local coefficients.
  For this purpose, each raw covariate is grouped with its covariate-by-location
  interactions.
  That is, 
-\begin_inset Formula $\bm{\zeta}_{j}(\bm{s})=\left(\beta_{j}(\bm{s})\;\;\;\nabla_{u}\beta_{j}(\bm{s})\;\;\;\nabla_{v}\beta_{j}(\bm{s})\right)^{T}$
+\begin_inset Formula $\bm{\zeta}_{j}(\bm{s})=\left(\beta_{j}(\bm{s}),\;\;\nabla_{u}\beta_{j}(\bm{s}),\;\;\nabla_{v}\beta_{j}(\bm{s})\right)^{T}$
 \end_inset
 
  for 
@@ -700,8 +700,8 @@ a priori
 \end_inset
 
 .
- By the mechanism of the group lasso, variables within the same group are
- included in or dropped from the model together.
+ By the mechanism of the adaptive group lasso, variables within the same
+ group are included in or dropped from the model together.
  The intercept group is left unpenalized.
  The proposed LAGR penalty is an adaptive 
 \begin_inset Formula $\ell_{1}$
@@ -726,7 +726,7 @@ More specifically, we consider the penalized local sum of squares at location
 : 
 \begin_inset Formula 
 \begin{align}
-\mathcal{J}\left(\bm{\zeta}(\bm{s})\right) & =\mathcal{S}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\notag\label{eq:adaptive-lasso-WLS}
+\mathcal{J}\left(\bm{\zeta}\left(\bm{s}\right)\right) & =\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right)+\mathcal{P}\left(\bm{\zeta}\left(\bm{s}\right)\right)\notag\label{eq:adaptive-lasso-WLS}
 \end{align}
 
 \end_inset
@@ -736,11 +736,11 @@ More specifically, we consider the penalized local sum of squares at location
 
 \begin_layout Standard
 where 
-\begin_inset Formula $\mathcal{S}\left(\bm{\zeta}(\bm{s})\right)=(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}$
+\begin_inset Formula $\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right)=(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}$
 \end_inset
 
  is the locally weighted sum of squares, 
-\begin_inset Formula $\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)=\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|$
+\begin_inset Formula $\mathcal{P}\left(\bm{\zeta}\left(\bm{s}\right)\right)=\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|$
 \end_inset
 
  is a local adaptive grouped regularization (LAGR) penalty, and 
@@ -832,7 +832,7 @@ If
  then 
 \begin_inset Formula 
 \[
-h\sqrt{n}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} \right]\xrightarrow{d}N\left(\undertilde{0},f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
+h\sqrt{n}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\}\right]\xrightarrow{d}N(0,f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1})
 \]
 
 \end_inset
@@ -964,7 +964,7 @@ To establish the oracle properties of LAGR, we assumed that
 \begin_inset Formula $\lambda_{n}(\bm{s})$
 \end_inset
 
- can satisfy both assumptions.
+ satisfy both assumptions.
  Suppose 
 \begin_inset Formula $\lambda_{n}(\bm{s})=n^{\alpha}$
 \end_inset
@@ -999,11 +999,7 @@ To establish the oracle properties of LAGR, we assumed that
 \end_layout
 
 \begin_layout Subsection
-Selecting the tuning parameter 
-\begin_inset Formula $\lambda_{n}(\bm{s})$
-\end_inset
-
-
+Tuning Parameter Selection
 \end_layout
 
 \begin_layout Standard
@@ -1016,24 +1012,11 @@ In practical application, it is necessary to select the LAGR tuning parameter
  A popular approach in other lasso-type problems is to select the tuning
  parameter that maximizes a criterion that approximates the expected log-likelih
 ood of a new, independent data set drawn from the same distribution.
- This is the framework of Mallows' Cp 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Mallows-1973"
-
-\end_inset
-
-, Stein's unbiased risk estimate (SURE) 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Stein-1981"
-
-\end_inset
-
+ This is the framework of Mallows' Cp, Stein's unbiased risk estimate (SURE)
  and Akaike's information criterion (AIC) 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "Akaike-1973"
+key "Mallows-1973,Stein-1981,Akaike-1973"
 
 \end_inset
 
@@ -1065,20 +1048,21 @@ key "Yuan-Lin-2006"
 
  
 \begin_inset CommandInset citation
-LatexCommand citet
+LatexCommand citep
 key "Hurvich-1998"
 
 \end_inset
 
-:
+.
+ That is, let
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
 \hat{df}(\lambda;\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda;\bm{s})\|>0\right)+\sum_{j=1}^{p}\frac{\|\hat{\bm{\zeta}}(\lambda;\bm{s})\|}{\|\tilde{\bm{\zeta}}(\bm{s})\|}(p_{j}-1)\\
-\text{AIC}_{c}(\lambda;\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\sigma^{-2}\left\{ y(\bm{s}_{i})-z'(\bm{s}_{i})\hat{\bm{\zeta}}(\lambda;\bm{s})\right\} ^{2}\\
- & +2\hat{df}(\lambda;\bm{s})+\frac{2\hat{df}(\lambda;\bm{s})\left\{ \hat{df}(\lambda;\bm{s})+1\right\} }{\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)-\hat{df}(\lambda;\bm{s})-1}
+\text{AIC}_{c}(\lambda;\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\sigma^{-2}\left\{ y(\bm{s}_{i})-z'(\bm{s}_{i})\hat{\bm{\zeta}}(\lambda;\bm{s})\right\} ^{2}+2\hat{df}(\lambda;\bm{s})\\
+ & +\frac{2\hat{df}(\lambda;\bm{s})\left\{ \hat{df}(\lambda;\bm{s})+1\right\} }{\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)-\hat{df}(\lambda;\bm{s})-1}
 \end{align*}
 
 \end_inset
@@ -1137,7 +1121,7 @@ As was the case for local linear regression models, the GLLM coefficients
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-f\left\{ y(\bm{s})|\bm{x}(\bm{s}),\theta\left(\bm{s}\right)\right\} =c\left\{ y(\bm{s})\right\} \times\exp\left[a^{-1}\left(\sigma^{2}\left(\bm{s}\right)\right)\left\{ \theta(\bm{s})y(\bm{s})-b\left(\theta(\bm{s})\right)\right\} \right]
+f\left\{ y(\bm{s})|\bm{x}(\bm{s}),\theta\left(\bm{s}\right)\right\} =c\left\{ y(\bm{s})\right\} \times\left[\exp\theta(\bm{s})y(\bm{s})-b\left\{ \theta(\bm{s})\right\} \right]
 \]
 
 \end_inset
@@ -1160,10 +1144,10 @@ where
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align*}
-E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left(\theta(\bm{s})\right)\\
-\theta(\bm{s})= & (g\circ b')^{-1}\left(\eta(\bm{s})\right)\\
-\eta(\bm{s})= & \bm{x}^{T}(\bm{s})\bm{\beta}(\bm{s})=g\left(\mu(\bm{s})\right)\\
-\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & a\left(\sigma^{2}\left(\bm{s}\right)\right)b''\left(\theta(\bm{s})\right)
+E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left\{ \theta(\bm{s})\right\} \\
+\theta(\bm{s})= & (g\circ b')^{-1}\left\{ \eta(\bm{s})\right\} \\
+\eta(\bm{s})= & \bm{x}^{T}(\bm{s})\bm{\beta}(\bm{s})=g\left\{ \mu(\bm{s})\right\} \\
+\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & b''\left\{ \theta(\bm{s})\right\} 
 \end{align*}
 
 \end_inset
@@ -1199,25 +1183,19 @@ key "Fan-Heckman-Wand-1995"
 \end_inset
 
  in assuming the use of the canonical link.
- Further, let the dispersion function 
-\begin_inset Formula $a\left(\sigma^{2}\left(\bm{s}\right)\right)=\sigma^{2}$
-\end_inset
-
-.
- Then 
-\begin_inset Formula $\sigma^{2}$
-\end_inset
-
- is a nuisance parameter whose value does not affect the estimation of coefficie
-nts, so it will be ignored for the sake pf simplicity.
 \end_layout
 
 \begin_layout Plain Layout
-Under the canonical link function, the following are true:
+Under the canonical link function, the expressions for the mean and variance
+ of the response variable can be simplified to
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align*}
-b'\left(\theta\left(\bm{s}\right)\right)= & g^{-1}\left(\eta(\bm{s})\right)\\
-V\left(\mu\left(\bm{s}\right)\right)= & b''\left(\theta\left(\bm{s}\right)\right)=\left(d/d\mu\right)g^{-1}\left(\mu\left(\bm{s}\right)\right)
+E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left\{ \eta(\bm{s})\right\} \\
+\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \left[g'\left\{ \mu(\bm{s})\right\} \right]^{-1}=V\left\{ \mu(\bm{s})\right\} \\
+\frac{d}{d\mu} & g^{-1}\left\{ \mu\left(\bm{s}\right)\right\} =V\left\{ \mu\left(\bm{s}\right)\right\} 
 \end{align*}
 
 \end_inset
@@ -1232,7 +1210,7 @@ Local quasi-likelihood
 \begin_layout Plain Layout
 Assuming the canonical link, all that is required is to specify the mean-varianc
 e relationship via the variance function, 
-\begin_inset Formula $V\left(\mu(\bm{s})\right)$
+\begin_inset Formula $V\left\{ \mu(\bm{s})\right\} $
 \end_inset
 
 .
@@ -1243,7 +1221,7 @@ ihood
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
-\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left(g^{-1}\left(\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right).
+\mathcal{\ell}^{*}\left\{ \bm{\zeta}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ \bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right].
 \end{align}
 
 \end_inset
@@ -1254,17 +1232,14 @@ ihood
 \begin_layout Plain Layout
 The local quasi-likelihood generalizes the local log-likelihood that was
  used to estimate coefficients in the local linear model case.
- The quasi-likelihood function 
-\begin_inset Formula $Q\left(\cdot.\cdot\right)$
-\end_inset
-
- is convex, and is defined in terms of its derivative, the quasi-score function
+ The quasi-likelihood is convex, and is defined in terms of its derivative,
+ the quasi-score function
 \end_layout
 
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-\left(\partial/\partial\mu\right)Q(\mu,y)=\left(y-\mu\right)/V\left(\mu\right).
+\frac{\partial}{\partial\mu}Q(\mu,y)=\frac{y-\mu}{V(\mu)}.
 \]
 
 \end_inset
@@ -1283,7 +1258,7 @@ Under these conditions, the local quasi-likelihood is maximized where
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
-\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left(\hat{\bm{\zeta}}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left\{ y(\bm{s}_{i})-\hat{\mu}(\bm{s}_{i};\bm{s})\right\} \bm{z}(\bm{s}_{i})/V\left(\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)\right)=\bm{0}_{3p}
+\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left\{ \hat{{\bm{\zeta}}}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\frac{y(\bm{s}_{i})-\hat{\mu}(\bm{s}_{i};\bm{s})}{V\left\{ \hat{\mu}(\bm{s}_{i};\bm{s})\right\} }\bm{z}(\bm{s}_{i})=\bm{0}_{3p}
 \end{align}
 
 \end_inset
@@ -1293,7 +1268,7 @@ Under these conditions, the local quasi-likelihood is maximized where
 
 \begin_layout Plain Layout
 and 
-\begin_inset Formula $\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)=g^{-1}\left(\bm{z}'(\bm{s}_{i})\hat{\bm{\zeta}}\left(\bm{s}\right)\right)$
+\begin_inset Formula $\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)=g^{-1}\left\{ \bm{z}'(\bm{s}_{i})\hat{\bm{\zeta}}\left(\bm{s}\right)\right\} $
 \end_inset
 
  is the mean at location 
@@ -1355,7 +1330,7 @@ key "Cai-Fan-Li-2000"
 
 \begin_layout Plain Layout
 where 
-\begin_inset Formula $\Gamma(\bm{s})=E\left[V\left(\mu\left(\bm{s}\right)\right)X(\bm{s})X(\bm{s})^{T}\right]$
+\begin_inset Formula $\Gamma(\bm{s})=E\left[V\left\{ \mu(\bm{s})\right\} X(\bm{s})X(\bm{s})^{T}\right]$
 \end_inset
 
 .
@@ -1377,8 +1352,8 @@ As in the case of linear models, the LAGR for GLMs is a grouped
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
-\mathcal{J}\left(\bm{\zeta}(\bm{s})\right) & =\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\notag\label{eq:adaptive-lasso-GLLM}\\
- & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left(g^{-1}\left(z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),y(\bm{s}_{i})\right)+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|
+\mathcal{J}\left\{ \bm{\zeta}(\bm{s})\right\}  & =\mathcal{\ell}^{*}\left\{ \bm{\zeta}(\bm{s})\right\} +\mathcal{P}\{\bm{\zeta}(\bm{s})\}\notag\label{eq:adaptive-lasso-GLLM}\\
+ & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right]+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|
 \end{align}
 
 \end_inset
@@ -1451,7 +1426,7 @@ If
  then 
 \begin_inset Formula 
 \[
-h\sqrt{n}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\left(\nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right)\right]\xrightarrow{d}N(\undertilde{0},f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s}))
+h\sqrt{n}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\}\right]\xrightarrow{d}N(0,f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s}))
 \]
 
 \end_inset
@@ -1531,8 +1506,52 @@ name "sec:simulations"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<simulation-imports, message=FALSE, warning=FALSE, echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+	#Imports:
+\end_layout
+
+\begin_layout Plain Layout
+
+	require(xtable)
+\end_layout
+
+\begin_layout Plain Layout
+
+	require(dplyr)
+\end_layout
+
+\begin_layout Plain Layout
+
+	require(brooks)
+\end_layout
+
+\begin_layout Plain Layout
+
+	load("~/scratch/gwr-sim-output.RData")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
-Simulation setup
+Simulation Setup
 \end_layout
 
 \begin_layout Standard
@@ -1583,10 +1602,10 @@ reference "sec:lagr-gaussian"
 \end_inset
 
  is the range parameter, and 
-\begin_inset Formula $\delta_{ii'}=\|\bm{s}-\bm{s}_{i}\|$
+\begin_inset Formula $\delta_{ii'}=\|\bm{s}_{i}-\bm{s}_{i'}\|_{2}$
 \end_inset
 
- is the Euclidean distance between 
+ is the Euclidean distance between locations 
 \begin_inset Formula $\bm{s}$
 \end_inset
 
@@ -1686,29 +1705,6 @@ Three different functions were used for the coefficient surface
 \begin_inset Formula $\beta_{1}(\bm{s})$
 \end_inset
 
-:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\beta_{step}(\bm{s})=\begin{cases}
-1 & if\ s_{x}>0.6\\
-5s_{x}-2 & if\ 0.4<s_{x}\le0.6\\
-0 & o.w.
-\end{cases},
-\]
-
-\end_inset
-
-
-\begin_inset Formula $\beta_{gradient}(\bm{s})=s_{x}$
-\end_inset
-
-, and 
-\begin_inset Formula $\beta_{parabola}(\bm{s})=1-2\left\{ (s_{x}-0.5)^{2}+(s_{y}-0.5)^{2}\right\} $
-\end_inset
-
  (Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1717,14 +1713,42 @@ reference "fig:simulation-coefficient-functions"
 \end_inset
 
 ).
- The first is a step function, which is equal to zero in 40% of the spatial
- domain, equal to one in a different 40% of the spatial domain, and increases
- linearly in the middle 20% of the domain.
- The second is a gradient function, which increases linearly from zero at
- one end of the domain to one at the other.
- The final coefficient function is a parabola taking its maximum value of
- 1 at the center of the domain and falling to zero at each corner of the
- domain.
+ The first is the 
+\begin_inset Quotes eld
+\end_inset
+
+step
+\begin_inset Quotes erd
+\end_inset
+
+ function:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\beta_{step}(\bm{s})=\ \ \begin{cases}
+1 & if\ s_{x}>0.6\\
+5s_{x}-2 & if\ 0.4<s_{x}\le0.6\\
+0 & o.w.
+\end{cases}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The second is the gradient function, 
+\begin_inset Formula $\beta_{gradient}(\bm{s})=s_{x}$
+\end_inset
+
+, and the third is the parabola 
+\begin_inset Formula $\beta_{parabola}(\bm{s})=1-2\left\{ (s_{x}-0.5)^{2}+(s_{y}-0.5)^{2}\right\} $
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1791,22 +1815,9 @@ name "fig:simulation-coefficient-functions"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\begin{align}
-\nonumber \\
-\beta_{gradient}(\bm{s})= & \ \ s_{x}\nonumber \\
-\label{eq:simulation-coefficient-functions}
-\end{align}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 In total, three parameters were varied to produce 18 settings, each of which
  was simulated 100 times.
- There were three functional forms for the coefficient surface 
+ There were the three functional forms for the coefficient surface 
 \begin_inset Formula $\beta_{1}(\bm{s})$
 \end_inset
 
@@ -1824,799 +1835,184 @@ In total, three parameters were varied to produce 18 settings, each of which
 
 ) correlation between the covariates; and simulations were made with low
  (
-\begin_inset Formula $\sigma_{\varepsilon}^{2}=0.25$
+\begin_inset Formula $\sigma_{\varepsilon}=0.5$
 \end_inset
 
 ) and high (
-\begin_inset Formula $\sigma_{\varepsilon}^{2}=1$
+\begin_inset Formula $\sigma_{\varepsilon}=1$
 \end_inset
 
 ) variance for the random error term.
- The simulation settings are enumerated in Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:simulation-settings"
-
-\end_inset
-
-.
- 
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
+\begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="19" columns="4">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
-Setting
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\beta_{1}(\bm{s})$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\rho$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\sigma_{\varepsilon}^{2}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-step
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.25
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.25
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-4
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-5
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.25
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-6
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-7
+<<prefix, echo=FALSE, results='asis', message=FALSE>>=
 \end_layout
 
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-gradient
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.25
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-8
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
 \begin_layout Plain Layout
-9
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.25
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-10
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 
+	sim.prefix <- list()
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
+	sim.prefix$pos <- sapply(0:17, function(x) return(x), simplify=FALSE)
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
 \begin_layout Plain Layout
-11
-\end_layout
 
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
+	sim.prefix$command <- c("
+\backslash
 
-\begin_layout Plain Layout
+\backslash
+multirow{6}{*}{step} & 
+\backslash
 
+\backslash
+multirow{2}{*}{0} & 0.5 & ",
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
-0.9
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
-0.25
+		" &  & 1.0 & ",
 \end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
-12
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
+		" & 
+\backslash
 
+\backslash
+multirow{2}{*}{0.5} & 0.5 & ",
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+		" &  & 1.0 & ",
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
 \begin_layout Plain Layout
-1
-\end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
+		" & 
+\backslash
 
-\begin_layout Plain Layout
-13
+\backslash
+multirow{2}{*}{0.9} & 0.5 & ",
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
-parabola
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
-0
+		" &  & 1.0 & ",
 \end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
-0.25
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
-14
-\end_layout
+		"
+\backslash
 
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
+\backslash
+hline 
+\backslash
 
-\begin_layout Plain Layout
+\backslash
+multirow{6}{*}{gradient} & 
+\backslash
 
+\backslash
+multirow{2}{*}{0} & 0.5 & ",
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
+		" &  & 1.0 & ",
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
 \begin_layout Plain Layout
-15
-\end_layout
 
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+		" & 
+\backslash
 
+\backslash
+multirow{2}{*}{0.5} & 0.5 & ",
 \end_layout
 
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
 \begin_layout Plain Layout
-0.5
-\end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.25
+		" &  & 1.0 & ",
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
 \begin_layout Plain Layout
-16
-\end_layout
 
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+		" & 
+\backslash
 
+\backslash
+multirow{2}{*}{0.9} & 0.5 & ",
 \end_layout
 
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
 \begin_layout Plain Layout
 
+		" &  & 1.0 & ",
 \end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
-17
-\end_layout
+		"
+\backslash
 
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
+\backslash
+hline 
+\backslash
 
-\begin_layout Plain Layout
+\backslash
+multirow{6}{*}{parabola} & 
+\backslash
 
+\backslash
+multirow{2}{*}{0} & 0.5 & ",
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
-0.9
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
-0.25
+		" &  & 1.0 & ",
 \end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
-18
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
+		" & 
+\backslash
 
+\backslash
+multirow{2}{*}{0.5} & 0.5 & ",
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+		" &  & 1.0 & ",
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
 \begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
 
+		" & 
+\backslash
 
+\backslash
+multirow{2}{*}{0.9} & 0.5 & ",
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Listing of the simulation settings used to assess the performance of LAGR
- models versus oracle selection and no selection.
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:simulation-settings"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
 
+		" &  & 1.0 & ")
 \end_layout
 
 \begin_layout Plain Layout
 
+@
 \end_layout
 
 \end_inset
@@ -2635,50 +2031,14 @@ The results are presented in terms of the mean integrated squared error
 \end_inset
 
 , and the frequency with which the coefficient surface estimates 
-\begin_inset Formula $\hat{\beta}_{1}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$
+\begin_inset Formula $\hat{\beta}_{2}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$
 \end_inset
 
- in the LAGR model were zero.
+ estimated by LAGR were zero.
  The performance of LAGR was compared to that of a VCR model without variable
  selection, and to a VCR model with oracular selection.
  Oracular selection means that exactly the correct set of covariates was
  used to fit each local model.
-\end_layout
-
-\begin_layout Subsection
-Simulation Results
-\end_layout
-
-\begin_layout Standard
-The MISE of the estimates of 
-\begin_inset Formula $\beta_{1}(\bm{s})$
-\end_inset
-
- are in Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:x1-mise"
-
-\end_inset
-
-.
- Recall that 
-\begin_inset Formula $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
-\end_inset
-
- are exactly zero across the entire domain.
- Oracle selection will estimate these coefficients perfectly, so we focus
- on the comparison between estimation by LAGR and by the VCR model with
- no selection.
- These results show that for every simulation setting, LAGR estimation is
- more accurate than the standard VCR model (Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:x2-x5-mise"
-
-\end_inset
-
-).
 \end_layout
 
 \begin_layout Standard
@@ -2687,31 +2047,104 @@ status open
 
 \begin_layout Plain Layout
 
-<<MISE-X1, echo=FALSE, results='asis', message=FALSE>>=
+
+\backslash
+begin{table}
 \end_layout
 
 \begin_layout Plain Layout
 
-#Imports:
+	
+\backslash
+begin{tabular}{ccc|ccc|cc}
 \end_layout
 
 \begin_layout Plain Layout
 
-require(xtable)
+		
+\backslash
+multicolumn{3}{c}{
+\backslash
+begin{tabular}[c]{@{}c@{}}Simulation
+\backslash
+
+\backslash
+settings
+\backslash
+end{tabular}} & 
+\backslash
+multicolumn{3}{c}{
+\backslash
+begin{tabular}[c]{@{}c@{}}MISE
+\backslash
+
+\backslash
+$
+\backslash
+hat{
+\backslash
+beta}_1$
+\backslash
+end{tabular}} & 
+\backslash
+multicolumn{2}{c}{
+\backslash
+begin{tabular}[c]{@{}c@{}}MISE
+\backslash
+
+\backslash
+$
+\backslash
+hat{
+\backslash
+beta}_2, 
+\backslash
+dots, 
+\backslash
+hat{
+\backslash
+beta}_5$
+\backslash
+end{tabular}} 
+\backslash
+
+\backslash
+
 \end_layout
 
 \begin_layout Plain Layout
 
-require(brooks)
+		$
+\backslash
+beta_{1}(
+\backslash
+bm{s})$ & $
+\backslash
+rho$ & $
+\backslash
+sigma_{
+\backslash
+varepsilon}$ & LAGR & VCR & Oracle & LAGR & VCR 
+\backslash
+
+\backslash
+
 \end_layout
 
 \begin_layout Plain Layout
 
-load("~/scratch/gwr-sim-output.RData")
+		
+\backslash
+hline 
 \end_layout
 
 \begin_layout Plain Layout
 
+\end_layout
+
+\begin_layout Plain Layout
+
+<<MISE-X1, echo=FALSE, results='asis', message=FALSE, warning=FALSE>>=
 \end_layout
 
 \begin_layout Plain Layout
@@ -2853,117 +2286,7 @@ for (i in 1:nrow(mise)){
 
 \begin_layout Plain Layout
 
-#Put names on the table
-\end_layout
-
-\begin_layout Plain Layout
-
-rownames(mise) = NULL
-\end_layout
-
-\begin_layout Plain Layout
-
-colnames(mise) = c("LAGR", "VCR", "oracle")
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-#Generate the table, caption it, and print it with emphasis.
-\end_layout
-
-\begin_layout Plain Layout
-
-mise.table = xtable(mise)
-\end_layout
-
-\begin_layout Plain Layout
-
-caption(mise.table) = "The MISE for the estimates of $
-\backslash
-
-\backslash
-beta_1(
-\backslash
-
-\backslash
-bm{s})$ in each simulation setting, under variable selection via LAGR, no
- variable selection, and oracular variable selection.
- Highlighting indicates the 
-\backslash
-
-\backslash
-textbf{lowest} and 
-\backslash
-
-\backslash
-emph{next-lowest} MISE."
-\end_layout
-
-\begin_layout Plain Layout
-
-label(mise.table) = "tab:x1-mise"
-\end_layout
-
-\begin_layout Plain Layout
-
-xtable.printbold(mise.table, table.placement=NULL, which.bold=bold, which.ital=ital,
- hline.after=c(0))
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<MISE-X2-X5, echo=FALSE, results='asis', message=FALSE>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-#Imports:
-\end_layout
-
-\begin_layout Plain Layout
-
-require(xtable)
-\end_layout
-
-\begin_layout Plain Layout
-
-require(brooks)
-\end_layout
-
-\begin_layout Plain Layout
-
-load("~/scratch/gwr-sim-output.RData")
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-#Calculate the MISE for the first coefficient:
+#Calculate the MISE for the second through fifth coefficients:
 \end_layout
 
 \begin_layout Plain Layout
@@ -3061,7 +2384,7 @@ for (setting in 1:18) {
 
 \begin_layout Plain Layout
 
-bold = matrix(FALSE, nrow=nrow(mise.x2.x5), ncol=ncol(mise.x2.x5))
+bold.x2.x5 = matrix(FALSE, nrow=nrow(mise.x2.x5), ncol=ncol(mise.x2.x5))
 \end_layout
 
 \begin_layout Plain Layout
@@ -3071,7 +2394,7 @@ for (i in 1:nrow(mise.x2.x5)){
 
 \begin_layout Plain Layout
 
-    bold[i,which.min(mise.x2.x5[i,])] = TRUE
+    bold.x2.x5[i,which.min(mise.x2.x5[i,])] = TRUE
 \end_layout
 
 \begin_layout Plain Layout
@@ -3085,12 +2408,21 @@ for (i in 1:nrow(mise.x2.x5)){
 
 \begin_layout Plain Layout
 
+\end_layout
+
+\begin_layout Plain Layout
+
 #Put names on the table
 \end_layout
 
 \begin_layout Plain Layout
 
-rownames(mise.x2.x5) = NULL
+rownames(mise) = NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+colnames(mise) = c("LAGR", "VCR", "Oracle")
 \end_layout
 
 \begin_layout Plain Layout
@@ -3109,53 +2441,80 @@ colnames(mise.x2.x5) = c("LAGR", "VCR")
 
 \begin_layout Plain Layout
 
-mise.x2.x5.table = xtable(mise.x2.x5, digits=3)
+mise.table = xtable(cbind(mise, mise.x2.x5))
 \end_layout
 
 \begin_layout Plain Layout
 
-caption(mise.x2.x5.table) = "The MISE for the estimates of $
+caption(mise.table) = "The MISE for the estimates of $
 \backslash
 
 \backslash
-beta_2(
+beta_1(
 \backslash
 
 \backslash
-bm{s}),
-\backslash
-
-\backslash
-dots,
-\backslash
-
-\backslash
-beta_5(
-\backslash
-
-\backslash
-bm{s})$ in each simulation setting, under variable selection via LAGR and
- no variable selection.
+bm{s})$ in each simulation setting, under variable selection via LAGR, no
+ variable selection, and oracular variable selection.
  Highlighting indicates the 
 \backslash
 
 \backslash
-textbf{lowest} MISE."
+textbf{lowest} and 
+\backslash
+
+\backslash
+emph{next-lowest} MISE."
 \end_layout
 
 \begin_layout Plain Layout
 
-label(mise.x2.x5.table) = "tab:x2-x5-mise"
+label(mise.table) = "tab:x1-mise"
 \end_layout
 
 \begin_layout Plain Layout
 
-xtable.printbold(mise.x2.x5.table, table.placement=NULL, which.bold=bold, hline.after=c
-(0))
+xtable.printbold(mise.table,
 \end_layout
 
 \begin_layout Plain Layout
 
+	table.placement=NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	which.bold=cbind(bold, bold.x2.x5),
+\end_layout
+
+\begin_layout Plain Layout
+
+	which.ital=cbind(ital, matrix(FALSE, nrow=18, ncol=2)),
+\end_layout
+
+\begin_layout Plain Layout
+
+	hline.after=NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	only.contents=TRUE,
+\end_layout
+
+\begin_layout Plain Layout
+
+	include.rownames=FALSE,
+\end_layout
+
+\begin_layout Plain Layout
+
+	include.colnames=FALSE,
+\end_layout
+
+\begin_layout Plain Layout
+
+	add.to.row=sim.prefix)
 \end_layout
 
 \begin_layout Plain Layout
@@ -3163,9 +2522,71 @@ xtable.printbold(mise.x2.x5.table, table.placement=NULL, which.bold=bold, hline.
 @
 \end_layout
 
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{tabular}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+caption{Listing of the simulation settings used to assess the performance
+ of LAGR models versus oracle selection and no selection.}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+label{tab:mise}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{table}
+\end_layout
+
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+Simulation Results
+\end_layout
+
+\begin_layout Standard
+The MISE of the estimates of 
+\begin_inset Formula $\beta_{1}(\bm{s})$
+\end_inset
+
+ are in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:misex"
+
+\end_inset
+
+.
+ Recall that 
+\begin_inset Formula $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+\end_inset
+
+ are exactly zero across the entire domain.
+ Oracle selection will estimate these coefficients perfectly, so we focus
+ on the comparison between estimation by LAGR and by the VCR model with
+ no selection.
+ These results show that for every simulation setting, LAGR estimation is
+ more accurate than the standard VCR model.
 \end_layout
 
 \begin_layout Standard
@@ -3175,21 +2596,6 @@ status open
 \begin_layout Plain Layout
 
 <<PZERO, echo=FALSE, results='asis', message=FALSE>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-#Imports:
-\end_layout
-
-\begin_layout Plain Layout
-
-require(xtable)
-\end_layout
-
-\begin_layout Plain Layout
-
-require(brooks)
 \end_layout
 
 \begin_layout Plain Layout
@@ -3233,229 +2639,6 @@ colnames(zz) = c("Frequency of exact zero")
 
 \begin_layout Plain Layout
 
-\end_layout
-
-\begin_layout Plain Layout
-
-#Generate the table, caption it, and print it with emphasis.
-\end_layout
-
-\begin_layout Plain Layout
-
-pzero.table = xtable(zz)
-\end_layout
-
-\begin_layout Plain Layout
-
-caption(pzero.table) = "Proportion of local models under each setting in
- which the coefficients $
-\backslash
-
-\backslash
-beta_2(
-\backslash
-
-\backslash
-bm{s}),
-\backslash
-
-\backslash
-dots,
-\backslash
-
-\backslash
-beta_5(
-\backslash
-
-\backslash
-bm{s})$ are estimated as exactly zero."
-\end_layout
-
-\begin_layout Plain Layout
-
-label(pzero.table) = "tab:pzero"
-\end_layout
-
-\begin_layout Plain Layout
-
-print(pzero.table, table.placement=NULL, hline.after=c(0))
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<MISEY, echo=FALSE, results='asis', message=FALSE>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-#Imports:
-\end_layout
-
-\begin_layout Plain Layout
-
-require(xtable)
-\end_layout
-
-\begin_layout Plain Layout
-
-require(brooks)
-\end_layout
-
-\begin_layout Plain Layout
-
-load("~/scratch/gwr-sim-output.RData")
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-std = matrix(rbind(c(0.25, 0.25, 0.25), c(1, 1, 1)), nrow=18, ncol=3)
-\end_layout
-
-\begin_layout Plain Layout
-
-bold.misey = matrix(FALSE, nrow=nrow(mise), ncol=ncol(mise))
-\end_layout
-
-\begin_layout Plain Layout
-
-for (i in 1:nrow(mise)){
-\end_layout
-
-\begin_layout Plain Layout
-
-	bold.misey[i,which.min(abs(misey[i,] - std[i,]))] = TRUE
-\end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-#Which entries should be italicised (for having the second-lowest MISE)?
-\end_layout
-
-\begin_layout Plain Layout
-
-ital.misey = matrix(FALSE, nrow=nrow(mise), ncol=ncol(mise))
-\end_layout
-
-\begin_layout Plain Layout
-
-for (i in 1:nrow(mise)){
-\end_layout
-
-\begin_layout Plain Layout
-
-	ital.misey[i,order(abs(misey[i,] - std[i,]))[2]] = TRUE
-\end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-#Put names on the table
-\end_layout
-
-\begin_layout Plain Layout
-
-rownames(misey) = NULL
-\end_layout
-
-\begin_layout Plain Layout
-
-colnames(misey) = c("LAGR", "VCR", "oracle")
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-#Generate the table, caption it, and print it with emphasis.
-\end_layout
-
-\begin_layout Plain Layout
-
-misey.table = xtable(misey)
-\end_layout
-
-\begin_layout Plain Layout
-
-caption(misey.table) = "The MISE for the fitted output in each simulation
- setting, under variable selection via LAGR, no variable selection, and
- oracular variable selection.
- Highlighting indicates the 
-\backslash
-
-\backslash
-textbf{closest} and 
-\backslash
-
-\backslash
-emph{next-closest} to the actual error variance $
-\backslash
-
-\backslash
-sigma_
-\backslash
-
-\backslash
-varepsilon^2$ for that setting."
-\end_layout
-
-\begin_layout Plain Layout
-
-label(misey.table) = "tab:misey"
-\end_layout
-
-\begin_layout Plain Layout
-
-xtable.printbold(misey.table, table.placement=NULL, which.bold=bold.misey, which.ital=
-ital.misey, hline.after=c(0))
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
 @
 \end_layout
 
@@ -3468,7 +2651,7 @@ ital.misey, hline.after=c(0))
 From Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:pzero"
+reference "tab:misey"
 
 \end_inset
 
@@ -3519,7 +2702,304 @@ reference "tab:misey"
  that is closest to the known truth for the simulation.
  The results are all very similar to each other, indicating that no method
  was consistently better than the others in this simulation at fitting the
- model output
+ model output.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{table}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+begin{tabular}{ccc|c|ccc}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+multicolumn{3}{c}{
+\backslash
+begin{tabular}[c]{@{}c@{}}Simulation
+\backslash
+
+\backslash
+settings
+\backslash
+end{tabular}} &  
+\backslash
+multicolumn{1}{c}{
+\backslash
+begin{tabular}[c]{@{}c@{}}Zero
+\backslash
+
+\backslash
+frequency
+\backslash
+end{tabular}} &  
+\backslash
+multicolumn{3}{c}{
+\backslash
+begin{tabular}[c]{@{}c@{}}MISE
+\backslash
+
+\backslash
+$
+\backslash
+hat{y}$
+\backslash
+end{tabular}} 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+		$
+\backslash
+beta_{1}(
+\backslash
+bm{s})$ & $
+\backslash
+rho$ & $
+\backslash
+sigma_{
+\backslash
+varepsilon}$ & $
+\backslash
+hat{
+\backslash
+beta}_2,
+\backslash
+dots,
+\backslash
+hat{
+\backslash
+beta}_5 & LAGR & VCR & Oracle 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+hline 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+<<MISEY, echo=FALSE, results='asis', message=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+	std = matrix(rbind(c(0.25, 0.25, 0.25), c(1, 1, 1)), nrow=18, ncol=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+	bold.misey = matrix(FALSE, nrow=nrow(mise), ncol=ncol(mise))
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (i in 1:nrow(mise)){
+\end_layout
+
+\begin_layout Plain Layout
+
+		bold.misey[i,which.min(abs(misey[i,] - std[i,]))] = TRUE
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	#Which entries should be italicised (for having the second-lowest MISE)?
+\end_layout
+
+\begin_layout Plain Layout
+
+	ital.misey = matrix(FALSE, nrow=nrow(mise), ncol=ncol(mise))
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (i in 1:nrow(mise)){
+\end_layout
+
+\begin_layout Plain Layout
+
+		ital.misey[i,order(abs(misey[i,] - std[i,]))[2]] = TRUE
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	#Put names on the table
+\end_layout
+
+\begin_layout Plain Layout
+
+	rownames(misey) = NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+	colnames(misey) = c("LAGR", "VCR", "Oracle")
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	#Generate the table, caption it, and print it with emphasis.
+\end_layout
+
+\begin_layout Plain Layout
+
+	misey.table = xtable(cbind(zz, misey))
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	xtable.printbold(misey.table,
+\end_layout
+
+\begin_layout Plain Layout
+
+		table.placement=NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+		which.bold=cbind(rep(FALSE, 18), bold.misey),
+\end_layout
+
+\begin_layout Plain Layout
+
+		which.ital=cbind(rep(FALSE, 18), ital.misey),
+\end_layout
+
+\begin_layout Plain Layout
+
+		hline.after=NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+		only.contents=TRUE,
+\end_layout
+
+\begin_layout Plain Layout
+
+		include.rownames=FALSE,
+\end_layout
+
+\begin_layout Plain Layout
+
+		include.colnames=FALSE,
+\end_layout
+
+\begin_layout Plain Layout
+
+		add.to.row=sim.prefix
+\end_layout
+
+\begin_layout Plain Layout
+
+	)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{tabular}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+caption{The MISE for the fitted output in each simulation setting, under
+ variable selection via LAGR, no variable selection, and oracular variable
+ selection.
+ Highlighting indicates the 
+\backslash
+textbf{closest} and 
+\backslash
+emph{next-closest} to the actual error variance $
+\backslash
+sigma_
+\backslash
+varepsilon^2$ for that setting.}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+label{tab:misey}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{table}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3554,7 +3034,7 @@ There was minimal difference in the performance of the proposed LAGR method
 \begin_inset Formula $\rho=0.5$
 \end_inset
 
-) correlation among the predictor variables.
+) correlation among the covariates.
  But the selection and estimation accuracy did decline when there was high
  (
 \begin_inset Formula $\rho=0.9$
@@ -3575,25 +3055,150 @@ name "sec:example"
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<boston-coef-import, echo=FALSE, results='asis', message=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+require(xtable)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(brooks)
+\end_layout
+
+\begin_layout Plain Layout
+
+load("~/git/gwr/scratch/boston-preset-bw.RData")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+vars = c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+boston.coef.summary = matrix(NA, nrow=0, ncol=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+for (v in vars) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	row = vector()
+\end_layout
+
+\begin_layout Plain Layout
+
+	colname.coef = paste("coef", v, sep="")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	#Add the table's elements to this row:
+\end_layout
+
+\begin_layout Plain Layout
+
+	row = c(row, mean(boston.tracts@data[,colname.coef]))
+\end_layout
+
+\begin_layout Plain Layout
+
+	row = c(row, sd(boston.tracts@data[,colname.coef]))
+\end_layout
+
+\begin_layout Plain Layout
+
+	row = c(row, mean(boston.tracts@data[,colname.coef]==0))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	#Add this row to the table:
+\end_layout
+
+\begin_layout Plain Layout
+
+	boston.coef.summary = rbind(boston.coef.summary, row)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+rownames(boston.coef.summary) = vars
+\end_layout
+
+\begin_layout Plain Layout
+
+colnames(boston.coef.summary) = c('Mean', 'SD', 'Prop.
+ zero')
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The proposed LAGR estimation method was used to estimate the coefficients
  in a VCR model of the effect of some covariates on the price of homes in
- Boston.
- The data source is the Boston house price data set, which is based on the
- 1970 U.S.
- census 
+ Boston 
 \begin_inset CommandInset citation
-LatexCommand cite
+LatexCommand citep
 key "Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997"
 
 \end_inset
 
 .
+ The data source is based on the 1970 U.S.
+ census.
  In the data, we have the median price of homes sold in 506 census tracts
- (MEDV), along with the following potential covariates: CRIM (the per-capita
- crime rate in the tract), RM (the mean number of rooms for houses sold
- in the tract), RAD (an index of how accessible the tract is from Boston's
- radial roads), TAX (the property tax per $10,000 of property value), and
- LSTAT (the percentage of the tract's residents who are considered 
+ (MEDV), along with some potential covariates.
+ The covariates are CRIM (the per-capita crime rate in the tract), RM (the
+ mean number of rooms for houses sold in the tract), RAD (an index of how
+ accessible the tract is from Boston's radial roads), TAX (the property
+ tax per $10,000 of property value), and LSTAT (the percentage of the tract's
+ residents who are considered 
 \begin_inset Quotes eld
 \end_inset
 
@@ -3608,8 +3213,48 @@ lower status
  The kernel used was the Epanechnikov kernel.
 \end_layout
 
-\begin_layout Subsection
-Results
+\begin_layout Standard
+A summary of the local coefficients is in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:boston-coefs-lagr"
+
+\end_inset
+
+.
+ It indicates that RM is the only predictor variable with a positive mean
+ of the local coefficients.
+ The coefficient of the CRIM variable was estimated to be exactly zero at
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{100*round(boston.coef.summary['CRIM','Prop.
+ zero'],2)}
+\end_layout
+
+\end_inset
+
+% of the locations.
+ The percentage for the RAD variable was 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{100*round(boston.coef.summary['RAD','Prop.
+ zero'],2)}
+\end_layout
+
+\end_inset
+
+%.
 \end_layout
 
 \begin_layout Standard
@@ -3744,23 +3389,14 @@ reference "fig:boston-lagr-coefs"
  One interesting result is that LAGR indicates that the TAX variable was
  nowhere an important predictor of the median house price.
  Another is that the coefficients of CRIM and LSTAT are everywhere negative
- or zero (meaning that the increasing the crime rate or proportion of lower-stat
-us individuals reduces the median house price where the effect is discernable)
- and that of RM is positive (meaning that when the average house in a tract
- has more rooms, the median house will be more expensive).
+ or zero (meaning that a greater crime rate or proportion of lower-status
+ individuals is associated with a lower median house price where the effect
+ is discernable) and that of RM is positive (meaning that a greater average
+ number of rooms per house is associated with a greater median house price).
  The coefficient of RAD is positive in some areas and negative in others.
- This indicates that there are parts of Boston where access to radial roads
- is positively associated with an increase in the median house price and
- parts where the association is negative.
-\end_layout
-
-\begin_layout Standard
-There is not an obvious spatial pattern to the local coefficients for RAD
- - there are more tracts with negative coefficients than positive, and the
- positive coefficients do appear to be clustered, but the tracts with positive
- coefficients are also adjacent to tracts with negative coefficients.
- Indeed, there is not an obvious spatial pattern to any of the coefficient
- surfaces except for TAX, which is zero everywhere.
+ This indicates that there are parts of Boston where improved access to
+ radial roads is associates with a greater median house price and parts
+ where it is associated with a lesser median house price.
 \end_layout
 
 \begin_layout Standard
@@ -3916,81 +3552,6 @@ print(boston.coef.table, table.placement=NULL, hline.after=c(0))
 \end_layout
 
 \begin_layout Standard
-A summary of the local coefficients is in Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:boston-coefs-lagr"
-
-\end_inset
-
-.
- It indicates that RM is the only predictor variable with a positive mean
- of the local coefficients, but also that the mean of the local coefficients
- of RM is the largest coefficient - at 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{round(boston.coef.summary['RM','Mean'],2)}
-\end_layout
-
-\end_inset
-
-, it is more than twice as large in magnitude as the mean local coefficient
- of LSTAT (
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{round(boston.coef.summary['LSTAT','Mean'],2)}
-\end_layout
-
-\end_inset
-
-), which is second-largest.
-\end_layout
-
-\begin_layout Standard
-The coefficient of the CRIM variable was estimated to be exactly zero at
- 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{100*round(boston.coef.summary['CRIM','Prop.
- zero'],2)}
-\end_layout
-
-\end_inset
-
-% of the locations.
- The percentage for the RAD variable was 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-Sexpr{100*round(boston.coef.summary['RAD','Prop.
- zero'],2)}
-\end_layout
-
-\end_inset
-
-%.
-\end_layout
-
-\begin_layout Standard
 In their example using the same data, 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -3999,7 +3560,15 @@ key "Sun-Yan-Zhang-Lu-2014"
 \end_inset
 
  estimated that the coefficients of RAD annd LSTAT should be constant, at
- 0.36 and -0.45, respectively.
+ 
+\begin_inset Formula $0.36$
+\end_inset
+
+ and 
+\begin_inset Formula $-0.45$
+\end_inset
+
+, respectively.
  That conclusion differs from our result, which says that the mean local
  coefficient of RAD is actually negative (
 \begin_inset ERT
@@ -4027,7 +3596,7 @@ key "Sun-Yan-Zhang-Lu-2014"
 
 \begin_layout Section
 \start_of_appendix
-Proofs of Theorems
+Proofs of theorems
 \begin_inset CommandInset label
 LatexCommand label
 name "app:proofs"
@@ -4059,17 +3628,17 @@ reference "theorem:normality"
 
 \begin_layout Standard
 Let 
-\begin_inset Formula $V_{4}^{(n)}(\bm{u})=\mathcal{J}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}\left(\bm{\zeta}(\bm{s})\right)$
+\begin_inset Formula $H_{n}(\bm{u})=\mathcal{J}\left(\bm{\zeta}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}\left(\bm{\zeta}\left(\bm{s}\right)\right)$
 \end_inset
 
 .
- Then we have that 
+ Then, we have 
 \begin_inset Formula 
 \begin{align}
-\mkern-36muV_{4}^{(n)}(\bm{u})= & (1/2)\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} \right]^{T}\bm{W}(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} \right]\notag\\
- & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|\notag\\
- & -(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} -\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|\notag\\
- & \mkern-36mu=(1/2)\bm{u}^{T}\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}\notag\\
+H_{n}\left(\bm{u}\right)= & (1/2)\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\right\} \right]^{T}\bm{W}(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\right\} \right]\\
+ & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|\\
+ & -(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} -\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|\\
+= & (1/2)\bm{u}^{T}\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}\\
  & -\bm{u}^{T}\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\\
  & +\sum_{j=1}^{p}n^{-1/2}\phi_{j}(\bm{s})n^{1/2}\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} 
 \end{align}
@@ -4080,7 +3649,8 @@ Let
 \end_layout
 
 \begin_layout Standard
-The limiting behavior of the third term differs between the cases 
+Note that the limiting behavior of the last term differs between the cases
+ 
 \begin_inset Formula $j\le p_{0}$
 \end_inset
 
@@ -4112,11 +3682,11 @@ If
 \begin_inset Formula $|\sqrt{n}\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{j}\|$
 \end_inset
 
-.
+ .
  Thus, 
 \begin_inset Formula 
 \[
-\lim\limits _{n\to\infty}\phi_{j}(\bm{s})\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} \le h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\le h^{-1}n^{-1/2}a_{n}\|\bm{u}_{j}\|\to0
+\lim\limits _{n\to\infty}\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)\le h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\le h^{-1}n^{-1/2}a_{n}\|\bm{u}_{j}\|\to0
 \]
 
 \end_inset
@@ -4138,7 +3708,7 @@ If
 \end_inset
 
 , then 
-\begin_inset Formula $\phi_{j}(\bm{s})\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} =\phi_{j}(\bm{s})h^{-1}n^{-1/2}\|\bm{u}_{j}\|$
+\begin_inset Formula $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)=\phi_{j}(\bm{s})h^{-1}n^{-1/2}\|\bm{u}_{j}\|$
 \end_inset
 
 .
@@ -4186,11 +3756,11 @@ On the other hand, if
 
 \begin_layout Standard
 Thus, the limit of 
-\begin_inset Formula $V_{4}^{(n)}(\bm{u})$
+\begin_inset Formula $H_{n}\left(\bm{u}\right)$
 \end_inset
 
  is the same as the limit of 
-\begin_inset Formula $V_{4}^{*(n)}(\bm{u})$
+\begin_inset Formula $H_{n}^{*}\left(\bm{u}\right)$
 \end_inset
 
  where
@@ -4199,7 +3769,7 @@ Thus, the limit of
 \begin_layout Standard
 \begin_inset Formula 
 \[
-V_{4}^{*(n)}(\bm{u})=(1/2)\bm{u}^{T}\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}-\bm{u}^{T}\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right].
+H_{n}^{*}\left(\bm{u}\right)=(1/2)\bm{u}^{T}\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}-\bm{u}^{T}\left[h^{-1}n^{-1/2}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]
 \]
 
 \end_inset
@@ -4208,45 +3778,21 @@ V_{4}^{*(n)}(\bm{u})=(1/2)\bm{u}^{T}\left\{ h^{-2}n^{-1}\bm{Z}^{T}(\bm{s})\bm{W}
 \end_layout
 
 \begin_layout Standard
-
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\uuline off
-\uwave off
-\noun off
-\color none
 if 
 \begin_inset Formula $\|\bm{u}_{j}\|=0\;\forall j>p_{0}$
 \end_inset
 
- and
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\bar default
-\strikeout default
-\uuline default
-\uwave default
-\noun default
-\color inherit
- 
-\begin_inset Formula $V_{4}^{*(n)}(\bm{u})=\infty$
+, and 
+\begin_inset Formula $H_{n}^{*}\left(\bm{u}\right)=\infty$
 \end_inset
 
  otherwise.
  It follows that 
-\begin_inset Formula $V_{4}^{*(n)}(\bm{u})$
+\begin_inset Formula $H_{n}^{*}\left(\bm{u}\right)$
 \end_inset
 
  is convex and its unique minimizer 
-\begin_inset Formula $\hat{\bm{u}}^{(n)}$
+\begin_inset Formula $\hat{\bm{u}}_{n}$
 \end_inset
 
  is found by solving the equation:
@@ -4255,7 +3801,7 @@ if
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\bm{0}_{3p} & =\left\{ h^{-2}n^{-1}\bm{Z}(\bm{s})^{T}\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} \hat{\bm{u}}^{(n)}-\left[h^{-1}n^{-1/2}\bm{Z}(\bm{s})^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right].\label{eq:limit}
+0 & =\left\{ h^{-2}n^{-1}\bm{Z}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}\left(\bm{s}\right)\right\} \hat{\bm{u}}_{n}-\left[h^{-1}n^{-1/2}\bm{Z}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left\{ \bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)\right\} \right].\label{eq:limit}
 \end{align}
 
 \end_inset
@@ -4265,17 +3811,10 @@ if
 
 \begin_layout Standard
 That is, 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\hat{\bm{u}}^{(n)}=\left\{ n^{-1}\bm{Z}(\bm{s})^{T}\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\left[hn^{-1/2}\bm{Z}(\bm{s})^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right].
-\]
-
+\begin_inset Formula $\hat{\bm{u}}_{n}=\left\{ n^{-1}\bm{Z}^{T}\left(\bm{s}\right)\bm{W}\left(\bm{s}\right)\bm{Z}\left(\bm{s}\right)\right\} ^{-1}\left[hn^{-1/2}\bm{Z}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left\{ \bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)\right\} \right]$
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Standard
@@ -4312,7 +3851,7 @@ key "Sun-Yan-Zhang-Lu-2014"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\hat{\bm{u}}^{(n)}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\},f(\bm{s})\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
+\hat{\bm{u}}_{n}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\},f(\bm{s})\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
 \end{equation}
 
 \end_inset
@@ -4320,7 +3859,7 @@ key "Sun-Yan-Zhang-Lu-2014"
 the result of Theorem 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "theorem:normality-glm"
+reference "theorem:normality"
 
 \end_inset
 
@@ -4356,12 +3895,12 @@ reference "theorem:normality"
 \end_inset
 
  that 
-\begin_inset Formula $\hat{\bm{\zeta}}_{j}(\bm{s})\xrightarrow{p}\bm{\zeta}_{j}(\bm{s})+\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\}$
+\begin_inset Formula $\hat{\bm{\zeta}}_{j}\left(\bm{s}\right)\xrightarrow{p}\bm{\zeta}_{j}\left(\bm{s}\right)+\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{j}\left(\bm{s}\right)\}$
 \end_inset
 
 , so to complete the proof of selection consistency, it only remains to
  show that 
-\begin_inset Formula $P\left\{ \hat{\bm{\zeta}}_{j}(\bm{s})=\undertilde{0}\right\} \to1$
+\begin_inset Formula $Pr\left\{ \hat{\bm{\zeta}}_{j}\left(\bm{s}\right)=\utilde{0}\right\} \to1$
 \end_inset
 
  if 
@@ -4373,7 +3912,7 @@ reference "theorem:normality"
 
 \begin_layout Standard
 The proof is by contradiction.
- Without loss of generality, we consider only the case 
+ Without loss of generality we consider only the case 
 \begin_inset Formula $j=p$
 \end_inset
 
@@ -4382,27 +3921,27 @@ The proof is by contradiction.
 
 \begin_layout Standard
 Assume 
-\begin_inset Formula $\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ne\undertilde{0}$
+\begin_inset Formula $\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ne0$
 \end_inset
 
 .
  Then 
-\begin_inset Formula $Q\left\{ \bm{\zeta}(\bm{s})\right\} $
+\begin_inset Formula $\mathcal{J}\left(\bm{\zeta}\left(\bm{s}\right)\right)$
 \end_inset
 
  is differentiable w.r.t.
  
-\begin_inset Formula $\bm{\zeta}_{p}(\bm{s})$
+\begin_inset Formula $\bm{\zeta}_{p}\left(\bm{s}\right)$
 \end_inset
 
  and is minimized where 
 \begin_inset Formula 
 \begin{align}
-\undertilde{0} & =\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}_{-p}(\bm{s})\hat{\bm{\zeta}}_{-p}(\bm{s})-\bm{Z}_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})\right\} -\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag\\
- & =\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\notag\\
- & \mkern+72mu+\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{-p}(\bm{s})\left[\bm{\zeta}_{-p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{-p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{-p}(\bm{s})\right]\notag\\
- & \mkern+72mu+\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{p}(\bm{s})\left[\bm{\zeta}_{p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{p}(\bm{s})\right]\notag\\
- & \mkern+72mu-\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag\\
+\utilde{0}= & \bm{Z}_{p}^{T}\left(\bm{s}\right)\bm{W}\left(\bm{s}\right)\left\{ \bm{Y}-\bm{Z}_{-p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)-\bm{Z}_{p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\right\} -\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}\\
+= & \bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left[\bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \right]\\
+ & +\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{-p}\left(\bm{s}\right)\left[\bm{\zeta}_{-p}\left(\bm{s}\right)+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{-p}\left(\bm{s}\right)\right\} -\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)\right]\\
+ & +\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{p}\left(\bm{s}\right)\left[\bm{\zeta}_{p}\left(\bm{s}\right)+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)\right\} -\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\right]\\
+ & -\phi_{p}\left(\bm{s}\right)\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}
 \end{align}
 
 \end_inset
@@ -4414,10 +3953,10 @@ Assume
 Thus, 
 \begin_inset Formula 
 \begin{align}
-\frac{h}{\sqrt{n}}\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}=\label{eq:selection}\\
- & \bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\frac{h}{\sqrt{n}}\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\\
- & +\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{-p}(\bm{s})\right\} h\sqrt{n}\left[\bm{\zeta}_{-p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{-p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{-p}(\bm{s})\right]\\
- & +\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{p}(\bm{s})\right\} h\sqrt{n}\left[\bm{\zeta}_{p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{p}(\bm{s})\right]
+\frac{h}{\sqrt{n}}\phi_{p}\left(\bm{s}\right)\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}=\label{eq:selection}\\
+ & \bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\frac{h}{\sqrt{n}}\left[\bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \right]\\
+ & +\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}(\bm{s})\bm{Z}_{-p}\left(\bm{s}\right)\right\} h\sqrt{n}\left[\bm{\zeta}_{-p}\left(\bm{s}\right)+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{-p}\left(\bm{s}\right)\right\} -\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)\right]\notag\\
+ & +\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{p}\left(\bm{s}\right)\right\} h\sqrt{n}\left[\bm{\zeta}_{p}\left(\bm{s}\right)+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)\right\} -\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\right]
 \end{align}
 
 \end_inset
@@ -4434,11 +3973,11 @@ key "Sun-Yan-Zhang-Lu-2014"
 \end_inset
 
 , 
-\begin_inset Formula $n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{-p}(\bm{s})=O_{p}(1)$
+\begin_inset Formula $\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{-p}\left(\bm{s}\right)\right\} =O_{p}\left(1\right)$
 \end_inset
 
  and 
-\begin_inset Formula $n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}_{p}(\bm{s})=O_{p}(1)$
+\begin_inset Formula $\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{p}\left(\bm{s}\right)\right\} =O_{p}\left(1\right)$
 \end_inset
 
 .
@@ -4453,42 +3992,31 @@ key "Sun-Yan-Zhang-Lu-2014"
 \end_inset
 
 , we have that 
-\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{-p}(\bm{s})-\bm{\zeta}_{-p}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{-p}(\bm{s})+\nabla_{vv}^{2}\zeta_{-p}(\bm{s})\right\} \right]=O_{p}(1)$
+\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)-\bm{\zeta}_{-p}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{-p}\left(\bm{s}\right)+\nabla_{vv}^{2}\zeta_{-p}\left(\bm{s}\right)\right\} \right]=O_{p}\left(1\right)$
 \end_inset
 
  and 
-\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{p}(\bm{s})-\bm{\zeta}_{p}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{p}(\bm{s})+\nabla_{vv}^{2}\zeta_{p}(\bm{s})\right\} \right]=O_{p}(1)$
+\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)-\bm{\zeta}_{p}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{p}\left(\bm{s}\right)+\nabla_{vv}^{2}\zeta_{p}\left(\bm{s}\right)\right\} \right]=O_{p}\left(1\right)$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Standard
-Thus, the second and third terms of the sum in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:selection"
-
-\end_inset
-
-) are 
-\begin_inset Formula $O_{p}(1)$
-\end_inset
-
-, and we showed in the proof of Theorem 
+We showed in the proof of Theorem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "theorem:normality"
 
 \end_inset
 
- that 
+ that
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-h\sqrt{n}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]=O_{p}(1).
+h\sqrt{n}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left[\bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \right]=O_{p}\left(1\right).
 \]
 
 \end_inset
@@ -4497,23 +4025,23 @@ h\sqrt{n}\bm{Z}_{p}^{T}(\bm{s})\bm{W}(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zet
 \end_layout
 
 \begin_layout Standard
-The three terms of the sum to the right of the equals sign in (
+The right hand side of (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:selection"
 
 \end_inset
 
-) are 
+) is 
 \begin_inset Formula $O_{p}(1)$
 \end_inset
 
 , so for 
-\begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})$
+\begin_inset Formula $\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)$
 \end_inset
 
  to be a solution, we must have that 
-\begin_inset Formula $hn^{-1/2}\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|=O_{p}(1)$
+\begin_inset Formula $hn^{-1/2}\phi_{p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)/\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|=O_{p}\left(1\right)$
 \end_inset
 
 .
@@ -4521,7 +4049,7 @@ reference "eq:selection"
 
 \begin_layout Standard
 But since by assumption 
-\begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})\ne\undertilde{0}$
+\begin_inset Formula $\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\ne\utilde{0}$
 \end_inset
 
 , there must be some 
@@ -4529,7 +4057,7 @@ But since by assumption
 \end_inset
 
  such that 
-\begin_inset Formula $|\hat{\zeta}_{p_{k}}(\bm{s})|=\max\{|\hat{\zeta}_{p_{k'}}(\bm{s})|:1\le k'\le3\}$
+\begin_inset Formula $|\hat{\zeta}_{p_{k}}\left(\bm{s}\right)|=\max\{|\hat{\zeta}_{p_{k'}}\left(\bm{s}\right)|:1\le k'\le3\}$
 \end_inset
 
 .
@@ -4538,48 +4066,43 @@ But since by assumption
 \end_inset
 
 , we have that 
-\begin_inset Formula $|\hat{\zeta}_{p_{k}}(\bm{s})|/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ge1/\sqrt{3}>0$
+\begin_inset Formula $|\hat{\zeta}_{p_{k}}\left(\bm{s}\right)|/\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|\ge1/\sqrt{3}>0$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Standard
-Now since 
+Since 
 \begin_inset Formula $hn^{-1/2}b_{n}\to\infty$
 \end_inset
 
 , we have that 
-\begin_inset Formula $hn^{-1/2}\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ge hb_{n}/\sqrt{3n}\to\infty$
+\begin_inset Formula $hn^{-1/2}\phi_{p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)/\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|\ge hb_{n}/\sqrt{3n}\to\infty$
 \end_inset
 
- and therefore the term to the left of the equals sign dominates the sum
- to the right of the equals sign in (
+ and therefore the left hand side of 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:selection"
 
 \end_inset
 
-).
+ dominates the sum to the right side.
  Thus, for large enough 
 \begin_inset Formula $n$
 \end_inset
 
 , 
-\begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})\ne\undertilde{0}$
+\begin_inset Formula $\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\ne\utilde{0}$
 \end_inset
 
  cannot maximize 
-\begin_inset Formula $\mathcal{J}$
+\begin_inset Formula $\mathcal{J}\left(\cdot\right)$
 \end_inset
 
-.
-\end_layout
-
-\begin_layout Standard
-Thus, 
-\begin_inset Formula $P\left\{ \hat{\bm{\zeta}}_{(b)}(\bm{s})=\undertilde{0}\right\} \to1$
+, and therefore 
+\begin_inset Formula $Pr\left\{ \hat{\bm{\zeta}}_{(b)}\left(\bm{s}\right)=\utilde{0}\right\} \to1$
 \end_inset
 
 .
@@ -4638,13 +4161,16 @@ Define the
 
 \begin_layout Plain Layout
 Define 
-\begin_inset Formula $H^{(n)}(\bm{u})$
+\begin_inset Formula $H_{n}(\bm{u})=\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)$
 \end_inset
 
- to be 
+.
+ Then, 
 \begin_inset Formula 
 \begin{align}
-H^{(n)}(\bm{u})= & \mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})\right)\label{eq:consistency-glm}
+H_{n}(\bm{u})= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\right),Y(\bm{s}_{i})\right)\\
+ & -\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right)\right),Y\left(\bm{s}_{i}\right)\right)\\
+ & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|-+\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)\|
 \end{align}
 
 \end_inset
@@ -4653,38 +4179,14 @@ H^{(n)}(\bm{u})= & \mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\
 \end_layout
 
 \begin_layout Plain Layout
-Let 
-\begin_inset Formula $\bar{\eta}_{i}\left(\bm{s}\right)=\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{\zeta}(\bm{s})$
-\end_inset
-
- be the fitted value of 
-\begin_inset Formula $\eta\left(\bm{s}_{i}\right)$
-\end_inset
-
- based on the coefficients at 
-\begin_inset Formula $\bm{s}_{i}$
-\end_inset
-
-.
- Then the Taylor expansion of 
-\begin_inset Formula $\mathcal{J}^{*}\left\{ \bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right\} $
-\end_inset
-
- around 
-\begin_inset Formula $\bm{\zeta}\left(\bm{s}\right)$
-\end_inset
-
- is:
+Define
 \end_layout
 
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align*}
-\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)= & \mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})\right)\\
- & +h^{-1}n^{-1/2}\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)q_{1}\left(\bar{\eta}_{i}\left(\bm{s}\right),y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{u}\\
- & +h^{-2}n^{-1}\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)q_{2}\left(\bar{\eta}_{i}\left(\bm{s}\right),y\left(\bm{s}_{i}\right)\right)\bm{u}^{T}\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{u}\\
- & +h^{-3}n^{-3/2}\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)q_{3}\left(\tilde{\eta}_{i},y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{u}\right]^{3}\\
- & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\|
+A_{1}\left(\bm{s}\right)= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\\
+A_{2}\left(\bm{s}\right)= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}.
 \end{align*}
 
 \end_inset
@@ -4693,38 +4195,28 @@ Let
 \end_layout
 
 \begin_layout Plain Layout
-where 
-\begin_inset Formula $\tilde{\eta}_{i}$
+\begin_inset Formula $ $
 \end_inset
 
- is between 
-\begin_inset Formula $\bar{\eta}_{i}\left(\bm{s}\right)$
+Then taking the Taylor expansion of 
+\begin_inset Formula $\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\right)$
 \end_inset
 
- and 
-\begin_inset Formula $\bar{\eta}_{i}\left(\bm{s}\right)+h^{-1}n^{-1/2}\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{u}$
+ around 
+\begin_inset Formula $\bm{\zeta}\left(\bm{s}\right)$
 \end_inset
 
-.
- Let 
-\begin_inset Formula $A_{1}\left(\bm{s}\right)=\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)q_{1}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{\zeta}(\bm{s}),y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}$
-\end_inset
-
- and 
-\begin_inset Formula $A_{2}\left(\bm{s}\right)=\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)q_{2}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{\zeta}(\bm{s}),y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}$
-\end_inset
-
-.
- Now,
+ give us:
 \end_layout
 
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{align}
-H^{(n)}(\bm{u})= & h^{-1}n^{-1/2}A_{1}\left(\bm{s}\right)\bm{u}\label{eq:glm-Taylor-expansion}\\
- & +h^{-2}n^{-1}\bm{u}^{T}A_{2}\left(\bm{s}\right)\bm{u}\\
- & +h^{-3}n^{-3/2}\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)q_{3}\left(\tilde{\eta}_{i},y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{u}\right]^{3}\\
- & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} \nonumber 
+\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)= & \mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)\label{eq:glm-Taylor-expansion}\\
+ & +A_{1}\left(\bm{s}\right)^{T}\bm{u}\\
+ & +(1/2)\bm{u}^{T}A_{2}\left(\bm{s}\right)\bm{u}\\
+ & +\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}\\
+ & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|\nonumber 
 \end{align}
 
 \end_inset
@@ -4746,246 +4238,17 @@ where
 \end_inset
 
 .
- Now the difference 
-\begin_inset Formula $H^{(n)}(\bm{u})=\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})\right)$
-\end_inset
-
- is 
+ Thus,
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Formula 
-\begin{align*}
-H^{(n)}(\bm{u})= & h^{-1}n^{-1/2}\bm{u}\sum_{i=1}^{n}q_{1}\left(\bm{Z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}),Y\left(\bm{s}_{i}\right)\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
- & +h^{-2}n^{-1}\bm{u}'\bm{u}\sum_{i=1}^{n}q_{2}\left(\bm{Z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}),Y\left(\bm{s}_{i}\right)\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
- & +\left(h^{-1}n^{-1/2}\bm{u}\right)^{3}\sum_{i=1}^{n}q_{3}\left(\tilde{\eta}_{i},Y\left(\bm{s}_{i}\right)\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
- & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} 
-\end{align*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-The limiting behavior of the fourth term differs between the cases 
-\begin_inset Formula $j\le p_{0}$
-\end_inset
-
- and 
-\begin_inset Formula $j>p_{0}$
-\end_inset
-
-:
-\end_layout
-
-\begin_layout Paragraph
-Case 
-\begin_inset Formula $j\le p_{0}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-If 
-\begin_inset Formula $j\le p_{0}$
-\end_inset
-
- then 
-\begin_inset Formula $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|^{-\gamma}$
-\end_inset
-
- and 
-\begin_inset Formula $|\sqrt{n}\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{j}\|$
-\end_inset
-
- so 
-\begin_inset Formula 
-\[
-\lim\limits _{n\to\infty}\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)\le h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\le h^{-1}n^{-1/2}a_{n}\|\bm{u}_{j}\|\to0
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Paragraph
-Case 
-\begin_inset Formula $j>p_{0}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-If 
-\begin_inset Formula $j>p_{0}$
-\end_inset
-
- then 
-\begin_inset Formula $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)=\phi_{j}(\bm{s})h^{-1}n^{-1/2}\|\bm{u}_{j}\|$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-And note that 
-\begin_inset Formula $h=O(n^{-1/6})$
-\end_inset
-
- so that if 
-\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-\end_inset
-
- then 
-\begin_inset Formula $h^{-1}n^{-1/2}b_{n}\xrightarrow{p}\infty$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-Now, if 
-\begin_inset Formula $\|\bm{u}_{j}\|\ne0$
-\end_inset
-
- then 
-\begin_inset Formula 
-\[
-h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\ge h^{-1}n^{-1/2}b_{n}\|\bm{u}_{j}\|\to\infty.
-\]
-
-\end_inset
-
-On the other hand, if 
-\begin_inset Formula $\|\bm{u}_{j}\|=0$
-\end_inset
-
- then 
-\begin_inset Formula $h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|=0$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-By the epiconvergence results of 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Geyer-1994"
-
-\end_inset
-
- and 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Knight-Fu-2000"
-
-\end_inset
-
-, the minimizer of the limiting function is the limit of the minimizers
- 
-\begin_inset Formula $\hat{\bm{u}}^{(n)}$
-\end_inset
-
-.
- And if
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula 
-\begin{equation}
-\hat{\bm{u}}^{(n)}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\},f(\bm{s})\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Gamma\left(\bm{s}\right)^{-1}\right)
-\end{equation}
-
-\end_inset
-
-the result is proven.
-\end_layout
-
-\begin_layout Proof
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-Proof of theorem 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "theorem:selection-glm"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Proof
-We showed in Theorem 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "theorem:normality-glm"
-
-\end_inset
-
- that 
-\begin_inset Formula $\hat{\bm{\zeta}}_{j}(\bm{s})\xrightarrow{p}\bm{\zeta}_{j}(\bm{s})+\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\}$
-\end_inset
-
-, so to complete the proof of selection consistency, it only remains to
- show that 
-\begin_inset Formula $P\left\{ \hat{\bm{\zeta}}_{j}(\bm{s})=0\right\} \to1$
-\end_inset
-
- if 
-\begin_inset Formula $j>p_{0}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-The proof is by contradiction.
- Without loss of generality we consider only the case 
-\begin_inset Formula $j=p$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-Assume 
-\begin_inset Formula $\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ne0$
-\end_inset
-
-.
- Then 
-\begin_inset Formula $\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})\right)$
-\end_inset
-
- is differentiable w.r.t.
- 
-\begin_inset Formula $\bm{\zeta}_{p}(\bm{s})$
-\end_inset
-
- and is minimized where 
 \begin_inset Formula 
 \begin{align}
-0 & =\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\left\{ \bm{\Omega}-\bm{Z}_{-p}(\bm{s})\hat{\bm{\zeta}}_{-p}(\bm{s})-\bm{Z}_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})\right\} -\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag\\
- & =\bm{Z}_{p}^{T}(\bm{s})T(\bm{s})\left[\bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\notag\\
- & \mkern+72mu+\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{-p}(\bm{s})\left[\bm{\zeta}_{-p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{-p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{-p}(\bm{s})\right]\notag\\
- & \mkern+72mu+\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{p}(\bm{s})\left[\bm{\zeta}_{p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{p}(\bm{s})\right]\notag\\
- & \mkern+72mu-\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|}\notag\\
+H_{n}\left(\bm{u}\right)= & \mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)\label{eq:glm-Taylor-expansion-1}\\
+ & +A_{1}\left(\bm{s}\right)^{T}\bm{u}\\
+ & +(1/2)\bm{u}^{T}A_{2}\left(\bm{s}\right)\bm{u}\\
+ & +\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}\\
+ & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\left\{ \|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{j}\left(\bm{s}\right)\|\right\} \nonumber 
 \end{align}
 
 \end_inset
@@ -4994,168 +4257,7 @@ Assume
 \end_layout
 
 \begin_layout Plain Layout
-So 
-\begin_inset Formula 
-\begin{align}
-\frac{h}{\sqrt{n}}\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}(\bm{s})}{\|\hat{\bm{\zeta}}_{p}(\bm{s})\|} & =\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\frac{h}{\sqrt{n}}\left[\bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\notag\label{eq:selection-glm}\\
- & +\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{-p}(\bm{s})\right\} h\sqrt{n}\left[\bm{\zeta}_{-p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{-p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{-p}(\bm{s})\right]\notag\\
- & +\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{p}(\bm{s})\right\} h\sqrt{n}\left[\bm{\zeta}_{p}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{p}(\bm{s})\right\} -\hat{\bm{\zeta}}_{p}(\bm{s})\right]
-\end{align}
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-By assumption, 
-\begin_inset Formula $\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{-p}(\bm{s})\right\} =O_{p}(1)$
-\end_inset
-
- and 
-\begin_inset Formula $\left\{ n^{-1}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\bm{Z}_{p}(\bm{s})\right\} =O_{p}(1)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-From Theorem 3 of 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Sun-Yan-Zhang-Lu-2014"
-
-\end_inset
-
-, we have that 
-\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{-p}(\bm{s})-\bm{\zeta}_{-p}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{-p}(\bm{s})+\nabla_{vv}^{2}\zeta_{-p}(\bm{s})\right\} \right]=O_{p}(1)$
-\end_inset
-
- and 
-\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{p}(\bm{s})-\bm{\zeta}_{p}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{p}(\bm{s})+\nabla_{vv}^{2}\zeta_{p}(\bm{s})\right\} \right]=O_{p}(1)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-So the second and third terms of the sum in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:selection-glm"
-
-\end_inset
-
-) are 
-\begin_inset Formula $O_{p}(1)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-We showed in the proof of 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "theorem:normality"
-
-\end_inset
-
- that 
-\begin_inset Formula $h\sqrt{n}\bm{Z}_{p}^{T}(\bm{s})\bm{T}(\bm{s})\left[\bm{\Omega}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]=O_{p}(1)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-The three terms of the sum to the right of the equals sign in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:selection-glm"
-
-\end_inset
-
-) are 
-\begin_inset Formula $O_{p}(1)$
-\end_inset
-
-, so for 
-\begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})$
-\end_inset
-
- to be a solution, we must have that 
-\begin_inset Formula $hn^{-1/2}\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|=O_{p}(1)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-But since by assumption 
-\begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})\ne0$
-\end_inset
-
-, there must be some 
-\begin_inset Formula $k\in\{1,\dots,3\}$
-\end_inset
-
- such that 
-\begin_inset Formula $|\hat{\zeta}_{p_{k}}(\bm{s})|=\max\{|\hat{\zeta}_{p_{k'}}(\bm{s})|:1\le k'\le3\}$
-\end_inset
-
-.
- And for this 
-\begin_inset Formula $k$
-\end_inset
-
-, we have that 
-\begin_inset Formula $|\hat{\zeta}_{p_{k}}(\bm{s})|/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ge1/\sqrt{3}>0$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-Now since 
-\begin_inset Formula $hn^{-1/2}b_{n}\to\infty$
-\end_inset
-
-, we have that 
-\begin_inset Formula $hn^{-1/2}\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{p}(\bm{s})/\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ge hb_{n}/\sqrt{3n}\to\infty$
-\end_inset
-
- and therefore the term to the left of the equals sign dominates the sum
- to the right of the equals sign in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:selection-glm"
-
-\end_inset
-
-).
- So for large enough 
-\begin_inset Formula $n$
-\end_inset
-
-, 
-\begin_inset Formula $\hat{\bm{\zeta}}_{p}(\bm{s})\ne0$
-\end_inset
-
- cannot maximize 
-\begin_inset Formula $Q$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-So 
-\begin_inset Formula $P\left\{ \hat{\bm{\zeta}}_{(b)}(\bm{s})=0\right\} \to1$
-\end_inset
-
-.
- 
 \end_layout
 
 \end_inset
