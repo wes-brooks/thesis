@@ -100,19 +100,15 @@ decide which variables should be included in the model, meaning that
 predictors are identified as relevant or irrelevant over the entire
 domain $\mathcal{D}$. \cite{Antoniadis:2012a} describe a method
 for globally selecting the relevant predictors in a VCR model where
-the coefficient functions are estimated with P-splines, and \cite{Wang-2008a}
+the coefficient functions are estimated with P-splines. \cite{Wang-2008a}
 show a method for doing global variable selection in a VCR model where
 the coefficient functions are estimated by basis expansion.
 
 Local adaptive grouped regularization (LAGR) is developed here as
 a method to select only the locally relevant predictors at any specific
 location $\bm{s}$ in the domain $\mathcal{D}$ of a VCR model. The
-method of LAGR is applies to VCR models where the coefficients are
-estimated using locally linear kernel smoothing. We show that LAGR
-posesses the oracle properties of asymptotically selecting exactly
-the correct local predictors and estimating their local coefficients
-as accurately as would be possible if the identity of the nonzero
-coefficients for the local model were known in advance.
+method of LAGR applies to VCR models where the coefficients are estimated
+using locally linear kernel smoothing.
 
 Using kernel smoothing for nonparametric regression is described in
 detail in \cite{Fan-Gijbels-1996}. The extension to estimating VCR
@@ -134,7 +130,11 @@ groups that are known in advance, the adaptive group lasso \cite{Yuan-Lin-2006,W
 has similar oracle properties to the adaptive lasso while doing selection
 at the level of groups rather than individual variables. The proposed
 LAGR method uses the adaptive group lasso for local variable selection
-and coefficient estimation in a locally linear regression model.
+and coefficient estimation in a locally linear regression model. We
+show that LAGR posesses the oracle properties of asymptotically selecting
+exactly the correct local covariates and estimating their local coefficients
+as accurately as would be possible if the identity of the nonzero
+coefficients for the local model were known in advance.
 
 The remainder of this document is organized as follows. The kernel-based
 VCR model is described in Section \ref{sec:vcr}; the proposed LAGR
@@ -158,8 +158,8 @@ denote, respectively, the univariate response and the $(p+1)$-variate
 vector of covariates measured at location $\bm{s}_{i}$. At each location
 $\bm{s}_{i}$, assume that the outcome is related to the covariates
 by a linear regression where the coefficients $\bm{\beta}(\bm{s}_{i})$
-may be spatially-varying and $\varepsilon(\bm{s}_{i})$ is random
-error at location $\bm{s}_{i}$. That is, 
+are functions in two dimensions and $\varepsilon(\bm{s}_{i})$ is
+random error at location $\bm{s}_{i}$. That is, 
 \begin{align}
 y(\bm{s}_{i})=\bm{x}(\bm{s}_{i})'\bm{\beta}(\bm{s}_{i})+\varepsilon(\bm{s}_{i}).\label{eq:lm(s)}
 \end{align}
@@ -181,7 +181,7 @@ local design matrix with covariate-by-location interactions in two
 dimensions \cite{Wang-2008b}. The augmented local design matrix at
 location $\bm{s}_{i}$ is 
 \begin{align}
-\bm{Z}(\bm{s}_{i})=\left(\bm{X}\:\: L_{i}\bm{X}\:\: M_{i}\bm{X}\right)
+\bm{Z}(\bm{s}_{i})=\left(\bm{X}\:\:\bm{L}_{i}\bm{X}\:\:\bm{M}_{i}\bm{X}\right)
 \end{align}
 
 
@@ -528,9 +528,13 @@ if $j>p_{0}$. \end{thm}
 
 \section{Simulations\label{sec:simulations}}
 
-A simulation study was conducted to assess the performance of the
-method described in Sections \ref{sec:vcr}--\ref{sec:lagr-gaussian}. 
 
+
+
+\subsection{Simulation Setup}
+
+A simulation study was conducted to assess the performance of the
+method described in Sections \ref{sec:vcr}--\ref{sec:lagr-gaussian}.
 Data were simulated on the domain $[0,1]^{2}$, which was divided
 into a $30\times30$ grid. Each of $p=5$ covariates $X_{1},\dots,X_{5}$
 was simulated by a Gaussian random field with mean zero and exponential
@@ -597,103 +601,96 @@ in Table \ref{tab:simulation-settings}.
 
 
 
-\subsection{Methods for comparison}
-
-The performance of LAGR was compared to that of a VCR model without
-variable selection, and to a VCR model with oracular selection. Oracular
-selection means that exactly the correct set of covariates was used
-to fit each local model.
-
-
-\subsection{Results}
+\subsection{Simulation Results}
 
 The results are presented in terms of the mean integrated squared
 error (MISE) of the coefficient surface estimates $\hat{\beta}_{1}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$,
 the MISE of the fitted response $\hat{y}(\bm{s})$, and the frequency
 with which the coefficient surface estimates $\hat{\beta}_{1}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$
-in the LAGR model were zero.
-
-The MISE of the estimates of $\beta_{1}(\bm{s})$ are in Table \ref{tab:x1-mise}.
+estimated by LAGR were zero. The performance of LAGR was compared
+to that of a VCR model without variable selection, and to a VCR model
+with oracular selection. Oracular selection means that exactly the
+correct set of covariates was used to fit each local model.
 
 \begin{table}
-	\begin{tabular}{cccccc}
-		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}^{2}$ & LAGR & VCR & Oracle \\
+	\begin{tabular}{ccc|ccc|cc}
+		\multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}Simulation\\settings\end{tabular}} & \multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{\beta}_1$\end{tabular}} & \multicolumn{2}{c}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{\beta}_2, \dots, \hat{\beta}_5$\end{tabular}} \\
+		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & LAGR & VCR & Oracle & LAGR & VCR \\
 		\hline 
 
-\begin{kframe}
-
-
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: cannot open compressed file '/Users/wesley/scratch/gwr-sim-output.RData', probable reason 'No such file or directory'}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: cannot open the connection}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'output' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: subscript out of bounds}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: subscript out of bounds}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'output' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: subscript out of bounds}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: length of 'dimnames' [2] not equal to array extent}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: number of rows of matrices must match (see arg 2)}}\end{kframe}
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Tue Jul  8 19:03:52 2014
+  \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
+    &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
+    &  & 1.0 & \emph{0.03} & 0.05 & \textbf{0.02} & \textbf{0.00} & 0.03 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & \emph{0.03} & 0.05 & \textbf{0.01} & \textbf{0.00} & 0.04 \\ 
+    &  & 1.0 & \emph{0.12} & 0.17 & \textbf{0.02} & \textbf{0.02} & 0.15 \\ 
+   \hline \multirow{6}{*}{gradient} & \multirow{2}{*}{0} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.00} & \textbf{0.00} & 0.00 \\ 
+    &  & 1.0 & 0.03 & \emph{0.02} & \textbf{0.01} & \textbf{0.00} & 0.02 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.00} & \textbf{0.00} & 0.01 \\ 
+    &  & 1.0 & 0.04 & \emph{0.03} & \textbf{0.01} & \textbf{0.00} & 0.03 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & \emph{0.03} & 0.04 & \textbf{0.00} & \textbf{0.00} & 0.04 \\ 
+    &  & 1.0 & \emph{0.14} & 0.14 & \textbf{0.01} & \textbf{0.02} & 0.15 \\ 
+   \hline \multirow{6}{*}{parabola} & \multirow{2}{*}{0} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.01} & \textbf{0.00} & 0.00 \\ 
+    &  & 1.0 & 0.03 & \emph{0.02} & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
+    &  & 1.0 & 0.03 & \emph{0.03} & \textbf{0.02} & \textbf{0.00} & 0.03 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & \emph{0.02} & 0.04 & \textbf{0.01} & \textbf{0.00} & 0.04 \\ 
+    &  & 1.0 & 0.17 & \emph{0.14} & \textbf{0.02} & \textbf{0.03} & 0.15 \\ 
+  
 
 	\end{tabular}
 	\caption{Listing of the simulation settings used to assess the performance of LAGR models versus oracle selection and no selection.}
-	\label{tab:simulation-settings}
+	\label{tab:mise}
 \end{table}
 
+The MISE of the estimates of $\beta_{1}(\bm{s})$ are in Table \ref{tab:misex}.
 Recall that $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$ are exactly
 zero across the entire domain. Oracle selection will estimate these
 coefficients perfectly, so we focus on the comparison between estimation
 by LAGR and by the VCR model with no selection. The MISE of the estimates
 of $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$ for each simulation
-setting are enumerated in Table \ref{tab:x2-x5-mise}, which shows
-that for every simulation setting, LAGR selection and estimation is
-more accurate than the standard VCR model.
-
-\begin{kframe}
+setting are enumerated in Table \ref{tab:misex}, which shows that
+for every simulation setting, LAGR selection and estimation is more
+accurate than the standard VCR model.
 
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: cannot open compressed file '/Users/wesley/scratch/gwr-sim-output.RData', probable reason 'No such file or directory'}}
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: cannot open the connection}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'pzero' not found}}\end{kframe}
-
-From Table \ref{tab:pzero} we see that LAGR has good ability to identify
-non-important predictors. The frequency with which $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
-were dropped from the LAGR models ranged from \ensuremath{\infty{}}
-to \ensuremath{-\infty{}}.
+From Table \ref{tab:misey} we see that LAGR has good ability to identify
+zero-coefficient covariates. The frequency with which $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+were dropped from the LAGR models ranged from 0.78
+to 0.97.
 
 \begin{table}
-	\begin{tabular}{cccccc}
-		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}^{2}$ & Frequency & LAGR & VCR & Oracle \\
+	\begin{tabular}{ccc|c|ccc}
+		\multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}Simulation\\settings\end{tabular}} &  \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Zero\\frequency\end{tabular}} &  \multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{y}$\end{tabular}} \\
+		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & $\hat{\beta}_2,\dots,\hat{\beta}_5 & LAGR & VCR & Oracle \\
 		\hline 
 
-\begin{kframe}
-
-
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: cannot open compressed file '/Users/wesley/scratch/gwr-sim-output.RData', probable reason 'No such file or directory'}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: cannot open the connection}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'misey' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'misey' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'misey' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'misey' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'misey' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'misey.table' not found}}\end{kframe}
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Tue Jul  8 19:03:54 2014
+  \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
+    &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
+    &  & 1.0 & 0.92 & \emph{0.99} & \textbf{1.00} & 0.98 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & 0.86 & \emph{0.27} & 0.30 & \textbf{0.25} \\ 
+    &  & 1.0 & 0.85 & \emph{1.08} & 1.14 & \textbf{0.98} \\ 
+   \hline \multirow{6}{*}{gradient} & \multirow{2}{*}{0} & 0.5 & 0.96 & \emph{0.25} & \textbf{0.25} & 0.25 \\ 
+    &  & 1.0 & 0.95 & \textbf{0.99} & \emph{0.99} & 0.97 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.94 & \emph{0.25} & \textbf{0.25} & 0.24 \\ 
+    &  & 1.0 & 0.92 & \emph{1.00} & \textbf{1.00} & 0.97 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & 0.80 & \emph{0.27} & 0.28 & \textbf{0.24} \\ 
+    &  & 1.0 & 0.85 & \emph{1.09} & 1.12 & \textbf{0.97} \\ 
+   \hline \multirow{6}{*}{parabola} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & \textbf{0.25} & 0.25 \\ 
+    &  & 1.0 & 0.94 & \textbf{1.00} & \emph{1.00} & 0.98 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.95 & \textbf{0.25} & 0.25 & \emph{0.25} \\ 
+    &  & 1.0 & 0.88 & \textbf{1.00} & \emph{1.00} & 0.97 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & 0.79 & \emph{0.26} & 0.28 & \textbf{0.24} \\ 
+    &  & 1.0 & 0.78 & 1.13 & \emph{1.12} & \textbf{0.98} \\ 
+  
 	\end{tabular}
-	\caption{The MISE for the fitted output in each simulation setting, under variable selection via LAGR, no variable selection, and oracular variable selection. Highlighting indicates the \\textbf{closest} and \\emph{next-closest} to the actual error variance $\\sigma_\\varepsilon^2$ for that setting.}
+	\caption{The MISE for the fitted output in each simulation setting, under variable selection via LAGR, no variable selection, and oracular variable selection. Highlighting indicates the \textbf{closest} and \emph{next-closest} to the actual error variance $\sigma_\varepsilon^2$ for that setting.}
 	\label{tab:misey}
 \end{table}
 
@@ -715,64 +712,67 @@ for estimating $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$.
 There was minimal difference in the performance of the proposed LAGR
 method between low ($\sigma_{\varepsilon}=0.5$) and high ($\sigma_{\varepsilon}=1$)
 error variance, and between no ($\rho=0$) and moderate ($\rho=0.5$)
-correlation among the predictor variables. But the selection and estimation
+correlation among the covariates. But the selection and estimation
 accuracy did decline when there was high ($\rho=0.9$) correlation
 among the predictor variables.
 
 
 \section{Data example\label{sec:example}}
 
+
+
+
 The proposed LAGR estimation method was used to estimate the coefficients
 in a VCR model of the effect of some covariates on the price of homes
-in Boston. The data source is the Boston house price data set of \cite{Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997},
-which is based on the 1970 U.S. census. In the data, we have the median
-price of homes sold in 506 census tracts (MEDV), along with some potential
-predictor variables. The predictor variables are CRIM (the per-capita
-crime rate in the tract), RM (the mean number of rooms for houses
-sold in the tract), RAD (an index of how accessible the tract is from
-Boston's radial roads), TAX (the property tax per \$10,000 of property
-value), and LSTAT (the percentage of the tract's residents who are
-considered ``lower status'').
+in Boston \cite{Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997}.
+The data source is based on the 1970 U.S. census. In the data, we
+have the median price of homes sold in 506 census tracts (MEDV), along
+with some potential predictor variables. The predictor variables are
+CRIM (the per-capita crime rate in the tract), RM (the mean number
+of rooms for houses sold in the tract), RAD (an index of how accessible
+the tract is from Boston's radial roads), TAX (the property tax per
+\$10,000 of property value), and LSTAT (the percentage of the tract's
+residents who are considered ``lower status'').
 
 The bandwidth parameter was set to 0.2 for a nearest neighbors-type
 bandwidth, meaning that the sum of kernel weights for each local model
 was 20\% of the total number of observations. The kernel used was
 the Epanechnikov kernel.
 
-
-\subsection{Results}
-
-Estimates of the regression coefficients are plotted in Figure \ref{fig:boston-lagr-coefs}.
+A summary of the local coefficients is in Table \ref{tab:boston-coefs-lagr}.
+It indicates that RM is the only predictor variable with a positive
+mean of the local coefficients, but also that the mean of the local
+coefficients of RM is the largest coefficient - at 1.92,
+it is more than twice as large in magnitude as the mean local coefficient
+of LSTAT (\ensuremath{-0.72}),
+which is second-largest. The coefficient of the CRIM variable was
+estimated to be exactly zero at 49\%
+of the locations. The percentage for the RAD variable was 37\%.
 
 \begin{figure}
 
 \includegraphics[width=\maxwidth]{figure/boston-plots} 
 
 
-\caption{The coefficients for the boston house price data as estimated by LAGR.\label{fig:boston-lagr-coefs}}
+\caption{The LAGR estimates of coefficients for the Boston house price data.\label{fig:boston-lagr-coefs}}
 \end{figure}
 
+Estimates of the regression coefficients are plotted in Figure \ref{fig:boston-lagr-coefs}.
 One interesting result is that LAGR indicates that the TAX variable
 was nowhere an important predictor of the median house price. Another
 is that the coefficients of CRIM and LSTAT are everywhere negative
-or zero (meaning that the increasing the crime rate or proportion
-of lower-status individuals reduces the median house price where the
-effect is discernable) and that of RM is positive (meaning that when
-the average house in a tract has more rooms, the median house will
-be more expensive), but the coefficient of RAD is positive in some
-areas and negative in others. This indicates that there are parts
-of Boston where improved access to radial roads increases the median
-house price and parts where it decreases the median house price.
-
-There is not an obvious spatial pattern to the local coefficients
-for RAD - there are more tracts with negative coefficients than positive,
-and the positive coefficients do appear to be clustered, but the tracts
-with positive coefficients are also adjacent to tracts with negative
-coefficients. Indeed, there is not an obvious spatial pattern to any
-of the coefficient surfaces except for TAX, which is zero everywhere.
+or zero (meaning that a greater crime rate or proportion of lower-status
+individuals is associated with a lower median house price where the
+effect is discernable) and that of RM is positive (meaning that a
+greater average number of rooms per house is associated with a greater
+median house price). The coefficient of RAD is positive in some areas
+and negative in others. This indicates that there are parts of Boston
+where improved access to radial roads is associates with a greater
+median house price and parts where it is associated with a lesser
+median house price.
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Mon Jul  7 18:26:55 2014
+% Tue Jul  8 19:04:00 2014
 \begin{table}
 \centering
 \begin{tabular}{rrrr}
@@ -788,18 +788,6 @@ CRIM & -0.07 & 0.08 & 0.49 \\
 \label{tab:boston-coefs-lagr}
 \end{table}
 
-
-A summary of the local coefficients is in Table \ref{tab:boston-coefs-lagr}.
-It indicates that RM is the only predictor variable with a positive
-mean of the local coefficients, but also that the mean of the local
-coefficients of RM is the largest coefficient - at 1.92,
-it is more than twice as large in magnitude as the mean local coefficient
-of LSTAT (\ensuremath{-0.72}),
-which is second-largest.
-
-The coefficient of the CRIM variable was estimated to be exactly zero
-at 49\%
-of the locations. The percentage for the RAD variable was 37\%.
 
 In their example using the same data, \cite{Sun-Yan-Zhang-Lu-2014}
 estimated that the coefficients of RAD annd LSTAT should be constant,
