@@ -82,7 +82,10 @@ Local Adaptive Grouped Regularization and its Oracle Properties
 \end_layout
 
 \begin_layout Author
-Wesley Brooks, Jun Zhu, Zudi Lu
+Wesley Brooks
+,
+\lang english
+ Jun Zhu, Zudi Lu
 \end_layout
 
 \begin_layout Section
@@ -1323,414 +1326,6 @@ where the local coefficient estimate is written
 \end_inset
 
  to emphasize that it depends on the tuning parameter.
-\end_layout
-
-\begin_layout Section
-Extension to GLMs
-\begin_inset CommandInset label
-LatexCommand label
-name "sec:lagr-gllm"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Model
-\end_layout
-
-\begin_layout Standard
-Generalized linear models (GLM) extend the linear model to distributions
- other than gaussian.
- The generalized local linear model (GLLM) is an extension of the GLM to
- varying coefficient models via local regression.
-\end_layout
-
-\begin_layout Standard
-As was the case for local linear regression models, the GLLM coefficients
- are smooth functions of location, called 
-\begin_inset Formula $\bm{\beta}(\bm{s})$
-\end_inset
-
-.
- If the response variable 
-\begin_inset Formula $y$
-\end_inset
-
- is from an exponential-family distribution then its density is 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-f\left(y\left(\bm{s}\right)|\bm{x}\left(\bm{s}\right),\theta\left(\bm{s}\right)\right)=c\left(y\left(\bm{s}\right)\right)\times\exp\left[\theta\left(\bm{s}\right)y\left(\bm{s}\right)-b\left(\theta\left(\bm{s}\right)\right)\right]
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-where 
-\begin_inset Formula $\phi$
-\end_inset
-
- and 
-\begin_inset Formula $\theta$
-\end_inset
-
- are parameters and
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left(\theta\left(\bm{s}\right)\right)\\
-\theta\left(\bm{s}\right)= & (g\circ b')^{-1}\left(\eta\left(\bm{s}\right)\right)\\
-\eta\left(\bm{s}\right)= & \bm{x}^{T}\left(\bm{s}\right)\bm{\beta}\left(\bm{s}\right)=g\left(\mu\left(\bm{s}\right)\right)\\
-\text{\text{Var}}\left\{ y\left(\bm{s}\right)|\bm{x}\left(\bm{s}\right)\right\} = & b''\left(\theta\left(\bm{s}\right)\right)
-\end{align*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The function 
-\begin_inset Formula $g(\cdot)$
-\end_inset
-
- is called the link function.
- If its inverse 
-\begin_inset Formula $g^{-1}(\cdot)=b'(\cdot)$
-\end_inset
-
- then the composition 
-\begin_inset Formula $\left(g\circ b'\right)\left(\cdot\right)$
-\end_inset
-
- is the identity function.
- This particular choice of 
-\begin_inset Formula $g$
-\end_inset
-
- is called the canonical link.
- We follow the practice of 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Fan-Heckman-Wand-1995"
-
-\end_inset
-
- in assuming the use of the canonical link.
-\end_layout
-
-\begin_layout Standard
-Under the canonical link function, the expressions for the mean and variance
- of the response variable can be simplified to
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left(\eta(\bm{s})\right)\\
-\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \left[g'\left(\mu(\bm{s})\right)\right]^{-1}=V\left(\mu(\bm{s})\right)\\
-\frac{d}{d\mu} & g^{-1}\left(\mu\left(\bm{s}\right)\right)=V\left(\mu\left(\bm{s}\right)\right)
-\end{align*}
-
-\end_inset
-
- 
-\end_layout
-
-\begin_layout Subsection
-Local quasi-likelihood
-\end_layout
-
-\begin_layout Standard
-Assuming the canonical link, all that is required is to specify the mean-varianc
-e relationship via the variance function, 
-\begin_inset Formula $V\left\{ \mu(\bm{s})\right\} $
-\end_inset
-
-.
- Then the GLLM coefficients can be estimated by maximizing the local quasi-likel
-ihood 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align}
-\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right).
-\end{align}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The local quasi-likelihood generalizes the local log-likelihood that was
- used to estimate coefficients in the local linear model case.
- The quasi-likelihood is convex, and is defined in terms of its derivative,
- the quasi-score function
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\frac{\partial}{\partial\mu}Q\left(\mu,y\right)=\frac{y-\mu}{V\left(\mu\right)}.
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Estimation
-\end_layout
-
-\begin_layout Standard
-Under these conditions, the local quasi-likelihood is maximized where
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align}
-\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left(\hat{\bm{\zeta}}\left(\bm{s}\right)\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\frac{y\left(\bm{s}_{i}\right)-\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)}{V\left(\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)\right)}\bm{z}\left(\bm{s}_{i}\right)=\bm{0}_{3p}
-\end{align}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-and 
-\begin_inset Formula $\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)=g^{-1}\left(\bm{z}'\left(\bm{s}_{i}\right)\hat{\bm{\zeta}}\left(\bm{s}\right)\right)$
-\end_inset
-
- is the mean at location 
-\begin_inset Formula $\bm{s}_{i}$
-\end_inset
-
- estimated using the coefficients 
-\begin_inset Formula $\hat{\bm{\zeta}}\left(\bm{s}\right)$
-\end_inset
-
- fitted at location 
-\begin_inset Formula $\bm{s}$
-\end_inset
-
-.
- Except for the 
-\begin_inset Formula $K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)$
-\end_inset
-
- term, this is the same as the normal equations for estimating coefficients
- in a GLM.
- The method of iteratively reweighted least squares (IRLS) is used to solve
- for 
-\begin_inset Formula $\hat{\bm{\zeta}}\left(\bm{s}\right)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Subsection
-Distribution of the local coefficients
-\end_layout
-
-\begin_layout Standard
-The asymptotic distribution of the local coefficients in a varying-coefficients
- GLM with a one-dimensional effect-modifying parameter are given in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Cai-Fan-Li-2000"
-
-\end_inset
-
-.
- For coefficients that vary in two dimensions (e.g.
- spatial location), the asymptotic distribution under the canonical link
- is
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-where 
-\begin_inset Formula $\Gamma(\bm{s})=E\left[V\left(\mu(\bm{s})\right)X(\bm{s})X(\bm{s})^{T}\right]$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Subsection
-LAGR penalty
-\end_layout
-
-\begin_layout Standard
-As in the case of linear models, the LAGR for GLMs is a grouped 
-\begin_inset Formula $\ell_{1}$
-\end_inset
-
- regularization method.
- Now, though, we use a penalized local quasi-likelihood:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align}
-\mathcal{J}\left(\bm{\zeta}(\bm{s})\right) & =\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\label{eq:adaptive-lasso-GLLM}\\
- & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right)+\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)\|
-\end{align}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-and similarly to the case for gaussian data, 
-\begin_inset Formula $\phi_{j}\left(\bm{s}\right)=\lambda_{n}\left(\bm{s}\right)\|\tilde{\bm{\zeta}}_{j}\left(\bm{s}\right)\|^{-\gamma}$
-\end_inset
-
-, where 
-\begin_inset Formula $\lambda_{n}\left(\bm{s}\right)>0$
-\end_inset
-
- is a the local tuning parameter applied to all coefficients at location
- 
-\begin_inset Formula $\bm{s}$
-\end_inset
-
- and 
-\begin_inset Formula $\tilde{\bm{\zeta}}_{j}\left(\bm{s}\right)$
-\end_inset
-
- is the vector of unpenalized local coefficients.
-\end_layout
-
-\begin_layout Subsection
-Oracle properties of LAGR in the GLM setting
-\end_layout
-
-\begin_layout Standard
-The oracle properties for LAGR in the GLM setting are similar to those in
- the gaussian setting:
-\end_layout
-
-\begin_layout Theorem
-\begin_inset CommandInset label
-LatexCommand label
-name "theorem:normality-glm"
-
-\end_inset
-
- 
-\end_layout
-
-\begin_layout Theorem
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-Asymptotic normality
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Theorem
-If 
-\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-\end_inset
-
- and 
-\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-\end_inset
-
- then 
-\begin_inset Formula 
-\[
-h\sqrt{n}\left[\hat{\bm{\beta}}_{a}(\bm{s})-\bm{\beta}_{a}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\beta}_{a}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{a}(\bm{s})\right\} \right]\xrightarrow{d}N\left(0,f\left(\bm{s}\right)^{-1}\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout --Separator--
-
-\end_layout
-
-\begin_layout Theorem
-\begin_inset CommandInset label
-LatexCommand label
-name "theorem:selection-glm"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Theorem
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-Selection consistency
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Theorem
-If 
-\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}\infty$
-\end_inset
-
- and 
-\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-\end_inset
-
- then 
-\begin_inset Formula $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to0$
-\end_inset
-
- if 
-\begin_inset Formula $j\le p_{0}$
-\end_inset
-
- and 
-\begin_inset Formula $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to1$
-\end_inset
-
- if 
-\begin_inset Formula $j>p_{0}$
-\end_inset
-
-.
- 
 \end_layout
 
 \begin_layout Section
@@ -3832,6 +3427,414 @@ key "Sun-Yan-Zhang-Lu-2014"
 .
 \end_layout
 
+\begin_layout Section
+Extension to GLMs
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:lagr-gllm"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Model
+\end_layout
+
+\begin_layout Standard
+Generalized linear models (GLM) extend the linear model to distributions
+ other than gaussian.
+ The generalized local linear model (GLLM) is an extension of the GLM to
+ varying coefficient models via local regression.
+\end_layout
+
+\begin_layout Standard
+As was the case for local linear regression models, the GLLM coefficients
+ are smooth functions of location, called 
+\begin_inset Formula $\bm{\beta}(\bm{s})$
+\end_inset
+
+.
+ If the response variable 
+\begin_inset Formula $y$
+\end_inset
+
+ is from an exponential-family distribution then its density is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f\left(y\left(\bm{s}\right)|\bm{x}\left(\bm{s}\right),\theta\left(\bm{s}\right)\right)=c\left(y\left(\bm{s}\right)\right)\times\exp\left[\theta\left(\bm{s}\right)y\left(\bm{s}\right)-b\left(\theta\left(\bm{s}\right)\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\phi$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta$
+\end_inset
+
+ are parameters and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left(\theta\left(\bm{s}\right)\right)\\
+\theta\left(\bm{s}\right)= & (g\circ b')^{-1}\left(\eta\left(\bm{s}\right)\right)\\
+\eta\left(\bm{s}\right)= & \bm{x}^{T}\left(\bm{s}\right)\bm{\beta}\left(\bm{s}\right)=g\left(\mu\left(\bm{s}\right)\right)\\
+\text{\text{Var}}\left\{ y\left(\bm{s}\right)|\bm{x}\left(\bm{s}\right)\right\} = & b''\left(\theta\left(\bm{s}\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The function 
+\begin_inset Formula $g(\cdot)$
+\end_inset
+
+ is called the link function.
+ If its inverse 
+\begin_inset Formula $g^{-1}(\cdot)=b'(\cdot)$
+\end_inset
+
+ then the composition 
+\begin_inset Formula $\left(g\circ b'\right)\left(\cdot\right)$
+\end_inset
+
+ is the identity function.
+ This particular choice of 
+\begin_inset Formula $g$
+\end_inset
+
+ is called the canonical link.
+ We follow the practice of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fan-Heckman-Wand-1995"
+
+\end_inset
+
+ in assuming the use of the canonical link.
+\end_layout
+
+\begin_layout Standard
+Under the canonical link function, the expressions for the mean and variance
+ of the response variable can be simplified to
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left(\eta(\bm{s})\right)\\
+\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \left[g'\left(\mu(\bm{s})\right)\right]^{-1}=V\left(\mu(\bm{s})\right)\\
+\frac{d}{d\mu} & g^{-1}\left(\mu\left(\bm{s}\right)\right)=V\left(\mu\left(\bm{s}\right)\right)
+\end{align*}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsection
+Local quasi-likelihood
+\end_layout
+
+\begin_layout Standard
+Assuming the canonical link, all that is required is to specify the mean-varianc
+e relationship via the variance function, 
+\begin_inset Formula $V\left\{ \mu(\bm{s})\right\} $
+\end_inset
+
+.
+ Then the GLLM coefficients can be estimated by maximizing the local quasi-likel
+ihood 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right).
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The local quasi-likelihood generalizes the local log-likelihood that was
+ used to estimate coefficients in the local linear model case.
+ The quasi-likelihood is convex, and is defined in terms of its derivative,
+ the quasi-score function
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial}{\partial\mu}Q\left(\mu,y\right)=\frac{y-\mu}{V\left(\mu\right)}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Estimation
+\end_layout
+
+\begin_layout Standard
+Under these conditions, the local quasi-likelihood is maximized where
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left(\hat{\bm{\zeta}}\left(\bm{s}\right)\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\frac{y\left(\bm{s}_{i}\right)-\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)}{V\left(\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)\right)}\bm{z}\left(\bm{s}_{i}\right)=\bm{0}_{3p}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and 
+\begin_inset Formula $\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)=g^{-1}\left(\bm{z}'\left(\bm{s}_{i}\right)\hat{\bm{\zeta}}\left(\bm{s}\right)\right)$
+\end_inset
+
+ is the mean at location 
+\begin_inset Formula $\bm{s}_{i}$
+\end_inset
+
+ estimated using the coefficients 
+\begin_inset Formula $\hat{\bm{\zeta}}\left(\bm{s}\right)$
+\end_inset
+
+ fitted at location 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+.
+ Except for the 
+\begin_inset Formula $K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)$
+\end_inset
+
+ term, this is the same as the normal equations for estimating coefficients
+ in a GLM.
+ The method of iteratively reweighted least squares (IRLS) is used to solve
+ for 
+\begin_inset Formula $\hat{\bm{\zeta}}\left(\bm{s}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Distribution of the local coefficients
+\end_layout
+
+\begin_layout Standard
+The asymptotic distribution of the local coefficients in a varying-coefficients
+ GLM with a one-dimensional effect-modifying parameter are given in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Cai-Fan-Li-2000"
+
+\end_inset
+
+.
+ For coefficients that vary in two dimensions (e.g.
+ spatial location), the asymptotic distribution under the canonical link
+ is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\Gamma(\bm{s})=E\left[V\left(\mu(\bm{s})\right)X(\bm{s})X(\bm{s})^{T}\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+LAGR penalty
+\end_layout
+
+\begin_layout Standard
+As in the case of linear models, the LAGR for GLMs is a grouped 
+\begin_inset Formula $\ell_{1}$
+\end_inset
+
+ regularization method.
+ Now, though, we use a penalized local quasi-likelihood:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\mathcal{J}\left(\bm{\zeta}(\bm{s})\right) & =\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\label{eq:adaptive-lasso-GLLM}\\
+ & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right)+\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)\|
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and similarly to the case for gaussian data, 
+\begin_inset Formula $\phi_{j}\left(\bm{s}\right)=\lambda_{n}\left(\bm{s}\right)\|\tilde{\bm{\zeta}}_{j}\left(\bm{s}\right)\|^{-\gamma}$
+\end_inset
+
+, where 
+\begin_inset Formula $\lambda_{n}\left(\bm{s}\right)>0$
+\end_inset
+
+ is a the local tuning parameter applied to all coefficients at location
+ 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{\bm{\zeta}}_{j}\left(\bm{s}\right)$
+\end_inset
+
+ is the vector of unpenalized local coefficients.
+\end_layout
+
+\begin_layout Subsection
+Oracle properties of LAGR in the GLM setting
+\end_layout
+
+\begin_layout Standard
+The oracle properties for LAGR in the GLM setting are similar to those in
+ the gaussian setting:
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "theorem:normality-glm"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Asymptotic normality
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+If 
+\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
+\end_inset
+
+ and 
+\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+\end_inset
+
+ then 
+\begin_inset Formula 
+\[
+h\sqrt{n}\left[\hat{\bm{\beta}}_{a}(\bm{s})-\bm{\beta}_{a}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\beta}_{a}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{a}(\bm{s})\right\} \right]\xrightarrow{d}N\left(0,f\left(\bm{s}\right)^{-1}\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout --Separator--
+
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "theorem:selection-glm"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Selection consistency
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+If 
+\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}\infty$
+\end_inset
+
+ and 
+\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+\end_inset
+
+ then 
+\begin_inset Formula $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to0$
+\end_inset
+
+ if 
+\begin_inset Formula $j\le p_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to1$
+\end_inset
+
+ if 
+\begin_inset Formula $j>p_{0}$
+\end_inset
+
+.
+ 
+\end_layout
+
 \begin_layout Section*
 \start_of_appendix
 Appendix: Proofs of Theorem 
@@ -4043,23 +4046,16 @@ That is,
 \end_layout
 
 \begin_layout Proof
-By the epiconvergence results of 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Geyer-1994"
-
-\end_inset
-
- and 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Knight-Fu-2000"
-
-\end_inset
-
-, the minimizer of the limiting function is the limit of the minimizers
- 
+By epiconvergence results, the minimizer of the limiting function is the
+ limit of the minimizers 
 \begin_inset Formula $\hat{\bm{u}}^{(n)}$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Geyer-1994,Knight-Fu-2000"
+
 \end_inset
 
 .
@@ -4338,6 +4334,29 @@ Appendix: Lemmas
 
 \begin_layout Standard
 The next proofs require the following lemmas.
+ Define the 
+\begin_inset Formula $q$
+\end_inset
+
+-functions to be the derivatives of the quasi-likelihood: 
+\begin_inset Formula $q_{j}(t,y)=\left(\partial/\partial t\right)^{j}Q\left(g^{-1}\left(t\right),y\right)$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $q_{1}\left(\eta\left(\bm{s}\right),\mu\left(\bm{s}\right)\right)=0$
+\end_inset
+
+ and 
+\begin_inset Formula $q_{2}\left(\eta\left(\bm{s}\right),\mu\left(\bm{s}\right)\right)=-b''\left(\eta\left(\bm{s}\right)\right)$
+\end_inset
+
+.
+ Also define 
+\begin_inset Formula $\bar{\eta}_{i}\left(\right)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Lemma
@@ -4347,7 +4366,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "lemma:A1-expectation"
+name "lemma:omega-expectation"
 
 \end_inset
 
@@ -4382,7 +4401,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "lemma:A1-variance"
+name "lemma:omega-variance"
 
 \end_inset
 
@@ -4394,7 +4413,7 @@ name "lemma:A1-variance"
 
 \begin_inset Formula 
 \[
-Var\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right]=f\left(\bm{s}\right)\left(\begin{array}{ccc}
+Var\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\right]=f\left(\bm{s}\right)\left(\begin{array}{ccc}
 \nu_{0} & \nu_{1} & \nu_{2}\\
 \nu_{1} & \nu_{2} & \nu_{3}\\
 \nu_{2} & \nu_{2} & \nu_{4}
@@ -4417,7 +4436,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "lemma:A2-expectation"
+name "lemma:delta-expectation"
 
 \end_inset
 
@@ -4452,7 +4471,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "lemma:A2-variance"
+name "lemma:delta-variance"
 
 \end_inset
 
@@ -4500,28 +4519,6 @@ reference "theorem:normality-glm"
 
 \end_inset
 
-Define the 
-\begin_inset Formula $q$
-\end_inset
-
--functions to be the derivatives of the quasi-likelihood: 
-\begin_inset Formula $q_{j}(t,y)=\left(\partial/\partial t\right)^{j}Q\left(g^{-1}\left(t\right),y\right)$
-\end_inset
-
-.
- Then 
-\begin_inset Formula $q_{1}\left(\eta\left(\bm{s}\right),\mu\left(\bm{s}\right)\right)=0$
-\end_inset
-
- and 
-\begin_inset Formula $q_{2}\left(\eta\left(\bm{s}\right),\mu\left(\bm{s}\right)\right)=-b''\left(\eta\left(\bm{s}\right)\right)$
-\end_inset
-
-.
- Also define 
-\begin_inset Formula $\bar{\eta}_{i}\left(\right)$
-\end_inset
-
 
 \end_layout
 
@@ -4551,8 +4548,8 @@ Define
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-A_{1}\left(\bm{s}\right)= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\\
-A_{2}\left(\bm{s}\right)= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}.
+\Omega_{n}\left(\bm{s}\right)= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\\
+\Delta_{n}\left(\bm{s}\right)= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}.
 \end{align*}
 
 \end_inset
@@ -4579,8 +4576,8 @@ Then taking the Taylor expansion of
 \begin_inset Formula 
 \begin{align}
 \mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)= & \mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)\label{eq:glm-Taylor-expansion}\\
- & +A_{1}\left(\bm{s}\right)^{T}\bm{u}\\
- & +(1/2)\bm{u}^{T}A_{2}\left(\bm{s}\right)\bm{u}\\
+ & +\Omega_{n}\left(\bm{s}\right)^{T}\bm{u}\\
+ & +(1/2)\bm{u}^{T}\Delta_{n}\left(\bm{s}\right)\bm{u}\\
  & +\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}\\
  & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|\nonumber 
 \end{align}
@@ -4610,8 +4607,8 @@ where
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-H_{n}\left(\bm{u}\right)= & A_{1}\left(\bm{s}\right)^{T}\bm{u}\label{eq:taylor-expanded-glm-criterion}\\
- & +(1/2)\bm{u}^{T}A_{2}\left(\bm{s}\right)\bm{u}\\
+H_{n}\left(\bm{u}\right)= & \Omega_{n}\left(\bm{s}\right)^{T}\bm{u}\label{eq:taylor-expanded-glm-criterion}\\
+ & +(1/2)\bm{u}^{T}\Delta_{n}\left(\bm{s}\right)\bm{u}\\
  & +\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}\\
  & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\left\{ \|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{j}\left(\bm{s}\right)\|\right\} .\nonumber 
 \end{align}
@@ -4782,7 +4779,7 @@ Thus, the limit of
 \begin_layout Standard
 \begin_inset Formula 
 \[
-H_{n}^{*}\left(\bm{u}\right)=A_{1}\left(\bm{s}\right)^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta\bm{u}+o_{p}\left(1\right)
+H_{n}^{*}\left(\bm{u}\right)=\Omega_{n}\left(\bm{s}\right)^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta\left(\bm{s}\right)\bm{u}+o_{p}\left(1\right)
 \]
 
 \end_inset
@@ -4814,7 +4811,7 @@ if
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\hat{\bm{u}}_{n}= & \left\{ \Delta\left(\bm{s}\right)\right\} ^{-1}A_{1}\left(\bm{s}\right)+o_{p}\left(1\right)\label{eq:limit-1}
+\hat{\bm{u}}_{n}= & \left\{ \Delta\left(\bm{s}\right)\right\} ^{-1}\Omega_{n}\left(\bm{s}\right)+o_{p}\left(1\right)\label{eq:limit-1}
 \end{align}
 
 \end_inset
@@ -4823,7 +4820,7 @@ if
 \end_layout
 
 \begin_layout Standard
-by the quadratic approximation lemma
+by the quadratic approximation lemma 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Fan-Gijbels-1996"
@@ -4831,55 +4828,68 @@ key "Fan-Gijbels-1996"
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-By the epiconvergence results of 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Geyer-1994"
-
-\end_inset
-
- and 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Knight-Fu-2000"
-
-\end_inset
-
-, the minimizer of the limiting function is the limit of the minimizers
- 
+ Then by epiconvergence, the minimizer of the limiting function is the limit
+ of the minimizers 
 \begin_inset Formula $\hat{\bm{u}}_{n}$
 \end_inset
 
-.
- Since, by Lemma 2 of 
+ 
 \begin_inset CommandInset citation
-LatexCommand citet
-key "Sun-Yan-Zhang-Lu-2014"
+LatexCommand citep
+key "Geyer-1994,Knight-Fu-2000"
 
 \end_inset
 
-,
+.
+\end_layout
+
+\begin_layout Standard
+Since 
+\begin_inset Formula $\Delta\left(\bm{s}\right)$
+\end_inset
+
+ is a constant, the normality of 
+\begin_inset Formula $\hat{\bm{u}}_{n}$
+\end_inset
+
+ follows from the normality of 
+\begin_inset Formula $\Omega_{n}\left(\bm{s}\right)$
+\end_inset
+
+, which is establised via the Cram
+\begin_inset IPA
+
+\begin_layout Standard
+́e
+\end_layout
+
+\end_inset
+
+r-Wold device.
+ Let 
+\begin_inset Formula $\bm{d}\in\mathbb{R}^{3p}$
+\end_inset
+
+ be a unit vector, and let
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{equation}
-\hat{\bm{u}}_{n}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\},f(\bm{s})\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
-\end{equation}
+\[
+\xi_{i}=K_{h}\left(\|\bm{s}_{i}-\bm{s}\|\right)q_{1}\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right)\right),Y\left(\bm{s}_{i}\right)\right)\bm{d}^{T}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}.
+\]
 
 \end_inset
 
-the result of Theorem 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "theorem:normality"
 
+\end_layout
+
+\begin_layout Standard
+Then 
+\begin_inset Formula $\bm{d}^{T}\Omega_{n}\left(\bm{s}\right)=\alpha_{n}\sum_{i=1}^{n}\xi_{i}$
 \end_inset
 
- follows.
+.
 \end_layout
 
 \begin_layout Proof
@@ -4953,11 +4963,7 @@ Assume
  and is minimized where 
 \begin_inset Formula 
 \begin{align}
-\utilde{0}= & \bm{Z}_{p}^{T}\left(\bm{s}\right)\bm{W}\left(\bm{s}\right)\left\{ \bm{Y}-\bm{Z}_{-p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)-\bm{Z}_{p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\right\} -\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}\\
-= & \bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left[\bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \right]\\
- & +\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{-p}\left(\bm{s}\right)\left[\bm{\zeta}_{-p}\left(\bm{s}\right)+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{-p}\left(\bm{s}\right)\right\} -\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)\right]\\
- & +\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{p}\left(\bm{s}\right)\left[\bm{\zeta}_{p}\left(\bm{s}\right)+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)\right\} -\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\right]\\
- & -\phi_{p}\left(\bm{s}\right)\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}
+\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}_{i}-\bm{s}\|\right)q_{1}\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\hat{\bm{\zeta}}\left(\bm{s}\right)\right),Y_{i}\right)\left\{ \bm{Z}_{p}\left(\bm{s}_{i}\right)\right\} _{i}\label{eq:glm-selection}
 \end{align}
 
 \end_inset
@@ -4966,90 +4972,29 @@ Assume
 \end_layout
 
 \begin_layout Standard
-Thus, 
-\begin_inset Formula 
-\begin{align}
-\frac{h}{\sqrt{n}}\phi_{p}\left(\bm{s}\right)\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}=\label{eq:selection-1}\\
- & \bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\frac{h}{\sqrt{n}}\left[\bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \right]\\
- & +\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}(\bm{s})\bm{Z}_{-p}\left(\bm{s}\right)\right\} h\sqrt{n}\left[\bm{\zeta}_{-p}\left(\bm{s}\right)+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{-p}\left(\bm{s}\right)\right\} -\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)\right]\notag\\
- & +\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{p}\left(\bm{s}\right)\right\} h\sqrt{n}\left[\bm{\zeta}_{p}\left(\bm{s}\right)+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)\right\} -\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\right]
-\end{align}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-From Lemma 2 of 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Sun-Yan-Zhang-Lu-2014"
-
-\end_inset
-
-, 
-\begin_inset Formula $\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{-p}\left(\bm{s}\right)\right\} =O_{p}\left(1\right)$
-\end_inset
-
- and 
-\begin_inset Formula $\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{p}\left(\bm{s}\right)\right\} =O_{p}\left(1\right)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-From Theorem 3 of 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Sun-Yan-Zhang-Lu-2014"
-
-\end_inset
-
-, we have that 
-\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)-\bm{\zeta}_{-p}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{-p}\left(\bm{s}\right)+\nabla_{vv}^{2}\zeta_{-p}\left(\bm{s}\right)\right\} \right]=O_{p}\left(1\right)$
-\end_inset
-
- and 
-\begin_inset Formula $h\sqrt{n}\left[\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)-\bm{\zeta}_{p}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{p}\left(\bm{s}\right)+\nabla_{vv}^{2}\zeta_{p}\left(\bm{s}\right)\right\} \right]=O_{p}\left(1\right)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-We showed in the proof of Theorem 
+From Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "theorem:normality"
+reference "lemma:omega-expectation"
 
 \end_inset
 
- that
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-h\sqrt{n}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left[\bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \right]=O_{p}\left(1\right).
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The right hand side of (
+ and Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "eq:selection-1"
+reference "lemma:omega-variance"
 
 \end_inset
 
-) is 
-\begin_inset Formula $O_{p}(1)$
+, the right hand side of 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:glm-selection"
+
+\end_inset
+
+ is 
+\begin_inset Formula $O_{p}\left(1\right)$
 \end_inset
 
 , so for 
@@ -5100,7 +5045,7 @@ Since
  and therefore the left hand side of 
 \begin_inset CommandInset ref
 LatexCommand eqref
-reference "eq:selection-1"
+reference "eq:glm-selection"
 
 \end_inset
 
