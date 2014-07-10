@@ -1326,7 +1326,7 @@ where the local coefficient estimate is written
 \end_layout
 
 \begin_layout Section
-Extension to GLLMs
+Extension to GLMs
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:lagr-gllm"
@@ -1364,7 +1364,7 @@ As was the case for local linear regression models, the GLLM coefficients
 \begin_layout Standard
 \begin_inset Formula 
 \[
-f\left\{ y(\bm{s})|\bm{x}(\bm{s}),\theta\left(\bm{s}\right)\right\} =c\left\{ y(\bm{s})\right\} \times\left[\exp\theta(\bm{s})y(\bm{s})-b\left\{ \theta(\bm{s})\right\} \right]
+f\left(y\left(\bm{s}\right)|\bm{x}\left(\bm{s}\right),\theta\left(\bm{s}\right)\right)=c\left(y\left(\bm{s}\right)\right)\times\exp\left[\theta\left(\bm{s}\right)y\left(\bm{s}\right)-b\left(\theta\left(\bm{s}\right)\right)\right]
 \]
 
 \end_inset
@@ -1387,10 +1387,10 @@ where
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left\{ \theta(\bm{s})\right\} \\
-\theta(\bm{s})= & (g\circ b')^{-1}\left\{ \eta(\bm{s})\right\} \\
-\eta(\bm{s})= & \bm{x}^{T}(\bm{s})\bm{\beta}(\bm{s})=g\left\{ \mu(\bm{s})\right\} \\
-\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & b''\left\{ \theta(\bm{s})\right\} 
+E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left(\theta\left(\bm{s}\right)\right)\\
+\theta\left(\bm{s}\right)= & (g\circ b')^{-1}\left(\eta\left(\bm{s}\right)\right)\\
+\eta\left(\bm{s}\right)= & \bm{x}^{T}\left(\bm{s}\right)\bm{\beta}\left(\bm{s}\right)=g\left(\mu\left(\bm{s}\right)\right)\\
+\text{\text{Var}}\left\{ y\left(\bm{s}\right)|\bm{x}\left(\bm{s}\right)\right\} = & b''\left(\theta\left(\bm{s}\right)\right)
 \end{align*}
 
 \end_inset
@@ -1409,7 +1409,7 @@ The function
 \end_inset
 
  then the composition 
-\begin_inset Formula $(g\circ b')(\cdot)$
+\begin_inset Formula $\left(g\circ b'\right)\left(\cdot\right)$
 \end_inset
 
  is the identity function.
@@ -1436,9 +1436,9 @@ Under the canonical link function, the expressions for the mean and variance
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left\{ \eta(\bm{s})\right\} \\
-\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \left[g'\left\{ \mu(\bm{s})\right\} \right]^{-1}=V\left\{ \mu(\bm{s})\right\} \\
-\frac{d}{d\mu} & g^{-1}\left\{ \mu\left(\bm{s}\right)\right\} =V\left\{ \mu\left(\bm{s}\right)\right\} 
+E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left(\eta(\bm{s})\right)\\
+\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \left[g'\left(\mu(\bm{s})\right)\right]^{-1}=V\left(\mu(\bm{s})\right)\\
+\frac{d}{d\mu} & g^{-1}\left(\mu\left(\bm{s}\right)\right)=V\left(\mu\left(\bm{s}\right)\right)
 \end{align*}
 
 \end_inset
@@ -1464,7 +1464,7 @@ ihood
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\mathcal{\ell}^{*}\left\{ \bm{\zeta}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ \bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right].
+\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right).
 \end{align}
 
 \end_inset
@@ -1482,7 +1482,7 @@ The local quasi-likelihood generalizes the local log-likelihood that was
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\frac{\partial}{\partial\mu}Q(\mu,y)=\frac{y-\mu}{V(\mu)}.
+\frac{\partial}{\partial\mu}Q\left(\mu,y\right)=\frac{y-\mu}{V\left(\mu\right)}.
 \]
 
 \end_inset
@@ -1501,7 +1501,7 @@ Under these conditions, the local quasi-likelihood is maximized where
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left\{ \hat{{\bm{\zeta}}}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\frac{y(\bm{s}_{i})-\hat{\mu}(\bm{s}_{i};\bm{s})}{V\left\{ \hat{\mu}(\bm{s}_{i};\bm{s})\right\} }\bm{z}(\bm{s}_{i})=\bm{0}_{3p}
+\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left(\hat{\bm{\zeta}}\left(\bm{s}\right)\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\frac{y\left(\bm{s}_{i}\right)-\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)}{V\left(\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)\right)}\bm{z}\left(\bm{s}_{i}\right)=\bm{0}_{3p}
 \end{align}
 
 \end_inset
@@ -1511,7 +1511,7 @@ Under these conditions, the local quasi-likelihood is maximized where
 
 \begin_layout Standard
 and 
-\begin_inset Formula $\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)=g^{-1}\left\{ \bm{z}'(\bm{s}_{i})\hat{\bm{\zeta}}\left(\bm{s}\right)\right\} $
+\begin_inset Formula $\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)=g^{-1}\left(\bm{z}'\left(\bm{s}_{i}\right)\hat{\bm{\zeta}}\left(\bm{s}\right)\right)$
 \end_inset
 
  is the mean at location 
@@ -1528,14 +1528,14 @@ and
 
 .
  Except for the 
-\begin_inset Formula $K_{h}(\|\bm{s}-\bm{s}_{i}\|)$
+\begin_inset Formula $K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)$
 \end_inset
 
  term, this is the same as the normal equations for estimating coefficients
  in a GLM.
  The method of iteratively reweighted least squares (IRLS) is used to solve
  for 
-\begin_inset Formula $\hat{{\bm{\zeta}}}(\bm{s})$
+\begin_inset Formula $\hat{\bm{\zeta}}\left(\bm{s}\right)$
 \end_inset
 
 .
@@ -1563,7 +1563,7 @@ key "Cai-Fan-Li-2000"
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left\{ \bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right\} 
+\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
 \]
 
 \end_inset
@@ -1573,7 +1573,7 @@ key "Cai-Fan-Li-2000"
 
 \begin_layout Standard
 where 
-\begin_inset Formula $\Gamma(\bm{s})=E\left[V\left\{ \mu(\bm{s})\right\} X(\bm{s})X(\bm{s})^{T}\right]$
+\begin_inset Formula $\Gamma(\bm{s})=E\left[V\left(\mu(\bm{s})\right)X(\bm{s})X(\bm{s})^{T}\right]$
 \end_inset
 
 .
@@ -1595,8 +1595,8 @@ As in the case of linear models, the LAGR for GLMs is a grouped
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\mathcal{J}\left\{ \bm{\zeta}(\bm{s})\right\}  & =\mathcal{\ell}^{*}\left\{ \bm{\zeta}(\bm{s})\right\} +\mathcal{P}\{\bm{\zeta}(\bm{s})\}\notag\label{eq:adaptive-lasso-GLLM}\\
- & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right]+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|
+\mathcal{J}\left(\bm{\zeta}(\bm{s})\right) & =\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\label{eq:adaptive-lasso-GLLM}\\
+ & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right)+\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)\|
 \end{align}
 
 \end_inset
@@ -1606,11 +1606,11 @@ As in the case of linear models, the LAGR for GLMs is a grouped
 
 \begin_layout Standard
 and similarly to the case for gaussian data, 
-\begin_inset Formula $\phi_{j}(\bm{s})=\lambda_{n}(\bm{s})\|\tilde{\bm{\zeta}}_{j}(\bm{s})\|^{-\gamma}$
+\begin_inset Formula $\phi_{j}\left(\bm{s}\right)=\lambda_{n}\left(\bm{s}\right)\|\tilde{\bm{\zeta}}_{j}\left(\bm{s}\right)\|^{-\gamma}$
 \end_inset
 
 , where 
-\begin_inset Formula $\lambda_{n}(\bm{s})>0$
+\begin_inset Formula $\lambda_{n}\left(\bm{s}\right)>0$
 \end_inset
 
  is a the local tuning parameter applied to all coefficients at location
@@ -1619,7 +1619,7 @@ and similarly to the case for gaussian data,
 \end_inset
 
  and 
-\begin_inset Formula $\tilde{\bm{\zeta}}_{j}(\bm{s})$
+\begin_inset Formula $\tilde{\bm{\zeta}}_{j}\left(\bm{s}\right)$
 \end_inset
 
  is the vector of unpenalized local coefficients.
@@ -1669,7 +1669,7 @@ If
  then 
 \begin_inset Formula 
 \[
-h\sqrt{n}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\}\right]\xrightarrow{d}N(0,f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s}))
+h\sqrt{n}\left[\hat{\bm{\beta}}_{a}(\bm{s})-\bm{\beta}_{a}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\beta}_{a}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{a}(\bm{s})\right\} \right]\xrightarrow{d}N\left(0,f\left(\bm{s}\right)^{-1}\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
 \]
 
 \end_inset
@@ -1714,7 +1714,7 @@ If
 \end_inset
 
  then 
-\begin_inset Formula $P\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=0\right\} \to0$
+\begin_inset Formula $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to0$
 \end_inset
 
  if 
@@ -1722,7 +1722,7 @@ If
 \end_inset
 
  and 
-\begin_inset Formula $P\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=0\right\} \to1$
+\begin_inset Formula $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to1$
 \end_inset
 
  if 
@@ -4341,9 +4341,25 @@ The next proofs require the following lemmas.
 \end_layout
 
 \begin_layout Lemma
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "lemma:A1-expectation"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \begin_inset Formula 
 \[
-E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\right]\to(1/2)\alpha_{n}^{-1}h^{2}f\left(\bm{s}\right)\left(\begin{array}{ccc}
+E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\right]=(1/2)\alpha_{n}^{-1}h^{2}f\left(\bm{s}\right)\left(\begin{array}{ccc}
 1 & \nu_{1} & \nu_{2}\\
 \nu_{1} & \nu_{2} & \nu_{3}\\
 \nu_{2} & \nu_{2} & \nu_{4}
@@ -4360,13 +4376,29 @@ E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \
 \end_layout
 
 \begin_layout Lemma
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "lemma:A1-variance"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \begin_inset Formula 
 \[
-E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right]\to-f\left(\bm{s}\right)\left(\begin{array}{ccc}
-1 & \nu_{1} & \nu_{2}\\
+Var\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right]=f\left(\bm{s}\right)\left(\begin{array}{ccc}
+\nu_{0} & \nu_{1} & \nu_{2}\\
 \nu_{1} & \nu_{2} & \nu_{3}\\
 \nu_{2} & \nu_{2} & \nu_{4}
-\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Delta
+\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Lambda+o\left(1\right)
 \]
 
 \end_inset
@@ -4379,13 +4411,29 @@ E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \
 \end_layout
 
 \begin_layout Lemma
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "lemma:A2-expectation"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \begin_inset Formula 
 \[
 E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right]\to-f\left(\bm{s}\right)\left(\begin{array}{ccc}
 1 & \nu_{1} & \nu_{2}\\
 \nu_{1} & \nu_{2} & \nu_{3}\\
 \nu_{2} & \nu_{2} & \nu_{4}
-\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Delta
+\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Delta\left(\bm{s}\right)
 \]
 
 \end_inset
@@ -4398,13 +4446,25 @@ E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \
 \end_layout
 
 \begin_layout Lemma
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "lemma:A2-variance"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \begin_inset Formula 
 \[
-E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right]\to-f\left(\bm{s}\right)\left(\begin{array}{ccc}
-1 & \nu_{1} & \nu_{2}\\
-\nu_{1} & \nu_{2} & \nu_{3}\\
-\nu_{2} & \nu_{2} & \nu_{4}
-\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Delta
+Var\left\{ \left(\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
 \]
 
 \end_inset
@@ -4704,6 +4764,10 @@ On the other hand, if
 \end_layout
 
 \begin_layout Standard
+Now, 
+\end_layout
+
+\begin_layout Standard
 Thus, the limit of 
 \begin_inset Formula $H_{n}\left(\bm{u}\right)$
 \end_inset
@@ -4718,7 +4782,7 @@ Thus, the limit of
 \begin_layout Standard
 \begin_inset Formula 
 \[
-H_{n}^{*}\left(\bm{u}\right)=A_{1}\left(\bm{s}\right)^{T}\bm{u}+(1/2)\bm{u}^{T}A_{2}\left(\bm{s}\right)\bm{u}+o_{p}\left(1\right)
+H_{n}^{*}\left(\bm{u}\right)=A_{1}\left(\bm{s}\right)^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta\bm{u}+o_{p}\left(1\right)
 \]
 
 \end_inset
@@ -4750,7 +4814,7 @@ if
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\hat{\bm{u}}_{n}= & \left\{ A_{2}\left(\bm{s}\right)\right\} ^{-1}A_{1}\left(\bm{s}\right)\label{eq:limit-1}
+\hat{\bm{u}}_{n}= & \left\{ \Delta\left(\bm{s}\right)\right\} ^{-1}A_{1}\left(\bm{s}\right)+o_{p}\left(1\right)\label{eq:limit-1}
 \end{align}
 
 \end_inset
