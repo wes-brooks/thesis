@@ -57,6 +57,8 @@
 \setlength{\parskip}{\bigskipamount}
 \setlength{\parindent}{0pt}
 \usepackage{bm}
+\usepackage{tipa}
+\usepackage{tipx}
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -69,11 +71,6 @@
 \makeatletter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
 \usepackage[natbibapa]{apacite}
-\newcommand{\lyxaddress}[1]{
-\par {\raggedright #1
-\vspace{1.4em}
-\noindent\par}
-}
 \theoremstyle{plain}
 \newtheorem{thm}{\protect\theoremname}
   \theoremstyle{plain}
@@ -93,21 +90,7 @@
 \title{Local Adaptive Grouped Regularization and its Oracle Properties}
 
 
-\author{Wesley Brooks%
-\thanks{
-\lyxaddress{\ead{wrbrooks@uwalumni.com} Department of Statistics, University
-of Wisconsin, Madison, WI 53706}%
-}\\
-Jun Zhu%
-\thanks{
-\lyxaddress{\ead{jzhu@stat.wisc.edu} Department of Statistics and Department
-of Entomology, University of Wisconsin, Madison, WI 53706}%
-} \\
-Zudi Lu%
-\thanks{
-\lyxaddress{\ead{Z.Lu@soton.ac.uk} School of Mathematical Sciences, The University
-of Adelaide, Australia}%
-}}
+\author{Wesley Brooks, Jun Zhu, Zudi Lu}
 
 \maketitle
 
@@ -431,6 +414,259 @@ where the local coefficient estimate is written $\hat{\bm{\zeta}}(\lambda;\bm{s}
 to emphasize that it depends on the tuning parameter.
 
 
+\section{Simulation Study\label{sec:simulations}}
+
+
+
+
+\subsection{Simulation Setup}
+
+A simulation study was conducted to assess the performance of the
+method described in Sections \ref{sec:vcr}--\ref{sec:lagr-gaussian}.
+Data were simulated on the domain $[0,1]^{2}$, which was divided
+into a $30\times30$ grid. Each of $p=5$ covariates $X_{1},\dots,X_{5}$
+was simulated by a Gaussian random field with mean zero and exponential
+covariance function $\text{Cov}\left(X_{ji},X_{ji'}\right)=\sigma_{x}^{2}\exp{\left(-\tau_{x}^{-1}\delta_{ii'}\right)}$
+where $\sigma_{x}^{2}=1$ is the variance, $\tau_{x}=0.1$ is the
+range parameter, and $\delta_{ii'}=\|\bm{s}_{i}-\bm{s}_{i'}\|_{2}$
+is the Euclidean distance between locations $\bm{s}$ and $\bm{s}_{i}$. 
+
+Correlation was induced between the covariates by multiplying the
+design matrix $\bm{X}$ by $\bm{R}$, where $\bm{R}$ is the Cholesky
+decomposition of the covariance matrix $\bm{\Sigma}=\bm{R}'\bm{R}$.
+The covariance matrix $\bm{\Sigma}$ is a $5\times5$ matrix that
+has ones on the diagonal and $\rho$ for all off-diagonal entries,
+where $\rho$ is the between-covariate correlation. 
+
+The simulated response was $y_{i}=\bm{x}'_{i}\bm{\beta}_{i}+\varepsilon_{i}$
+for $i=1,\dots,n$ where $n=900$ and the $\varepsilon_{i}$'s were
+iid Gaussian with mean zero and variance $\sigma_{\varepsilon}^{2}$.
+The simulated data included the response $y$ and five covariates
+$x_{1},\dots,x_{5}$. The true data-generating model uses only $x_{1}$.
+The variables $x_{2},\dots,x_{5}$ are included to assess performance
+in model selection. 
+
+Three different functions were used for the coefficient surface $\beta_{1}(\bm{s})$
+(Figure \ref{fig:simulation-coefficient-functions}). The first is
+the ``step'' function:
+
+\[
+\beta_{step}(\bm{s})=\ \ \begin{cases}
+1 & if\ s_{x}>0.6\\
+5s_{x}-2 & if\ 0.4<s_{x}\le0.6\\
+0 & o.w.
+\end{cases}.
+\]
+
+
+The second is the gradient function, $\beta_{gradient}(\bm{s})=s_{x}$,
+and the third is the parabola $\beta_{parabola}(\bm{s})=1-2\left\{ (s_{x}-0.5)^{2}+(s_{y}-0.5)^{2}\right\} $.
+
+\begin{figure}
+\includegraphics[width=0.33\textwidth]{0_Users_wesley_git_gwr_figures_simulation_step.pdf}\includegraphics[width=0.33\textwidth]{1_Users_wesley_git_gwr_figures_simulation_gradient.pdf}\includegraphics[width=0.33\textwidth]{2_Users_wesley_git_gwr_figures_simulation_parabola.pdf}
+
+\protect\caption{These are, respectively, the step, gradient, and parabola functions
+that were used for the coefficient function $\beta_{1}(\bm{s})$ in
+the VCR model $y(\bm{s}_{i})=x_{1}(\bm{s}_{i})\beta_{1}(\bm{s}_{i})+\varepsilon(\bm{s}_{i})$
+when generating the data for the simulation study.\label{fig:simulation-coefficient-functions}}
+\end{figure}
+
+
+In total, three parameters were varied to produce 18 settings, each
+of which was simulated 100 times. There were the three functional
+forms for the coefficient surface $\beta_{1}(\bm{s})$; data was simulated
+both with low ($\rho=0$), medium ($\rho=0.5$), and high ($\rho=0.9$)
+correlation between the covariates; and simulations were made with
+low ($\sigma_{\varepsilon}=0.5$) and high ($\sigma_{\varepsilon}=1$)
+variance for the random error term.
+
+
+
+The results are presented in terms of the mean integrated squared
+error (MISE) of the coefficient surface estimates $\hat{\beta}_{1}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$,
+the MISE of the fitted response $\hat{y}(\bm{s})$, and the frequency
+with which the coefficient surface estimates $\hat{\beta}_{2}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$
+estimated by LAGR were zero. The performance of LAGR was compared
+to that of a VCR model without variable selection, and to a VCR model
+with oracular selection. Oracular selection means that exactly the
+correct set of covariates was used to fit each local model.
+
+\begin{table}
+	\begin{tabular}{ccc|ccc|cc}
+		\multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}Simulation\\settings\end{tabular}} & \multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{\beta}_1$\end{tabular}} & \multicolumn{2}{c}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{\beta}_2, \dots, \hat{\beta}_5$\end{tabular}} \\
+		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & LAGR & VCR & Oracle & LAGR & VCR \\
+		\hline 
+
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Thu Jul 10 18:45:11 2014
+  \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
+    &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
+    &  & 1.0 & \emph{0.03} & 0.05 & \textbf{0.02} & \textbf{0.00} & 0.03 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & \emph{0.03} & 0.05 & \textbf{0.01} & \textbf{0.00} & 0.04 \\ 
+    &  & 1.0 & \emph{0.12} & 0.17 & \textbf{0.02} & \textbf{0.02} & 0.15 \\ 
+   \hline \multirow{6}{*}{gradient} & \multirow{2}{*}{0} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.00} & \textbf{0.00} & 0.00 \\ 
+    &  & 1.0 & 0.03 & \emph{0.02} & \textbf{0.01} & \textbf{0.00} & 0.02 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.00} & \textbf{0.00} & 0.01 \\ 
+    &  & 1.0 & 0.04 & \emph{0.03} & \textbf{0.01} & \textbf{0.00} & 0.03 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & \emph{0.03} & 0.04 & \textbf{0.00} & \textbf{0.00} & 0.04 \\ 
+    &  & 1.0 & \emph{0.14} & 0.14 & \textbf{0.01} & \textbf{0.02} & 0.15 \\ 
+   \hline \multirow{6}{*}{parabola} & \multirow{2}{*}{0} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.01} & \textbf{0.00} & 0.00 \\ 
+    &  & 1.0 & 0.03 & \emph{0.02} & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
+    &  & 1.0 & 0.03 & \emph{0.03} & \textbf{0.02} & \textbf{0.00} & 0.03 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & \emph{0.02} & 0.04 & \textbf{0.01} & \textbf{0.00} & 0.04 \\ 
+    &  & 1.0 & 0.17 & \emph{0.14} & \textbf{0.02} & \textbf{0.03} & 0.15 \\ 
+  
+
+	\end{tabular}
+	\caption{Listing of the simulation settings used to assess the performance of LAGR models versus oracle selection and no selection.}
+	\label{tab:mise}
+\end{table}
+
+
+\subsection{Simulation Results}
+
+The MISE of the estimates of $\beta_{1}(\bm{s})$ are in Table \ref{tab:misex}.
+Recall that $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$ are exactly
+zero across the entire domain. Oracle selection will estimate these
+coefficients perfectly, so we focus on the comparison between estimation
+by LAGR and by the VCR model with no selection. These results show
+that for every simulation setting, LAGR estimation is more accurate
+than the standard VCR model.
+
+
+
+From Table \ref{tab:misey} we see that LAGR has good ability to identify
+zero-coefficient covariates. The frequency with which $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+were dropped from the LAGR models ranged from 0.78
+to 0.97. The MISE of the fitted $\hat{y}(\bm{s})$
+is listed in Table \ref{tab:misey}, where the highlighting is based
+on which methods estimate an error variance that is closest to the
+known truth for the simulation. The results are all very similar to
+each other, indicating that no method was consistently better than
+the others in this simulation at fitting the model output.
+
+\begin{table}
+	\begin{tabular}{ccc|c|ccc}
+		\multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}Simulation\\settings\end{tabular}} &  \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Zero\\frequency\end{tabular}} &  \multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{y}$\end{tabular}} \\
+		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & $\hat{\beta}_2,\dots,\hat{\beta}_5 & LAGR & VCR & Oracle \\
+		\hline 
+
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Thu Jul 10 18:45:14 2014
+  \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
+    &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
+    &  & 1.0 & 0.92 & \emph{0.99} & \textbf{1.00} & 0.98 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & 0.86 & \emph{0.27} & 0.30 & \textbf{0.25} \\ 
+    &  & 1.0 & 0.85 & \emph{1.08} & 1.14 & \textbf{0.98} \\ 
+   \hline \multirow{6}{*}{gradient} & \multirow{2}{*}{0} & 0.5 & 0.96 & \emph{0.25} & \textbf{0.25} & 0.25 \\ 
+    &  & 1.0 & 0.95 & \textbf{0.99} & \emph{0.99} & 0.97 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.94 & \emph{0.25} & \textbf{0.25} & 0.24 \\ 
+    &  & 1.0 & 0.92 & \emph{1.00} & \textbf{1.00} & 0.97 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & 0.80 & \emph{0.27} & 0.28 & \textbf{0.24} \\ 
+    &  & 1.0 & 0.85 & \emph{1.09} & 1.12 & \textbf{0.97} \\ 
+   \hline \multirow{6}{*}{parabola} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & \textbf{0.25} & 0.25 \\ 
+    &  & 1.0 & 0.94 & \textbf{1.00} & \emph{1.00} & 0.98 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.95 & \textbf{0.25} & 0.25 & \emph{0.25} \\ 
+    &  & 1.0 & 0.88 & \textbf{1.00} & \emph{1.00} & 0.97 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & 0.79 & \emph{0.26} & 0.28 & \textbf{0.24} \\ 
+    &  & 1.0 & 0.78 & 1.13 & \emph{1.12} & \textbf{0.98} \\ 
+  
+	\end{tabular}
+	\caption{The MISE for the fitted output in each simulation setting, under variable selection via LAGR, no variable selection, and oracular variable selection. Highlighting indicates the \textbf{closest} and \emph{next-closest} to the actual error variance $\sigma_\varepsilon^2$ for that setting.}
+	\label{tab:misey}
+\end{table}
+
+The proposed LAGR method was accurate in selection and estimation,
+with estimation accuracy for $\beta_{1}(\bm{s})$ about equal to that
+of the VCR model with no selection, and with consistently better accuracy
+for estimating $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$.
+
+There was minimal difference in the performance of the proposed LAGR
+method between low ($\sigma_{\varepsilon}=0.5$) and high ($\sigma_{\varepsilon}=1$)
+error variance, and between no ($\rho=0$) and moderate ($\rho=0.5$)
+correlation among the covariates. But the selection and estimation
+accuracy did decline when there was high ($\rho=0.9$) correlation
+among the predictor variables.
+
+
+\section{Data Example\label{sec:example}}
+
+
+
+
+The proposed LAGR estimation method was used to estimate the coefficients
+in a VCR model of the effect of some covariates on the price of homes
+in Boston \citep{Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997}.
+The data source is based on the 1970 U.S. census. In the data, we
+have the median price of homes sold in 506 census tracts (MEDV), along
+with some potential covariates. The covariates are CRIM (the per-capita
+crime rate in the tract), RM (the mean number of rooms for houses
+sold in the tract), RAD (an index of how accessible the tract is from
+Boston's radial roads), TAX (the property tax per \$10,000 of property
+value), and LSTAT (the percentage of the tract's residents who are
+considered ``lower status''). The bandwidth parameter was set to
+0.2 for a nearest neighbors-type bandwidth, meaning that the sum of
+kernel weights for each local model was 20\% of the total number of
+observations. The kernel used was the Epanechnikov kernel.
+
+A summary of the local coefficients is in Table \ref{tab:boston-coefs-lagr}.
+It indicates that RM is the only predictor variable with a positive
+mean of the local coefficients. The coefficient of the CRIM variable
+was estimated to be exactly zero at 49\%
+of the locations. The percentage for the RAD variable was 37\%.
+
+\begin{figure}
+
+\includegraphics[width=\maxwidth]{figure/boston-plots} 
+
+
+\caption{The LAGR estimates of coefficients for the Boston house price data.\label{fig:boston-lagr-coefs}}
+\end{figure}
+
+Estimates of the regression coefficients are plotted in Figure \ref{fig:boston-lagr-coefs}.
+One interesting result is that LAGR indicates that the TAX variable
+was nowhere an important predictor of the median house price. Another
+is that the coefficients of CRIM and LSTAT are everywhere negative
+or zero (meaning that a greater crime rate or proportion of lower-status
+individuals is associated with a lower median house price where the
+effect is discernable) and that of RM is positive (meaning that a
+greater average number of rooms per house is associated with a greater
+median house price). The coefficient of RAD is positive in some areas
+and negative in others. This indicates that there are parts of Boston
+where improved access to radial roads is associates with a greater
+median house price and parts where it is associated with a lesser
+median house price.
+
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Thu Jul 10 18:45:20 2014
+\begin{table}
+\centering
+\begin{tabular}{rrrr}
+  & Mean & SD & Prop. zero \\ 
+  \hline
+CRIM & -0.07 & 0.08 & 0.49 \\ 
+  RM & 1.92 & 1.43 & 0.02 \\ 
+  RAD & -0.08 & 0.13 & 0.37 \\ 
+  TAX & 0.00 & 0.00 & 1.00 \\ 
+  LSTAT & -0.72 & 0.16 & 0.01 \\ 
+  \end{tabular}
+\caption{The mean, standard deviation, and proportion of zeros among the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by LAGR.} 
+\label{tab:boston-coefs-lagr}
+\end{table}
+
+
+In their example using the same data, \citet{Sun-Yan-Zhang-Lu-2014}
+estimated that the coefficients of RAD annd LSTAT should be constant,
+at $0.36$ and $-0.45$, respectively. That conclusion differs from
+our result, which says that the mean local coefficient of RAD is actually
+negative (\ensuremath{-0.08}), while
+our mean fitted local coefficient for LSTAT was more negative than
+the estimate of \citet{Sun-Yan-Zhang-Lu-2014}.
+
+
 \section{Extension to GLMs\label{sec:lagr-gllm}}
 
 
@@ -578,259 +814,6 @@ then $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to0$
 if $j\le p_{0}$ and $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to1$
 if $j>p_{0}$. 
 \end{thm}
-
-\section{Simulation Study\label{sec:simulations}}
-
-
-
-
-\subsection{Simulation Setup}
-
-A simulation study was conducted to assess the performance of the
-method described in Sections \ref{sec:vcr}--\ref{sec:lagr-gaussian}.
-Data were simulated on the domain $[0,1]^{2}$, which was divided
-into a $30\times30$ grid. Each of $p=5$ covariates $X_{1},\dots,X_{5}$
-was simulated by a Gaussian random field with mean zero and exponential
-covariance function $\text{Cov}\left(X_{ji},X_{ji'}\right)=\sigma_{x}^{2}\exp{\left(-\tau_{x}^{-1}\delta_{ii'}\right)}$
-where $\sigma_{x}^{2}=1$ is the variance, $\tau_{x}=0.1$ is the
-range parameter, and $\delta_{ii'}=\|\bm{s}_{i}-\bm{s}_{i'}\|_{2}$
-is the Euclidean distance between locations $\bm{s}$ and $\bm{s}_{i}$. 
-
-Correlation was induced between the covariates by multiplying the
-design matrix $\bm{X}$ by $\bm{R}$, where $\bm{R}$ is the Cholesky
-decomposition of the covariance matrix $\bm{\Sigma}=\bm{R}'\bm{R}$.
-The covariance matrix $\bm{\Sigma}$ is a $5\times5$ matrix that
-has ones on the diagonal and $\rho$ for all off-diagonal entries,
-where $\rho$ is the between-covariate correlation. 
-
-The simulated response was $y_{i}=\bm{x}'_{i}\bm{\beta}_{i}+\varepsilon_{i}$
-for $i=1,\dots,n$ where $n=900$ and the $\varepsilon_{i}$'s were
-iid Gaussian with mean zero and variance $\sigma_{\varepsilon}^{2}$.
-The simulated data included the response $y$ and five covariates
-$x_{1},\dots,x_{5}$. The true data-generating model uses only $x_{1}$.
-The variables $x_{2},\dots,x_{5}$ are included to assess performance
-in model selection. 
-
-Three different functions were used for the coefficient surface $\beta_{1}(\bm{s})$
-(Figure \ref{fig:simulation-coefficient-functions}). The first is
-the ``step'' function:
-
-\[
-\beta_{step}(\bm{s})=\ \ \begin{cases}
-1 & if\ s_{x}>0.6\\
-5s_{x}-2 & if\ 0.4<s_{x}\le0.6\\
-0 & o.w.
-\end{cases}.
-\]
-
-
-The second is the gradient function, $\beta_{gradient}(\bm{s})=s_{x}$,
-and the third is the parabola $\beta_{parabola}(\bm{s})=1-2\left\{ (s_{x}-0.5)^{2}+(s_{y}-0.5)^{2}\right\} $.
-
-\begin{figure}
-\includegraphics[width=0.33\textwidth]{0_Users_wesley_git_gwr_figures_simulation_step.pdf}\includegraphics[width=0.33\textwidth]{1_Users_wesley_git_gwr_figures_simulation_gradient.pdf}\includegraphics[width=0.33\textwidth]{2_Users_wesley_git_gwr_figures_simulation_parabola.pdf}
-
-\protect\caption{These are, respectively, the step, gradient, and parabola functions
-that were used for the coefficient function $\beta_{1}(\bm{s})$ in
-the VCR model $y(\bm{s}_{i})=x_{1}(\bm{s}_{i})\beta_{1}(\bm{s}_{i})+\varepsilon(\bm{s}_{i})$
-when generating the data for the simulation study.\label{fig:simulation-coefficient-functions}}
-\end{figure}
-
-
-In total, three parameters were varied to produce 18 settings, each
-of which was simulated 100 times. There were the three functional
-forms for the coefficient surface $\beta_{1}(\bm{s})$; data was simulated
-both with low ($\rho=0$), medium ($\rho=0.5$), and high ($\rho=0.9$)
-correlation between the covariates; and simulations were made with
-low ($\sigma_{\varepsilon}=0.5$) and high ($\sigma_{\varepsilon}=1$)
-variance for the random error term.
-
-
-
-The results are presented in terms of the mean integrated squared
-error (MISE) of the coefficient surface estimates $\hat{\beta}_{1}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$,
-the MISE of the fitted response $\hat{y}(\bm{s})$, and the frequency
-with which the coefficient surface estimates $\hat{\beta}_{2}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$
-estimated by LAGR were zero. The performance of LAGR was compared
-to that of a VCR model without variable selection, and to a VCR model
-with oracular selection. Oracular selection means that exactly the
-correct set of covariates was used to fit each local model.
-
-\begin{table}
-	\begin{tabular}{ccc|ccc|cc}
-		\multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}Simulation\\settings\end{tabular}} & \multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{\beta}_1$\end{tabular}} & \multicolumn{2}{c}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{\beta}_2, \dots, \hat{\beta}_5$\end{tabular}} \\
-		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & LAGR & VCR & Oracle & LAGR & VCR \\
-		\hline 
-
-% latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Thu Jul 10 16:40:09 2014
-  \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
-    &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
-    &  & 1.0 & \emph{0.03} & 0.05 & \textbf{0.02} & \textbf{0.00} & 0.03 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & \emph{0.03} & 0.05 & \textbf{0.01} & \textbf{0.00} & 0.04 \\ 
-    &  & 1.0 & \emph{0.12} & 0.17 & \textbf{0.02} & \textbf{0.02} & 0.15 \\ 
-   \hline \multirow{6}{*}{gradient} & \multirow{2}{*}{0} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.00} & \textbf{0.00} & 0.00 \\ 
-    &  & 1.0 & 0.03 & \emph{0.02} & \textbf{0.01} & \textbf{0.00} & 0.02 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.00} & \textbf{0.00} & 0.01 \\ 
-    &  & 1.0 & 0.04 & \emph{0.03} & \textbf{0.01} & \textbf{0.00} & 0.03 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & \emph{0.03} & 0.04 & \textbf{0.00} & \textbf{0.00} & 0.04 \\ 
-    &  & 1.0 & \emph{0.14} & 0.14 & \textbf{0.01} & \textbf{0.02} & 0.15 \\ 
-   \hline \multirow{6}{*}{parabola} & \multirow{2}{*}{0} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.01} & \textbf{0.00} & 0.00 \\ 
-    &  & 1.0 & 0.03 & \emph{0.02} & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
-    &  & 1.0 & 0.03 & \emph{0.03} & \textbf{0.02} & \textbf{0.00} & 0.03 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & \emph{0.02} & 0.04 & \textbf{0.01} & \textbf{0.00} & 0.04 \\ 
-    &  & 1.0 & 0.17 & \emph{0.14} & \textbf{0.02} & \textbf{0.03} & 0.15 \\ 
-  
-
-	\end{tabular}
-	\caption{Listing of the simulation settings used to assess the performance of LAGR models versus oracle selection and no selection.}
-	\label{tab:mise}
-\end{table}
-
-
-\subsection{Simulation Results}
-
-The MISE of the estimates of $\beta_{1}(\bm{s})$ are in Table \ref{tab:misex}.
-Recall that $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$ are exactly
-zero across the entire domain. Oracle selection will estimate these
-coefficients perfectly, so we focus on the comparison between estimation
-by LAGR and by the VCR model with no selection. These results show
-that for every simulation setting, LAGR estimation is more accurate
-than the standard VCR model.
-
-
-
-From Table \ref{tab:misey} we see that LAGR has good ability to identify
-zero-coefficient covariates. The frequency with which $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
-were dropped from the LAGR models ranged from 0.78
-to 0.97. The MISE of the fitted $\hat{y}(\bm{s})$
-is listed in Table \ref{tab:misey}, where the highlighting is based
-on which methods estimate an error variance that is closest to the
-known truth for the simulation. The results are all very similar to
-each other, indicating that no method was consistently better than
-the others in this simulation at fitting the model output.
-
-\begin{table}
-	\begin{tabular}{ccc|c|ccc}
-		\multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}Simulation\\settings\end{tabular}} &  \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Zero\\frequency\end{tabular}} &  \multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{y}$\end{tabular}} \\
-		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & $\hat{\beta}_2,\dots,\hat{\beta}_5 & LAGR & VCR & Oracle \\
-		\hline 
-
-% latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Thu Jul 10 16:40:11 2014
-  \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
-    &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
-    &  & 1.0 & 0.92 & \emph{0.99} & \textbf{1.00} & 0.98 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & 0.86 & \emph{0.27} & 0.30 & \textbf{0.25} \\ 
-    &  & 1.0 & 0.85 & \emph{1.08} & 1.14 & \textbf{0.98} \\ 
-   \hline \multirow{6}{*}{gradient} & \multirow{2}{*}{0} & 0.5 & 0.96 & \emph{0.25} & \textbf{0.25} & 0.25 \\ 
-    &  & 1.0 & 0.95 & \textbf{0.99} & \emph{0.99} & 0.97 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.94 & \emph{0.25} & \textbf{0.25} & 0.24 \\ 
-    &  & 1.0 & 0.92 & \emph{1.00} & \textbf{1.00} & 0.97 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & 0.80 & \emph{0.27} & 0.28 & \textbf{0.24} \\ 
-    &  & 1.0 & 0.85 & \emph{1.09} & 1.12 & \textbf{0.97} \\ 
-   \hline \multirow{6}{*}{parabola} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & \textbf{0.25} & 0.25 \\ 
-    &  & 1.0 & 0.94 & \textbf{1.00} & \emph{1.00} & 0.98 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.95 & \textbf{0.25} & 0.25 & \emph{0.25} \\ 
-    &  & 1.0 & 0.88 & \textbf{1.00} & \emph{1.00} & 0.97 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & 0.79 & \emph{0.26} & 0.28 & \textbf{0.24} \\ 
-    &  & 1.0 & 0.78 & 1.13 & \emph{1.12} & \textbf{0.98} \\ 
-  
-	\end{tabular}
-	\caption{The MISE for the fitted output in each simulation setting, under variable selection via LAGR, no variable selection, and oracular variable selection. Highlighting indicates the \textbf{closest} and \emph{next-closest} to the actual error variance $\sigma_\varepsilon^2$ for that setting.}
-	\label{tab:misey}
-\end{table}
-
-The proposed LAGR method was accurate in selection and estimation,
-with estimation accuracy for $\beta_{1}(\bm{s})$ about equal to that
-of the VCR model with no selection, and with consistently better accuracy
-for estimating $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$.
-
-There was minimal difference in the performance of the proposed LAGR
-method between low ($\sigma_{\varepsilon}=0.5$) and high ($\sigma_{\varepsilon}=1$)
-error variance, and between no ($\rho=0$) and moderate ($\rho=0.5$)
-correlation among the covariates. But the selection and estimation
-accuracy did decline when there was high ($\rho=0.9$) correlation
-among the predictor variables.
-
-
-\section{Data Example\label{sec:example}}
-
-
-
-
-The proposed LAGR estimation method was used to estimate the coefficients
-in a VCR model of the effect of some covariates on the price of homes
-in Boston \citep{Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997}.
-The data source is based on the 1970 U.S. census. In the data, we
-have the median price of homes sold in 506 census tracts (MEDV), along
-with some potential covariates. The covariates are CRIM (the per-capita
-crime rate in the tract), RM (the mean number of rooms for houses
-sold in the tract), RAD (an index of how accessible the tract is from
-Boston's radial roads), TAX (the property tax per \$10,000 of property
-value), and LSTAT (the percentage of the tract's residents who are
-considered ``lower status''). The bandwidth parameter was set to
-0.2 for a nearest neighbors-type bandwidth, meaning that the sum of
-kernel weights for each local model was 20\% of the total number of
-observations. The kernel used was the Epanechnikov kernel.
-
-A summary of the local coefficients is in Table \ref{tab:boston-coefs-lagr}.
-It indicates that RM is the only predictor variable with a positive
-mean of the local coefficients. The coefficient of the CRIM variable
-was estimated to be exactly zero at 49\%
-of the locations. The percentage for the RAD variable was 37\%.
-
-\begin{figure}
-
-\includegraphics[width=\maxwidth]{figure/boston-plots} 
-
-
-\caption{The LAGR estimates of coefficients for the Boston house price data.\label{fig:boston-lagr-coefs}}
-\end{figure}
-
-Estimates of the regression coefficients are plotted in Figure \ref{fig:boston-lagr-coefs}.
-One interesting result is that LAGR indicates that the TAX variable
-was nowhere an important predictor of the median house price. Another
-is that the coefficients of CRIM and LSTAT are everywhere negative
-or zero (meaning that a greater crime rate or proportion of lower-status
-individuals is associated with a lower median house price where the
-effect is discernable) and that of RM is positive (meaning that a
-greater average number of rooms per house is associated with a greater
-median house price). The coefficient of RAD is positive in some areas
-and negative in others. This indicates that there are parts of Boston
-where improved access to radial roads is associates with a greater
-median house price and parts where it is associated with a lesser
-median house price.
-
-% latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Thu Jul 10 16:40:17 2014
-\begin{table}
-\centering
-\begin{tabular}{rrrr}
-  & Mean & SD & Prop. zero \\ 
-  \hline
-CRIM & -0.07 & 0.08 & 0.49 \\ 
-  RM & 1.92 & 1.43 & 0.02 \\ 
-  RAD & -0.08 & 0.13 & 0.37 \\ 
-  TAX & 0.00 & 0.00 & 1.00 \\ 
-  LSTAT & -0.72 & 0.16 & 0.01 \\ 
-  \end{tabular}
-\caption{The mean, standard deviation, and proportion of zeros among the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by LAGR.} 
-\label{tab:boston-coefs-lagr}
-\end{table}
-
-
-In their example using the same data, \citet{Sun-Yan-Zhang-Lu-2014}
-estimated that the coefficients of RAD annd LSTAT should be constant,
-at $0.36$ and $-0.45$, respectively. That conclusion differs from
-our result, which says that the mean local coefficient of RAD is actually
-negative (\ensuremath{-0.08}), while
-our mean fitted local coefficient for LSTAT was more negative than
-the estimate of \citet{Sun-Yan-Zhang-Lu-2014}.
-
 \appendix
 
 \section*{Appendix: Proofs of Theorem \ref{theorem:normality}\label{sec:gaussian-normality-proof} }
@@ -893,9 +876,9 @@ equation:
 
 That is, $\hat{\bm{u}}_{n}=\left\{ n^{-1}\bm{Z}^{T}\left(\bm{s}\right)\bm{W}\left(\bm{s}\right)\bm{Z}\left(\bm{s}\right)\right\} ^{-1}\left[hn^{-1/2}\bm{Z}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left\{ \bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)\right\} \right]$.
 
-By the epiconvergence results of \citet{Geyer-1994} and \citet{Knight-Fu-2000},
-the minimizer of the limiting function is the limit of the minimizers
-$\hat{\bm{u}}^{(n)}$. Since, by Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014},
+By epiconvergence results, the minimizer of the limiting function
+is the limit of the minimizers $\hat{\bm{u}}^{(n)}$ \citep{Geyer-1994,Knight-Fu-2000}.
+Since, by Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014},
 
 \begin{equation}
 \hat{\bm{u}}_{n}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\},f(\bm{s})\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
@@ -963,8 +946,12 @@ cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $Pr\left\{ \hat{\
 
 \section*{Appendix: Lemmas}
 
-The next proofs require the following lemmas.
-\begin{lem}[\label{lemma:A1-expectation}]
+The next proofs require the following lemmas. Define the $q$-functions
+to be the derivatives of the quasi-likelihood: $q_{j}(t,y)=\left(\partial/\partial t\right)^{j}Q\left(g^{-1}\left(t\right),y\right)$.
+Then $q_{1}\left(\eta\left(\bm{s}\right),\mu\left(\bm{s}\right)\right)=0$
+and $q_{2}\left(\eta\left(\bm{s}\right),\mu\left(\bm{s}\right)\right)=-b''\left(\eta\left(\bm{s}\right)\right)$.
+Also define $\bar{\eta}_{i}\left(\right)$
+\begin{lem}[\label{lemma:omega-expectation}]
 \[
 E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\right]=(1/2)\alpha_{n}^{-1}h^{2}f\left(\bm{s}\right)\left(\begin{array}{ccc}
 1 & \nu_{1} & \nu_{2}\\
@@ -975,9 +962,9 @@ E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \
 
 \end{lem}
 
-\begin{lem}[\label{lemma:A1-variance}]
+\begin{lem}[\label{lemma:omega-variance}]
 \[
-Var\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right]=f\left(\bm{s}\right)\left(\begin{array}{ccc}
+Var\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\right]=f\left(\bm{s}\right)\left(\begin{array}{ccc}
 \nu_{0} & \nu_{1} & \nu_{2}\\
 \nu_{1} & \nu_{2} & \nu_{3}\\
 \nu_{2} & \nu_{2} & \nu_{4}
@@ -986,7 +973,7 @@ Var\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{
 
 \end{lem}
 
-\begin{lem}[\label{lemma:A2-expectation}]
+\begin{lem}[\label{lemma:delta-expectation}]
 \[
 E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right]\to-f\left(\bm{s}\right)\left(\begin{array}{ccc}
 1 & \nu_{1} & \nu_{2}\\
@@ -997,7 +984,7 @@ E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \
 
 \end{lem}
 
-\begin{lem}[\label{lemma:A2-variance}]
+\begin{lem}[\label{lemma:delta-variance}]
 \[
 Var\left\{ \left(\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
 \]
@@ -1006,11 +993,7 @@ Var\left\{ \left(\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left
 
 \section*{Appendix: Proof of Theorem \ref{theorem:normality-glm}}
 \begin{proof}[Proof of theorem \ref{theorem:normality-glm}]
-Define the $q$-functions to be the derivatives of the quasi-likelihood:
-$q_{j}(t,y)=\left(\partial/\partial t\right)^{j}Q\left(g^{-1}\left(t\right),y\right)$.
-Then $q_{1}\left(\eta\left(\bm{s}\right),\mu\left(\bm{s}\right)\right)=0$
-and $q_{2}\left(\eta\left(\bm{s}\right),\mu\left(\bm{s}\right)\right)=-b''\left(\eta\left(\bm{s}\right)\right)$.
-Also define $\bar{\eta}_{i}\left(\right)$
+
 \end{proof}
 Define $H_{n}(\bm{u})=\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)$.
 Then, 
@@ -1024,8 +1007,8 @@ H_{n}(\bm{u})= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{
 Define
 
 \begin{align*}
-A_{1}\left(\bm{s}\right)= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\\
-A_{2}\left(\bm{s}\right)= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}.
+\Omega_{n}\left(\bm{s}\right)= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\\
+\Delta_{n}\left(\bm{s}\right)= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}.
 \end{align*}
 
 
@@ -1034,8 +1017,8 @@ around $\bm{\zeta}\left(\bm{s}\right)$ give us:
 
 \begin{align}
 \mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)= & \mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)\label{eq:glm-Taylor-expansion}\\
- & +A_{1}\left(\bm{s}\right)^{T}\bm{u}\\
- & +(1/2)\bm{u}^{T}A_{2}\left(\bm{s}\right)\bm{u}\\
+ & +\Omega_{n}\left(\bm{s}\right)^{T}\bm{u}\\
+ & +(1/2)\bm{u}^{T}\Delta_{n}\left(\bm{s}\right)\bm{u}\\
  & +\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}\\
  & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|\nonumber 
 \end{align}
@@ -1045,8 +1028,8 @@ where $\tilde{\bm{\zeta}_{i}}$ lies between $\bm{\zeta}(\bm{s})$
 and $\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}$. Thus,
 
 \begin{align}
-H_{n}\left(\bm{u}\right)= & A_{1}\left(\bm{s}\right)^{T}\bm{u}\label{eq:taylor-expanded-glm-criterion}\\
- & +(1/2)\bm{u}^{T}A_{2}\left(\bm{s}\right)\bm{u}\\
+H_{n}\left(\bm{u}\right)= & \Omega_{n}\left(\bm{s}\right)^{T}\bm{u}\label{eq:taylor-expanded-glm-criterion}\\
+ & +(1/2)\bm{u}^{T}\Delta_{n}\left(\bm{s}\right)\bm{u}\\
  & +\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}\\
  & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\left\{ \|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{j}\left(\bm{s}\right)\|\right\} .\nonumber 
 \end{align}
@@ -1095,7 +1078,7 @@ Thus, the limit of $H_{n}\left(\bm{u}\right)$ is the same as the
 limit of $H_{n}^{*}\left(\bm{u}\right)$ where
 
 \[
-H_{n}^{*}\left(\bm{u}\right)=A_{1}\left(\bm{s}\right)^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta\bm{u}+o_{p}\left(1\right)
+H_{n}^{*}\left(\bm{u}\right)=\Omega_{n}\left(\bm{s}\right)^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta\left(\bm{s}\right)\bm{u}+o_{p}\left(1\right)
 \]
  
 
@@ -1104,20 +1087,25 @@ otherwise. It follows that $H_{n}^{*}\left(\bm{u}\right)$ is convex
 and its unique minimizer $\hat{\bm{u}}_{n}$ is
 
 \begin{align}
-\hat{\bm{u}}_{n}= & \left\{ \Delta\left(\bm{s}\right)\right\} ^{-1}A_{1}\left(\bm{s}\right)+o_{p}\left(1\right)\label{eq:limit-1}
+\hat{\bm{u}}_{n}= & \left\{ \Delta\left(\bm{s}\right)\right\} ^{-1}\Omega_{n}\left(\bm{s}\right)+o_{p}\left(1\right)\label{eq:limit-1}
 \end{align}
 
 
-by the quadratic approximation lemma\citep{Fan-Gijbels-1996}.
+by the quadratic approximation lemma \citep{Fan-Gijbels-1996}. Then
+by epiconvergence, the minimizer of the limiting function is the limit
+of the minimizers $\hat{\bm{u}}_{n}$ \citep{Geyer-1994,Knight-Fu-2000}.
 
-By the epiconvergence results of \citet{Geyer-1994} and \citet{Knight-Fu-2000},
-the minimizer of the limiting function is the limit of the minimizers
-$\hat{\bm{u}}_{n}$. Since, by Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014},
+Since $\Delta\left(\bm{s}\right)$ is a constant, the normality of
+$\hat{\bm{u}}_{n}$ follows from the normality of $\Omega_{n}\left(\bm{s}\right)$,
+which is establised via the Cram\textipa{\'e}r-Wold device. Let $\bm{d}\in\mathbb{R}^{3p}$
+be a unit vector, and let
 
-\begin{equation}
-\hat{\bm{u}}_{n}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\},f(\bm{s})\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
-\end{equation}
-the result of Theorem \ref{theorem:normality} follows.
+\[
+\xi_{i}=K_{h}\left(\|\bm{s}_{i}-\bm{s}\|\right)q_{1}\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right)\right),Y\left(\bm{s}_{i}\right)\right)\bm{d}^{T}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}.
+\]
+
+
+Then $\bm{d}^{T}\Omega_{n}\left(\bm{s}\right)=\alpha_{n}\sum_{i=1}^{n}\xi_{i}$.
 \begin{proof}[Proof of Theorem \ref{theorem:selection}]
 
 
@@ -1133,46 +1121,21 @@ Assume $\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ne0$. Then $\mathcal{J}\left(\bm{\zeta}
 is differentiable w.r.t. $\bm{\zeta}_{p}\left(\bm{s}\right)$ and
 is minimized where 
 \begin{align}
-\utilde{0}= & \bm{Z}_{p}^{T}\left(\bm{s}\right)\bm{W}\left(\bm{s}\right)\left\{ \bm{Y}-\bm{Z}_{-p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)-\bm{Z}_{p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\right\} -\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}\\
-= & \bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left[\bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \right]\\
- & +\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{-p}\left(\bm{s}\right)\left[\bm{\zeta}_{-p}\left(\bm{s}\right)+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{-p}\left(\bm{s}\right)\right\} -\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)\right]\\
- & +\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{p}\left(\bm{s}\right)\left[\bm{\zeta}_{p}\left(\bm{s}\right)+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)\right\} -\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\right]\\
- & -\phi_{p}\left(\bm{s}\right)\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}
+\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}_{i}-\bm{s}\|\right)q_{1}\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\hat{\bm{\zeta}}\left(\bm{s}\right)\right),Y_{i}\right)\left\{ \bm{Z}_{p}\left(\bm{s}_{i}\right)\right\} _{i}\label{eq:glm-selection}
 \end{align}
 
 
-Thus, 
-\begin{align}
-\frac{h}{\sqrt{n}}\phi_{p}\left(\bm{s}\right)\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}=\label{eq:selection-1}\\
- & \bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\frac{h}{\sqrt{n}}\left[\bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \right]\\
- & +\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}(\bm{s})\bm{Z}_{-p}\left(\bm{s}\right)\right\} h\sqrt{n}\left[\bm{\zeta}_{-p}\left(\bm{s}\right)+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{-p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{-p}\left(\bm{s}\right)\right\} -\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)\right]\notag\\
- & +\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{p}\left(\bm{s}\right)\right\} h\sqrt{n}\left[\bm{\zeta}_{p}\left(\bm{s}\right)+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)\right\} -\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\right]
-\end{align}
-
-
-From Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014}, $\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{-p}\left(\bm{s}\right)\right\} =O_{p}\left(1\right)$
-and $\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{p}\left(\bm{s}\right)\right\} =O_{p}\left(1\right)$.
-
-From Theorem 3 of \citet{Sun-Yan-Zhang-Lu-2014}, we have that $h\sqrt{n}\left[\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)-\bm{\zeta}_{-p}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{-p}\left(\bm{s}\right)+\nabla_{vv}^{2}\zeta_{-p}\left(\bm{s}\right)\right\} \right]=O_{p}\left(1\right)$
-and $h\sqrt{n}\left[\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)-\bm{\zeta}_{p}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{p}\left(\bm{s}\right)+\nabla_{vv}^{2}\zeta_{p}\left(\bm{s}\right)\right\} \right]=O_{p}\left(1\right)$.
-
-We showed in the proof of Theorem \ref{theorem:normality} that
-
-\[
-h\sqrt{n}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left[\bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \right]=O_{p}\left(1\right).
-\]
-
-
-The right hand side of (\ref{eq:selection-1}) is $O_{p}(1)$, so
-for $\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)$ to be a solution, we
-must have that $hn^{-1/2}\phi_{p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)/\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|=O_{p}\left(1\right)$.
+From Lemma \ref{lemma:omega-expectation} and Lemma \ref{lemma:omega-variance},
+the right hand side of (\ref{eq:glm-selection}) is $O_{p}\left(1\right)$,
+so for $\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)$ to be a solution,
+we must have that $hn^{-1/2}\phi_{p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)/\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|=O_{p}\left(1\right)$.
 
 But since by assumption $\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\ne\utilde{0}$,
 there must be some $k\in\{1,2,3\}$ such that $|\hat{\zeta}_{p_{k}}\left(\bm{s}\right)|=\max\{|\hat{\zeta}_{p_{k'}}\left(\bm{s}\right)|:1\le k'\le3\}$.
 And for this $k$, we have that $|\hat{\zeta}_{p_{k}}\left(\bm{s}\right)|/\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|\ge1/\sqrt{3}>0$.
 
 Since $hn^{-1/2}b_{n}\to\infty$, we have that $hn^{-1/2}\phi_{p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)/\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|\ge hb_{n}/\sqrt{3n}\to\infty$
-and therefore the left hand side of (\ref{eq:selection-1}) dominates
+and therefore the left hand side of (\ref{eq:glm-selection}) dominates
 the sum to the right side. Thus, for large enough $n$, $\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\ne\utilde{0}$
 cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $Pr\left\{ \hat{\bm{\zeta}}_{(b)}\left(\bm{s}\right)=\utilde{0}\right\} \to1$. 
 
