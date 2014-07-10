@@ -69,6 +69,11 @@
 \makeatletter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
 \usepackage[natbibapa]{apacite}
+\newcommand{\lyxaddress}[1]{
+\par {\raggedright #1
+\vspace{1.4em}
+\noindent\par}
+}
 \theoremstyle{plain}
 \newtheorem{thm}{\protect\theoremname}
   \theoremstyle{plain}
@@ -88,7 +93,21 @@
 \title{Local Adaptive Grouped Regularization and its Oracle Properties}
 
 
-\author{Wesley Brooks, Jun Zhu, Zudi Lu}
+\author{Wesley Brooks%
+\thanks{
+\lyxaddress{\ead{wrbrooks@uwalumni.com} Department of Statistics, University
+of Wisconsin, Madison, WI 53706}%
+}\\
+Jun Zhu%
+\thanks{
+\lyxaddress{\ead{jzhu@stat.wisc.edu} Department of Statistics and Department
+of Entomology, University of Wisconsin, Madison, WI 53706}%
+} \\
+Zudi Lu%
+\thanks{
+\lyxaddress{\ead{Z.Lu@soton.ac.uk} School of Mathematical Sciences, The University
+of Adelaide, Australia}%
+}}
 
 \maketitle
 
@@ -644,7 +663,7 @@ correct set of covariates was used to fit each local model.
 		\hline 
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Wed Jul  9 19:07:50 2014
+% Thu Jul 10 16:40:09 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
     &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
@@ -700,7 +719,7 @@ the others in this simulation at fitting the model output.
 		\hline 
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Wed Jul  9 19:07:52 2014
+% Thu Jul 10 16:40:11 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
     &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
@@ -787,7 +806,7 @@ median house price and parts where it is associated with a lesser
 median house price.
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Wed Jul  9 19:07:58 2014
+% Thu Jul 10 16:40:17 2014
 \begin{table}
 \centering
 \begin{tabular}{rrrr}
