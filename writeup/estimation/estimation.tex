@@ -412,7 +412,7 @@ where the local coefficient estimate is written $\hat{\bm{\zeta}}(\lambda;\bm{s}
 to emphasize that it depends on the tuning parameter.
 
 
-\section{Extension to GLLMs\label{sec:lagr-gllm}}
+\section{Extension to GLMs\label{sec:lagr-gllm}}
 
 
 \subsection{Model}
@@ -427,22 +427,22 @@ the response variable $y$ is from an exponential-family distribution
 then its density is 
 
 \[
-f\left\{ y(\bm{s})|\bm{x}(\bm{s}),\theta\left(\bm{s}\right)\right\} =c\left\{ y(\bm{s})\right\} \times\left[\exp\theta(\bm{s})y(\bm{s})-b\left\{ \theta(\bm{s})\right\} \right]
+f\left(y\left(\bm{s}\right)|\bm{x}\left(\bm{s}\right),\theta\left(\bm{s}\right)\right)=c\left(y\left(\bm{s}\right)\right)\times\exp\left[\theta\left(\bm{s}\right)y\left(\bm{s}\right)-b\left(\theta\left(\bm{s}\right)\right)\right]
 \]
 
 
 where $\phi$ and $\theta$ are parameters and
 
 \begin{align*}
-E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left\{ \theta(\bm{s})\right\} \\
-\theta(\bm{s})= & (g\circ b')^{-1}\left\{ \eta(\bm{s})\right\} \\
-\eta(\bm{s})= & \bm{x}^{T}(\bm{s})\bm{\beta}(\bm{s})=g\left\{ \mu(\bm{s})\right\} \\
-\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & b''\left\{ \theta(\bm{s})\right\} 
+E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left(\theta\left(\bm{s}\right)\right)\\
+\theta\left(\bm{s}\right)= & (g\circ b')^{-1}\left(\eta\left(\bm{s}\right)\right)\\
+\eta\left(\bm{s}\right)= & \bm{x}^{T}\left(\bm{s}\right)\bm{\beta}\left(\bm{s}\right)=g\left(\mu\left(\bm{s}\right)\right)\\
+\text{\text{Var}}\left\{ y\left(\bm{s}\right)|\bm{x}\left(\bm{s}\right)\right\} = & b''\left(\theta\left(\bm{s}\right)\right)
 \end{align*}
 
 
 The function $g(\cdot)$ is called the link function. If its inverse
-$g^{-1}(\cdot)=b'(\cdot)$ then the composition $(g\circ b')(\cdot)$
+$g^{-1}(\cdot)=b'(\cdot)$ then the composition $\left(g\circ b'\right)\left(\cdot\right)$
 is the identity function. This particular choice of $g$ is called
 the canonical link. We follow the practice of \citet{Fan-Heckman-Wand-1995}
 in assuming the use of the canonical link.
@@ -451,9 +451,9 @@ Under the canonical link function, the expressions for the mean and
 variance of the response variable can be simplified to
 
 \begin{align*}
-E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left\{ \eta(\bm{s})\right\} \\
-\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \left[g'\left\{ \mu(\bm{s})\right\} \right]^{-1}=V\left\{ \mu(\bm{s})\right\} \\
-\frac{d}{d\mu} & g^{-1}\left\{ \mu\left(\bm{s}\right)\right\} =V\left\{ \mu\left(\bm{s}\right)\right\} 
+E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left(\eta(\bm{s})\right)\\
+\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \left[g'\left(\mu(\bm{s})\right)\right]^{-1}=V\left(\mu(\bm{s})\right)\\
+\frac{d}{d\mu} & g^{-1}\left(\mu\left(\bm{s}\right)\right)=V\left(\mu\left(\bm{s}\right)\right)
 \end{align*}
  
 
@@ -466,7 +466,7 @@ Then the GLLM coefficients can be estimated by maximizing the local
 quasi-likelihood 
 
 \begin{align}
-\mathcal{\ell}^{*}\left\{ \bm{\zeta}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ \bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right].
+\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right).
 \end{align}
 
 
@@ -476,7 +476,7 @@ The quasi-likelihood is convex, and is defined in terms of its derivative,
 the quasi-score function
 
 \[
-\frac{\partial}{\partial\mu}Q(\mu,y)=\frac{y-\mu}{V(\mu)}.
+\frac{\partial}{\partial\mu}Q\left(\mu,y\right)=\frac{y-\mu}{V\left(\mu\right)}.
 \]
 
 
@@ -486,17 +486,17 @@ the quasi-score function
 Under these conditions, the local quasi-likelihood is maximized where
 
 \begin{align}
-\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left\{ \hat{{\bm{\zeta}}}(\bm{s})\right\}  & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\frac{y(\bm{s}_{i})-\hat{\mu}(\bm{s}_{i};\bm{s})}{V\left\{ \hat{\mu}(\bm{s}_{i};\bm{s})\right\} }\bm{z}(\bm{s}_{i})=\bm{0}_{3p}
+\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left(\hat{\bm{\zeta}}\left(\bm{s}\right)\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\frac{y\left(\bm{s}_{i}\right)-\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)}{V\left(\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)\right)}\bm{z}\left(\bm{s}_{i}\right)=\bm{0}_{3p}
 \end{align}
 
 
-and $\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)=g^{-1}\left\{ \bm{z}'(\bm{s}_{i})\hat{\bm{\zeta}}\left(\bm{s}\right)\right\} $
+and $\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)=g^{-1}\left(\bm{z}'\left(\bm{s}_{i}\right)\hat{\bm{\zeta}}\left(\bm{s}\right)\right)$
 is the mean at location $\bm{s}_{i}$ estimated using the coefficients
 $\hat{\bm{\zeta}}\left(\bm{s}\right)$ fitted at location $\bm{s}$.
-Except for the $K_{h}(\|\bm{s}-\bm{s}_{i}\|)$ term, this is the same
-as the normal equations for estimating coefficients in a GLM. The
-method of iteratively reweighted least squares (IRLS) is used to solve
-for $\hat{{\bm{\zeta}}}(\bm{s})$.
+Except for the $K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)$ term, this
+is the same as the normal equations for estimating coefficients in
+a GLM. The method of iteratively reweighted least squares (IRLS) is
+used to solve for $\hat{\bm{\zeta}}\left(\bm{s}\right)$.
 
 
 \subsection{Distribution of the local coefficients}
@@ -508,11 +508,11 @@ GLM with a one-dimensional effect-modifying parameter are given in
 link is
 
 \[
-\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left\{ \bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right\} 
+\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
 \]
 
 
-where $\Gamma(\bm{s})=E\left[V\left\{ \mu(\bm{s})\right\} X(\bm{s})X(\bm{s})^{T}\right]$.
+where $\Gamma(\bm{s})=E\left[V\left(\mu(\bm{s})\right)X(\bm{s})X(\bm{s})^{T}\right]$.
 
 
 \subsection{LAGR penalty}
@@ -521,14 +521,14 @@ As in the case of linear models, the LAGR for GLMs is a grouped $\ell_{1}$
 regularization method. Now, though, we use a penalized local quasi-likelihood:
 
 \begin{align}
-\mathcal{J}\left\{ \bm{\zeta}(\bm{s})\right\}  & =\mathcal{\ell}^{*}\left\{ \bm{\zeta}(\bm{s})\right\} +\mathcal{P}\{\bm{\zeta}(\bm{s})\}\notag\label{eq:adaptive-lasso-GLLM}\\
- & =\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)Q\left[g^{-1}\left\{ z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ,Y(\bm{s}_{i})\right]+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|
+\mathcal{J}\left(\bm{\zeta}(\bm{s})\right) & =\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\label{eq:adaptive-lasso-GLLM}\\
+ & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(z'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right)+\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)\|
 \end{align}
 
 
-and similarly to the case for gaussian data, $\phi_{j}(\bm{s})=\lambda_{n}(\bm{s})\|\tilde{\bm{\zeta}}_{j}(\bm{s})\|^{-\gamma}$,
-where $\lambda_{n}(\bm{s})>0$ is a the local tuning parameter applied
-to all coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{j}(\bm{s})$
+and similarly to the case for gaussian data, $\phi_{j}\left(\bm{s}\right)=\lambda_{n}\left(\bm{s}\right)\|\tilde{\bm{\zeta}}_{j}\left(\bm{s}\right)\|^{-\gamma}$,
+where $\lambda_{n}\left(\bm{s}\right)>0$ is a the local tuning parameter
+applied to all coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{j}\left(\bm{s}\right)$
 is the vector of unpenalized local coefficients.
 
 
@@ -544,7 +544,7 @@ in the gaussian setting:
 If $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
 then 
 \[
-h\sqrt{n}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\}\right]\xrightarrow{d}N(0,f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s}))
+h\sqrt{n}\left[\hat{\bm{\beta}}_{a}(\bm{s})-\bm{\beta}_{a}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\beta}_{a}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{a}(\bm{s})\right\} \right]\xrightarrow{d}N\left(0,f\left(\bm{s}\right)^{-1}\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
 \]
 
 \end{thm}
@@ -555,8 +555,8 @@ h\sqrt{n}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\frac{\ka
 
 
 If $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}\infty$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-then $P\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=0\right\} \to0$ if
-$j\le p_{0}$ and $P\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=0\right\} \to1$
+then $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to0$
+if $j\le p_{0}$ and $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to1$
 if $j>p_{0}$. 
 \end{thm}
 
@@ -644,7 +644,7 @@ correct set of covariates was used to fit each local model.
 		\hline 
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Wed Jul  9 18:31:58 2014
+% Wed Jul  9 19:07:50 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
     &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
@@ -700,7 +700,7 @@ the others in this simulation at fitting the model output.
 		\hline 
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Wed Jul  9 18:32:00 2014
+% Wed Jul  9 19:07:52 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
     &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
@@ -787,7 +787,7 @@ median house price and parts where it is associated with a lesser
 median house price.
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Wed Jul  9 18:32:06 2014
+% Wed Jul  9 19:07:58 2014
 \begin{table}
 \centering
 \begin{tabular}{rrrr}
@@ -945,9 +945,9 @@ cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $Pr\left\{ \hat{\
 \section*{Appendix: Lemmas}
 
 The next proofs require the following lemmas.
-\begin{lem}
+\begin{lem}[\label{lemma:A1-expectation}]
 \[
-E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\right]\to(1/2)\alpha_{n}^{-1}h^{2}f\left(\bm{s}\right)\left(\begin{array}{ccc}
+E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\right]=(1/2)\alpha_{n}^{-1}h^{2}f\left(\bm{s}\right)\left(\begin{array}{ccc}
 1 & \nu_{1} & \nu_{2}\\
 \nu_{1} & \nu_{2} & \nu_{3}\\
 \nu_{2} & \nu_{2} & \nu_{4}
@@ -956,35 +956,31 @@ E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \
 
 \end{lem}
 
-\begin{lem}
+\begin{lem}[\label{lemma:A1-variance}]
 \[
-E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right]\to-f\left(\bm{s}\right)\left(\begin{array}{ccc}
-1 & \nu_{1} & \nu_{2}\\
+Var\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right]=f\left(\bm{s}\right)\left(\begin{array}{ccc}
+\nu_{0} & \nu_{1} & \nu_{2}\\
 \nu_{1} & \nu_{2} & \nu_{3}\\
 \nu_{2} & \nu_{2} & \nu_{4}
-\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Delta
+\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Lambda+o\left(1\right)
 \]
 
 \end{lem}
 
-\begin{lem}
+\begin{lem}[\label{lemma:A2-expectation}]
 \[
 E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right]\to-f\left(\bm{s}\right)\left(\begin{array}{ccc}
 1 & \nu_{1} & \nu_{2}\\
 \nu_{1} & \nu_{2} & \nu_{3}\\
 \nu_{2} & \nu_{2} & \nu_{4}
-\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Delta
+\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Delta\left(\bm{s}\right)
 \]
 
 \end{lem}
 
-\begin{lem}
+\begin{lem}[\label{lemma:A2-variance}]
 \[
-E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right]\to-f\left(\bm{s}\right)\left(\begin{array}{ccc}
-1 & \nu_{1} & \nu_{2}\\
-\nu_{1} & \nu_{2} & \nu_{3}\\
-\nu_{2} & \nu_{2} & \nu_{4}
-\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Delta
+Var\left\{ \left(\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
 \]
 
 \end{lem}
@@ -1074,11 +1070,13 @@ h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\ge h^{-1}n^{-1/2}b_{n}\|\bm{u}_{j}\
 \]
 On the other hand, if $\|\bm{u}_{j}\|=0$, then $h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|=0$.
 
+Now, 
+
 Thus, the limit of $H_{n}\left(\bm{u}\right)$ is the same as the
 limit of $H_{n}^{*}\left(\bm{u}\right)$ where
 
 \[
-H_{n}^{*}\left(\bm{u}\right)=A_{1}\left(\bm{s}\right)^{T}\bm{u}+(1/2)\bm{u}^{T}A_{2}\left(\bm{s}\right)\bm{u}+o_{p}\left(1\right)
+H_{n}^{*}\left(\bm{u}\right)=A_{1}\left(\bm{s}\right)^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta\bm{u}+o_{p}\left(1\right)
 \]
  
 
@@ -1087,7 +1085,7 @@ otherwise. It follows that $H_{n}^{*}\left(\bm{u}\right)$ is convex
 and its unique minimizer $\hat{\bm{u}}_{n}$ is
 
 \begin{align}
-\hat{\bm{u}}_{n}= & \left\{ A_{2}\left(\bm{s}\right)\right\} ^{-1}A_{1}\left(\bm{s}\right)\label{eq:limit-1}
+\hat{\bm{u}}_{n}= & \left\{ \Delta\left(\bm{s}\right)\right\} ^{-1}A_{1}\left(\bm{s}\right)+o_{p}\left(1\right)\label{eq:limit-1}
 \end{align}
 
 
