@@ -57,8 +57,6 @@
 \setlength{\parskip}{\bigskipamount}
 \setlength{\parindent}{0pt}
 \usepackage{bm}
-\usepackage{tipa}
-\usepackage{tipx}
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -228,11 +226,11 @@ is maximized at location $\bm{s}$ to estimate the local coefficients
 $\bm{\zeta}(\bm{s})$:
 
 \begin{align}
-\ell\left(\bm{\zeta}(\bm{s})\right) & =-(1/2)\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ^{2}\right]\label{eq:local-log-likelihood}
+\ell\left(\bm{\zeta}(\bm{s})\right)= & -(1/2)\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left[\log\sigma^{2}+\sigma^{-2}\left\{ y\left(\bm{s}_{i}\right)-\bm{z}'\left(\bm{s}_{i}\right)\bm{\zeta}\left(\bm{s}\right)\right\} ^{2}\right]\label{eq:local-log-likelihood}
 \end{align}
 
 
-where $h$ is a bandwidth parameter and the $K_{h}(\|\bm{s}-\bm{s}_{i}\|)$
+where $h$ is a bandwidth parameter and the $K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)$
 for $i=1,\dots,n$ are local weights from a kernel function and $h$
 is a bandwidth parameter. For instance, the Epanechnikov kernel is
 defined as \citep{Samiuddin-el-Sayyad-1990}: 
@@ -498,7 +496,7 @@ correct set of covariates was used to fit each local model.
 		\hline 
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Thu Jul 10 18:45:11 2014
+% Fri Jul 11 10:23:37 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
     &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
@@ -554,7 +552,7 @@ the others in this simulation at fitting the model output.
 		\hline 
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Thu Jul 10 18:45:14 2014
+% Fri Jul 11 10:23:39 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
     &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
@@ -641,7 +639,7 @@ median house price and parts where it is associated with a lesser
 median house price.
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Thu Jul 10 18:45:20 2014
+% Fri Jul 11 10:23:45 2014
 \begin{table}
 \centering
 \begin{tabular}{rrrr}
@@ -1097,7 +1095,7 @@ of the minimizers $\hat{\bm{u}}_{n}$ \citep{Geyer-1994,Knight-Fu-2000}.
 
 Since $\Delta\left(\bm{s}\right)$ is a constant, the normality of
 $\hat{\bm{u}}_{n}$ follows from the normality of $\Omega_{n}\left(\bm{s}\right)$,
-which is establised via the Cram\textipa{\'e}r-Wold device. Let $\bm{d}\in\mathbb{R}^{3p}$
+which is establised via the Cramér-Wold device. Let $\bm{d}\in\mathbb{R}^{3p}$
 be a unit vector, and let
 
 \[
