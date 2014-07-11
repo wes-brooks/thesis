@@ -82,10 +82,7 @@ Local Adaptive Grouped Regularization and its Oracle Properties
 \end_layout
 
 \begin_layout Author
-Wesley Brooks
-,
-\lang english
- Jun Zhu, Zudi Lu
+Wesley Brooks, Jun Zhu, Zudi Lu
 \end_layout
 
 \begin_layout Section
@@ -556,7 +553,7 @@ This intuition is formalized by the local (log-)likelihood, which is maximized
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\ell\left(\bm{\zeta}(\bm{s})\right) & =-(1/2)\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right\} ^{2}\right]\label{eq:local-log-likelihood}
+\ell\left(\bm{\zeta}(\bm{s})\right)= & -(1/2)\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left[\log\sigma^{2}+\sigma^{-2}\left\{ y\left(\bm{s}_{i}\right)-\bm{z}'\left(\bm{s}_{i}\right)\bm{\zeta}\left(\bm{s}\right)\right\} ^{2}\right]\label{eq:local-log-likelihood}
 \end{align}
 
 \end_inset
@@ -570,7 +567,7 @@ where
 \end_inset
 
  is a bandwidth parameter and the 
-\begin_inset Formula $K_{h}(\|\bm{s}-\bm{s}_{i}\|)$
+\begin_inset Formula $K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)$
 \end_inset
 
  for 
@@ -4366,7 +4363,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "lemma:omega-expectation"
+name "lemma:omega"
 
 \end_inset
 
@@ -4390,27 +4387,11 @@ E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \
 
 \end_layout
 
-\begin_layout --Separator--
-
+\begin_layout Lemma
+and 
 \end_layout
 
 \begin_layout Lemma
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "lemma:omega-variance"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \begin_inset Formula 
 \[
 Var\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\right]=f\left(\bm{s}\right)\left(\begin{array}{ccc}
@@ -4436,7 +4417,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "lemma:delta-expectation"
+name "lemma:delta"
 
 \end_inset
 
@@ -4460,27 +4441,11 @@ E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \
 
 \end_layout
 
-\begin_layout --Separator--
-
+\begin_layout Lemma
+and
 \end_layout
 
 \begin_layout Lemma
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "lemma:delta-variance"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \begin_inset Formula 
 \[
 Var\left\{ \left(\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
@@ -4856,16 +4821,7 @@ Since
 \begin_inset Formula $\Omega_{n}\left(\bm{s}\right)$
 \end_inset
 
-, which is establised via the Cram
-\begin_inset IPA
-
-\begin_layout Standard
-́e
-\end_layout
-
-\end_inset
-
-r-Wold device.
+, which is establised via the Cramér-Wold device.
  Let 
 \begin_inset Formula $\bm{d}\in\mathbb{R}^{3p}$
 \end_inset
@@ -4975,14 +4931,7 @@ Assume
 From Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "lemma:omega-expectation"
-
-\end_inset
-
- and Lemma 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "lemma:omega-variance"
+reference "lemma:omega"
 
 \end_inset
 
