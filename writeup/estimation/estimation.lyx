@@ -4331,7 +4331,37 @@ Appendix: Lemmas
 
 \begin_layout Standard
 The next proofs require the following lemmas.
- Define the 
+ First, we define the following terms:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+(D.A.1)
+\end_layout
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bm{x}\in\mathbb{R}^{3p}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+(D.A.2)
+\end_layout
+
+\end_inset
+
+Define the 
 \begin_inset Formula $q$
 \end_inset
 
@@ -4340,20 +4370,50 @@ The next proofs require the following lemmas.
 \end_inset
 
 .
- Then 
-\begin_inset Formula $q_{1}\left(\eta\left(\bm{s}\right),\mu\left(\bm{s}\right)\right)=0$
+ Then
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+(a) 
+\begin_inset Formula $q_{1}\left(\eta\left(\bm{s},\bm{x}\right),\mu\left(\bm{s},\bm{x}\right)\right)=\utilde{0}$
 \end_inset
 
- and 
-\begin_inset Formula $q_{2}\left(\eta\left(\bm{s}\right),\mu\left(\bm{s}\right)\right)=-b''\left(\eta\left(\bm{s}\right)\right)$
+, and 
+\end_layout
+
+\begin_layout Itemize
+(b) 
+\begin_inset Formula $q_{2}\left(\eta\left(\bm{s},\bm{x}\right),\mu\left(\bm{s},\bm{x}\right)\right)=-\rho\left(\bm{s},\bm{x}\right)$
 \end_inset
 
 .
- Also define 
-\begin_inset Formula $\bar{\eta}_{i}\left(\right)$
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+(D.A.4)
+\end_layout
+
 \end_inset
 
+The function 
+\begin_inset Formula $\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right)=\eta\left(\bm{s}\right)+\left\{ \nabla\eta\left(\bm{s}\right)\right\} ^{T}\left(\bm{s}_{i}-\bm{s}\right)=\bm{x}^{T}\left[\bm{\zeta}\left(\bm{s}\right)+\left\{ \nabla\bm{\zeta}\left(\bm{s}\right)\right\} ^{T}\left(\bm{s}_{i}-\bm{s}\right)\right]$
+\end_inset
 
+ is an approximation of 
+\begin_inset Formula $\eta\left(\bm{s}_{i},\bm{x}\right)$
+\end_inset
+
+ based on linear extrapolation of 
+\begin_inset Formula $\bm{\zeta}\left(\bm{s}\right)$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Lemma
@@ -4488,15 +4548,19 @@ reference "theorem:normality-glm"
 \end_layout
 
 \begin_layout Standard
-Define 
-\begin_inset Formula $H_{n}(\bm{u})=\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)$
+Let 
+\begin_inset Formula $H_{n}(\bm{u})=\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)+\alpha_{n}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha_{n}=h^{-1}n^{-1/2}$
 \end_inset
 
 .
  Then, 
 \begin_inset Formula 
 \begin{align}
-H_{n}(\bm{u})= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\right),Y(\bm{s}_{i})\right)\\
+H_{n}(\bm{u})= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\left\{ \bm{\zeta}\left(\bm{s}\right)+\alpha_{n}\bm{u}\right\} \right),Y(\bm{s}_{i})\right)\\
  & -\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right)\right),Y\left(\bm{s}_{i}\right)\right)\\
  & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|-+\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)\|
 \end{align}
@@ -4513,8 +4577,8 @@ Define
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\Omega_{n}\left(\bm{s}\right)= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\\
-\Delta_{n}\left(\bm{s}\right)= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}.
+\Omega_{n}= & \alpha_{n}\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\\
+\Delta_{n}= & \alpha_{n}^{2}\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}
 \end{align*}
 
 \end_inset
@@ -4523,26 +4587,23 @@ Define
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $ $
-\end_inset
-
-Then taking the Taylor expansion of 
-\begin_inset Formula $\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\right)$
+Then it follows from the Taylor expansion of 
+\begin_inset Formula $\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)+\alpha_{n}\bm{u}\right)$
 \end_inset
 
  around 
 \begin_inset Formula $\bm{\zeta}\left(\bm{s}\right)$
 \end_inset
 
- give us:
+ that
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)= & \mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)\label{eq:glm-Taylor-expansion}\\
- & +\Omega_{n}\left(\bm{s}\right)^{T}\bm{u}\\
- & +(1/2)\bm{u}^{T}\Delta_{n}\left(\bm{s}\right)\bm{u}\\
+\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right)= & \mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)\label{eq:glm-Taylor-expansion}\\
+ & +\Omega_{n}{}^{T}\bm{u}\\
+ & +(1/2)\bm{u}^{T}\Delta_{n}\bm{u}\\
  & +\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}\\
  & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|\nonumber 
 \end{align}
@@ -4562,7 +4623,7 @@ where
 \end_inset
 
  and 
-\begin_inset Formula $\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}$
+\begin_inset Formula $\bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}$
 \end_inset
 
 .
@@ -4572,8 +4633,8 @@ where
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-H_{n}\left(\bm{u}\right)= & \Omega_{n}\left(\bm{s}\right)^{T}\bm{u}\label{eq:taylor-expanded-glm-criterion}\\
- & +(1/2)\bm{u}^{T}\Delta_{n}\left(\bm{s}\right)\bm{u}\\
+H_{n}\left(\bm{u}\right)= & \Omega_{n}^{T}\bm{u}\label{eq:taylor-expanded-glm-criterion}\\
+ & +(1/2)\bm{u}^{T}\Delta_{n}\bm{u}\\
  & +\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}\\
  & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\left\{ \|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{j}\left(\bm{s}\right)\|\right\} .\nonumber 
 \end{align}
@@ -4650,14 +4711,14 @@ If
 \end_inset
 
  and 
-\begin_inset Formula $|\sqrt{n}\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{j}\|$
+\begin_inset Formula $|\sqrt{n}\left\{ \|\bm{\zeta}_{j}(\bm{s})+\alpha_{n}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{j}\|$
 \end_inset
 
  .
  Thus, 
 \begin_inset Formula 
 \[
-\lim\limits _{n\to\infty}\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)\le h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\le h^{-1}n^{-1/2}a_{n}\|\bm{u}_{j}\|\to0
+\lim\limits _{n\to\infty}\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+\alpha_{n}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)\le\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\le\alpha_{n}a_{n}\|\bm{u}_{j}\|\to0
 \]
 
 \end_inset
@@ -4679,7 +4740,7 @@ If
 \end_inset
 
 , then 
-\begin_inset Formula $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)=\phi_{j}(\bm{s})h^{-1}n^{-1/2}\|\bm{u}_{j}\|$
+\begin_inset Formula $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+\alpha_{n}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)=\phi_{j}(\bm{s})\alpha_{n}\|\bm{u}_{j}\|$
 \end_inset
 
 .
@@ -4695,7 +4756,7 @@ Since
 \end_inset
 
 , then 
-\begin_inset Formula $h^{-1}n^{-1/2}b_{n}\xrightarrow{p}\infty$
+\begin_inset Formula $\alpha_{n}b_{n}\xrightarrow{p}\infty$
 \end_inset
 
 .
@@ -4709,7 +4770,7 @@ Now, if
 , then 
 \begin_inset Formula 
 \[
-h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\ge h^{-1}n^{-1/2}b_{n}\|\bm{u}_{j}\|\to\infty.
+\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\ge\alpha_{n}b_{n}\|\bm{u}_{j}\|\to\infty.
 \]
 
 \end_inset
@@ -4719,7 +4780,7 @@ On the other hand, if
 \end_inset
 
 , then 
-\begin_inset Formula $h^{-1}n^{-1/2}\phi_{j}(\bm{s})\|\bm{u}_{j}\|=0$
+\begin_inset Formula $\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{j}\|=0$
 \end_inset
 
 .
@@ -4744,7 +4805,7 @@ Thus, the limit of
 \begin_layout Standard
 \begin_inset Formula 
 \[
-H_{n}^{*}\left(\bm{u}\right)=\Omega_{n}\left(\bm{s}\right)^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta\left(\bm{s}\right)\bm{u}+o_{p}\left(1\right)
+H_{n}^{*}\left(\bm{u}\right)=\Omega_{n}^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta\bm{u}+o_{p}\left(1\right)
 \]
 
 \end_inset
@@ -5017,6 +5078,242 @@ reference "eq:glm-selection"
 
 .
  
+\end_layout
+
+\begin_layout Section*
+Appendix: Proof of Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lemma:omega"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph*
+Expectation
+\end_layout
+
+\begin_layout Standard
+Taylor expansion of 
+\begin_inset Formula $\bm{\zeta}\left(\bm{s}_{i}\right)$
+\end_inset
+
+ around 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ gives us 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\bm{\zeta}\left(\bm{s}_{i}\right)=\bm{\zeta}\left(\bm{s}\right)+\nabla\bm{\zeta}\left(\bm{s}\right)\left(\bm{s}_{i}-\bm{s}\right)+\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)+o\left(h^{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and thus, for 
+\begin_inset Formula $\bm{x}\in\mathbb{R}^{3p}$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\eta\left(\bm{s}_{i},\bm{x}\right)=\bm{x}^{T}\left[\bm{\zeta}\left(\bm{s}\right)+\nabla\bm{\zeta}\left(\bm{s}\right)^{T}\left(\bm{s}_{i}-\bm{s}\right)+\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)\right]+o\left(h^{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where, since 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right)=\bm{x}^{T}\left\{ \bm{\zeta}\left(\bm{s}\right)+\nabla\bm{\zeta}\left(\bm{s}\right)^{T}\left(\bm{s}_{i}-\bm{s}\right)\right\} ,
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+we have that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\eta\left(\bm{s}_{i},\bm{x}\right)-\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right)=\bm{x}^{T}\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)+o\left(h^{2}\right)=O\left(h^{2}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By a Taylor expansion around 
+\begin_inset Formula $\eta\left(\bm{s},\bm{x}\right)$
+\end_inset
+
+, then, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+q_{1}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)= & q_{1}\left(\eta\left(\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)\\
+ & -q_{2}\left(\eta\left(\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)\bm{x}^{T}\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)\\
+ & +o\left(h^{2}\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And by (D.A.2)(a) and (D.A.2)(b), we have that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+q_{1}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)=\rho\left(\bm{s}_{i},\bm{x}\right)\bm{x}^{T}\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)+o\left(h^{2}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now the expectation of 
+\begin_inset Formula $\Omega_{n}$
+\end_inset
+
+ is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+E\Omega_{n}=2^{-1}h\sqrt{n}f\left(\bm{s}\right)\Gamma\left(\bm{s}\right)\int K\left(\|\bm{t}\|\right)\left(\begin{array}{c}
+1\\
+t_{1}\\
+t_{2}
+\end{array}\right)\left\{ \bm{t}^{T}\nabla^{2}\bm{\zeta}\left(\bm{s}\right)\bm{t}\right\} \ d\bm{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph*
+Variance
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+E\Omega_{n}^{2}=E\left[K^{2}\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)q_{1}^{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}^{T}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Appendix: Proof of Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lemma:delta"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+An equivalent argument is used to find the value of 
+\begin_inset Formula $q_{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)$
+\end_inset
+
+.
+ The Taylor expansion around 
+\begin_inset Formula $\eta\left(\bm{s}_{i},\bm{x}\right)$
+\end_inset
+
+ results in:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+q_{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)= & q_{2}\left(\eta\left(\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)+q_{3}\left(\eta\left(\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)\left\{ \bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right)-\eta\left(\bm{s}_{i},\bm{x}\right)\right\} \\
+= & -\rho\left(\bm{s}_{i},\bm{x}\right)+o\left(1\right).
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus, the expectation 
+\begin_inset Formula $E\left(\Delta_{n}\right)$
+\end_inset
+
+ is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+E\left(\Delta_{n}\right)= & nE\left[K\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)q_{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}^{T}\right]\\
+\to & -f\left(\bm{s}\right)\left(\begin{array}{ccc}
+\kappa_{0} & \kappa_{1} & \kappa_{1}\\
+\kappa_{1} & \kappa_{2} & \kappa_{1}^{2}\\
+\kappa_{1} & \kappa_{1}^{2} & \kappa_{2}
+\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Delta.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph*
+Variance
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+E\left(\Delta_{n}^{2}\right)= & nE\left[K^{2}\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)q_{2}^{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}^{T}\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}^{T}\right]
+\end{align*}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
