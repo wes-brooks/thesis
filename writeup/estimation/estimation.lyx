@@ -32,7 +32,7 @@ knitr
 \output_sync 0
 \bibtex_command bibtex
 \index_command default
-\paperfontsize 12
+\paperfontsize default
 \spacing double
 \use_hyperref false
 \papersize default
@@ -1148,7 +1148,7 @@ Remarks
 \end_layout
 
 \begin_layout Standard
-Together, Theorem 
+Together, Theorem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "theorem:normality"
@@ -4396,7 +4396,7 @@ Define the
 status open
 
 \begin_layout Plain Layout
-(D.A.4)
+(D.A.3)
 \end_layout
 
 \end_inset
@@ -4414,6 +4414,28 @@ The function
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+(D.A.4)
+\end_layout
+
+\end_inset
+
+Let 
+\begin_inset Formula $\tilde{\bm{\zeta}}_{i}''=\left[\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\zeta_{1}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right),\dots,\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\zeta_{3p}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)\right]^{T}$
+\end_inset
+
+ be the 
+\begin_inset Formula $3p$
+\end_inset
+
+-vector of quadratic forms of location interactions on the second derivatives
+ of the coefficient functions.
 \end_layout
 
 \begin_layout Lemma
@@ -4435,11 +4457,10 @@ name "lemma:omega"
 
 \begin_inset Formula 
 \[
-E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\right]=(1/2)\alpha_{n}^{-1}h^{2}f\left(\bm{s}\right)\left(\begin{array}{ccc}
-1 & \nu_{1} & \nu_{2}\\
-\nu_{1} & \nu_{2} & \nu_{3}\\
-\nu_{2} & \nu_{2} & \nu_{4}
-\end{array}\right)\left\{ 1+o\left(1\right)\right\} 
+E\left[\sum_{i=1}^{n}q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=\left(\begin{array}{c}
+2^{-1}\sqrt{n}h^{3}\kappa_{2}f\left(\bm{s}\right)\Gamma\left(\bm{s}\right)\left(\nabla_{uu}^{2}\bm{\beta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\beta}\left(\bm{s}\right)\right)^{T}\\
+\bm{0}_{2p}
+\end{array}\right)+o_{p}\left(h^{2}\bm{1}_{3p}\right)
 \]
 
 \end_inset
@@ -4454,11 +4475,7 @@ and
 \begin_layout Lemma
 \begin_inset Formula 
 \[
-Var\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\right]=f\left(\bm{s}\right)\left(\begin{array}{ccc}
-\nu_{0} & \nu_{1} & \nu_{2}\\
-\nu_{1} & \nu_{2} & \nu_{3}\\
-\nu_{2} & \nu_{2} & \nu_{4}
-\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Lambda+o\left(1\right)
+Var\left[\sum_{i=1}^{n}q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=f\left(\bm{s}\right)diag\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\Gamma\left(\bm{s}\right)+o\left(1\right)=-\Lambda+o\left(1\right)
 \]
 
 \end_inset
@@ -4489,11 +4506,7 @@ name "lemma:delta"
 
 \begin_inset Formula 
 \[
-E\left[\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right]\to-f\left(\bm{s}\right)\left(\begin{array}{ccc}
-1 & \nu_{1} & \nu_{2}\\
-\nu_{1} & \nu_{2} & \nu_{3}\\
-\nu_{2} & \nu_{2} & \nu_{4}
-\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Delta\left(\bm{s}\right)
+E\left[\sum_{i=1}^{n}q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=-f\left(\bm{s}\right)diag\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\Gamma\left(\bm{s}\right)+o\left(1\right)=-\Delta\left(\bm{s}\right)+o\left(1\right)
 \]
 
 \end_inset
@@ -4508,7 +4521,7 @@ and
 \begin_layout Lemma
 \begin_inset Formula 
 \[
-Var\left\{ \left(\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
+Var\left\{ \left(\sum_{i=1}^{n}q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
 \]
 
 \end_inset
@@ -4560,9 +4573,9 @@ Let
  Then, 
 \begin_inset Formula 
 \begin{align}
-H_{n}(\bm{u})= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\left\{ \bm{\zeta}\left(\bm{s}\right)+\alpha_{n}\bm{u}\right\} \right),Y(\bm{s}_{i})\right)\\
- & -\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right)\right),Y\left(\bm{s}_{i}\right)\right)\\
- & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|-+\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)\|
+H_{n}(\bm{u})= & n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\left\{ \bm{\zeta}\left(\bm{s}\right)+\alpha_{n}\bm{u}\right\} \right),Y(\bm{s}_{i})\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+ & -n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right)\right),Y\left(\bm{s}_{i}\right)\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+ & +n^{-1}\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|-+\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)\|
 \end{align}
 
 \end_inset
@@ -4577,8 +4590,24 @@ Define
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\Omega_{n}= & \alpha_{n}\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\\
-\Delta_{n}= & \alpha_{n}^{2}\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}
+\Omega_{n}= & \alpha_{n}\sum_{i=1}^{n}q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+= & \alpha_{n}\sum_{i=1}^{n}\omega_{i}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\Delta_{n}= & \alpha_{n}^{2}\sum_{i=1}^{n}q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+= & \alpha_{n}^{2}\sum_{i=1}^{n}\delta_{i}
 \end{align*}
 
 \end_inset
@@ -4601,11 +4630,10 @@ Then it follows from the Taylor expansion of
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right)= & \mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)\label{eq:glm-Taylor-expansion}\\
- & +\Omega_{n}{}^{T}\bm{u}\\
+H_{n}\left(\bm{u}\right)= & \Omega_{n}^{T}\bm{u}\label{eq:taylor-expanded-glm-criterion}\\
  & +(1/2)\bm{u}^{T}\Delta_{n}\bm{u}\\
  & +\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}\\
- & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|\nonumber 
+ & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\left\{ \|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{j}\left(\bm{s}\right)\|\right\} .\nonumber 
 \end{align}
 
 \end_inset
@@ -4627,25 +4655,7 @@ where
 \end_inset
 
 .
- Thus,
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align}
-H_{n}\left(\bm{u}\right)= & \Omega_{n}^{T}\bm{u}\label{eq:taylor-expanded-glm-criterion}\\
- & +(1/2)\bm{u}^{T}\Delta_{n}\bm{u}\\
- & +\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}\\
- & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\left\{ \|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{j}\left(\bm{s}\right)\|\right\} .\nonumber 
-\end{align}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Since 
+ Since 
 \end_layout
 
 \begin_layout Standard
@@ -5110,7 +5120,7 @@ Taylor expansion of
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\bm{\zeta}\left(\bm{s}_{i}\right)=\bm{\zeta}\left(\bm{s}\right)+\nabla\bm{\zeta}\left(\bm{s}\right)\left(\bm{s}_{i}-\bm{s}\right)+\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)+o\left(h^{2}\right)
+\zeta_{j}\left(\bm{s}_{i}\right)=\zeta_{j}\left(\bm{s}\right)+\nabla\zeta_{j}\left(\bm{s}\right)\left(\bm{s}_{i}-\bm{s}\right)+\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\zeta_{j}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)+o\left(h^{2}\right)
 \]
 
 \end_inset
@@ -5129,7 +5139,7 @@ and thus, for
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\eta\left(\bm{s}_{i},\bm{x}\right)=\bm{x}^{T}\left[\bm{\zeta}\left(\bm{s}\right)+\nabla\bm{\zeta}\left(\bm{s}\right)^{T}\left(\bm{s}_{i}-\bm{s}\right)+\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)\right]+o\left(h^{2}\right)
+\eta\left(\bm{s}_{i},\bm{x}\right)=\sum_{j=1}^{3p}x_{j}\left[\zeta_{j}\left(\bm{s}\right)+\nabla\zeta_{j}\left(\bm{s}\right)^{T}\left(\bm{s}_{i}-\bm{s}\right)+\tilde{\zeta}''_{ij}\right]+o\left(h^{2}\right)
 \]
 
 \end_inset
@@ -5144,7 +5154,7 @@ where, since
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right)=\bm{x}^{T}\left\{ \bm{\zeta}\left(\bm{s}\right)+\nabla\bm{\zeta}\left(\bm{s}\right)^{T}\left(\bm{s}_{i}-\bm{s}\right)\right\} ,
+\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right)=\sum_{j=1}^{3p}x_{j}\left\{ \zeta_{j}\left(\bm{s}\right)+\nabla\zeta_{j}\left(\bm{s}\right)^{T}\left(\bm{s}_{i}-\bm{s}\right)\right\} ,
 \]
 
 \end_inset
@@ -5159,8 +5169,21 @@ we have that
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\eta\left(\bm{s}_{i},\bm{x}\right)-\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right)=\bm{x}^{T}\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)+o\left(h^{2}\right)=O\left(h^{2}\right).
+\sum_{j=1}^{3p}x_{j}\tilde{\zeta}''_{ij}+o\left(h^{2}\right)
 \]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\eta\left(\bm{s}_{i},\bm{x}\right)-\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right)= & \sum_{j=1}^{3p}x_{j}\tilde{\zeta}''_{ij}+o\left(h^{2}\right)\\
+= & \bm{x}^{T}\tilde{\bm{\zeta}}''_{i}\\
+= & O_{p}\left(h^{2}\right).
+\end{align*}
 
 \end_inset
 
@@ -5179,8 +5202,8 @@ By a Taylor expansion around
 \begin_inset Formula 
 \begin{align*}
 q_{1}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)= & q_{1}\left(\eta\left(\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)\\
- & -q_{2}\left(\eta\left(\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)\bm{x}^{T}\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)\\
- & +o\left(h^{2}\right)
+ & -q_{2}\left(\eta\left(\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)\bm{x}^{T}\tilde{\bm{\zeta}}''_{i}\\
+ & +o\left(h^{2}\right).
 \end{align*}
 
 \end_inset
@@ -5195,7 +5218,7 @@ And by (D.A.2)(a) and (D.A.2)(b), we have that
 \begin_layout Standard
 \begin_inset Formula 
 \[
-q_{1}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)=\rho\left(\bm{s}_{i},\bm{x}\right)\bm{x}^{T}\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)+o\left(h^{2}\right).
+q_{1}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)=\rho\left(\bm{s}_{i},\bm{x}\right)\bm{x}^{T}\tilde{\bm{\zeta}}''_{i}+o\left(h^{2}\right).
 \]
 
 \end_inset
@@ -5213,13 +5236,84 @@ Now the expectation of
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
-E\Omega_{n}=2^{-1}h\sqrt{n}f\left(\bm{s}\right)\Gamma\left(\bm{s}\right)\int K\left(\|\bm{t}\|\right)\left(\begin{array}{c}
+\begin{align*}
+nE\left[\omega_{i}|\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}=\bm{z}_{i},\bm{s}_{i}\right]= & \left(1/2\right)\alpha_{n}\bm{z}_{i}q_{1}\left(\bm{z}_{i}^{T}\bm{\zeta}\left(\bm{s}\right),\mu\left(\bm{s}_{i},\bm{Z}\left(\bm{s}_{i}\right)\right)\right)K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
+= & \left(1/2\right)\alpha_{n}\bm{z}_{i}\left\{ \rho\left(\bm{s}_{i},\bm{z}_{i}\right)\bm{z}_{i}^{T}\tilde{\bm{\zeta}}''_{i}+o\left(h^{2}\right)\right\} K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
+= & \left(1/2\right)\alpha_{n}h^{2}\left\{ h^{-2}\rho\left(\bm{s}_{i},\bm{z}_{i}\right)\bm{z}_{i}\bm{z}_{i}^{T}\tilde{\bm{\zeta}}''_{i}+o\left(\bm{1}_{3p}\right)\right\} K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right).
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To facilitate a change of variables, we observe that 
+\begin_inset Formula $h^{-2}\tilde{\zeta}''_{j}=\left(\frac{\bm{s}_{i}-\bm{s}}{h}\right)^{T}\left\{ \nabla^{2}\zeta_{j}\left(\bm{s}\right)\right\} \left(\frac{\bm{s}_{i}-\bm{s}}{h}\right)$
+\end_inset
+
+.
+ Thus,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+E\left[\omega_{i}|\bm{s}_{i}\right]= & \left(1/2\right)\alpha_{n}h^{2}\left\{ \left(\begin{array}{c}
 1\\
-t_{1}\\
-t_{2}
-\end{array}\right)\left\{ \bm{t}^{T}\nabla^{2}\bm{\zeta}\left(\bm{s}\right)\bm{t}\right\} \ d\bm{t}
-\]
+\frac{s_{i,1}-s_{1}}{h}\\
+\frac{s_{i,2}-s_{2}}{h}
+\end{array}\right)\left(\begin{array}{c}
+1\\
+\frac{s_{i,1}-s_{1}}{h}\\
+\frac{s_{i,2}-s_{2}}{h}
+\end{array}\right)^{T}\otimes\Gamma\left(\bm{s}_{i}\right)h^{-2}\tilde{\bm{\zeta}}''_{i}+o\left(\bm{1}_{3p}\right)\right\} K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right).
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And, using hte symmetry of the kernel function,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+E\omega_{i}= & \left(1/2\right)\alpha_{n}h^{4}f\left(\bm{s}\right)\left(\begin{array}{c}
+\kappa_{2}\\
+h\kappa_{3}\\
+h\kappa_{3}
+\end{array}\right)\otimes\Gamma\left(\bm{s}\right)\left\{ \nabla_{uu}^{2}\bm{\zeta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}\left(\bm{s}\right)\right\} +o\left(h^{2}\bm{1}_{3p}\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\left\{ \nabla_{uu}^{2}\bm{\zeta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}\left(\bm{s}\right)\right\} =\left(\nabla_{uu}^{2}\zeta_{1}\left(\bm{s}\right)+\nabla_{vv}^{2}\zeta_{1}\left(\bm{s}\right),\dots,\nabla_{uu}^{2}\zeta_{3p}\left(\bm{s}\right)+\nabla_{vv}^{2}\zeta_{3p}\left(\bm{s}\right)\right)^{T}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Thus,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+E\Omega_{n}= & \left(\begin{array}{c}
+2^{-1}\sqrt{n}h^{3}\kappa_{2}f\left(\bm{s}\right)\Gamma\left(\bm{s}\right)\left(\nabla_{uu}^{2}\bm{\beta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\beta}\left(\bm{s}\right)\right)^{T}\\
+\bm{0}_{2p}
+\end{array}\right)+o_{p}\left(h^{2}\bm{1}_{3p}\right)
+\end{align*}
 
 \end_inset
 
@@ -5231,9 +5325,82 @@ Variance
 \end_layout
 
 \begin_layout Standard
+By the previous result, 
+\begin_inset Formula $E\Omega_{n}=O\left(h^{2}\right)$
+\end_inset
+
+.
+ Thus, 
+\begin_inset Formula $var\left\{ \Omega_{n}\right\} \to E\left\{ \Omega_{n}^{2}\right\} $
+\end_inset
+
+, and since the observations are independent, 
+\begin_inset Formula $E\left\{ \Omega_{n}^{2}\right\} =\sum_{i=1}^{n}E\left\{ \omega_{i}^{2}\right\} $
+\end_inset
+
+.
+ And, by Taylor expansion around 
+\begin_inset Formula $\eta\left(\bm{s},\bm{x}\right)$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+q_{1}^{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)= & q_{1}^{2}\left(\eta\left(\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\\
+ & -q_{1}\left(\eta\left(\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)q_{2}\left(\eta\left(\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\bm{x}^{T}\tilde{\bm{\zeta}}''_{i}\\
+ & +o\left(h^{2}\right).
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since 
+\begin_inset Formula $q_{1}\left(\cdot,\cdot\right)$
+\end_inset
+
+ is the quasi-score function, it follows that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+E\left[\omega_{i}^{2}|\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}=\bm{z}_{i},\bm{s}_{i}\right]= & \alpha_{n}^{2}\rho\left(\bm{s}_{i},\bm{z}_{i}\right)\bm{z}_{i}\bm{z}_{i}^{T}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)+o\left(h^{2}\right).
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By the symmetry of the kernel function,
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula 
 \[
-E\Omega_{n}^{2}=E\left[K^{2}\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)q_{1}^{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}^{T}\right]
+E\omega_{i}^{2}=n^{-1}f\left(\bm{s}\right)diag\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\Gamma\left(\bm{s}\right)+o\left(1\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+var\left(\Omega_{n}\right)=f\left(\bm{s}\right)diag\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\Gamma\left(\bm{s}\right)+o\left(1\right).
 \]
 
 \end_inset
@@ -5253,12 +5420,19 @@ reference "lemma:delta"
 \end_layout
 
 \begin_layout Standard
-An equivalent argument is used to find the value of 
-\begin_inset Formula $q_{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)$
+the approach is similar to the proof of Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lemma:omega"
+
 \end_inset
 
 .
- The Taylor expansion around 
+ The Taylor expansion of 
+\begin_inset Formula $q_{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)$
+\end_inset
+
+ around 
 \begin_inset Formula $\eta\left(\bm{s}_{i},\bm{x}\right)$
 \end_inset
 
@@ -5278,23 +5452,36 @@ q_{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\
 \end_layout
 
 \begin_layout Standard
-Thus, the expectation 
-\begin_inset Formula $E\left(\Delta_{n}\right)$
-\end_inset
-
- is:
+And by the same arguments as before
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-E\left(\Delta_{n}\right)= & nE\left[K\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)q_{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}^{T}\right]\\
-\to & -f\left(\bm{s}\right)\left(\begin{array}{ccc}
-\kappa_{0} & \kappa_{1} & \kappa_{1}\\
-\kappa_{1} & \kappa_{2} & \kappa_{1}^{2}\\
-\kappa_{1} & \kappa_{1}^{2} & \kappa_{2}
-\end{array}\right)\otimes\Gamma\left(\bm{s}\right)=-\Delta.
+E\left[\delta_{i}|\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{i}=\bm{z}_{i},\bm{s}_{i}\right]= & -\alpha_{n}^{2}\rho\left(\bm{s}_{i},\bm{z}_{i}\right)\bm{z}_{i}\bm{z}_{i}^{T}K\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)\\
+E\left[\delta_{i}|\bm{s}_{i}\right]= & -\alpha_{n}^{2}\left(\begin{array}{c}
+1\\
+\frac{s_{i,1}-s_{1}}{h}\\
+\frac{s_{i,2}-s_{2}}{h}
+\end{array}\right)\left(\begin{array}{c}
+1\\
+\frac{s_{i,1}-s_{1}}{h}\\
+\frac{s_{i,2}-s_{2}}{h}
+\end{array}\right)^{T}\otimes\Gamma\left(\bm{s}_{i}\right)K\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)\\
+E\delta_{i}= & -nf\left(\bm{s}\right)diag\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\Gamma\left(\bm{s}\right)+o\left(n^{-1}\right)
 \end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus, 
+\begin_inset Formula 
+\[
+E\Delta_{n}=-f\left(\bm{s}\right)diag\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\Gamma\left(\bm{s}\right)+o\left(1\right)
+\]
 
 \end_inset
 
@@ -5306,14 +5493,57 @@ Variance
 \end_layout
 
 \begin_layout Standard
+From the previous result, it follows that 
+\begin_inset Formula $\left(E\delta_{i}\right)^{2}=O\left(n^{-2}\right)$
+\end_inset
+
+.
+ And
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-E\left(\Delta_{n}^{2}\right)= & nE\left[K^{2}\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)q_{2}^{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}^{T}\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}\left\{ \bm{Z}\left(\bm{s}\right)\right\} _{1}^{T}\right]
+\delta_{i}^{2}= & \alpha_{n}^{4}q_{2}^{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}K^{2}\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)\\
+= & \alpha_{n}^{4}q_{2}^{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \left(\begin{array}{c}
+1\\
+\frac{s_{i,1}-s_{1}}{h}\\
+\frac{s_{i,2}-s_{2}}{h}
+\end{array}\right)\otimes\bm{X}\left(\bm{s}_{i}\right)\left(\begin{array}{c}
+1\\
+\frac{s_{i,1}-s_{1}}{h}\\
+\frac{s_{i,2}-s_{2}}{h}
+\end{array}\right)^{T}\otimes\bm{X}\left(\bm{s}_{i}\right)^{T}\right\} ^{2}K^{2}\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)\\
+= & \alpha_{n}^{4}q_{2}^{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\left(\begin{array}{c}
+1\\
+\frac{s_{i,1}-s_{1}}{h}\\
+\frac{s_{i,2}-s_{2}}{h}
+\end{array}\right)\otimes\bm{X}\left(\bm{s}_{i}\right)\left(\begin{array}{c}
+1\\
+\frac{s_{i,1}-s_{1}}{h}\\
+\frac{s_{i,2}-s_{2}}{h}
+\end{array}\right)^{T}\otimes\bm{X}\left(\bm{s}_{i}\right)^{T}\left\{ 1+\left(\frac{s_{i,1}-s_{1}}{h}\right)^{2}+\left(\frac{s_{i,2}-s_{2}}{h}\right)^{2}\right\} \bm{X}\left(\bm{s}_{i}\right)^{T}\bm{X}\left(\bm{s}_{i}\right)K^{2}\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)
 \end{align*}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Thus, 
+\begin_inset Formula $E$
+\end_inset
+
+
+\begin_inset Formula $\left(\delta_{i}^{2}\right)=O\left(n^{-2}h^{-2}\right)$
+\end_inset
+
+, and 
+\begin_inset Formula $var\left(\Delta_{n}\right)=O\left(n^{-1}h^{-2}\right)$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
