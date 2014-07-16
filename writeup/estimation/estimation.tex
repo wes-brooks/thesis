@@ -149,13 +149,13 @@ LAGR technique is evaluated in a simulation study, and in Section
 price dataset. Proofs of the theorems appear in Appendix \ref{sec:gaussian-normality-proof}.
 
 
-\section{Varying coefficients regression\label{sec:vcr}}
+\section{Varying Coefficients Regression\label{sec:vcr}}
 
 
 \subsection{Model}
 
 Consider $n$ data points, observed at sampling locations $\bm{s}_{i}=(s_{i,1},\; s_{i,2})^{T}$
-for $i=1,\dots,n$, which are distributed in a spatial domain $\mathcal{D}\subset\mathbb{R}^{2}$
+for $i=1,\dots,n$, which are distributed in a domain $\mathcal{D}\subset\mathbb{R}^{2}$
 according to a density $f(\bm{s})$ with $\bm{s}\in\mathcal{D}$.
 For $i=1,\dots,n$, let $y(\bm{s}_{i})$ and $\bm{x}(\bm{s}_{i})$
 denote, respectively, the univariate response and the $(p+1)$-variate
@@ -185,44 +185,47 @@ local design matrix with covariate-by-location interactions in two
 dimensions \citep{Wang-2008b}. The augmented local design matrix
 at location $\bm{s}_{i}$ is 
 \begin{align}
-\bm{Z}(\bm{s}_{i})=\left(\bm{X}\:\:\bm{L}_{i}\bm{X}\:\:\bm{M}_{i}\bm{X}\right)
+\bm{Z}(\bm{s}_{i})= & \left(\bm{X}\:\:\bm{L}\left(\bm{s}_{i}\right)\bm{X}\:\:\bm{M}\left(\bm{s}_{i}\right)\bm{X}\right)\label{eq:augmented-covariates}
 \end{align}
 
 
-where $\bm{X}$ is the unaugmented matrix of covariates, $\bm{L}_{i}=\text{diag}\{s_{i',1}-s_{i,1}\}$
-and $\bm{M}_{i}=\text{diag}\{s_{i',2}-s_{i,2}\}$ for $i'=1,\dots,n$.
+where $\bm{X}$ is the unaugmented matrix of covariates, $\bm{L}\left(\bm{s}_{i}\right)=\text{diag}\{s_{i',1}-s_{i,1}\}$
+and $\bm{M}\left(\bm{s}_{i}\right)=\text{diag}\{s_{i',2}-s_{i,2}\}$
+for $i'=1,\dots,n$.
 
-Now we have that $Y(\bm{s}_{i})=\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{\zeta}(\bm{s}_{i})+\varepsilon(\bm{s}_{i})$,
+Now we have $Y(\bm{s}_{i})=\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\bm{\zeta}(\bm{s}_{i})+\varepsilon(\bm{s}_{i})$,
 where $\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}$ is the $i$th
 row of the matrix $\bm{Z}(\bm{s}_{i})$ as a row vector, and $\bm{\zeta}(\bm{s}_{i})$
 is the vector of local coefficients at location $\bm{s}_{i}$, augmented
-with the local gradients of the coefficient surfaces in the two spatial
-dimensions, indicated by $\nabla_{u}$ and $\nabla_{v}$:
+with the local gradients of the coefficient surfaces in the two dimensions,
+indicated by $\nabla_{u}$ and $\nabla_{v}$:
 
-\[
-\bm{\zeta}(\bm{s}_{i})=\left(\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{u}\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{v}\bm{\beta}(\bm{s}_{i})^{T}\right)^{T}
-\]
+\begin{equation}
+\bm{\zeta}(\bm{s}_{i})=\left(\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{u}\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{v}\bm{\beta}(\bm{s}_{i})^{T}\right)^{T}\label{eq:augmented-coefficients}
+\end{equation}
 
 
 
 \subsection{Local Likelihood and Coefficient Estimation}
 
-The total log-likelihood of the observed data is the sum of the log-likelihood
-of each individual observation: 
+Letting $\bm{\zeta}=\left(\bm{\zeta}\left(\bm{s}_{1}\right)^{T},\dots,\bm{\zeta}\left(\bm{s}_{n}\right)^{T}\right)^{T}$
+be a matrix of the local coefficients at all observation locations
+$\bm{s}_{1},\dots,\bm{s}_{n}$, the total log-likelihood of the observed
+data is the sum of the log-likelihood of each individual observation:
 \begin{align}
-\ell\left(\bm{\zeta}\right)=-(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}_{i})\right\} ^{2}\right].\label{eq:coefficients}
+\ell\left(\bm{\zeta}\right)= & -(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y(\bm{s}_{i})-\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s}_{i})\right\} ^{2}\right].\label{eq:coefficients}
 \end{align}
 
 
 Since there are a total of $n\times3(p+1)+1$ parameters for $n$
 observations, the model is not identifiable and it is not possible
 to directly maximize the total likelihood. But when the coefficient
-functions are smooth, the coefficients at location $\bm{s}$ can approximate
-the coefficients within some neighborhood of $\bm{s}$, with the quality
-of the approximation declining as the distance from $\bm{s}$ increases.
+functions are smooth, the coefficients $\bm{\zeta}\left(\bm{s}\right)$
+at location $\bm{s}$ can be approximated by the coefficients $\bm{\zeta}\left(\bm{t}\right)$
+, where $\bm{t}$ is within some neighborhood of $\bm{s}$.
 
-This intuition is formalized by the local (log-)likelihood, which
-is maximized at location $\bm{s}$ to estimate the local coefficients
+This intuition is formalized by the local log-likelihood, which is
+maximized at location $\bm{s}$ to estimate the local coefficients
 $\bm{\zeta}(\bm{s})$:
 
 \begin{align}
@@ -231,9 +234,8 @@ $\bm{\zeta}(\bm{s})$:
 
 
 where $h$ is a bandwidth parameter and the $K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)$
-for $i=1,\dots,n$ are local weights from a kernel function and $h$
-is a bandwidth parameter. For instance, the Epanechnikov kernel is
-defined as \citep{Samiuddin-el-Sayyad-1990}: 
+for $i=1,\dots,n$ are local weights from a kernel function. For instance,
+the Epanechnikov kernel is defined as \citep{Samiuddin-el-Sayyad-1990}:
 \begin{align}
 K_{h}(\|\bm{s}_{i}-\bm{s}_{i'}\|) & =h^{-2}K\left(h^{-1}\|\bm{s}_{i}-\bm{s}_{i'}\|\right)\notag\label{eq:epanechnikov}\\
 K(x) & =\begin{cases}
@@ -245,25 +247,24 @@ K(x) & =\begin{cases}
 
 Letting $\bm{W}(\bm{s})=diag\left\{ K_{h}(\|\bm{s}-\bm{s}_{i}\|)\right\} $
 be a diagonal matrix of kernel weights, the local likelihood is maximized
-by weighted least squares: 
+by the weighted least squares: 
 \begin{align}
 \mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right) & =(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\notag\label{eq:zeta-hat}
 \end{align}
 
 
-Thus, we have
+Thus, we have the minimizer
 
-\[
-\tilde{\bm{\zeta}}(\bm{s})=\left\{ \bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Y}
-\]
+\begin{equation}
+\tilde{\bm{\zeta}}(\bm{s})=\left\{ \bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Y}.\label{eq:zeta-hat-1}
+\end{equation}
 
 
-By Theorem 3 of \citet{Sun-Yan-Zhang-Lu-2014}, for any given $\bm{s}$
-
-\[
-\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
-\]
-
+By Theorem 3 of \citet{Sun-Yan-Zhang-Lu-2014}, for any given $\bm{s}$,
+the estimated coefficients $\tilde{\bm{\beta}}\left(\bm{s}\right)$
+are normally distributed and converge to the true $\bm{\beta}\left(\bm{s}\right)$
+at the optimal rate of $O\left(n^{-1/3}\right)$, with finite-sample
+bias related to the second derivatives of the true coefficient functions.
 
 
 \section{Local Variable Selection with LAGR\label{sec:lagr-gaussian}}
@@ -295,13 +296,13 @@ is a local adaptive grouped regularization (LAGR) penalty, and $\|\cdot\|$
 is the $L_{2}$-norm.
 
 The LAGR penalty for the $j$th group of coefficients $\bm{\zeta}_{j}(\bm{s})$
-at location $\bm{s}$ is $\phi_{j}(\bm{s})=\lambda_{n}(\bm{s})\|\tilde{\bm{\zeta}}_{j}(\bm{s})\|^{-\gamma}$,
-where $\lambda_{n}(\bm{s})>0$ is a local tuning parameter applied
-to all coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{j}(\bm{s})$
+at location $\bm{s}$ is $\phi_{j}(\bm{s})=\lambda_{n}\|\tilde{\bm{\zeta}}_{j}(\bm{s})\|^{-\gamma}$,
+where $\lambda_{n}>0$ is a local tuning parameter applied to all
+coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{j}(\bm{s})$
 is the vector of unpenalized local coefficients from (\ref{eq:zeta-hat}).
 
 
-\subsection{Oracle Properties}
+\subsection{Oracle Properties\label{sub:oracle-properties}}
 
 For a local model at location $\bm{s}$, define the following terms.
 \begin{itemize}
@@ -316,18 +317,24 @@ be the augmented design matrix for all the data except covariate group
 $k$. Similarly, let $\bm{\zeta}_{k}\left(\bm{s}\right)$ be the augmented
 coefficients for covariate group $k$ and $\bm{\zeta}_{-k}\left(\bm{s}\right)$
 be the augmented coefficients for all covariate groups except $k$.
-\item[(D.3)] Let $\kappa_{0}=\int_{R^{2}}K\left(\|\bm{s}\|\right)ds$, $\kappa_{2}=\int_{R^{2}}[(1,0)\bm{s}]^{2}K\left(\|\bm{s}\|\right)ds=\int_{R^{2}}[(0,1)\bm{s}]^{2}K\left(\|\bm{s}\|\right)ds$,
+\item[(D.3)] Let $\nabla\zeta_{j}\left(\bm{s}\right)=\left(\nabla_{u}\zeta_{j}\left(\bm{s}\right),\nabla_{v}\zeta_{j}\left(\bm{s}\right)\right)^{T}$
+and $\nabla^{2}\zeta_{j}\left(\bm{s}\right)=\left(\begin{array}{cc}
+\nabla_{uu}^{2}\zeta_{j}\left(\bm{s}\right) & \nabla_{uv}^{2}\zeta_{j}\left(\bm{s}\right)\\
+\nabla_{vu}^{2}\zeta_{j}\left(\bm{s}\right) & \nabla_{vv}^{2}\zeta_{j}\left(\bm{s}\right)
+\end{array}\right)$.
+\item[(D.4)] Let $\kappa_{0}=\int_{R^{2}}K\left(\|\bm{s}\|\right)ds$, $\kappa_{2}=\int_{R^{2}}[(1,0)\bm{s}]^{2}K\left(\|\bm{s}\|\right)ds=\int_{R^{2}}[(0,1)\bm{s}]^{2}K\left(\|\bm{s}\|\right)ds$,
 and $\nu_{0}=\int_{R^{2}}K^{2}\left(\|\bm{s}\|\right)ds$.
 \end{itemize}
 Assume the following conditions.
 \begin{itemize}
 \item[(A.1)] The kernel function $K\left(\cdot\right)$ is bounded, positive,
-symmetric, and Lipschitz continuous on $\mathbb{R}$.
+symmetric, and Lipschitz continuous on $\mathbb{R}$, and has bounded
+support.
 \item[(A.2)] There are $p_{0}<p$ covariates $\bm{X}_{a}\left(\bm{s}\right)$
-with nonzero local regression coefficients, indicated by $\bm{\beta}_{a}(\bm{s})$.
+with nonzero local regression coefficients, indicated by $\bm{\beta}_{a}(\bm{s})\ne\utilde{0}$.
 Without loss of generality, assume these are covariates $1,\dots,p_{0}$.
 The remaining covariates $\bm{X}_{b}\left(\bm{s}\right)$ have true
-coefficients equal to zero, indicated by $\bm{\beta}_{b}\left(\bm{s}\right)$.
+coefficients equal to zero, indicated by $\bm{\beta}_{b}\left(\bm{s}\right)=\utilde{0}$.
 \item[(A.3)] $\bm{X}\left(\bm{s}_{1}\right),\dots,\bm{X}\left(\bm{s}_{n}\right)$
 are $iid$ random variables that are independent of $\varepsilon\left(\bm{s}_{1}\right),\dots,\varepsilon\left(\bm{s}_{n}\right)$.
 Also $\Psi=E\left\{ \bm{X}\left(\bm{s}_{1}\right)\bm{X}^{T}\left(\bm{s}_{1}\right)\right\} $
@@ -335,18 +342,27 @@ is positive-definite, $E\left|\bm{X}\left(\bm{s}_{1}\right)\right|^{2q}<\infty$,
 and $E\left|\varepsilon\left(\bm{s}_{1}\right)\right|^{2q}<\infty$.
 \item[(A.4)] The coefficient functions $ $$\beta_{j}\left(\cdot\right)$, $j=1,\dots,p$
 have continuous second partial derivatives.
-\item[(A.5)] $h=h_{n}=O\left(n^{-1/6}\right)$\end{itemize}
+\item[(A.6)] The function $f\left(\bm{s}\right)$ is continuous and $f\left(\bm{s}\right)>0$.
+\item[(A.6)] $E\left\{ \left|\bm{X}\left(\bm{s}\right)\right|^{3}|\bm{s}\right\} $
+is continuous as location $\bm{s}$.
+\item[(A.7)] $E\left\{ Y\left(\bm{s}\right)^{4}|\bm{X}\left(\bm{s}\right),\bm{s}\right\} $
+is bounded as location $\bm{s}$.
+\item[(A.8)] $h=h_{n}=O\left(n^{-1/6}\right)$\end{itemize}
 \begin{thm}[Asymptotic normality]
 \label{theorem:normality} 
 
 
 
 If $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-then 
-\[
-h\sqrt{n}\left[\hat{\bm{\beta}}_{a}\left(\bm{s}\right)-\bm{\beta}_{a}\left(\bm{s}\right)-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\beta}_{a}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\beta}_{a}\left(\bm{s}\right)\right\} \right]\xrightarrow{d}N\left(0,f\left(\bm{s}\right){}^{-1}\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
-\]
+then
 
+\begin{multline*}
+h\sqrt{n}\left[\hat{\bm{\beta}}_{a}\left(\bm{s}\right)-\bm{\beta}_{a}\left(\bm{s}\right)-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\beta}_{a}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\beta}_{a}\left(\bm{s}\right)\right\} \right]\\
+\xrightarrow{d}N\left(0,f\left(\bm{s}\right){}^{-1}\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
+\end{multline*}
+
+
+where $\left\{ \nabla_{uu}^{2}\bm{\beta}_{a}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\beta}_{a}\left(\bm{s}\right)\right\} =\left(\nabla_{uu}^{2}\bm{\beta}_{1}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\beta}_{1}\left(\bm{s}\right),\dots,\nabla_{uu}^{2}\bm{\beta}_{p_{o}}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\beta}_{p_{o}}\left(\bm{s}\right)\right)^{T}$.
 \end{thm}
 
 \begin{thm}[Selection consistency]
@@ -359,9 +375,6 @@ then $Pr\left\{ \|\hat{\bm{\zeta}}_{j}\left(\bm{s}\right)\|=\utilde{0}\right\} \
 if $j\le p_{0}$ and $Pr\left\{ \|\hat{\bm{\zeta}}_{j}\left(\bm{s}\right)\|=\utilde{0}\right\} \to1$
 if $j>p_{0}$. 
 \end{thm}
-
-\paragraph{Remarks}
-
 Together, Theorem \ref{theorem:normality} and Theorem \ref{theorem:selection}
 indicate that the LAGR estimates have the same asymptotic distribution
 as a local regression model where the nonzero coefficients are known
@@ -369,17 +382,14 @@ in advance \citep{Sun-Yan-Zhang-Lu-2014}, and that the LAGR estimates
 of true zero coefficients go to zero with probability one. Thus, selection
 and estimation by LAGR has the oracle property.
 
-
-\paragraph{A note on rates}
-
 To establish the oracle properties of LAGR, we assumed that $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$. Therefore, $h^{-1}n^{-1/2}\lambda_{n}\left(\bm{s}\right)\to0$
-for $j\le p_{0}$ and $hn^{-1/2}\lambda_{n}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)\|^{-\gamma}\to\infty$
-for $j>p_{0}$. We require that $\lambda_{n}\left(\bm{s}\right)$
-satisfy both assumptions. Suppose $\lambda_{n}\left(\bm{s}\right)=n^{\alpha}$,
-and recall that $h=O\left(n^{-1/6}\right)$ and $\|\tilde{\bm{\zeta}}_{p}(\bm{s})\|=O\left(h^{-1}n^{-1/2}\right)$.
-Then $h^{-1}n^{-1/2}\lambda_{n}\left(\bm{s}\right)=O\left(n^{-1/3+\alpha}\right)$
-and $hn^{-1/2}\lambda_{n}\left(\bm{s}\right)\|\tilde{\bm{\zeta}}_{p}\left(\bm{s}\right)\|^{-\gamma}=O\left(n^{-2/3+\alpha+\gamma/3}\right)$.
+and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$. Therefore, $h^{-1}n^{-1/2}\lambda_{n}\to0$
+for $j\le p_{0}$ and $hn^{-1/2}\lambda_{n}\|\bm{\zeta}_{j}\left(\bm{s}\right)\|^{-\gamma}\to\infty$
+for $j>p_{0}$. We require that $\lambda_{n}$ satisfy both assumptions.
+Suppose $\lambda_{n}=n^{\alpha}$. Since $h=O\left(n^{-1/6}\right)$
+and $\|\tilde{\bm{\zeta}}_{p}(\bm{s})\|=O\left(h^{-1}n^{-1/2}\right)$,
+then $h^{-1}n^{-1/2}\lambda_{n}=O\left(n^{-1/3+\alpha}\right)$ and
+$hn^{-1/2}\lambda_{n}\|\tilde{\bm{\zeta}}_{p}\left(\bm{s}\right)\|^{-\gamma}=O\left(n^{-2/3+\alpha+\gamma/3}\right)$.
 Thus, $\left(2-\gamma\right)/3<\alpha<1/3$, which can only be satisfied
 for $\gamma>1$.
 
@@ -387,7 +397,7 @@ for $\gamma>1$.
 \subsection{Tuning Parameter Selection}
 
 In practical application, it is necessary to select the LAGR tuning
-parameter $\lambda_{n}(\bm{s})$ for each local model. A popular approach
+parameter $\lambda_{n}$ for each local model. A popular approach
 in other lasso-type problems is to select the tuning parameter that
 maximizes a criterion that approximates the expected log-likelihood
 of a new, independent data set drawn from the same distribution. This
@@ -398,17 +408,18 @@ These criteria use a so-called covariance penalty to estimate the
 bias due to using the same data set to select a model and to estimate
 its parameters \citep{Efron:2004a}. We adopt the approximate degrees
 of freedom for the adaptive group lasso from \citet{Yuan-Lin-2006}
-and minimize the AICc to select the tuning parameter $\lambda_{n}(\bm{s})$
+and minimize the AICc to select the tuning parameter $\lambda_{n}$
 \citep{Hurvich-1998}. That is, let
 
 \begin{align*}
-\hat{df}(\lambda;\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda;\bm{s})\|>0\right)+\sum_{j=1}^{p}\frac{\|\hat{\bm{\zeta}}(\lambda;\bm{s})\|}{\|\tilde{\bm{\zeta}}(\bm{s})\|}(p_{j}-1)\\
-\text{AIC}_{c}(\lambda;\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\sigma^{-2}\left\{ y(\bm{s}_{i})-z'(\bm{s}_{i})\hat{\bm{\zeta}}(\lambda;\bm{s})\right\} ^{2}+2\hat{df}(\lambda;\bm{s})\\
- & +\frac{2\hat{df}(\lambda;\bm{s})\left\{ \hat{df}(\lambda;\bm{s})+1\right\} }{\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)-\hat{df}(\lambda;\bm{s})-1}
+\hat{df}(\lambda;\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|>0\right)+\sum_{j=1}^{p}\frac{\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|}{\|\tilde{\bm{\zeta}}(\bm{s})\|}(p_{j}-1)\\
+\text{AIC}_{c}(\lambda;\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\sigma^{-2}\left\{ y(\bm{s}_{i})-z'(\bm{s}_{i})\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\right\} ^{2}\\
+ & +2\hat{df}(\lambda_{n};\bm{s})\\
+ & +\frac{2\hat{df}(\lambda_{n};\bm{s})\left\{ \hat{df}(\lambda_{n};\bm{s})+1\right\} }{\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)-\hat{df}(\lambda_{n};\bm{s})-1}
 \end{align*}
 
 
-where the local coefficient estimate is written $\hat{\bm{\zeta}}(\lambda;\bm{s})$
+where the local coefficient estimate is written $\hat{\bm{\zeta}}(\lambda_{n};\bm{s})$
 to emphasize that it depends on the tuning parameter.
 
 
@@ -486,8 +497,8 @@ the MISE of the fitted response $\hat{y}(\bm{s})$, and the frequency
 with which the coefficient surface estimates $\hat{\beta}_{2}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$
 estimated by LAGR were zero. The performance of LAGR was compared
 to that of a VCR model without variable selection, and to a VCR model
-with oracular selection. Oracular selection means that exactly the
-correct set of covariates was used to fit each local model.
+with oracle selection. Oracle selection means that exactly the correct
+set of covariates was used to fit each local model.
 
 \begin{table}
 	\begin{tabular}{ccc|ccc|cc}
@@ -496,7 +507,7 @@ correct set of covariates was used to fit each local model.
 		\hline 
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Mon Jul 14 21:44:26 2014
+% Tue Jul 15 21:34:41 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
     &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
@@ -552,7 +563,7 @@ the others in this simulation at fitting the model output.
 		\hline 
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Mon Jul 14 21:44:29 2014
+% Tue Jul 15 21:34:44 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
     &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
@@ -634,12 +645,12 @@ effect is discernable) and that of RM is positive (meaning that a
 greater average number of rooms per house is associated with a greater
 median house price). The coefficient of RAD is positive in some areas
 and negative in others. This indicates that there are parts of Boston
-where improved access to radial roads is associates with a greater
+where improved access to radial roads is associated with a greater
 median house price and parts where it is associated with a lesser
 median house price.
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Mon Jul 14 21:44:35 2014
+% Tue Jul 15 21:34:53 2014
 \begin{table}
 \centering
 \begin{tabular}{rrrr}
@@ -670,13 +681,12 @@ the estimate of \citet{Sun-Yan-Zhang-Lu-2014}.
 
 \subsection{Model}
 
-Generalized linear models (GLM) extend the linear model to distributions
-other than gaussian. The generalized local linear model (GLLM) is
-an extension of the GLM to varying coefficient models via local regression.
-
-As was the case for local linear regression models, the GLLM coefficients
-are smooth functions of location, called $\bm{\beta}(\bm{s})$. If
-the response variable $y$ is from an exponential-family distribution
+Generalized linear models (GLMs) extend the linear regression model
+to a response variable following any distribution in a single-parameter
+exponential family. As was the case for the local linear regression
+model, local generalized linear regression model coefficients are
+smooth functions of location, denoted $\bm{\beta}(\bm{s})$. If the
+response variable $y$ is from an exponential-family distribution
 then its density is 
 
 \[
@@ -695,10 +705,10 @@ E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \mu(\bm{s})=b'\left(\theta\left(\b
 
 
 The function $g(\cdot)$ is called the link function. If its inverse
-$g^{-1}(\cdot)=b'(\cdot)$ then the composition $\left(g\circ b'\right)\left(\cdot\right)$
-is the identity function. This particular choice of $g$ is called
-the canonical link. We follow the practice of \citet{Fan-Heckman-Wand-1995}
-in assuming the use of the canonical link.
+$g^{-1}(\cdot)=b'(\cdot)$, then the composition $\left(g\circ b'\right)\left(\cdot\right)$
+is the identity function. This particular $g$ is called the canonical
+link. We follow the practice of \citet{Fan-Heckman-Wand-1995} in
+assuming the use of the canonical link.
 
 Under the canonical link function, the expressions for the mean and
 variance of the response variable can be simplified to
@@ -715,14 +725,17 @@ E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left(\eta(\bm{s})\right)\\
 
 Assuming the canonical link, all that is required is to specify the
 mean-variance relationship via the variance function, $V\left\{ \mu(\bm{s})\right\} $.
-Then the GLLM coefficients can be estimated by maximizing the local
+Then the local coefficients can be estimated by maximizing the local
 quasi-likelihood 
 
 \begin{align}
-\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right).
+\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}'(\bm{s}_{i})\bm{\zeta}(\bm{s})\right),Y(\bm{s}_{i})\right),
 \end{align}
 
 
+where $\bm{Z}\left(\bm{s}\right)$ and $\bm{\zeta}\left(\bm{s}\right)$
+are the augmented local covariates and augmented local coefficients,
+as in (\ref{eq:augmented-covariates}) and (\ref{eq:augmented-coefficients}).
 The local quasi-likelihood generalizes the local log-likelihood that
 was used to estimate coefficients in the local linear model case.
 The quasi-likelihood is convex, and is defined in terms of its derivative,
@@ -754,18 +767,15 @@ used to solve for $\hat{\bm{\zeta}}\left(\bm{s}\right)$.
 
 \subsection{Distribution of the local coefficients}
 
-The asymptotic distribution of the local coefficients in a varying-coefficients
+The asymptotic distribution of the local coefficients in a varying-coefficient
 GLM with a one-dimensional effect-modifying parameter are given in
-\citet{Cai-Fan-Li-2000}. For coefficients that vary in two dimensions
-(e.g. spatial location), the asymptotic distribution under the canonical
-link is
+\citet{Cai-Fan-Li-2000}. For coefficients that vary in two dimensions,
+the distribution of the estimated local coefficients is
 
 \[
-\sqrt{{nh^{2}f(\bm{{s}})}}\left[\hat{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \bm{\beta}_{uu}(\bm{s})+\bm{\beta}_{vv}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
+\sqrt{{nh^{2}f(\bm{{s}})}}\left[\tilde{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right).
 \]
 
-
-where $\Gamma(\bm{s})=E\left[V\left(\mu(\bm{s})\right)X(\bm{s})X(\bm{s})^{T}\right]$.
 
 
 \subsection{LAGR penalty}
@@ -779,16 +789,32 @@ regularization method. Now, though, we use a penalized local quasi-likelihood:
 \end{align}
 
 
-and similarly to the case for gaussian data, $\phi_{j}\left(\bm{s}\right)=\lambda_{n}\left(\bm{s}\right)\|\tilde{\bm{\zeta}}_{j}\left(\bm{s}\right)\|^{-\gamma}$,
-where $\lambda_{n}\left(\bm{s}\right)>0$ is a the local tuning parameter
-applied to all coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{j}\left(\bm{s}\right)$
+and, as in the case of gaussian data, $\phi_{j}\left(\bm{s}\right)=\lambda_{n}\|\tilde{\bm{\zeta}}_{j}\left(\bm{s}\right)\|^{-\gamma}$,
+where $\lambda_{n}>0$ is a the local tuning parameter applied to
+all coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{j}\left(\bm{s}\right)$
 is the vector of unpenalized local coefficients.
 
 
 \subsection{Oracle properties of LAGR in the GLM setting}
 
-The oracle properties for LAGR in the GLM setting are similar to those
-in the gaussian setting:
+The following are additional to the definitions and assumptions of
+Section \ref{sub:oracle-properties}:
+
+Define
+\begin{itemize}
+\item[(D.5)] Let $\rho\left(\bm{s},\bm{z}\right)=\left[g_{1}\left\{ \mu\left(\bm{s},\bm{z}\right)\right\} \right]^{2}Var\left\{ Y\left(\bm{s}\right)|\bm{X}\left(\bm{s}\right),\bm{s}\right\} $,
+where $g_{1}\left(\cdot\right)=g'_{0}\left(\cdot\right)/g'\left(\cdot\right)$,
+and $g_{0}\left(\cdot\right)$ is the canonical link function. So
+when the canonical link is used, $\rho\left(\bm{s},\bm{z}\right)=V\left\{ \mu\left(\bm{s},\bm{z}\right)\right\} $.
+\item[(D.6)] Let $\Gamma\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}\left(\bm{s}\right)\right)\bm{X}\left(\bm{s}\right)\bm{X}\left(\bm{s}\right)^{T}|\bm{s},\bm{X}\left(\bm{s}\right)\right\} $.
+\end{itemize}
+Assume the following conditions.
+\begin{itemize}
+\item[(A.9)] The functions $g'''\left(\bm{s}\right)$, $\Gamma\left(\bm{s}\right)$,
+$V\left(\mu\left(\bm{s},\bm{z}\right)\right)$, and $V'\left(\mu\left(\bm{s},\bm{z}\right)\right)$
+are continuous at the point $\bm{s}$.
+\item[(A.10)] The function $\left(\partial^{2}/\partial\mu^{2}\right)Q\left(g^{-1}\left(\mu\right),y\right)<0$
+for $\mu\in\mathbb{R}$ and $y$ in the range of the response variable.\end{itemize}
 \begin{thm}[Asymptotic normality]
 \label{theorem:normality-glm} 
 
@@ -833,7 +859,7 @@ cases $j\le p_{0}$ and $j>p_{0}$.
 
 Case $j\le p_{0}$:
 
-If $j\le p_{0}$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|^{-\gamma}$
+If $j\le p_{0}$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}\|\bm{\zeta}_{j}(\bm{s})\|^{-\gamma}$
 and $|\sqrt{n}\left\{ \|\bm{\zeta}_{j}(\bm{s})+h^{-1}n^{-1/2}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{j}\|$
 . Thus, 
 \[
@@ -879,7 +905,7 @@ is the limit of the minimizers $\hat{\bm{u}}^{(n)}$ \citep{Geyer-1994,Knight-Fu-
 Since, by Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014},
 
 \begin{equation}
-\hat{\bm{u}}_{n}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{j}(\bm{s})\},f(\bm{s})\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
+\hat{\bm{u}}_{n}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\},f(\bm{s})\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
 \end{equation}
 the result of Theorem \ref{theorem:normality} follows.
 \end{proof}
@@ -919,7 +945,7 @@ From Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014}, $\left\{ n^{-1}\bm{Z}_{p}\left(\b
 and $\left\{ n^{-1}\bm{Z}_{p}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{p}\left(\bm{s}\right)\right\} =O_{p}\left(1\right)$.
 
 From Theorem 3 of \citet{Sun-Yan-Zhang-Lu-2014}, we have that $h\sqrt{n}\left[\hat{\bm{\zeta}}_{-p}\left(\bm{s}\right)-\bm{\zeta}_{-p}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{-p}\left(\bm{s}\right)+\nabla_{vv}^{2}\zeta_{-p}\left(\bm{s}\right)\right\} \right]=O_{p}\left(1\right)$
-and $h\sqrt{n}\left[\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)-\bm{\zeta}_{p}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\zeta_{p}\left(\bm{s}\right)+\nabla_{vv}^{2}\zeta_{p}\left(\bm{s}\right)\right\} \right]=O_{p}\left(1\right)$.
+and $h\sqrt{n}\left[\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)-\bm{\zeta}_{p}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{p}\left(\bm{s}\right)\right\} \right]=O_{p}\left(1\right)$.
 
 We showed in the proof of Theorem \ref{theorem:normality} that
 
@@ -995,22 +1021,21 @@ Var\left\{ \left(\sum_{i=1}^{n}q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\
 \end{lem}
 
 \section*{Appendix: Proof of Theorem \ref{theorem:normality-glm}}
-\begin{proof}[Proof of theorem \ref{theorem:normality-glm}]
-
-\end{proof}
-Let $H_{n}(\bm{u})=\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)+\alpha_{n}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)$
-and $\alpha_{n}=h^{-1}n^{-1/2}$. Then, 
+\begin{proof}
+Let $H'_{n}(\bm{u})=\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)+\alpha_{n}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}\left(\bm{s}\right)\right)$
+and $\alpha_{n}=h^{-1}n^{-1/2}$. Then, maximixing $H'_{n}\left(\bm{u}\right)$
+is equivalent to maximizing $H_{n}\left(\bm{u}\right)$, where 
 \begin{align}
-H_{n}(\bm{u})= & n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\left\{ \bm{\zeta}\left(\bm{s}\right)+\alpha_{n}\bm{u}\right\} \right),Y(\bm{s}_{i})\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
- & -n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right)\right),Y\left(\bm{s}_{i}\right)\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
- & +n^{-1}\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|-+\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)\|
+H_{n}(\bm{u})= & n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\left\{ \bm{\zeta}\left(\bm{s}\right)+\alpha_{n}\bm{u}\right\} \right),Y(\bm{s}_{i})\right)K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
+ & -n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right)\right),Y\left(\bm{s}_{i}\right)\right)K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
+ & +n^{-1}\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)+\alpha_{n}\bm{u}\|-\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)\|
 \end{align}
 
 
 Define
 
 \begin{align*}
-\Omega_{n}= & \alpha_{n}\sum_{i=1}^{n}q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+\Omega_{n}= & \alpha_{n}\sum_{i=1}^{n}q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
 = & \alpha_{n}\sum_{i=1}^{n}\omega_{i}
 \end{align*}
 
@@ -1018,7 +1043,7 @@ Define
 and 
 
 \begin{align*}
-\Delta_{n}= & \alpha_{n}^{2}\sum_{i=1}^{n}q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\\
+\Delta_{n}= & \alpha_{n}^{2}\sum_{i=1}^{n}q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
 = & \alpha_{n}^{2}\sum_{i=1}^{n}\delta_{i}
 \end{align*}
 
@@ -1029,17 +1054,20 @@ around $\bm{\zeta}\left(\bm{s}\right)$ that
 \begin{align}
 H_{n}\left(\bm{u}\right)= & \Omega_{n}^{T}\bm{u}\label{eq:taylor-expanded-glm-criterion}\\
  & +(1/2)\bm{u}^{T}\Delta_{n}\bm{u}\\
- & +\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}\\
+ & +\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
  & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\left\{ \|\bm{\zeta}_{j}\left(\bm{s}\right)+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{j}\left(\bm{s}\right)\|\right\} .\nonumber 
 \end{align}
 
 
 where $\tilde{\bm{\zeta}_{i}}$ lies between $\bm{\zeta}(\bm{s})$
-and $\bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}$. Since 
+and $\bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}$. Since $q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)$
+is linear in $Y\left(\bm{s}_{i}\right)$, $K\left(\cdot\right)$ is
+bounded, and, by condition (A.6),
 
-\[
-O\left(E\left|\left(h^{-3}n^{-3/2}/6\right)\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}\right|\right)=O\left(n^{-1/2}h^{-1}\right),
-\]
+\begin{multline*}
+\left(h^{-3}n^{-3/2}/6\right)E\left|\sum_{i=1}^{n}q_{3}\left(\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}\tilde{\bm{\zeta}}_{i},Y\left(\bm{s}_{i}\right)\right)\left[\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{u}\right]^{3}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\right|\\
+=O\left(n^{-1/2}h^{-1}\right),
+\end{multline*}
 
 
 the third term in (\ref{eq:taylor-expanded-glm-criterion}) is $O_{p}\left(n^{-1/2}h^{-1}\right)$.
@@ -1047,10 +1075,9 @@ the third term in (\ref{eq:taylor-expanded-glm-criterion}) is $O_{p}\left(n^{-1/
 Note that the limiting behavior of the last term of (\ref{eq:taylor-expanded-glm-criterion})
 differs between the cases $j\le p_{0}$ and $j>p_{0}$.
 
+Case $j\le p_{0}$:
 
-\paragraph{Case $j\le p_{0}$:}
-
-If $j\le p_{0}$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|^{-\gamma}$
+If $j\le p_{0}$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}\|\bm{\zeta}_{j}(\bm{s})\|^{-\gamma}$
 and $|\sqrt{n}\left\{ \|\bm{\zeta}_{j}(\bm{s})+\alpha_{n}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{j}\|$
 . Thus, 
 \[
@@ -1058,8 +1085,7 @@ and $|\sqrt{n}\left\{ \|\bm{\zeta}_{j}(\bm{s})+\alpha_{n}\bm{u}_{j}\|-\|\bm{\zet
 \]
 
 
-
-\paragraph{Case $j>p_{0}$:}
+Case $j>p_{0}$:
 
 If $j>p_{0}$, then $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{j}(\bm{s})+\alpha_{n}\bm{u}_{j}\|-\|\bm{\zeta}_{j}(\bm{s})\|\right)=\phi_{j}(\bm{s})\alpha_{n}\|\bm{u}_{j}\|$.
 
@@ -1071,8 +1097,6 @@ Now, if $\|\bm{u}_{j}\|\ne0$, then
 \alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{j}\|\ge\alpha_{n}b_{n}\|\bm{u}_{j}\|\to\infty.
 \]
 On the other hand, if $\|\bm{u}_{j}\|=0$, then $\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{j}\|=0$.
-
-Now, 
 
 Thus, the limit of $H_{n}\left(\bm{u}\right)$ is the same as the
 limit of $H_{n}^{*}\left(\bm{u}\right)$ where
@@ -1087,7 +1111,7 @@ otherwise. It follows that $H_{n}^{*}\left(\bm{u}\right)$ is convex
 and its unique minimizer $\hat{\bm{u}}_{n}$ is
 
 \begin{align}
-\hat{\bm{u}}_{n}= & \left\{ \Delta\left(\bm{s}\right)\right\} ^{-1}\Omega_{n}\left(\bm{s}\right)+o_{p}\left(1\right)\label{eq:limit-1}
+\hat{\bm{u}}_{n}= & \left\{ \Delta\right\} ^{-1}\Omega_{n}+o_{p}\left(1\right)\label{eq:limit-1}
 \end{align}
 
 
@@ -1095,25 +1119,42 @@ by the quadratic approximation lemma \citep{Fan-Gijbels-1996}. Then
 by epiconvergence, the minimizer of the limiting function is the limit
 of the minimizers $\hat{\bm{u}}_{n}$ \citep{Geyer-1994,Knight-Fu-2000}.
 
-Since $\Delta\left(\bm{s}\right)$ is a constant, the normality of
-$\hat{\bm{u}}_{n}$ follows from the normality of $\Omega_{n}\left(\bm{s}\right)$,
-which is establised via the Cramér-Wold device. Let $\bm{d}\in\mathbb{R}^{3p}$
-be a unit vector, and let
+Since $\Delta$ is a constant, the normality of $\hat{\bm{u}}_{n}$
+follows from the normality of $\Omega_{n}$, which is establised via
+the Cram\'{e}r-Wold device. Let $\bm{d}\in\mathbb{R}^{3p}$ be a
+unit vector, and let
 
 \[
-\xi_{i}=K_{h}\left(\|\bm{s}_{i}-\bm{s}\|\right)q_{1}\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right)\right),Y\left(\bm{s}_{i}\right)\right)\bm{d}^{T}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}.
+\xi_{i}=q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\bm{d}^{T}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}K\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right).
 \]
 
 
-Then $\bm{d}^{T}\Omega_{n}\left(\bm{s}\right)=\alpha_{n}\sum_{i=1}^{n}\xi_{i}$.
-\begin{proof}[Proof of Theorem \ref{theorem:selection}]
+Then $\bm{d}^{T}\Omega_{n}=\alpha_{n}\sum_{i=1}^{n}\xi_{i}$. We establish
+the normality of $\bm{d}^{T}\Omega_{n}$ by checking the Lyapunov
+condition of the sequence $\left\{ \bm{d}^{T}Var\left(\Omega_{n}\right)\bm{d}\right\} ^{-1/2}\left\{ \bm{d}^{T}\Omega_{n}-\bm{d}^{T}E\Omega_{n}\right\} $.
+Since $K\left(\cdot\right)$ is bounded, $q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)$
+is linear in $Y\left(\bm{s}_{i}\right)$, and by assumptions (A.6),
+(A.7), and (A.9), 
+
+\begin{equation}
+n\alpha_{n}^{3}E\left(\left|\xi_{1}\right|^{3}\right)=O\left(\alpha_{n}\right)\to0.\label{eq:lyapunov-bound}
+\end{equation}
 
 
+We observe that (\ref{eq:lyapunov-bound}) implies that $n\alpha_{n}^{3}\left|E\xi_{1}\right|^{3}\to0$,
+and since $E\left|\xi_{1}-E\xi_{1}\right|^{3}<E\left\{ \left(\left|\xi_{1}\right|+\left|E\xi_{1}\right|\right)^{3}\right\} \to0$,
+the Lyapunov condition is satisfied. Thus, $\Omega_{n}$ asymptotically
+follows a gaussian distribution and the result follows from the quadratic
+approximation lemma.
+\end{proof}
+
+\section*{Appendix: Proof of Theorem \ref{theorem:selection-glm}}
+\begin{proof}
 We showed in Theorem \ref{theorem:normality} that $\hat{\bm{\zeta}}_{j}\left(\bm{s}\right)\xrightarrow{p}\bm{\zeta}_{j}\left(\bm{s}\right)+\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{j}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{j}\left(\bm{s}\right)\}$,
 so to complete the proof of selection consistency, it only remains
 to show that $Pr\left\{ \hat{\bm{\zeta}}_{j}\left(\bm{s}\right)=\utilde{0}\right\} \to1$
 if $j>p_{0}$.
-\end{proof}
+
 The proof is by contradiction. Without loss of generality we consider
 only the case $j=p$.
 
@@ -1121,7 +1162,7 @@ Assume $\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ne0$. Then $\mathcal{J}\left(\bm{\zeta}
 is differentiable w.r.t. $\bm{\zeta}_{p}\left(\bm{s}\right)$ and
 is minimized where 
 \begin{align}
-\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}_{i}-\bm{s}\|\right)q_{1}\left(g^{-1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\hat{\bm{\zeta}}\left(\bm{s}\right)\right),Y_{i}\right)\left\{ \bm{Z}_{p}\left(\bm{s}_{i}\right)\right\} _{i}\label{eq:glm-selection}
+\phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|}= & \sum_{i=1}^{n}q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\hat{\bm{\zeta}}\left(\bm{s}\right),Y_{i}\right)\left\{ \bm{Z}_{p}\left(\bm{s}_{i}\right)\right\} _{i}K\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)\label{eq:glm-selection}
 \end{align}
 
 
@@ -1136,16 +1177,15 @@ And for this $k$, we have that $|\hat{\zeta}_{p_{k}}\left(\bm{s}\right)|/\|\hat{
 Since $hn^{-1/2}b_{n}\to\infty$, we have that $hn^{-1/2}\phi_{p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)/\|\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\|\ge hb_{n}/\sqrt{3n}\to\infty$
 and therefore the left hand side of (\ref{eq:glm-selection}) dominates
 the sum to the right side. Thus, for large enough $n$, $\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)\ne\utilde{0}$
-cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $Pr\left\{ \hat{\bm{\zeta}}_{(b)}\left(\bm{s}\right)=\utilde{0}\right\} \to1$. 
-
+cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $Pr\left\{ \hat{\bm{\zeta}}_{b}\left(\bm{s}\right)=\utilde{0}\right\} \to1$. 
+\end{proof}
 
 \section*{Appendix: Proof of Lemma \ref{lemma:omega}}
+\begin{proof}
+Expectation:
 
-
-\paragraph*{Expectation}
-
-Taylor expansion of $\bm{\zeta}\left(\bm{s}_{i}\right)$ around $\bm{s}$
-gives us 
+For $j=1,\dots,3p$, by a Taylor expansion of $\zeta_{j}\left(\bm{s}_{i}\right)$
+around $\bm{s}$,
 
 \[
 \zeta_{j}\left(\bm{s}_{i}\right)=\zeta_{j}\left(\bm{s}\right)+\nabla\zeta_{j}\left(\bm{s}\right)\left(\bm{s}_{i}-\bm{s}\right)+\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\zeta_{j}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)+o\left(h^{2}\right)
@@ -1221,7 +1261,7 @@ E\left[\omega_{i}|\bm{s}_{i}\right]= & \left(1/2\right)\alpha_{n}h^{2}\left\{ \l
 \end{align*}
 
 
-And, using hte symmetry of the kernel function,
+And, using the symmetry of the kernel function,
 
 \begin{align*}
 E\omega_{i}= & \left(1/2\right)\alpha_{n}h^{4}f\left(\bm{s}\right)\left(\begin{array}{c}
@@ -1244,8 +1284,7 @@ E\Omega_{n}= & \left(\begin{array}{c}
 \end{align*}
 
 
-
-\paragraph*{Variance}
+Variance:
 
 By the previous result, $E\Omega_{n}=O\left(h^{2}\right)$. Thus,
 $var\left\{ \Omega_{n}\right\} \to E\left\{ \Omega_{n}^{2}\right\} $,
@@ -1280,11 +1319,13 @@ Thus,
 var\left(\Omega_{n}\right)=f\left(\bm{s}\right)diag\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\Gamma\left(\bm{s}\right)+o\left(1\right).
 \]
 
-
+\end{proof}
 
 \section*{Appendix: Proof of Lemma \ref{lemma:delta}}
+\begin{proof}
+Expectation:
 
-the approach is similar to the proof of Lemma \ref{lemma:omega}.
+The approach is similar to the proof of Lemma \ref{lemma:omega}.
 The Taylor expansion of $q_{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)$
 around $\eta\left(\bm{s}_{i},\bm{x}\right)$ results in:
 
@@ -1317,38 +1358,29 @@ E\Delta_{n}=-f\left(\bm{s}\right)diag\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\ri
 \]
 
 
-
-\paragraph*{Variance}
+Variance:
 
 From the previous result, it follows that $\left(E\delta_{i}\right)^{2}=O\left(n^{-2}\right)$.
-And
+By the definition of $\delta_{i}$,
 
-\begin{align*}
-\delta_{i}^{2}= & \alpha_{n}^{4}q_{2}^{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}K^{2}\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)\\
-= & \alpha_{n}^{4}q_{2}^{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \left(\begin{array}{c}
+\begin{multline*}
+E\left(\delta_{i}^{2}|\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}=\bm{z}_{i},\bm{s}_{i}\right)=\\
+\alpha_{n}^{4}\bm{z}_{i}^{T}\bm{z}_{i}\rho^{2}\left(\bm{s}_{i},\bm{z}_{i}\right)\left(\begin{array}{c}
 1\\
 \frac{s_{i,1}-s_{1}}{h}\\
 \frac{s_{i,2}-s_{2}}{h}
-\end{array}\right)\otimes\bm{X}\left(\bm{s}_{i}\right)\left(\begin{array}{c}
+\end{array}\right)\left(\begin{array}{c}
 1\\
 \frac{s_{i,1}-s_{1}}{h}\\
 \frac{s_{i,2}-s_{2}}{h}
-\end{array}\right)^{T}\otimes\bm{X}\left(\bm{s}_{i}\right)^{T}\right\} ^{2}K^{2}\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)\\
-= & \alpha_{n}^{4}q_{2}^{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),Y\left(\bm{s}_{i}\right)\right)\left(\begin{array}{c}
-1\\
-\frac{s_{i,1}-s_{1}}{h}\\
-\frac{s_{i,2}-s_{2}}{h}
-\end{array}\right)\otimes\bm{X}\left(\bm{s}_{i}\right)\left(\begin{array}{c}
-1\\
-\frac{s_{i,1}-s_{1}}{h}\\
-\frac{s_{i,2}-s_{2}}{h}
-\end{array}\right)^{T}\otimes\bm{X}\left(\bm{s}_{i}\right)^{T}\left\{ 1+\left(\frac{s_{i,1}-s_{1}}{h}\right)^{2}+\left(\frac{s_{i,2}-s_{2}}{h}\right)^{2}\right\} \bm{X}\left(\bm{s}_{i}\right)^{T}\bm{X}\left(\bm{s}_{i}\right)K^{2}\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)
-\end{align*}
+\end{array}\right)^{T}\bm{z}_{i}\bm{z}_{i}^{T}K^{2}\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)+o\left(1\right)
+\end{multline*}
 
 
-Thus, $E$$\left(\delta_{i}^{2}\right)=O\left(n^{-2}h^{-2}\right)$,
-and $var\left(\Delta_{n}\right)=O\left(n^{-1}h^{-2}\right)$.
+And it follows from condition
 
+Thus, $E\delta_{i}^{2}=O\left(n^{-2}h^{-2}\right)$, and $var\left(\Delta_{n}\right)=O\left(n^{-1}h^{-2}\right)$.
+\end{proof}
 \bibliographystyle{chicago}
 \bibliography{3_Users_wesley_git_gwr_references_gwr}
 
