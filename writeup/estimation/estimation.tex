@@ -2,7 +2,7 @@
 \makeatletter
 \def\input@path{{/Users/wesley/git/gwr/writeup/estimation//}}
 \makeatother
-\documentclass[english]{article}\usepackage[]{graphicx}\usepackage[]{color}
+\documentclass[12pt,english,authoryear, review]{article}\usepackage[]{graphicx}\usepackage[]{color}
 %% maxwidth is the original width if it is less than linewidth
 %% otherwise use linewidth (to make sure the graphics do not exceed the margin)
 \makeatletter
@@ -54,6 +54,8 @@
 \usepackage{alltt}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose}
 \setlength{\parskip}{\bigskipamount}
 \setlength{\parindent}{0pt}
 \usepackage{bm}
@@ -76,6 +78,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 \usepackage{multirow}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8.5in}
 
 \makeatother
 
@@ -97,23 +101,38 @@
 Whereas the coefficients in traditional linear regression are scalar
 constants, the coefficients in a varying coefficients regression (VCR)
 model are functions - often \emph{smooth} functions - of some effect-modifying
-variable \citep{Hastie:1993a,Cleveland-Grosse-1991}.
+variable \citep{Cleveland-Grosse-1991,Hastie-Tibshirani-1993}. Varying
+coefficients regression has been used, e.g. to model the dynamic relationship
+between HIV viral load and immune response \citep{Liang-Wu-Carroll-2003},
+to estimate airborne particulate matter concentration based on satellite
+observations of the atmosphere \citep{Pelletier-Santer-Vidot-2007},
+and to model how the response of the fertility rate to biological
+and socioeconomic determinants has changed over time in Denmark \citep{Kohler-Rodgers-Christensen-2003}.
 
 Current practice for VCR models relies on global model selection to
 decide which variables should be included in the model, meaning that
-predictors are identified as relevant or irrelevant over the entire
-domain $\mathcal{D}$. \citet{Antoniadis:2012a} describe a method
-for globally selecting the relevant predictors in a VCR model where
-the coefficient functions are estimated with P-splines. \citet{Wang-2008a}
-show a method for doing global variable selection in a VCR model where
-the coefficient functions are estimated by basis expansion.
+covariates are selected for inclusion or exclusion over the model's
+entire domain. \citet{Antoniadis:2012a} describe a method for globally
+selecting covariates for a VCR model where the coefficient functions
+are estimated with P-splines. \citet{Wang-2008a} show a method for
+doing global variable selection in a VCR model where the coefficient
+functions are estimated by basis expansion. \citet{Wang-Xia-2009}
+describe a method of global variable selection for VCR models estimated
+via local regression.
+
+Modeling a response by a VCR model implies acknowledging that the
+coefficients may vary over the model's domain. If the coefficients
+vary, then in principle there is no reason that the best model must
+use the same covariates everywhere on the domain - that is, some of
+the coefficients may be zero in part of the domain. Making the decision
+of which covariates belong in the VCR model at a specific location
+is termed local variable selection, and the literature on how to do
+it is currently nil.
 
 Local adaptive grouped regularization (LAGR) is developed here as
-a method to select only the locally relevant predictors at any specific
-location $\bm{s}$ in the domain $\mathcal{D}$ of a VCR model. The
-method of LAGR applies to VCR models where the coefficients are estimated
-using locally linear kernel smoothing.
-
+a method of local variable selection at any location in the domain
+of a VCR model. The method of LAGR applies to VCR models where the
+coefficients are estimated using locally linear kernel smoothing.
 Using kernel smoothing for nonparametric regression is described in
 detail in \citet*{Fan-Gijbels-1996}. The extension to estimating
 VCR models is made by \citet{Fan-Zhang-1999} for a VCR a univariate
@@ -123,30 +142,39 @@ the obverved response. These methods minimize the boundary effect
 \citep{Hastie:1993b} by estimating the coefficients as local polynomials
 of odd degree (usually locally linear).
 
-For linear regression models, the adaptive lasso (AL) \citep{Zou-2006}
-produces consistent estimates of the coefficients and has been shown
-to have appealing properties for automating variable selection, which
-under suitable conditions include the ``oracle'' property of asymptotically
-including exactly the correct set of covariates and estimating their
-coefficients as well as if the correct covariates were known in advance.
-For data where the obvserved variables fall into mutually exclusive
-groups that are known in advance, the adaptive group lasso \citep{Yuan-Lin-2006,Wang-Leng-2008}
-has similar oracle properties to the adaptive lasso while doing selection
-at the level of groups rather than individual variables. The proposed
-LAGR method uses the adaptive group lasso for local variable selection
-and coefficient estimation in a locally linear regression model. We
-show that LAGR posesses the oracle properties of asymptotically selecting
-exactly the correct local covariates and estimating their local coefficients
-as accurately as would be possible if the identity of the nonzero
-coefficients for the local model were known in advance.
+For linear regression models, the least absolute shrinkage and selection
+operator (Lasso) is a penalized regression method that simultaneously
+selects variables for the regression model and shrinks the coefficient
+estimates toward zero \citep{Tibshirani-1996}. However, the Lasso
+can be inconsistent for variable selection and inefficient for coefficient
+estimation \citep{Zou-2006}. The adaptive Lasso (AL) is a refinement
+of the Lasso that produces consistent estimates of the coefficients
+and has been shown to have appealing properties for automating variable
+selection, which under suitable conditions include the ``oracle''
+property of asymptotically including exactly the correct set of covariates
+and estimating their coefficients as well as if the correct covariates
+were known in advance \citep{Zou-2006}. For data where the obvserved
+variables fall into mutually exclusive groups that are known in advance,
+the adaptive group Lasso has similar oracle properties to the adaptive
+Lasso while doing selection at the level of groups rather than individual
+variables \citep{Yuan-Lin-2006,Wang-Leng-2008}. The proposed LAGR
+method uses the adaptive group Lasso for local variable selection
+and coefficient estimation in a locally linear regression model, where
+each group is a single covariate augmented by its interactions with
+location. We show that LAGR posesses the oracle properties of asymptotically
+selecting exactly the correct local covariates and estimating their
+local coefficients as accurately as would be possible if the identity
+of the nonzero coefficients for the local model were known in advance.
 
 The remainder of this document is organized as follows. The kernel-based
-VCR model is described in Section \ref{sec:vcr}; the proposed LAGR
-technique and its oracle properties are presented in Section \ref{sec:lagr-gaussian};
-in Section \ref{sec:simulations}, the performance of the proposed
+VCR model is described in Section \ref{sec:vcr}. The proposed LAGR
+technique and its oracle properties are presented in Section \ref{sec:lagr-gaussian}.
+In Section \ref{sec:simulations}, the performance of the proposed
 LAGR technique is evaluated in a simulation study, and in Section
 \ref{sec:example} the proposed method is applied to the Boston house
-price dataset. Proofs of the theorems appear in Appendix \ref{sec:gaussian-normality-proof}.
+price dataset. It is demonstrated in Section \ref{sec:lagr-gllm}
+that LAGR posesses oracle properties when applied to varying coefficient
+generalized linear models. Technical proofs are left to the appendix.
 
 
 \section{Varying Coefficients Regression\label{sec:vcr}}
@@ -182,14 +210,16 @@ can be reduced by local polynomial modeling, usually in the form of
 a locally linear model \citep{Fan-Gijbels-1996}. Here, to prepare
 for the estimation of locally linear coefficients, we augment the
 local design matrix with covariate-by-location interactions in two
-dimensions \citep{Wang-2008b}. The augmented local design matrix
-at location $\bm{s}_{i}$ is 
+dimensions \citep{Wang-2008b}. Let $\bm{X}=\left(\bm{X}\left(\bm{s}_{1}\right),\dots,\bm{X}\left(\bm{s}_{n}\right)\right)^{T}$
+be the design matrix of observed covariate values where $\bm{X}\left(\bm{s}_{i}\right)$
+is the vector of observed covariate values at location $\bm{s}_{i}$.
+Then the augmented local design matrix at location $\bm{s}_{i}$ is
 \begin{align}
-\bm{Z}(\bm{s}_{i})= & \left(\bm{X}\:\:\bm{L}\left(\bm{s}_{i}\right)\bm{X}\:\:\bm{M}\left(\bm{s}_{i}\right)\bm{X}\right)\label{eq:augmented-covariates}
+\bm{Z}(\bm{s}_{i})= & \left(\bm{X}\ \:\:\bm{L}\left(\bm{s}_{i}\right)\bm{X}\ \:\:\bm{M}\left(\bm{s}_{i}\right)\bm{X}\right)\label{eq:augmented-covariates}
 \end{align}
 
 
-where $\bm{X}$ is the unaugmented matrix of covariates, $\bm{L}\left(\bm{s}_{i}\right)=\text{diag}\{s_{i',1}-s_{i,1}\}$
+where $\bm{L}\left(\bm{s}_{i}\right)=\text{diag}\{s_{i',1}-s_{i,1}\}$
 and $\bm{M}\left(\bm{s}_{i}\right)=\text{diag}\{s_{i',2}-s_{i,2}\}$
 for $i'=1,\dots,n$.
 
@@ -198,7 +228,7 @@ where $\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}^{T}$ is the $i$th
 row of the matrix $\bm{Z}(\bm{s}_{i})$ as a row vector, and $\bm{\zeta}(\bm{s}_{i})$
 is the vector of local coefficients at location $\bm{s}_{i}$, augmented
 with the local gradients of the coefficient surfaces in the two dimensions,
-indicated by $\nabla_{u}$ and $\nabla_{v}$:
+denoted $\nabla_{u}$ and $\nabla_{v}$:
 
 \begin{equation}
 \bm{\zeta}(\bm{s}_{i})=\left(\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{u}\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{v}\bm{\beta}(\bm{s}_{i})^{T}\right)^{T}\label{eq:augmented-coefficients}
@@ -248,23 +278,24 @@ K(x) & =\begin{cases}
 Letting $\bm{W}(\bm{s})=diag\left\{ K_{h}(\|\bm{s}-\bm{s}_{i}\|)\right\} $
 be a diagonal matrix of kernel weights, the local likelihood is maximized
 by the weighted least squares: 
-\begin{align}
-\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right) & =(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\notag\label{eq:zeta-hat}
-\end{align}
+\[
+\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right)=(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}
+\]
 
 
 Thus, we have the minimizer
 
 \begin{equation}
-\tilde{\bm{\zeta}}(\bm{s})=\left\{ \bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Y}.\label{eq:zeta-hat-1}
+\tilde{\bm{\zeta}}(\bm{s})=\left\{ \bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Y}.\label{eq:zeta-hat}
 \end{equation}
 
 
 By Theorem 3 of \citet{Sun-Yan-Zhang-Lu-2014}, for any given $\bm{s}$,
-the estimated coefficients $\tilde{\bm{\beta}}\left(\bm{s}\right)$
+the estimated local coefficients $\tilde{\bm{\beta}}\left(\bm{s}\right)=\left(\tilde{\zeta}_{1}\left(\bm{s}\right),\dots,\tilde{\zeta}_{p}\left(\bm{s}\right)\right)^{T}$
 are normally distributed and converge to the true $\bm{\beta}\left(\bm{s}\right)$
-at the optimal rate of $O\left(n^{-1/3}\right)$, with finite-sample
-bias related to the second derivatives of the true coefficient functions.
+at the optimal rate of $O\left(n^{-1/3}\right)$. The estimated local
+coefficients are asymptotically unbiased, with finite-sample bias
+proportional to the second derivatives of the true coefficient functions.
 
 
 \section{Local Variable Selection with LAGR\label{sec:lagr-gaussian}}
@@ -277,14 +308,14 @@ Estimating the local coefficients by (\ref{eq:zeta-hat}) relies on
 penalized regression to simultaneously select local covariates and
 estimate the local coefficients. For this purpose, each raw covariate
 is grouped with its covariate-by-location interactions. That is, $\bm{\zeta}_{j}(\bm{s})=\left(\beta_{j}(\bm{s}),\;\;\nabla_{u}\beta_{j}(\bm{s}),\;\;\nabla_{v}\beta_{j}(\bm{s})\right)^{T}$
-for $j=1,\dots,p$. By the mechanism of the adaptive group lasso,
-variables within the same group are included in or dropped from the
-model together. The intercept group is left unpenalized. The proposed
-LAGR penalty is an adaptive $\ell_{1}$ penalty akin to the adaptive
-group lasso \citep{Wang-Leng-2008,Zou-2006}.
+for $j=1,\dots,p$. The proposed LAGR penalty is an adaptive $\ell_{1}$
+penalty akin to the adaptive group Lasso \citep{Wang-Leng-2008,Zou-2006}.
+By the mechanism of the adaptive group Lasso, variables within the
+same group are included in or dropped from the model together. The
+intercept group is left unpenalized.
 
-More specifically, we consider the penalized local sum of squares
-at location $\bm{s}$: 
+To estimate the local coefficients at location $\bm{s}$ via LAGR,
+we minimize the penalized local sum of squares at location $\bm{s}$:
 \begin{align}
 \mathcal{J}\left(\bm{\zeta}\left(\bm{s}\right)\right) & =\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right)+\mathcal{P}\left(\bm{\zeta}\left(\bm{s}\right)\right)\notag\label{eq:adaptive-lasso-WLS}
 \end{align}
@@ -293,10 +324,8 @@ at location $\bm{s}$:
 where $\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right)=(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}$
 is the locally weighted sum of squares, $\mathcal{P}\left(\bm{\zeta}\left(\bm{s}\right)\right)=\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|$
 is a local adaptive grouped regularization (LAGR) penalty, and $\|\cdot\|$
-is the $L_{2}$-norm.
-
-The LAGR penalty for the $j$th group of coefficients $\bm{\zeta}_{j}(\bm{s})$
-at location $\bm{s}$ is $\phi_{j}(\bm{s})=\lambda_{n}\|\tilde{\bm{\zeta}}_{j}(\bm{s})\|^{-\gamma}$,
+is the $L_{2}$-norm. The LAGR penalty for the $j$th group of coefficients
+$\bm{\zeta}_{j}(\bm{s})$ at location $\bm{s}$ is $\phi_{j}(\bm{s})=\lambda_{n}\|\tilde{\bm{\zeta}}_{j}(\bm{s})\|^{-\gamma}$,
 where $\lambda_{n}>0$ is a local tuning parameter applied to all
 coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{j}(\bm{s})$
 is the vector of unpenalized local coefficients from (\ref{eq:zeta-hat}).
@@ -347,7 +376,9 @@ have continuous second partial derivatives.
 is continuous as location $\bm{s}$.
 \item[(A.7)] $E\left\{ Y\left(\bm{s}\right)^{4}|\bm{X}\left(\bm{s}\right),\bm{s}\right\} $
 is bounded as location $\bm{s}$.
-\item[(A.8)] $h=h_{n}=O\left(n^{-1/6}\right)$\end{itemize}
+\item[(A.8)] $h=O\left(n^{-1/6}\right)$
+\end{itemize}
+Under these conditions, we obtain the following:
 \begin{thm}[Asymptotic normality]
 \label{theorem:normality} 
 
@@ -377,10 +408,10 @@ if $j>p_{0}$.
 \end{thm}
 Together, Theorem \ref{theorem:normality} and Theorem \ref{theorem:selection}
 indicate that the LAGR estimates have the same asymptotic distribution
-as a local regression model where the nonzero coefficients are known
-in advance \citep{Sun-Yan-Zhang-Lu-2014}, and that the LAGR estimates
-of true zero coefficients go to zero with probability one. Thus, selection
-and estimation by LAGR has the oracle property.
+as a local regression model where the true nonzero coefficients are
+known in advance \citep{Sun-Yan-Zhang-Lu-2014}, and that the LAGR
+estimates of true zero coefficients go to zero with probability one.
+Thus, selection and estimation by LAGR has the oracle property.
 
 To establish the oracle properties of LAGR, we assumed that $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
 and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$. Therefore, $h^{-1}n^{-1/2}\lambda_{n}\to0$
@@ -388,8 +419,8 @@ for $j\le p_{0}$ and $hn^{-1/2}\lambda_{n}\|\bm{\zeta}_{j}\left(\bm{s}\right)\|^
 for $j>p_{0}$. We require that $\lambda_{n}$ satisfy both assumptions.
 Suppose $\lambda_{n}=n^{\alpha}$. Since $h=O\left(n^{-1/6}\right)$
 and $\|\tilde{\bm{\zeta}}_{p}(\bm{s})\|=O\left(h^{-1}n^{-1/2}\right)$,
-then $h^{-1}n^{-1/2}\lambda_{n}=O\left(n^{-1/3+\alpha}\right)$ and
-$hn^{-1/2}\lambda_{n}\|\tilde{\bm{\zeta}}_{p}\left(\bm{s}\right)\|^{-\gamma}=O\left(n^{-2/3+\alpha+\gamma/3}\right)$.
+it follows that $h^{-1}n^{-1/2}\lambda_{n}=O\left(n^{-1/3+\alpha}\right)$
+and $hn^{-1/2}\lambda_{n}\|\tilde{\bm{\zeta}}_{p}\left(\bm{s}\right)\|^{-\gamma}=O\left(n^{-2/3+\alpha+\gamma/3}\right)$.
 Thus, $\left(2-\gamma\right)/3<\alpha<1/3$, which can only be satisfied
 for $\gamma>1$.
 
@@ -398,7 +429,7 @@ for $\gamma>1$.
 
 In practical application, it is necessary to select the LAGR tuning
 parameter $\lambda_{n}$ for each local model. A popular approach
-in other lasso-type problems is to select the tuning parameter that
+in other Lasso-type problems is to select the tuning parameter that
 maximizes a criterion that approximates the expected log-likelihood
 of a new, independent data set drawn from the same distribution. This
 is the framework of Mallows' Cp, Stein's unbiased risk estimate (SURE)
@@ -407,7 +438,7 @@ and Akaike's information criterion (AIC) \citep{Mallows-1973,Stein-1981,Akaike-1
 These criteria use a so-called covariance penalty to estimate the
 bias due to using the same data set to select a model and to estimate
 its parameters \citep{Efron:2004a}. We adopt the approximate degrees
-of freedom for the adaptive group lasso from \citet{Yuan-Lin-2006}
+of freedom for the adaptive group Lasso from \citet{Yuan-Lin-2006}
 and minimize the AICc to select the tuning parameter $\lambda_{n}$
 \citep{Hurvich-1998}. That is, let
 
@@ -501,13 +532,14 @@ with oracle selection. Oracle selection means that exactly the correct
 set of covariates was used to fit each local model.
 
 \begin{table}
+	\centering
 	\begin{tabular}{ccc|ccc|cc}
 		\multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}Simulation\\settings\end{tabular}} & \multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{\beta}_1$\end{tabular}} & \multicolumn{2}{c}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{\beta}_2, \dots, \hat{\beta}_5$\end{tabular}} \\
 		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & LAGR & VCR & Oracle & LAGR & VCR \\
 		\hline 
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Tue Jul 15 21:34:41 2014
+% Wed Jul 16 16:53:15 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
     &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
@@ -557,13 +589,14 @@ each other, indicating that no method was consistently better than
 the others in this simulation at fitting the model output.
 
 \begin{table}
+	\centering
 	\begin{tabular}{ccc|c|ccc}
 		\multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}Simulation\\settings\end{tabular}} &  \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Zero\\frequency\end{tabular}} &  \multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{y}$\end{tabular}} \\
-		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & $\hat{\beta}_2,\dots,\hat{\beta}_5 & LAGR & VCR & Oracle \\
+		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & $\hat{\beta}_2,\dots,\hat{\beta}_5$ & LAGR & VCR & Oracle \\
 		\hline 
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Tue Jul 15 21:34:44 2014
+% Wed Jul 16 16:53:18 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
     &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
@@ -598,7 +631,7 @@ method between low ($\sigma_{\varepsilon}=0.5$) and high ($\sigma_{\varepsilon}=
 error variance, and between no ($\rho=0$) and moderate ($\rho=0.5$)
 correlation among the covariates. But the selection and estimation
 accuracy did decline when there was high ($\rho=0.9$) correlation
-among the predictor variables.
+among the covariates.
 
 
 \section{Data Example\label{sec:example}}
@@ -622,9 +655,9 @@ kernel weights for each local model was 20\% of the total number of
 observations. The kernel used was the Epanechnikov kernel.
 
 A summary of the local coefficients is in Table \ref{tab:boston-coefs-lagr}.
-It indicates that RM is the only predictor variable with a positive
-mean of the local coefficients. The coefficient of the CRIM variable
-was estimated to be exactly zero at 49\%
+It indicates that RM is the only covariate with a positive mean of
+the local coefficients. The coefficient of the CRIM variable was estimated
+to be exactly zero at 49\%
 of the locations. The percentage for the RAD variable was 37\%.
 
 \begin{figure}
@@ -650,7 +683,7 @@ median house price and parts where it is associated with a lesser
 median house price.
 
 % latex table generated in R 3.1.0 by xtable 1.7-3 package
-% Tue Jul 15 21:34:53 2014
+% Wed Jul 16 16:53:23 2014
 \begin{table}
 \centering
 \begin{tabular}{rrrr}
@@ -724,7 +757,7 @@ E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left(\eta(\bm{s})\right)\\
 \subsection{Local quasi-likelihood}
 
 Assuming the canonical link, all that is required is to specify the
-mean-variance relationship via the variance function, $V\left\{ \mu(\bm{s})\right\} $.
+mean-variance relationship via the variance function, $V\left(\mu\left(\bm{s}\right)\right)$.
 Then the local coefficients can be estimated by maximizing the local
 quasi-likelihood 
 
@@ -752,25 +785,19 @@ the quasi-score function
 Under these conditions, the local quasi-likelihood is maximized where
 
 \begin{align}
-\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left(\hat{\bm{\zeta}}\left(\bm{s}\right)\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\frac{y\left(\bm{s}_{i}\right)-\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)}{V\left(\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)\right)}\bm{z}\left(\bm{s}_{i}\right)=\bm{0}_{3p}
+\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left(\hat{\bm{\zeta}}\left(\bm{s}\right)\right) & =\sum_{i=1}^{n}\frac{y\left(\bm{s}_{i}\right)-\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)}{V\left(\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)\right)}\bm{z}\left(\bm{s}_{i}\right)K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)=\bm{0}_{3p}
 \end{align}
 
 
 and $\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)=g^{-1}\left(\bm{z}'\left(\bm{s}_{i}\right)\hat{\bm{\zeta}}\left(\bm{s}\right)\right)$
 is the mean at location $\bm{s}_{i}$ estimated using the coefficients
 $\hat{\bm{\zeta}}\left(\bm{s}\right)$ fitted at location $\bm{s}$.
-Except for the $K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)$ term, this
-is the same as the normal equations for estimating coefficients in
-a GLM. The method of iteratively reweighted least squares (IRLS) is
-used to solve for $\hat{\bm{\zeta}}\left(\bm{s}\right)$.
-
-
-\subsection{Distribution of the local coefficients}
-
-The asymptotic distribution of the local coefficients in a varying-coefficient
-GLM with a one-dimensional effect-modifying parameter are given in
-\citet{Cai-Fan-Li-2000}. For coefficients that vary in two dimensions,
-the distribution of the estimated local coefficients is
+The method of iteratively reweighted least squares (IRLS) is used
+to solve for $\hat{\bm{\zeta}}\left(\bm{s}\right)$. The asymptotic
+distribution of the local coefficients in a varying-coefficient GLM
+with a one-dimensional effect-modifying parameter are given in \citet{Cai-Fan-Li-2000}.
+For coefficients that vary in two dimensions, the distribution of
+the estimated local coefficients is
 
 \[
 \sqrt{{nh^{2}f(\bm{{s}})}}\left[\tilde{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right).
@@ -814,7 +841,9 @@ Assume the following conditions.
 $V\left(\mu\left(\bm{s},\bm{z}\right)\right)$, and $V'\left(\mu\left(\bm{s},\bm{z}\right)\right)$
 are continuous at the point $\bm{s}$.
 \item[(A.10)] The function $\left(\partial^{2}/\partial\mu^{2}\right)Q\left(g^{-1}\left(\mu\right),y\right)<0$
-for $\mu\in\mathbb{R}$ and $y$ in the range of the response variable.\end{itemize}
+for $\mu\in\mathbb{R}$ and $y$ in the range of the response variable.
+\end{itemize}
+Then,
 \begin{thm}[Asymptotic normality]
 \label{theorem:normality-glm} 
 
@@ -823,7 +852,7 @@ for $\mu\in\mathbb{R}$ and $y$ in the range of the response variable.\end{itemiz
 If $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
 then 
 \[
-h\sqrt{n}\left[\hat{\bm{\beta}}_{a}(\bm{s})-\bm{\beta}_{a}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\beta}_{a}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{a}(\bm{s})\right\} \right]\xrightarrow{d}N\left(0,f\left(\bm{s}\right)^{-1}\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
+\sqrt{nh^{2}f\left(\bm{s}\right)}\left[\hat{\bm{\beta}}_{a}(\bm{s})-\bm{\beta}_{a}(\bm{s})-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\beta}_{a}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{a}(\bm{s})\right\} \right]\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
 \]
 
 \end{thm}
@@ -838,6 +867,11 @@ then $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to0$
 if $j\le p_{0}$ and $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to1$
 if $j>p_{0}$. 
 \end{thm}
+
+\section{Conclusions and Discussion}
+
+The method of LAGR possesses the oracle properties of 
+
 \appendix
 
 \section*{Appendix: Proofs of Theorem \ref{theorem:normality}\label{sec:gaussian-normality-proof} }
@@ -989,7 +1023,8 @@ on linear extrapolation of $\bm{\zeta}\left(\bm{s}\right)$.
 \item[(D.A.4)] Let $\tilde{\bm{\zeta}}_{i}''=\left[\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\zeta_{1}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right),\dots,\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\zeta_{3p}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)\right]^{T}$
 be the $3p$-vector of quadratic forms of location interactions on
 the second derivatives of the coefficient functions.\end{itemize}
-\begin{lem}[\label{lemma:omega}]
+\begin{lem}
+\label{lemma:omega}
 \[
 E\left[\sum_{i=1}^{n}q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=\left(\begin{array}{c}
 2^{-1}\sqrt{n}h^{3}\kappa_{2}f\left(\bm{s}\right)\Gamma\left(\bm{s}\right)\left(\nabla_{uu}^{2}\bm{\beta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\beta}\left(\bm{s}\right)\right)^{T}\\
@@ -1000,16 +1035,20 @@ E\left[\sum_{i=1}^{n}q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{
 
 and 
 
-\[
-Var\left[\sum_{i=1}^{n}q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=f\left(\bm{s}\right)diag\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\Gamma\left(\bm{s}\right)+o\left(1\right)=-\Lambda+o\left(1\right)
-\]
+\begin{multline*}
+Var\left[\sum_{i=1}^{n}q_{1}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=f\left(\bm{s}\right)diag\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\Gamma\left(\bm{s}\right)+o\left(1\right)\\
+=-\Lambda+o\left(1\right)
+\end{multline*}
 
 \end{lem}
 
-\begin{lem}[\label{lemma:delta}]
-\[
-E\left[\sum_{i=1}^{n}q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=-f\left(\bm{s}\right)diag\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\Gamma\left(\bm{s}\right)+o\left(1\right)=-\Delta\left(\bm{s}\right)+o\left(1\right)
-\]
+\begin{lem}
+\label{lemma:delta}
+
+\begin{multline*}
+E\left[\sum_{i=1}^{n}q_{2}\left(\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y\left(\bm{s}_{i}\right)\right)\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=-f\left(\bm{s}\right)diag\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\Gamma\left(\bm{s}\right)+o\left(1\right)\\
+=-\Delta\left(\bm{s}\right)+o\left(1\right)
+\end{multline*}
 
 
 and
@@ -1182,7 +1221,7 @@ cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $Pr\left\{ \hat{\
 
 \section*{Appendix: Proof of Lemma \ref{lemma:omega}}
 \begin{proof}
-Expectation:
+\textbf{Expectation}:
 
 For $j=1,\dots,3p$, by a Taylor expansion of $\zeta_{j}\left(\bm{s}_{i}\right)$
 around $\bm{s}$,
@@ -1284,7 +1323,7 @@ E\Omega_{n}= & \left(\begin{array}{c}
 \end{align*}
 
 
-Variance:
+\textbf{Variance}:
 
 By the previous result, $E\Omega_{n}=O\left(h^{2}\right)$. Thus,
 $var\left\{ \Omega_{n}\right\} \to E\left\{ \Omega_{n}^{2}\right\} $,
@@ -1323,7 +1362,7 @@ var\left(\Omega_{n}\right)=f\left(\bm{s}\right)diag\left\{ \nu_{0},\nu_{2},\nu_{
 
 \section*{Appendix: Proof of Lemma \ref{lemma:delta}}
 \begin{proof}
-Expectation:
+\textbf{Expectation}:
 
 The approach is similar to the proof of Lemma \ref{lemma:omega}.
 The Taylor expansion of $q_{2}\left(\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}\right),\mu\left(\bm{s}_{i},\bm{x}\right)\right)$
@@ -1358,14 +1397,14 @@ E\Delta_{n}=-f\left(\bm{s}\right)diag\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\ri
 \]
 
 
-Variance:
+\textbf{Variance}:
 
 From the previous result, it follows that $\left(E\delta_{i}\right)^{2}=O\left(n^{-2}\right)$.
 By the definition of $\delta_{i}$,
 
 \begin{multline*}
 E\left(\delta_{i}^{2}|\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}=\bm{z}_{i},\bm{s}_{i}\right)=\\
-\alpha_{n}^{4}\bm{z}_{i}^{T}\bm{z}_{i}\rho^{2}\left(\bm{s}_{i},\bm{z}_{i}\right)\left(\begin{array}{c}
+\alpha_{n}^{4}\bm{z}_{i}^{T}\bm{z}_{i}q_{2}^{2}\left(\bm{s}_{i},\bm{z}_{i}\right)\left(\begin{array}{c}
 1\\
 \frac{s_{i,1}-s_{1}}{h}\\
 \frac{s_{i,2}-s_{2}}{h}
@@ -1377,9 +1416,8 @@ E\left(\delta_{i}^{2}|\left\{ \bm{Z}\left(\bm{s}_{i}\right)\right\} _{i}=\bm{z}_
 \end{multline*}
 
 
-And it follows from condition
-
-Thus, $E\delta_{i}^{2}=O\left(n^{-2}h^{-2}\right)$, and $var\left(\Delta_{n}\right)=O\left(n^{-1}h^{-2}\right)$.
+And it follows that $E\delta_{i}^{2}=O\left(n^{-2}h^{-2}\right)$,
+and $var\left(\Delta_{n}\right)=O\left(n^{-1}h^{-2}\right)$.
 \end{proof}
 \bibliographystyle{chicago}
 \bibliography{3_Users_wesley_git_gwr_references_gwr}
