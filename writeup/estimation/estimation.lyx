@@ -1095,25 +1095,21 @@ status open
 \begin_inset Formula $\bm{X}\left(\bm{s}_{1}\right),\dots,\bm{X}\left(\bm{s}_{n}\right)$
 \end_inset
 
- are 
-\begin_inset Formula $iid$
-\end_inset
-
- random variables that are independent of 
+ are independent random variables that are independent of 
 \begin_inset Formula $\varepsilon\left(\bm{s}_{1}\right),\dots,\varepsilon\left(\bm{s}_{n}\right)$
 \end_inset
 
 .
  Also 
-\begin_inset Formula $\Psi=E\left\{ \bm{X}\left(\bm{s}_{1}\right)\bm{X}^{T}\left(\bm{s}_{1}\right)\right\} $
+\begin_inset Formula $\Psi\left(\bm{s}\right)=E\left\{ \bm{X}\left(\bm{s}\right)\bm{X}^{T}\left(\bm{s}\right)\right\} $
 \end_inset
 
  is positive-definite, 
-\begin_inset Formula $E\left|\bm{X}\left(\bm{s}_{1}\right)\right|^{2q}<\infty$
+\begin_inset Formula $E\left|\bm{X}\left(\bm{s}\right)\right|^{2q}<\infty$
 \end_inset
 
 , and 
-\begin_inset Formula $E\left|\varepsilon\left(\bm{s}_{1}\right)\right|^{2q}<\infty$
+\begin_inset Formula $E\left|\varepsilon\left(\bm{s}\right)\right|^{2q}<\infty$
 \end_inset
 
 .
@@ -1266,8 +1262,8 @@ If
 \begin_layout Theorem
 \begin_inset Formula 
 \begin{multline*}
-h\sqrt{n}\left[\hat{\bm{\beta}}_{a}\left(\bm{s}\right)-\bm{\beta}_{a}\left(\bm{s}\right)-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\beta}_{a}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\beta}_{a}\left(\bm{s}\right)\right\} \right]\\
-\xrightarrow{d}N\left(0,f\left(\bm{s}\right){}^{-1}\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
+\sqrt{f\left(\bm{s}\right)h^{2}n}\left[\hat{\bm{\beta}}_{a}\left(\bm{s}\right)-\bm{\beta}_{a}\left(\bm{s}\right)-\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\beta}_{a}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\beta}_{a}\left(\bm{s}\right)\right\} \right]\\
+\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi\left(\bm{s}\right)^{-1}\right)
 \end{multline*}
 
 \end_inset
@@ -1495,8 +1491,8 @@ key "Hurvich-1998"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\hat{df}(\lambda;\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|>0\right)+\sum_{j=1}^{p}\frac{\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|}{\|\tilde{\bm{\zeta}}(\bm{s})\|}(p_{j}-1)\\
-\text{AIC}_{c}(\lambda;\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\sigma^{-2}\left\{ y(\bm{s}_{i})-z'(\bm{s}_{i})\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\right\} ^{2}\\
+\hat{df}(\lambda_{n};\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|>0\right)+\sum_{j=1}^{p}\frac{\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|}{\|\tilde{\bm{\zeta}}(\bm{s})\|}(p_{j}-1)\\
+\text{AIC}_{c}(\lambda_{n};\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\sigma^{-2}\left\{ y(\bm{s}_{i})-z'(\bm{s}_{i})\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\right\} ^{2}\\
  & +2\hat{df}(\lambda_{n};\bm{s})\\
  & +\frac{2\hat{df}(\lambda_{n};\bm{s})\left\{ \hat{df}(\lambda_{n};\bm{s})+1\right\} }{\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)-\hat{df}(\lambda_{n};\bm{s})-1}
 \end{align*}
@@ -4158,14 +4154,6 @@ If
  
 \end_layout
 
-\begin_layout Section
-Conclusions and Discussion
-\end_layout
-
-\begin_layout Standard
-The method of LAGR possesses the oracle properties of 
-\end_layout
-
 \begin_layout Section*
 \start_of_appendix
 Appendix: Proof of Theorem 
@@ -4403,7 +4391,7 @@ key "Sun-Yan-Zhang-Lu-2014"
 \begin_layout Proof
 \begin_inset Formula 
 \begin{equation}
-\hat{\bm{u}}_{n}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\},f(\bm{s})\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi^{-1}\right)
+\hat{\bm{u}}_{n}\xrightarrow{d}N\left(\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\},f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi\left(\bm{s}\right)^{-1}\right)
 \end{equation}
 
 \end_inset
