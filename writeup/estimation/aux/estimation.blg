@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: aux/estimation.aux
+The style file: chicago.bst
+Database file #1: ../../references/gwr.bib
+Warning--page numbers missing in Pelletier-Santer-Vidot-2007
+You've used 30 entries,
+            2861 wiz_defined-function locations,
+            828 strings with 9727 characters,
+and the built_in function-call counts, 21060 in all, are:
+= -- 1815
+> -- 1492
+< -- 1
++ -- 448
+- -- 522
+* -- 1851
+:= -- 3819
+add.period$ -- 91
+call.type$ -- 30
+change.case$ -- 212
+chr.to.int$ -- 30
+cite$ -- 31
+duplicate$ -- 531
+empty$ -- 1305
+format.name$ -- 614
+if$ -- 3960
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 31
+newline$ -- 153
+num.names$ -- 304
+pop$ -- 138
+preamble$ -- 1
+purify$ -- 393
+quote$ -- 0
+skip$ -- 597
+stack$ -- 0
+substring$ -- 1244
+swap$ -- 160
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 590
+warning$ -- 1
+while$ -- 300
+width$ -- 0
+write$ -- 394
+(There was 1 warning)
