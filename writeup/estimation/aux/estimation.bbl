@@ -41,14 +41,6 @@ Fan, J. and I.~Gijbels (1996).
 \newblock {\em Local Polynomial Modeling and its Applications}.
 \newblock Chapman and Hall, London.
 
-\bibitem[\protect\citeauthoryear{Fan, Heckman, and Wand}{Fan
-  et~al.}{1995}]{Fan-Heckman-Wand-1995}
-Fan, J., N.~E. Heckman, and M.~Wand (1995).
-\newblock Local polynomial kernel regression for generalized linear models and
-  quasi-likelihood functions.
-\newblock {\em Journal of the American Statistical Association\/}~{\em 90},
-  141--150.
-
 \bibitem[\protect\citeauthoryear{Fan and Zhang}{Fan and
   Zhang}{1999}]{Fan-Zhang-1999}
 Fan, J. and W.~Zhang (1999).
