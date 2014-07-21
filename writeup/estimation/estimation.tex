@@ -1,8 +1,55 @@
-\documentclass[authoryear,review, 12pt]{elsarticle}
+\batchmode
+\makeatletter
+\def\input@path{{/Users/wesley/git/gwr/writeup/estimation//}}
+\makeatother
+\documentclass[12pt,english,authoryear, review]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
 
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
 
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
 
-\newcommand{\maxwidth}{\textwidth}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
 
 \usepackage{alltt}
 \usepackage[T1]{fontenc}
@@ -19,59 +66,39 @@
 \usepackage{graphicx}
 \usepackage{setspace}
 \usepackage{esint}
-\usepackage{booktabs}
-\usepackage{color}
+\doublespacing
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\usepackage[natbibapa]{apacite}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+  \theoremstyle{plain}
+  \newtheorem{lem}{\protect\lemmaname}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 \usepackage{multirow}
-\usepackage{natbib}
-
-\newcommand{\hlc}[2][yellow]{ {\sethlcolor{#1} \hl{#2}} }
-\newcommand{\highlight}[1]{\colorbox{yellow}{$\displaystyle #1$}}
-
-\newtheorem{thm}{Theorem}
-\newtheorem{lem}{Lemma}
-
-\newcommand\pr{\mathbf P}
-\newcommand{\E}{\mathbb{E}}
-
 \setlength{\textwidth}{6.5in}
 \setlength{\textheight}{8.5in}
-\textwidth=6.5in
-\textheight=8.5in
-\setlength{\topmargin}{0in}
-\setlength{\oddsidemargin}{0in}
-\setlength{\evensidemargin}{0in}
 
-\journal{Statistica Sinica}
+\AtBeginDocument{
+  \def\labelitemii{}
+}
 
+\makeatother
+
+\usepackage{babel}
+  \providecommand{\lemmaname}{Lemma}
+\providecommand{\theoremname}{Theorem}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
-
-\begin{frontmatter}
 
 \title{Local Adaptive Grouped Regularization and its Oracle Properties}
 
 
-\author[wrbrooks]{Wesley Brooks}
-\ead{wrbrooks@uwalumni.com}
+\author{Wesley Brooks, Jun Zhu, Zudi Lu}
 
-\author[jzhu]{Jun Zhu}
-\ead{jzhu@stat.wisc.edu}
-
-\author[zlu]{Zudi Lu}
-\ead{Z.Lu@soton.ac.uk}
-
-\address[wrbrooks]{Department of Statistics, University of Wisconsin, Madison, WI 53706}
-\address[jzhu]{Department of Statistics and Department of Entomology, University of Wisconsin, Madison, WI 53706}
-\address[zlu]{School of Mathematical Sciences, The University of Southampton Highfield, Southampton UK}
-
-\begin{abstract}
-
-\end{abstract}
-
-\begin{keyword}
-Nonparametric, variable selection
-\end{keyword}
-
-\end{frontmatter}
+\maketitle
 
 \section{Introduction}
 
@@ -80,9 +107,9 @@ constants, the coefficients in a varying coefficients regression (VCR)
 model are functions - often \emph{smooth} functions - of some effect-modifying
 variable \citep{Cleveland-Grosse-1991,Hastie-Tibshirani-1993}. Varying
 coefficients regression has been used, e.g. to model the dynamic relationship
-between HIV viral load and immune response \citep{Liang-Wu-Carroll-2003},
-to estimate airborne particulate matter concentration based on satellite
-observations of the atmosphere \citep{Pelletier-Santer-Vidot-2007},
+between HIV viral load and immune response as infection progresses
+\citep{Liang-Wu-Carroll-2003}, to estimate airborne particulate matter
+concentration based on satellite observations of the atmosphere \citep{Pelletier-Santer-Vidot-2007},
 and to model how the response of the fertility rate to biological
 and socioeconomic determinants has changed over time in Denmark \citep{Kohler-Rodgers-Christensen-2003}.
 
@@ -133,12 +160,12 @@ and estimating their coefficients as well as if the correct covariates
 were known in advance \citep{Zou-2006}. For data where the obvserved
 variables fall into mutually exclusive groups that are known in advance,
 the adaptive group Lasso has similar oracle properties to the adaptive
-Lasso while doing selection at the level of groups rather than individual
-variables \citep{Yuan-Lin-2006,Wang-Leng-2008}. The proposed LAGR
-method uses the adaptive group Lasso for local variable selection
-and coefficient estimation in a locally linear regression model, where
-each group is a single covariate augmented by its interactions with
-location. We show that LAGR posesses the oracle properties of asymptotically
+Lasso but does selection on groups rather than individual variables
+\citep{Yuan-Lin-2006,Wang-Leng-2008}. The proposed LAGR method uses
+the adaptive group Lasso for local variable selection and coefficient
+estimation in a locally linear regression model, where each group
+consists of a single covariate and its interactions with location.
+We show that LAGR posesses the oracle properties of asymptotically
 selecting exactly the correct local covariates and estimating their
 local coefficients as accurately as would be possible if the identity
 of the nonzero coefficients for the local model were known in advance.
@@ -161,14 +188,13 @@ generalized linear models. Technical proofs are left to the appendix.
 
 Consider $n$ data points, observed at sampling locations $\bm{s}_{i}=(s_{i,1},\; s_{i,2})^{T}$
 for $i=1,\dots,n$, which are distributed in a domain $\mathcal{D}\subset\mathbb{R}^{2}$
-according to a density $f(\bm{s})$ with $\bm{s}\in\mathcal{D}$.
-For $i=1,\dots,n$, let $y(\bm{s}_{i})$ and $\bm{x}(\bm{s}_{i})$
-denote, respectively, the univariate response and the $(p+1)$-variate
-vector of covariates measured at location $\bm{s}_{i}$. At each location
-$\bm{s}_{i}$, assume that the outcome is related to the covariates
-by a linear regression where the coefficients $\bm{\beta}(\bm{s}_{i})$
-are functions in two dimensions and $\varepsilon(\bm{s}_{i})$ is
-random error at location $\bm{s}_{i}$. That is, 
+according to a density $f$. For $i=1,\dots,n$, let $y(\bm{s}_{i})$
+and $\bm{x}(\bm{s}_{i})$ denote, respectively, the univariate response
+and the $(p+1)$-variate vector of covariates measured at location
+$\bm{s}_{i}$. At each location $\bm{s}_{i}$, assume that the outcome
+is related to the covariates by a linear regression where the coefficients
+$\bm{\beta}(\bm{s}_{i})$ are functions in two dimensions and $\varepsilon(\bm{s}_{i})$
+is random error at location $\bm{s}_{i}$. That is, 
 \begin{align}
 y(\bm{s}_{i})=\bm{x}(\bm{s}_{i})'\bm{\beta}(\bm{s}_{i})+\varepsilon(\bm{s}_{i}).\label{eq:lm(s)}
 \end{align}
@@ -188,9 +214,8 @@ a locally linear model \citep{Fan-Gijbels-1996}. Here, to prepare
 for the estimation of locally linear coefficients, we augment the
 local design matrix with covariate-by-location interactions in two
 dimensions \citep{Wang-2008b}. Let $\bm{X}=\left(\bm{X}\left(\bm{s}_{1}\right),\dots,\bm{X}\left(\bm{s}_{n}\right)\right)^{T}$
-be the design matrix of observed covariate values where $\bm{X}\left(\bm{s}_{i}\right)$
-is the vector of observed covariate values at location $\bm{s}_{i}$.
-Then the augmented local design matrix at location $\bm{s}_{i}$ is
+be the design matrix of observed covariate values. Then the augmented
+local design matrix at location $\bm{s}_{i}$ is 
 \begin{align}
 \bm{Z}(\bm{s}_{i})= & \left(\bm{X}\ \:\:\bm{L}\left(\bm{s}_{i}\right)\bm{X}\ \:\:\bm{M}\left(\bm{s}_{i}\right)\bm{X}\right)\label{eq:augmented-covariates}
 \end{align}
@@ -256,9 +281,9 @@ K(x) & =\begin{cases}
 Letting $\bm{W}(\bm{s})=diag\left\{ K_{h}(\|\bm{s}-\bm{s}_{i}\|)\right\} $
 be a diagonal matrix of kernel weights, the local likelihood is maximized
 by the weighted least squares: 
-\[
-\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right)=(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}
-\]
+\begin{equation}
+\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right)=(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\label{eq:local-sum-of-squares}
+\end{equation}
 
 
 Thus, we have the minimizer
@@ -285,7 +310,7 @@ Estimating the local coefficients by (\ref{eq:zeta-hat}) relies on
 \emph{a priori} variable selection. Here we develop a new method of
 penalized regression to simultaneously select local covariates and
 estimate the local coefficients. For this purpose, each raw covariate
-is grouped with its covariate-by-location interactions. That is, $\bm{\zeta}_{j}(\bm{s})=\left(\beta_{j}(\bm{s}),\;\;\nabla_{u}\beta_{j}(\bm{s}),\;\;\nabla_{v}\beta_{j}(\bm{s})\right)^{T}$
+is grouped with its covariate-by-location interactions. That is, $\bm{\zeta}_{\left(j\right)}(\bm{s})=\left(\beta_{j}(\bm{s}),\;\;\nabla_{u}\beta_{j}(\bm{s}),\;\;\nabla_{v}\beta_{j}(\bm{s})\right)^{T}$
 for $j=1,\dots,p$. The proposed LAGR penalty is an adaptive $\ell_{1}$
 penalty akin to the adaptive group Lasso \citep{Wang-Leng-2008,Zou-2006}.
 By the mechanism of the adaptive group Lasso, variables within the
@@ -299,14 +324,14 @@ we minimize the penalized local sum of squares at location $\bm{s}$:
 \end{align}
 
 
-where $\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right)=(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}$
-is the locally weighted sum of squares, $\mathcal{P}\left(\bm{\zeta}\left(\bm{s}\right)\right)=\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{\left(j\right)}(\bm{s})\|$
+where $\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right)$ is
+defined in (\ref{eq:local-sum-of-squares}), $\mathcal{P}\left(\bm{\zeta}\left(\bm{s}\right)\right)=\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{\left(j\right)}(\bm{s})\|$
 is a local adaptive grouped regularization (LAGR) penalty, and $\|\cdot\|$
 is the $L_{2}$-norm. The LAGR penalty for the $j$th group of coefficients
-$\bm{\zeta}_{\left(j\right)}(\bm{s})$ at location $\bm{s}$ is $\phi_{j}(\bm{s})=\lambda_{n}\|\tilde{\bm{\zeta}}_{\left(j\right)}(\bm{s})\|^{-\gamma}$,
+at location $\bm{s}$ is $\phi_{j}(\bm{s})=\lambda_{n}\|\tilde{\bm{\zeta}}_{\left(j\right)}(\bm{s})\|^{-\gamma}$,
 where $\lambda_{n}>0$ is a local tuning parameter applied to all
 coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{\left(j\right)}(\bm{s})$
-is the vector of unpenalized local coefficients from (\ref{eq:zeta-hat}).
+is a subset of the vector of unpenalized local coefficients from (\ref{eq:zeta-hat}).
 
 
 \subsection{Oracle Properties\label{sub:oracle-properties}}
@@ -380,7 +405,7 @@ where $\left\{ \nabla_{uu}^{2}\bm{\beta}_{\left(a\right)}\left(\bm{s}\right)+\na
 
 
 
-If $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}\infty$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+If $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
 then $Pr\left\{ \|\hat{\bm{\zeta}}_{\left(j\right)}\left(\bm{s}\right)\|=\utilde{0}\right\} \to0$
 if $j\le p_{0}$ and $Pr\left\{ \|\hat{\bm{\zeta}}_{\left(j\right)}\left(\bm{s}\right)\|=\utilde{0}\right\} \to1$
 if $j>p_{0}$. 
@@ -435,7 +460,12 @@ to emphasize that it depends on the tuning parameter.
 
 \section{Simulation Study\label{sec:simulations}}
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: cannot open the connection}}\end{kframe}
+\end{knitrout}
 
 
 \subsection{Simulation Setup}
@@ -517,27 +547,20 @@ set of covariates was used to fit each local model.
 		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & LAGR & VCR & Oracle & LAGR & VCR \\
 		\hline 
 
-% latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Thu Jul 17 21:54:03 2014
-  \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
-    &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
-    &  & 1.0 & \emph{0.03} & 0.05 & \textbf{0.02} & \textbf{0.00} & 0.03 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & \emph{0.03} & 0.05 & \textbf{0.01} & \textbf{0.00} & 0.04 \\ 
-    &  & 1.0 & \emph{0.12} & 0.17 & \textbf{0.02} & \textbf{0.02} & 0.15 \\ 
-   \hline \multirow{6}{*}{gradient} & \multirow{2}{*}{0} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.00} & \textbf{0.00} & 0.00 \\ 
-    &  & 1.0 & 0.03 & \emph{0.02} & \textbf{0.01} & \textbf{0.00} & 0.02 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.00} & \textbf{0.00} & 0.01 \\ 
-    &  & 1.0 & 0.04 & \emph{0.03} & \textbf{0.01} & \textbf{0.00} & 0.03 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & \emph{0.03} & 0.04 & \textbf{0.00} & \textbf{0.00} & 0.04 \\ 
-    &  & 1.0 & \emph{0.14} & 0.14 & \textbf{0.01} & \textbf{0.02} & 0.15 \\ 
-   \hline \multirow{6}{*}{parabola} & \multirow{2}{*}{0} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.01} & \textbf{0.00} & 0.00 \\ 
-    &  & 1.0 & 0.03 & \emph{0.02} & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.01 & \emph{0.01} & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
-    &  & 1.0 & 0.03 & \emph{0.03} & \textbf{0.02} & \textbf{0.00} & 0.03 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & \emph{0.02} & 0.04 & \textbf{0.01} & \textbf{0.00} & 0.04 \\ 
-    &  & 1.0 & 0.17 & \emph{0.14} & \textbf{0.02} & \textbf{0.03} & 0.15 \\ 
-  
+\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'output' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: subscript out of bounds}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: subscript out of bounds}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'output' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: subscript out of bounds}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: number of rows of matrices must match (see arg 2)}}\end{kframe}
 
 	\end{tabular}
 	\caption{Listing of the simulation settings used to assess the performance of LAGR models versus oracle selection and no selection.}
@@ -555,12 +578,19 @@ by LAGR and by the VCR model with no selection. These results show
 that for every simulation setting, LAGR estimation is more accurate
 than the standard VCR model.
 
+\begin{kframe}
 
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: cannot open compressed file '/Users/wesley/scratch/gwr-sim-output.RData', probable reason 'No such file or directory'}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: cannot open the connection}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'pzero' not found}}\end{kframe}
 
 From Table \ref{tab:misey} we see that LAGR has good ability to identify
 zero-coefficient covariates. The frequency with which $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
-were dropped from the LAGR models ranged from 0.78
-to 0.97. The MISE of the fitted $\hat{y}(\bm{s})$
+were dropped from the LAGR models ranged from \ensuremath{\infty{}}
+to \ensuremath{-\infty{}}. The MISE of the fitted $\hat{y}(\bm{s})$
 is listed in Table \ref{tab:misey}, where the highlighting is based
 on which methods estimate an error variance that is closest to the
 known truth for the simulation. The results are all very similar to
@@ -574,27 +604,20 @@ the others in this simulation at fitting the model output.
 		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & $\hat{\beta}_2,\dots,\hat{\beta}_5$ & LAGR & VCR & Oracle \\
 		\hline 
 
-% latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Thu Jul 17 21:54:05 2014
-  \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
-    &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
-    &  & 1.0 & 0.92 & \emph{0.99} & \textbf{1.00} & 0.98 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & 0.86 & \emph{0.27} & 0.30 & \textbf{0.25} \\ 
-    &  & 1.0 & 0.85 & \emph{1.08} & 1.14 & \textbf{0.98} \\ 
-   \hline \multirow{6}{*}{gradient} & \multirow{2}{*}{0} & 0.5 & 0.96 & \emph{0.25} & \textbf{0.25} & 0.25 \\ 
-    &  & 1.0 & 0.95 & \textbf{0.99} & \emph{0.99} & 0.97 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.94 & \emph{0.25} & \textbf{0.25} & 0.24 \\ 
-    &  & 1.0 & 0.92 & \emph{1.00} & \textbf{1.00} & 0.97 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & 0.80 & \emph{0.27} & 0.28 & \textbf{0.24} \\ 
-    &  & 1.0 & 0.85 & \emph{1.09} & 1.12 & \textbf{0.97} \\ 
-   \hline \multirow{6}{*}{parabola} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & \textbf{0.25} & 0.25 \\ 
-    &  & 1.0 & 0.94 & \textbf{1.00} & \emph{1.00} & 0.98 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.95 & \textbf{0.25} & 0.25 & \emph{0.25} \\ 
-    &  & 1.0 & 0.88 & \textbf{1.00} & \emph{1.00} & 0.97 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & 0.79 & \emph{0.26} & 0.28 & \textbf{0.24} \\ 
-    &  & 1.0 & 0.78 & 1.13 & \emph{1.12} & \textbf{0.98} \\ 
-  
+\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'misey' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'misey' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'misey' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'misey' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'misey' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'misey.table' not found}}\end{kframe}
 	\end{tabular}
 	\caption{The MISE for the fitted output in each simulation setting, under variable selection via LAGR, no variable selection, and oracular variable selection. Highlighting indicates the \textbf{closest} and \emph{next-closest} to the actual error variance $\sigma_\varepsilon^2$ for that setting.}
 	\label{tab:misey}
@@ -620,18 +643,17 @@ among the covariates.
 
 The proposed LAGR estimation method was used to estimate the coefficients
 in a VCR model of the effect of some covariates on the price of homes
-in Boston \citep{Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997}.
-The data source is based on the 1970 U.S. census. In the data, we
-have the median price of homes sold in 506 census tracts (MEDV), along
-with some potential covariates. The covariates are CRIM (the per-capita
-crime rate in the tract), RM (the mean number of rooms for houses
-sold in the tract), RAD (an index of how accessible the tract is from
-Boston's radial roads), TAX (the property tax per \$10,000 of property
-value), and LSTAT (the percentage of the tract's residents who are
-considered ``lower status''). The bandwidth parameter was set to
-0.2 for a nearest neighbors-type bandwidth, meaning that the sum of
-kernel weights for each local model was 20\% of the total number of
-observations. The kernel used was the Epanechnikov kernel.
+in Boston based on data from the 1970 U.S. census\citep{Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997}.
+The data are the median price of homes sold in 506 census tracts (MEDV),
+along with the potential covariates CRIM (the per-capita crime rate
+in the tract), RM (the mean number of rooms for houses sold in the
+tract), RAD (an index of how accessible the tract is from Boston's
+radial roads), TAX (the property tax per \$10,000 of property value),
+and LSTAT (the percentage of the tract's residents who are considered
+``lower status''). The bandwidth parameter was set to 0.2 for a
+nearest neighbors-type bandwidth, meaning that the sum of kernel weights
+for each local model was 20\% of the total number of observations.
+The kernel used was the Epanechnikov kernel.
 
 A summary of the local coefficients is in Table \ref{tab:boston-coefs-lagr}.
 It indicates that RM is the only covariate with a positive mean of
@@ -648,21 +670,21 @@ of the locations. The percentage for the RAD variable was 37\%.
 \end{figure}
 
 Estimates of the regression coefficients are plotted in Figure \ref{fig:boston-lagr-coefs}.
-One interesting result is that LAGR indicates that the TAX variable
-was nowhere an important predictor of the median house price. Another
-is that the coefficients of CRIM and LSTAT are everywhere negative
-or zero (meaning that a greater crime rate or proportion of lower-status
+One interesting result is that the TAX variable was nowhere found
+to be an important predictor of the median house price. Another is
+that the coefficients of CRIM and LSTAT are everywhere negative or
+zero (meaning that a greater crime rate or proportion of lower-status
 individuals is associated with a lower median house price where the
 effect is discernable) and that of RM is positive (meaning that a
 greater average number of rooms per house is associated with a greater
 median house price). The coefficient of RAD is positive in some areas
 and negative in others. This indicates that there are parts of Boston
-where improved access to radial roads is associated with a greater
-median house price and parts where it is associated with a lesser
-median house price.
+where access to radial roads is associated with a greater median house
+price and parts where it is associated with a lesser median house
+price.
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Thu Jul 17 21:54:13 2014
+% Sun Jul 20 11:31:25 2014
 \begin{table}
 \centering
 \begin{tabular}{rrrr}
@@ -696,10 +718,9 @@ the estimate of \citet{Sun-Yan-Zhang-Lu-2014}.
 Generalized linear models (GLMs) extend the linear regression model
 to a response variable following any distribution in a single-parameter
 exponential family. As was the case for the local linear regression
-model, local generalized linear regression model coefficients are
-smooth functions of location, denoted $\bm{\beta}(\bm{s})$. If the
-response variable $y$ is from an exponential-family distribution
-then its density is 
+model, local generalized GLM coefficients are smooth functions of
+location. If the response variable $y$ is from an exponential-family
+distribution then its density is 
 
 \[
 f\left(y\left(\bm{s}\right)|\bm{x}\left(\bm{s}\right),\theta\left(\bm{s}\right)\right)=c\left(y\left(\bm{s}\right)\right)\times\exp\left[\theta\left(\bm{s}\right)y\left(\bm{s}\right)-b\left(\theta\left(\bm{s}\right)\right)\right]
@@ -746,8 +767,7 @@ quasi-likelihood
 
 
 where $\bm{Z}\left(\bm{s}\right)$ and $\bm{\zeta}\left(\bm{s}\right)$
-are the augmented local covariates and augmented local coefficients,
-as in (\ref{eq:augmented-covariates}) and (\ref{eq:augmented-coefficients}).
+are defined in (\ref{eq:augmented-covariates}) and (\ref{eq:augmented-coefficients}).
 The local quasi-likelihood generalizes the local log-likelihood that
 was used to estimate coefficients in the local linear model case.
 The quasi-likelihood is convex, and is defined in terms of its derivative,
@@ -764,7 +784,7 @@ the quasi-score function
 Under these conditions, the local quasi-likelihood is maximized where
 
 \begin{align}
-\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left(\hat{\bm{\zeta}}\left(\bm{s}\right)\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\frac{y_{i}-\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)}{V\left(\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)\right)}\bm{z}\left(\bm{s}_{i}\right)=\bm{0}_{3p}
+\frac{\partial}{\partial\bm{\zeta}}\mathcal{\ell}^{*}\left(\hat{\bm{\zeta}}\left(\bm{s}\right)\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\frac{y_{i}-\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)}{V\left(\hat{\mu}\left(\bm{s}_{i};\bm{s}\right)\right)}\bm{z}_{i}=\bm{0}_{3p}
 \end{align}
 
 
@@ -841,7 +861,7 @@ then
 
 
 
-If $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}\infty$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+If $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
 then $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to0$
 if $j\le p_{0}$ and $Pr\left\{ \|\hat{\bm{\zeta}}_{j}(\bm{s})\|=\utilde{0}\right\} \to1$
 if $j>p_{0}$. 
@@ -862,14 +882,14 @@ H_{n}\left(\bm{u}\right)= & (1/2)\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}\l
 \end{align*}
 
 
-Note that the limiting behavior of the last term differs between the
-cases $j\le p_{0}$ and $j>p_{0}$.
+The limiting behavior of the last term differs between the cases $j\le p_{0}$
+and $j>p_{0}$.
 
 \emph{Case $j\le p_{0}$}: If $j\le p_{0}$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}\|\bm{\zeta}_{\left(j\right)}(\bm{s})\|^{-\gamma}$
 and $|\sqrt{n}\left\{ \|\bm{\zeta}_{\left(j\right)}(\bm{s})+\alpha_{n}\bm{u}_{\left(j\right)}\|-\|\bm{\zeta}_{\left(j\right)}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{\left(j\right)}\|$
 . Thus, 
 \[
-\lim\limits _{n\to\infty}\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{\left(j\right)}(\bm{s})+\alpha_{n}\bm{u}_{\left(j\right)}\|-\|\bm{\zeta}_{\left(j\right)}(\bm{s})\|\right)\le\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{\left(j\right)}\|\le\alpha_{n}a_{n}\|\bm{u}_{\left(j\right)}\|\to0
+\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{\left(j\right)}(\bm{s})+\alpha_{n}\bm{u}_{\left(j\right)}\|-\|\bm{\zeta}_{\left(j\right)}(\bm{s})\|\right)\le\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{\left(j\right)}\|\le\alpha_{n}a_{n}\|\bm{u}_{\left(j\right)}\|\to0
 \]
 
 
@@ -883,24 +903,19 @@ then
 On the other hand, if $\|\bm{u}_{\left(j\right)}\|=0$, then $\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{\left(j\right)}\|=0$.
 
 Thus, the limit of $H_{n}\left(\bm{u}\right)$ is the same as the
-limit of $H_{n}^{*}\left(\bm{u}\right)$ where
+limit of $H_{n}^{*}\left(\bm{u}\right)$ where $H_{n}^{*}\left(\bm{u}\right)=\infty$
+if $\exists j>p_{0}\ s.t.\ \|\bm{u}_{\left(j\right)}\|\ne0$, and 
 
 \[
 H_{n}^{*}\left(\bm{u}\right)=(1/2)\alpha_{n}^{2}\bm{u}^{T}\left\{ \bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}-\alpha_{n}\bm{u}^{T}\left[\bm{Z}^{T}(\bm{s})\bm{W}(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]
 \]
 
 
-if $\|\bm{u}_{\left(j\right)}\|=0\;\forall j>p_{0}$, and $H_{n}^{*}\left(\bm{u}\right)=\infty$
 otherwise. It follows that $H_{n}^{*}\left(\bm{u}\right)$ is convex
-and its unique minimizer $\hat{\bm{u}}_{n}$ is found by solving the
-equation:
-
+and its unique minimizer is 
 \[
-\utilde{0}=\alpha_{n}^{2}\left\{ \bm{Z}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}\left(\bm{s}\right)\right\} \hat{\bm{u}}_{n}-\alpha_{n}\left[\bm{Z}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left\{ \bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)\right\} \right].
+\hat{\bm{u}}_{n}=\left\{ n^{-1}\bm{Z}^{T}\left(\bm{s}\right)\bm{W}\left(\bm{s}\right)\bm{Z}\left(\bm{s}\right)\right\} ^{-1}\left[hn^{1/2}\bm{Z}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left\{ \bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)\right\} \right].
 \]
-
-
-That is, $\hat{\bm{u}}_{n}=\left\{ n^{-1}\bm{Z}^{T}\left(\bm{s}\right)\bm{W}\left(\bm{s}\right)\bm{Z}\left(\bm{s}\right)\right\} ^{-1}\left[hn^{1/2}\bm{Z}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left\{ \bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)\right\} \right]$.
 By epiconvergence, the minimizer of the limiting function is the limit
 of the minimizers $\hat{\bm{u}}_{n}$ \citep{Geyer-1994,Knight-Fu-2000}.
 Since, by Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014},
@@ -915,15 +930,16 @@ the result of Theorem \ref{theorem:normality} follows.
 \begin{proof}
 We showed in Theorem \ref{theorem:normality} that $\hat{\bm{\zeta}}_{\left(j\right)}\left(\bm{s}\right)\xrightarrow{p}\bm{\zeta}_{\left(j\right)}\left(\bm{s}\right)+\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{\left(j\right)}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{\left(j\right)}\left(\bm{s}\right)\}$,
 so to complete the proof of selection consistency, it only remains
-to show that $Pr\left\{ \hat{\bm{\zeta}}_{j}\left(\bm{s}\right)=\utilde{0}\right\} \to1$
+to show that $Pr\left\{ \hat{\bm{\zeta}}_{\left(j\right)}\left(\bm{s}\right)=\utilde{0}\right\} \to1$
 if $j>p_{0}$.
 
 The proof is by contradiction. Without loss of generality we consider
 only the case $j=p$.
 
-Assume $\|\hat{\bm{\zeta}}_{p}(\bm{s})\|\ne0$. Then $\mathcal{J}\left(\bm{\zeta}\left(\bm{s}\right)\right)$
-is differentiable w.r.t. $\bm{\zeta}_{p}\left(\bm{s}\right)$ and
-is minimized where 
+Assume $\|\hat{\bm{\zeta}}_{\left(p\right)}(\bm{s})\|\ne0$. Then
+$\mathcal{J}\left(\bm{\zeta}\left(\bm{s}\right)\right)$ is differentiable
+w.r.t. $\bm{\zeta}_{\left(p\right)}\left(\bm{s}\right)$ and is minimized
+where 
 \begin{align*}
 \utilde{0}= & \bm{Z}_{\left(p\right)}^{T}\left(\bm{s}\right)\bm{W}\left(\bm{s}\right)\left\{ \bm{Y}-\bm{Z}_{\left(-p\right)}\left(\bm{s}\right)\hat{\bm{\zeta}}_{\left(-p\right)}\left(\bm{s}\right)-\bm{Z}_{\left(p\right)}\left(\bm{s}\right)\hat{\bm{\zeta}}_{\left(p\right)}\left(\bm{s}\right)\right\} -\phi_{\left(p\right)}(\bm{s})\frac{\hat{\bm{\zeta}}_{\left(p\right)}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{\left(p\right)}\left(\bm{s}\right)\|}\\
 = & \bm{Z}_{\left(p\right)}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\left[\bm{Y}-\bm{Z}\left(\bm{s}\right)\bm{\zeta}\left(\bm{s}\right)-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}\left(\bm{s}\right)\right\} \right]\\
@@ -944,7 +960,7 @@ Thus,
 
 From Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014}, 
 \[
-O_{p}\left(n^{-1}\bm{Z}_{\left(p\right)}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{\left(-p\right)}\left(\bm{s}\right)\right)=O_{p}\left(n^{-1}\bm{Z}_{\left(p\right)}\left(\bm{s}\right)^{T}\bm{W}\left(\bm{s}\right)\bm{Z}_{\left(p\right)}\left(\bm{s}\right)\right)=O_{p}\left(1\right).
+O_{p}\left(n^{-1}\bm{Z}_{\left(p\right)}\!\left(\bm{s}\right)^{T}\bm{W}\!\left(\bm{s}\right)\bm{Z}_{\left(-p\right)}\!\left(\bm{s}\right)\right)=O_{p}\left(n^{-1}\bm{Z}_{\left(p\right)}\!\left(\bm{s}\right)^{T}\bm{W}\!\left(\bm{s}\right)\bm{Z}_{\left(p\right)}\!\left(\bm{s}\right)\right)=O_{p}\left(1\right).
 \]
 
 
@@ -966,8 +982,8 @@ We showed in the proof of Theorem \ref{theorem:normality} that
 
 
 The right hand side of (\ref{eq:selection}) is $O_{p}(1)$, so for
-$\hat{\bm{\zeta}}_{p}\left(\bm{s}\right)$ to be a solution, we must
-have that $hn^{-1/2}\phi_{p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{\left(p\right)}\left(\bm{s}\right)/\|\hat{\bm{\zeta}}_{\left(p\right)}\left(\bm{s}\right)\|=O_{p}\left(1\right)$.
+$\hat{\bm{\zeta}}_{\left(p\right)}\left(\bm{s}\right)$ to be a solution,
+we must have that $hn^{-1/2}\phi_{p}\left(\bm{s}\right)\hat{\bm{\zeta}}_{\left(p\right)}\left(\bm{s}\right)/\|\hat{\bm{\zeta}}_{\left(p\right)}\left(\bm{s}\right)\|=O_{p}\left(1\right)$.
 
 But since by assumption $\hat{\bm{\zeta}}_{\left(p\right)}\left(\bm{s}\right)\ne\utilde{0}$,
 there must be some $k\in\{1,2,3\}$ such that $|\hat{\zeta}_{\left(p\right)_{k}}\left(\bm{s}\right)|=\max\{|\hat{\zeta}_{\left(p\right)_{m}}\left(\bm{s}\right)|:1\le m\le3\}$.
@@ -994,18 +1010,15 @@ Then
 and 
 \item (b) $q_{2}\left(\eta\left(\bm{s},\bm{x}\right),\mu\left(\bm{s},\bm{x}\right)\right)=-\rho\left(\bm{s},\bm{x}\right)$.
 \end{itemize}
-\item[(D.A.3)] The function $\bar{\eta}\left(\bm{s},\bm{s}_{i},\bm{x}_{i}\right)=\eta\left(\bm{s}\right)+\left\{ \nabla\eta\left(\bm{s}\right)\right\} ^{T}\left(\bm{s}_{i}-\bm{s}\right)=\bm{x}_{i}^{T}\left[\bm{\beta}\left(\bm{s}\right)+\left\{ \nabla\bm{\beta}\left(\bm{s}\right)\right\} ^{T}\left(\bm{s}_{i}-\bm{s}\right)\right]=\bm{z}_{i}^{T}\bm{\zeta}\left(\bm{s}\right)$
-is an approximation of $\eta\left(\bm{s}_{i},\bm{x}_{i}\right)$ based
-on linear extrapolation of $\bm{\beta}\left(\bm{s}\right)$.
-\item[(D.A.4)] Let $\tilde{\bm{\zeta}}_{i}''=\left[\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\zeta_{1}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right),\dots,\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\zeta_{3p}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)\right]^{T}$
+\item[(D.A.3)] Let $\tilde{\bm{\zeta}}_{i}''=\left[\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\zeta_{1}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right),\dots,\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\zeta_{3p}\left(\bm{s}\right)\right\} \left(\bm{s}_{i}-\bm{s}\right)\right]^{T}$
 be the $3p$-vector of quadratic forms of location interactions on
 the second derivatives of the coefficient functions.\end{itemize}
 \begin{lem}
 \label{lemma:omega}
 
 \begin{multline*}
-E\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]\\
-=\left(\begin{array}{c}
+E\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=\\
+\left(\begin{array}{c}
 2^{-1}n^{1/2}h^{3}\kappa_{2}f\left(\bm{s}\right)\Gamma\left(\bm{s}\right)\left(\nabla_{uu}^{2}\bm{\beta}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\beta}\left(\bm{s}\right)\right)^{T}\\
 \bm{0}_{2p}
 \end{array}\right)+o_{p}\left(h^{2}\bm{1}_{3p}\right)
@@ -1055,7 +1068,7 @@ is equivalent to maximizing $H_{n}\left(\bm{u}\right)$, where
 \begin{align*}
 H_{n}(\bm{u})= & n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\bm{Z}_{i}^{T}\left\{ \bm{\zeta}\left(\bm{s}\right)+\alpha_{n}\bm{u}\right\} \right),Y_{i}\right)K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
  & -n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\bm{Z}_{i}^{T}\bm{\zeta}\left(\bm{s}\right)\right),Y_{i}\right)K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
- & +n^{-1}\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)+\alpha_{n}\bm{u}\|-\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{j}\left(\bm{s}\right)\|
+ & +n^{-1}\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{\left(j\right)}\left(\bm{s}\right)+\alpha_{n}\bm{u}\|-\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{\left(j\right)}\left(\bm{s}\right)\|
 \end{align*}
 
 
@@ -1097,13 +1110,10 @@ condition (A.6),
 
 
 the third term in (\ref{eq:taylor-expanded-glm-criterion}) is $O_{p}\left(\alpha_{n}\right)$.
-
-Note that the limiting behavior of the last term of (\ref{eq:taylor-expanded-glm-criterion})
+The limiting behavior of the last term of (\ref{eq:taylor-expanded-glm-criterion})
 differs between the cases $j\le p_{0}$ and $j>p_{0}$.
 
-Case $j\le p_{0}$:
-
-If $j\le p_{0}$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}\|\bm{\zeta}_{\left(j\right)}(\bm{s})\|^{-\gamma}$
+\emph{Case $j\le p_{0}$:} If $j\le p_{0}$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}\|\bm{\zeta}_{\left(j\right)}(\bm{s})\|^{-\gamma}$
 and $|\sqrt{n}\left\{ \|\bm{\zeta}_{\left(j\right)}(\bm{s})+\alpha_{n}\bm{u}_{\left(j\right)}\|-\|\bm{\zeta}_{\left(j\right)}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{\left(j\right)}\|$
 . Thus, 
 \[
@@ -1111,14 +1121,10 @@ and $|\sqrt{n}\left\{ \|\bm{\zeta}_{\left(j\right)}(\bm{s})+\alpha_{n}\bm{u}_{\l
 \]
 
 
-Case $j>p_{0}$:
-
-If $j>p_{0}$, then $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{\left(j\right)}(\bm{s})+\alpha_{n}\bm{u}_{\left(j\right)}\|-\|\bm{\zeta}_{\left(j\right)}(\bm{s})\|\right)=\phi_{j}(\bm{s})\alpha_{n}\|\bm{u}_{\left(j\right)}\|$.
-
+\emph{Case $j>p_{0}$:} If $j>p_{0}$, then $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{\left(j\right)}(\bm{s})+\alpha_{n}\bm{u}_{\left(j\right)}\|-\|\bm{\zeta}_{\left(j\right)}(\bm{s})\|\right)=\phi_{j}(\bm{s})\alpha_{n}\|\bm{u}_{\left(j\right)}\|$.
 Since $h=O(n^{-1/6})$, if $hn^{-1/2}b_{n}\xrightarrow{p}\infty$,
-then $\alpha_{n}b_{n}\xrightarrow{p}\infty$.
-
-Now, if $\|\bm{u}_{\left(j\right)}\|\ne0$, then 
+then $\alpha_{n}b_{n}\xrightarrow{p}\infty$. Now, if $\|\bm{u}_{\left(j\right)}\|\ne0$,
+then 
 \[
 \alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{\left(j\right)}\|\ge\alpha_{n}b_{n}\|\bm{u}_{\left(j\right)}\|\to\infty.
 \]
@@ -1135,14 +1141,14 @@ H_{n}^{*}\left(\bm{u}\right)=\Omega_{n}^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta\bm{u}+o_
 
 if $\|\bm{u}_{j}\|=0\;\forall j>p_{0}$, and $H_{n}^{*}\left(\bm{u}\right)=\infty$
 otherwise. It follows that $H_{n}^{*}\left(\bm{u}\right)$ is convex
-and its unique minimizer $\hat{\bm{u}}_{n}$ is
+and its unique minimizer is
 
 \begin{align*}
 \hat{\bm{u}}_{n}= & \left\{ \Delta\right\} ^{-1}\Omega_{n}+o_{p}\left(1\right)
 \end{align*}
 
 
-by the quadratic approximation lemma \citep{Fan-Gijbels-1996}. Then
+by the quadratic approximation lemma \citep{Fan-Gijbels-1996}. And
 by epiconvergence, the minimizer of the limiting function is the limit
 of the minimizers $\hat{\bm{u}}_{n}$ \citep{Geyer-1994,Knight-Fu-2000}.
 
@@ -1159,8 +1165,8 @@ unit vector, and let
 Then $\bm{d}^{T}\Omega_{n}=\alpha_{n}\sum_{i=1}^{n}\xi_{i}$. We establish
 the normality of $\bm{d}^{T}\Omega_{n}$ by checking the Lyapunov
 condition of the sequence $\left\{ \bm{d}^{T}Var\left(\Omega_{n}\right)\bm{d}\right\} ^{-1/2}\left\{ \bm{d}^{T}\Omega_{n}-\bm{d}^{T}E\Omega_{n}\right\} $.
-Since $K\left(\cdot\right)$ is bounded, $q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y_{i}\right)$
-is linear in $Y_{i}$, and by assumptions (A.6), (A.7), and (A.9), 
+By boundedness of $K\left(\cdot\right)$, linearity of $q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}\left(\bm{s}\right),Y_{i}\right)$
+in $Y_{i}$, and assumptions (A.6), (A.7), and (A.9), we have that
 
 \begin{equation}
 n\alpha_{n}^{3}E\left(\left|\xi_{1}\right|^{3}\right)=O\left(\alpha_{n}\right)\to0.\label{eq:lyapunov-bound}
@@ -1176,7 +1182,7 @@ approximation lemma.
 
 \section*{Appendix: Proof of Theorem \ref{theorem:selection-glm}}
 \begin{proof}
-We showed in Theorem \ref{theorem:normality} that $\hat{\bm{\zeta}}_{\left(j\right)}\left(\bm{s}\right)\xrightarrow{p}\bm{\zeta}_{\left(j\right)}\left(\bm{s}\right)+\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{\left(j\right)}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{\left(j\right)}\left(\bm{s}\right)\}$,
+We showed in Theorem \ref{theorem:normality-glm} that $\hat{\bm{\zeta}}_{\left(j\right)}\left(\bm{s}\right)\xrightarrow{p}\bm{\zeta}_{\left(j\right)}\left(\bm{s}\right)+\frac{\kappa_{2}h^{2}}{2\kappa_{0}}\{\nabla_{uu}^{2}\bm{\zeta}_{\left(j\right)}\left(\bm{s}\right)+\nabla_{vv}^{2}\bm{\zeta}_{\left(j\right)}\left(\bm{s}\right)\}$,
 so to complete the proof of selection consistency, it only remains
 to show that $Pr\left\{ \hat{\bm{\zeta}}_{\left(j\right)}\left(\bm{s}\right)=\utilde{0}\right\} \to1$
 if $j>p_{0}$.
@@ -1186,7 +1192,8 @@ only the case $j=p$.
 
 Assume $\|\hat{\bm{\zeta}}_{\left(p\right)}(\bm{s})\|\ne0$. Then
 $\mathcal{J}\left(\bm{\zeta}\left(\bm{s}\right)\right)$ is differentiable
-w.r.t. $\bm{\zeta}_{p}\left(\bm{s}\right)$ and is minimized where
+w.r.t. $\bm{\zeta}_{\left(p\right)}\left(\bm{s}\right)$ and is minimized
+where 
 \begin{align}
 \phi_{p}(\bm{s})\frac{\hat{\bm{\zeta}}_{\left(p\right)}\left(\bm{s}\right)}{\|\hat{\bm{\zeta}}_{\left(p\right)}\left(\bm{s}\right)\|}= & \sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\hat{\bm{\zeta}}\left(\bm{s}\right),Y_{i}\right)\bm{Z}_{i\left(p\right)}K\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)\label{eq:glm-selection}
 \end{align}
@@ -1406,9 +1413,7 @@ E\left(\delta_{i}^{2}|\bm{Z}_{i}=\bm{z}_{i},\bm{s}_{i}\right)=\\
 And it follows that $E\delta_{i}^{2}=O\left(n^{-1}\alpha_{n}^{2}\right)$,
 and $Var\left(\Delta_{n}\right)=O\left(\alpha_{n}^{2}\right)$.
 \end{proof}
-
 \bibliographystyle{chicago}
-\bibliography{../../references/gwr}
+\bibliography{3_Users_wesley_git_gwr_references_gwr}
 
 \end{document}
-
