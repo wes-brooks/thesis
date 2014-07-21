@@ -3645,7 +3645,14 @@ Model
 \begin_layout Standard
 Generalized linear models (GLMs) extend the linear regression model to a
  response variable following any distribution in a single-parameter exponential
- family.
+ family 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "McCullagh-Nelder-1989"
+
+\end_inset
+
+.
  As was the case for the local linear regression model, local generalized
  GLM coefficients are smooth functions of location.
  If the response variable 
@@ -3712,31 +3719,6 @@ The function
 \end_inset
 
  is called the canonical link.
- We follow the practice of 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Fan-Heckman-Wand-1995"
-
-\end_inset
-
- in assuming the use of the canonical link.
-\end_layout
-
-\begin_layout Standard
-Under the canonical link function, the expressions for the mean and variance
- of the response variable can be simplified to
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & g^{-1}\left(\eta(\bm{s})\right)\\
-\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} = & \left[g'\left(\mu(\bm{s})\right)\right]^{-1}=V\left(\mu(\bm{s})\right)\\
-\frac{d}{d\mu} & g^{-1}\left(\mu\left(\bm{s}\right)\right)=V\left(\mu\left(\bm{s}\right)\right)
-\end{align*}
-
-\end_inset
-
  
 \end_layout
 
@@ -3972,7 +3954,7 @@ Let
 
  is the canonical link function.
  So when the canonical link is used, 
-\begin_inset Formula $\rho\left(\bm{s},\bm{z}\right)=V\left\{ \mu\left(\bm{s},\bm{z}\right)\right\} $
+\begin_inset Formula $\rho\left(\bm{s},\bm{z}\right)=V\left(\mu\left(\bm{s},\bm{z}\right)\right)$
 \end_inset
 
 .
@@ -3989,7 +3971,7 @@ status open
 \end_inset
 
 Let 
-\begin_inset Formula $\Gamma\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}\left(\bm{s}\right)\right)\bm{X}\left(\bm{s}\right)\bm{X}\left(\bm{s}\right)^{T}|\bm{s},\bm{X}\left(\bm{s}\right)\right\} $
+\begin_inset Formula $\Gamma\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}\left(\bm{s}\right)\right)\bm{X}\left(\bm{s}\right)\bm{X}\left(\bm{s}\right)^{T}|\bm{s},\bm{Z}\left(\bm{s}\right)=\bm{z}\right\} $
 \end_inset
 
 .
