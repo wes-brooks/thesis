@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2014.1.2)  21 JUL 2014 21:09
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2014.1.2)  22 JUL 2014 18:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -345,27 +345,30 @@ File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 
 
 ] [2] [3]
-[4] [5] [6]
-Overfull \hbox (20.22685pt too wide) in paragraph at lines 328--333
-[]$\OML/cmm/b/it/12 X\OT1/cmr/m/n/12 (\OML/cmm/b/it/12 s[]\OT1/cmr/m/n/12 )\OML
-/cmm/m/it/12 ; [] ; \OML/cmm/b/it/12 X\OT1/cmr/m/n/12 (\OML/cmm/b/it/12 s[]\OT1
-/cmr/m/n/12 )$ \T1/cmr/m/n/12 are in-de-pen-dent ran-dom vec-tors that are in-d
-e-pen-dent of $\OML/cmm/m/it/12 "\OT1/cmr/m/n/12 (\OML/cmm/b/it/12 s[]\OT1/cmr/
-m/n/12 )\OML/cmm/m/it/12 ; [] ; "\OT1/cmr/m/n/12 (\OML/cmm/b/it/12 s[]\OT1/cmr/
-m/n/12 )$\T1/cmr/m/n/12 .
+[4] [5]
+Overfull \hbox (60.63608pt too wide) in paragraph at lines 256--276
+[]$\T1/cmr/m/n/12 . Let $\OML/cmm/m/it/12 ^^T[] \OT1/cmr/m/n/12 = [][] \OML/cmm
+/m/it/12 K\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 k\OML/cmm/b/it/12 s\OMS/cmsy/m/n/12
+ k\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ds$\T1/cmr/m/n/12 , $\OML/cmm/m/it/12 ^^T[]
+ \OT1/cmr/m/n/12 = [][][(1\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0)\OML/cmm/b/it/12
+ s\OT1/cmr/m/n/12 ][]\OML/cmm/m/it/12 K\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 k\OML/
+cmm/b/it/12 s\OMS/cmsy/m/n/12 k\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ds \OT1/cmr/m/
+n/12 = [][][(0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1)\OML/cmm/b/it/12 s\OT1/cmr/m
+/n/12 ][]\OML/cmm/m/it/12 K\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 k\OML/cmm/b/it/12 
+s\OMS/cmsy/m/n/12 k\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ds$\T1/cmr/m/n/12 ,
  []
 
-[7] [8] [9]
-Overfull \hbox (12.49117pt too wide) in paragraph at lines 468--470
-[]\T1/cmr/m/n/12 The sec-ond is the gra-di-ent func-tion, $\OML/cmm/m/it/12 ^^L
-[]\OT1/cmr/m/n/12 (\OML/cmm/b/it/12 s\OT1/cmr/m/n/12 ) = \OML/cmm/m/it/12 s[]$\
-T1/cmr/m/n/12 , and the third is the parabola $\OML/cmm/m/it/12 ^^L[]\OT1/cmr/m
-/n/12 (\OML/cmm/b/it/12 s\OT1/cmr/m/n/12 ) =
+[6] [7]
+Overfull \hbox (1.5622pt too wide) in paragraph at lines 300--302
+[]\T1/cmr/bx/n/12 Theorem 1 \T1/cmr/m/n/12 (Asymp-totic nor-mal-ity)\T1/cmr/bx/
+n/12 . []\T1/cmr/m/it/12 Un-der (A.1)-(A.8), if $\OML/cmm/m/it/12 h[]n[]a[] [] 
+\OT1/cmr/m/n/12 0$ \T1/cmr/m/it/12 and $\OML/cmm/m/it/12 hn[]b[] []
  []
 
+[8]
 File: 0_Users_wesley_git_gwr_figures_simulation_step.pdf Graphic file (type QTm
 )
-<use  "0_Users_wesley_git_gwr_figures_simulation_step.pdf" >
+ <use  "0_Users_wesley_git_gwr_figures_simulation_step.pdf" >
 File: 1_Users_wesley_git_gwr_figures_simulation_gradient.pdf Graphic file (type
  QTm)
 
@@ -373,39 +376,40 @@ File: 1_Users_wesley_git_gwr_figures_simulation_gradient.pdf Graphic file (type
 File: 2_Users_wesley_git_gwr_figures_simulation_parabola.pdf Graphic file (type
  QTm)
 
-<use  "2_Users_wesley_git_gwr_figures_simulation_parabola.pdf" > [10]
+<use  "2_Users_wesley_git_gwr_figures_simulation_parabola.pdf" > [9] [10]
 
-LaTeX Warning: Reference `tab:misex' on page 11 undefined on input line 537.
+LaTeX Warning: Reference `tab:misex' on page 11 undefined on input line 445.
 
-[11] [12] [13]
+[11] [12]
 File: figure/boston-plots.pdf Graphic file (type QTm)
- <use  "figure/boston-plots.pdf" > [14] [15] [16]
+ <use  "figure/boston-plots.pdf" > [13] [14] [15]
 
-LaTeX Warning: Reference `eq:augmented-covariates' on page 17 undefined on inpu
-t line 723.
+LaTeX Warning: Reference `eq:augmented-covariates' on page 16 undefined on inpu
+t line 592.
 
 
-LaTeX Warning: Reference `eq:augmented-coefficients' on page 17 undefined on in
-put line 723.
+LaTeX Warning: Reference `eq:augmented-coefficients' on page 16 undefined on in
+put line 592.
 
-[17] [18]
-Overfull \hbox (30.95093pt too wide) detected at line 801
+[16]
+Overfull \hbox (30.95093pt too wide) detected at line 644
 [][] [] [] \OML/cmm/m/it/12 N []
  []
 
-[19]
-Overfull \hbox (72.88397pt too wide) in paragraph at lines 841--844
-[]\T1/cmr/m/it/12 Case $\OML/cmm/m/it/12 j \OMS/cmsy/m/n/12 ^^T \OML/cmm/m/it/1
-2 p[]$\T1/cmr/m/n/12 : If $\OML/cmm/m/it/12 j \OMS/cmsy/m/n/12 ^^T \OML/cmm/m/i
-t/12 p[]$\T1/cmr/m/n/12 , then $\OML/cmm/m/it/12 n[]^^^[]\OT1/cmr/m/n/12 (\OML/
-cmm/b/it/12 s\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ! \OML/cmm/m/it/12 n[]^^U[]\OMS
-/cmsy/m/n/12 k\OML/cmm/b/it/12 ^^P[]\OT1/cmr/m/n/12 (\OML/cmm/b/it/12 s\OT1/cmr
-/m/n/12 )\OMS/cmsy/m/n/12 k[]$ \T1/cmr/m/n/12 and $\OMS/cmsy/m/n/12 j\OML/cmm/m
-/it/12 n[] [] \OMS/cmsy/m/n/12 j ^^T
+[17] (aux/estimation.bbl [18] [19]) [20]
+Overfull \hbox (23.75461pt too wide) in paragraph at lines 677--683
+\OML/cmm/m/it/12 p[]$\T1/cmr/m/n/12 : If $\OML/cmm/m/it/12 j \OMS/cmsy/m/n/12 ^
+^T \OML/cmm/m/it/12 p[]$\T1/cmr/m/n/12 , then $\OML/cmm/m/it/12 n[]^^^[]\OT1/cm
+r/m/n/12 (\OML/cmm/b/it/12 s\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ! \OML/cmm/m/it/
+12 n[]^^U[]\OMS/cmsy/m/n/12 k\OML/cmm/b/it/12 ^^P[]\OT1/cmr/m/n/12 (\OML/cmm/b/
+it/12 s\OT1/cmr/m/n/12 )\OMS/cmsy/m/n/12 k[]$ \T1/cmr/m/n/12 and $\OMS/cmsy/m/n
+/12 j\OML/cmm/m/it/12 n[] [] \OMS/cmsy/m/n/12 j ^^T
  []
 
-[20]
-Overfull \hbox (13.13852pt too wide) in paragraph at lines 884--888
+[1
+
+]
+Overfull \hbox (13.13852pt too wide) in paragraph at lines 715--724
 []\T1/cmr/m/n/12 We showed in The-o-rem 1[] that $[]\OT1/cmr/m/n/12 (\OML/cmm/b
 /it/12 s\OT1/cmr/m/n/12 ) [] \OML/cmm/b/it/12 ^^P[]\OT1/cmr/m/n/12 (\OML/cmm/b/
 it/12 s\OT1/cmr/m/n/12 ) + [][] \OML/cmm/m/it/12 ^^T[]h[]\OMS/cmsy/m/n/12 r[] [
@@ -413,50 +417,39 @@ it/12 s\OT1/cmr/m/n/12 ) + [][] \OML/cmm/m/it/12 ^^T[]h[]\OMS/cmsy/m/n/12 r[] [
  []
 
 
-Overfull \hbox (14.63914pt too wide) in paragraph at lines 884--888
+Overfull \hbox (14.63914pt too wide) in paragraph at lines 715--724
 \T1/cmr/m/n/12 so to com-plete the proof of se-lec-tion con-sis-tency, it only 
 re-mains to show that $\OML/cmm/m/it/12 P [] \OMS/cmsy/m/n/12 !
  []
 
-[21]
-Overfull \hbox (69.11649pt too wide) in paragraph at lines 911--911
+
+Overfull \hbox (69.11649pt too wide) in paragraph at lines 737--737
 [] 
  []
 
-[22]
-Overfull \hbox (28.87212pt too wide) in paragraph at lines 953--961
+[2] [3]
+Overfull \hbox (28.87212pt too wide) in paragraph at lines 766--774
 \T1/cmr/m/n/12 the deriva-tives of the quasi-likelihood: $\OML/cmm/m/it/12 q[]\
 OT1/cmr/m/n/12 (\OML/cmm/m/it/12 t; y\OT1/cmr/m/n/12 ) = [][] \OML/cmm/m/it/12 
 Q []$\T1/cmr/m/n/12 . Then $\OML/cmm/m/it/12 q[] [] \OT1/cmr/m/n/12 =
  []
 
 
-Overfull \hbox (119.04802pt too wide) in paragraph at lines 953--961
+Overfull \hbox (119.04802pt too wide) in paragraph at lines 766--774
 \OT1/cmr/bx/n/12 0$\T1/cmr/m/n/12 , and $\OML/cmm/m/it/12 q[] [] \OT1/cmr/m/n/1
 2 = \OMS/cmsy/m/n/12 ^^@\OML/cmm/m/it/12 ^^Z []$\T1/cmr/m/n/12 . Let $[] \OT1/c
 mr/m/n/12 = [][]$
  []
 
-[23] [24] [25]
-Overfull \hbox (70.6447pt too wide) in paragraph at lines 1052--1055
-[]\T1/cmr/m/it/12 Case $\OML/cmm/m/it/12 j \OMS/cmsy/m/n/12 ^^T \OML/cmm/m/it/1
-2 p[]$\T1/cmr/m/it/12 : \T1/cmr/m/n/12 If $\OML/cmm/m/it/12 j \OMS/cmsy/m/n/12 
-^^T \OML/cmm/m/it/12 p[]$\T1/cmr/m/n/12 , then $\OML/cmm/m/it/12 n[]^^^[]\OT1/c
-mr/m/n/12 (\OML/cmm/b/it/12 s\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ! \OML/cmm/m/it
-/12 n[]^^U[]\OMS/cmsy/m/n/12 k\OML/cmm/b/it/12 ^^P[]\OT1/cmr/m/n/12 (\OML/cmm/b
-/it/12 s\OT1/cmr/m/n/12 )\OMS/cmsy/m/n/12 k[]$ \T1/cmr/m/n/12 and $\OMS/cmsy/m/
-n/12 j[] [] j ^^T
+[4] [5] [6]
+Overfull \hbox (46.16248pt too wide) in paragraph at lines 882--888
+\T1/cmr/m/n/12 We ob-serve that (.3[]) im-plies that $\OML/cmm/m/it/12 n^^K[] [
+][] \OMS/cmsy/m/n/12 ! \OT1/cmr/m/n/12 0$\T1/cmr/m/n/12 , and since $\OML/cmm/m
+/it/12 E [] < E [] \OMS/cmsy/m/n/12 !
  []
 
-[26]
-Overfull \hbox (46.16248pt too wide) in paragraph at lines 1112--1117
-[]\T1/cmr/m/n/12 We ob-serve that (.3[]) im-plies that $\OML/cmm/m/it/12 n^^K[]
- [][] \OMS/cmsy/m/n/12 ! \OT1/cmr/m/n/12 0$\T1/cmr/m/n/12 , and since $\OML/cmm
-/m/it/12 E [] < E [] \OMS/cmsy/m/n/12 !
- []
 
-[27]
-Overfull \hbox (3.80527pt too wide) in paragraph at lines 1121--1125
+Overfull \hbox (3.80527pt too wide) in paragraph at lines 891--900
 []\T1/cmr/m/n/12 We showed in The-o-rem 3[] that $[]\OT1/cmr/m/n/12 (\OML/cmm/b
 /it/12 s\OT1/cmr/m/n/12 ) [] \OML/cmm/b/it/12 ^^P[]\OT1/cmr/m/n/12 (\OML/cmm/b/
 it/12 s\OT1/cmr/m/n/12 ) + [][] \OML/cmm/m/it/12 ^^T[]h[]\OMS/cmsy/m/n/12 fr[]\
@@ -466,13 +459,12 @@ cmr/m/n/12 )\OMS/cmsy/m/n/12 g$\T1/cmr/m/n/12 ,
  []
 
 
-Overfull \hbox (14.63914pt too wide) in paragraph at lines 1121--1125
+Overfull \hbox (14.63914pt too wide) in paragraph at lines 891--900
 \T1/cmr/m/n/12 so to com-plete the proof of se-lec-tion con-sis-tency, it only 
 re-mains to show that $\OML/cmm/m/it/12 P [] \OMS/cmsy/m/n/12 !
  []
 
-[28] [29] [30] [31] (aux/estimation.bbl [32] [33] [34]) [35]
-(aux/estimation.aux)
+[7] [8] [9] [10] [11] (aux/estimation.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -480,10 +472,10 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  3376 strings out of 493918
  43163 string characters out of 6148600
- 112396 words of memory out of 5000000
+ 121387 words of memory out of 5000000
  6591 multiletter control sequences out of 15000+600000
  26490 words of font info for 80 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 32i,18n,34p,404b,328s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 32i,18n,34p,1254b,326s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on aux/estimation.pdf (35 pages).
+Output written on aux/estimation.pdf (31 pages).
