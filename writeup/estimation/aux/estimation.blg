@@ -4,45 +4,45 @@ The top-level auxiliary file: aux/estimation.aux
 The style file: chicago.bst
 Database file #1: ../../references/gwr.bib
 Warning--page numbers missing in Pelletier-Santer-Vidot-2007
-You've used 29 entries,
+You've used 30 entries,
             2861 wiz_defined-function locations,
-            821 strings with 9530 characters,
-and the built_in function-call counts, 20319 in all, are:
-= -- 1755
-> -- 1431
+            827 strings with 9665 characters,
+and the built_in function-call counts, 20949 in all, are:
+= -- 1803
+> -- 1483
 < -- 1
-+ -- 430
-- -- 504
-* -- 1776
-:= -- 3686
-add.period$ -- 88
-call.type$ -- 29
-change.case$ -- 204
-chr.to.int$ -- 29
-cite$ -- 30
-duplicate$ -- 514
-empty$ -- 1262
-format.name$ -- 592
-if$ -- 3818
++ -- 446
+- -- 524
+* -- 1826
+:= -- 3809
+add.period$ -- 91
+call.type$ -- 30
+change.case$ -- 210
+chr.to.int$ -- 30
+cite$ -- 31
+duplicate$ -- 532
+empty$ -- 1298
+format.name$ -- 616
+if$ -- 3930
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 30
-newline$ -- 148
-num.names$ -- 294
-pop$ -- 133
+missing$ -- 32
+newline$ -- 153
+num.names$ -- 304
+pop$ -- 141
 preamble$ -- 1
-purify$ -- 379
+purify$ -- 392
 quote$ -- 0
-skip$ -- 580
+skip$ -- 603
 stack$ -- 0
-substring$ -- 1203
-swap$ -- 155
+substring$ -- 1223
+swap$ -- 160
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 570
+type$ -- 580
 warning$ -- 1
-while$ -- 293
+while$ -- 303
 width$ -- 0
-write$ -- 381
+write$ -- 394
 (There was 1 warning)
