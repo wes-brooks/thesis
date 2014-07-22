@@ -4119,6 +4119,17 @@ P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "/Users/wesley/git/gwr/references/gwr"
+options "chicago"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 \start_of_appendix
 Appendix: Proof of Theorem 
@@ -5774,17 +5785,6 @@ And it follows that
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset bibtex
-LatexCommand bibtex
-bibfiles "/Users/wesley/git/gwr/references/gwr"
-options "chicago"
-
-\end_inset
-
-
 \end_layout
 
 \end_body
