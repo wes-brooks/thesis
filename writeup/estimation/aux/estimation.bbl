@@ -113,6 +113,12 @@ Mallows, C. (1973).
 \newblock Some comments on cp.
 \newblock {\em Technometrics\/}~{\em 15}, 661--675.
 
+\bibitem[\protect\citeauthoryear{McCullagh and Nelder}{McCullagh and
+  Nelder}{1989}]{McCullagh-Nelder-1989}
+McCullagh, P. and J.~Nelder (1989).
+\newblock {\em Generalized Linear Models, Second Edition}.
+\newblock Taylor and Francis.
+
 \bibitem[\protect\citeauthoryear{Pace and Gilley}{Pace and
   Gilley}{1997}]{Pace-Gilley-1997}
 Pace, R.~K. and O.~Gilley (1997).
