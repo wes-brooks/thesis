@@ -320,11 +320,12 @@ The remaining $p-p_{0}$ covariates $\bm{X}_{(b)}(\bm{s})$ have true
 coefficients equal to zero, denoted $\bm{\beta}_{(b)}(\bm{s})=\bm{0}$.
 \item[(A.3)] $\bm{X}(\bm{s}_{1}),\dots,\bm{X}(\bm{s}_{n})$ are independent random
 vectors that are independent of $\varepsilon_{1},\dots,\varepsilon_{n}$.
-Also $\Psi(\bm{s})=E\left\{ \bm{X}(\bm{s})\bm{X}^{T}(\bm{s})|\bm{s}\right\} $
-is positive-definite and differentiable at location $\bm{s}$, $E\left|\bm{X}(\bm{s})\right|^{2q}<\infty$,
+Also $\Psi(\bm{s})=E\left\{ \bm{X}(\bm{s})\bm{X}(\bm{s})^{T}|\bm{s}\right\} $
+and $\Psi_{(a)}(\bm{s})=E\left\{ \bm{X}_{(a)}(\bm{s})\bm{X}_{(a)}(\bm{s})^{T}|\bm{s}\right\} $
+are positive-definite and differentiable at location $\bm{s}$, $E\left|\bm{X}(\bm{s})\right|^{2q}<\infty$,
 and $E\left|\varepsilon(\bm{s})\right|^{2q}<\infty$ for some $q>2$.
 \item[(A.4)] The coefficient functions $ $$\beta_{j}(\cdot)$, $j=1,\dots,p$
-have continuous second partial derivatives.
+have continuous second partial derivatives at $\bm{s}$.
 \item[(A.6)] The function $f(\bm{s})$ is differentiable at $\bm{s}$ and $f(\bm{s})>0$.
 \item[(A.6)] $E\left\{ \left|\bm{X}(\bm{s})\right|^{3}|\bm{s}\right\} $ is continuous
 as location $\bm{s}$.
@@ -332,13 +333,21 @@ as location $\bm{s}$.
 as location $\bm{s}$.
 \item[(A.8)] $h=O\left(n^{-1/6}\right)$
 \end{itemize}
-Under these conditions, we obtain the following:
+These conditions are generally equivalent to those of \citet{Cai-Fan-Li-2000}
+and \citet{Sun-Yan-Zhang-Lu-2014}. The covariates $\bm{X}(\bm{s}_{1}),\dots,\bm{X}(\bm{s}_{n})$
+were assumed to be $iid$ in \citet{Sun-Yan-Zhang-Lu-2014}, which
+is not required here. The existence of of $\Psi(\cdot)$ is necessary
+for the existence of the limiting distribution of $\hat{\bm{\beta}}(\bm{s})$;
+its differentiability and that of $f(\cdot)$ are necessary in order
+to approximate those functions by Taylor expansion. The condition
+on moments of $Y$ is used when bounding the remainder term from Taylor
+expansion. 
 \begin{thm}[Asymptotic normality]
 \label{theorem:normality}  Under (A.1)-(A.8), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$ then
+and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$, then
 \begin{gather*}
 \left\{ f(\bm{s})h^{2}n\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-2^{-1}\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} \right]\\
-\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi(\bm{s})^{-1}\right)
+\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi_{(a)}(\bm{s})^{-1}\right)
 \end{gather*}
 where $\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} =\left(\nabla_{uu}^{2}\bm{\beta}_{1}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{1}(\bm{s}),\dots,\nabla_{uu}^{2}\bm{\beta}_{p_{o}}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{p_{o}}(\bm{s})\right)^{T}$.
 \end{thm}
@@ -347,18 +356,19 @@ where $\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}
 \label{theorem:selection} Under (A.1)-(A.8), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
 and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$, then 
 \[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to0\text{ if }j\le p_{0},\text{ and }P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
 \]
 \end{thm}
 Together, Theorem \ref{theorem:normality} and Theorem \ref{theorem:selection}
-indicate that the LAGR estimates have the same asymptotic distribution
-as a local regression model where the true nonzero coefficients are
-known in advance \citep{Sun-Yan-Zhang-Lu-2014}, and that the LAGR
-estimates of true zero coefficients tend to zero with probability
-one. Thus, selection and estimation by LAGR has the oracle property.
-To establish the oracle properties of LAGR, we assumed that $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$. Therefore, $h^{-1}n^{-1/2}\lambda_{n}\to0$
-for $j\le p_{0}$ and $hn^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}\to\infty$
+indicate that the LAGR estimates for true nonzero coefficients have
+the same asymptotic distribution as a local regression model where
+the true nonzero coefficients are known in advance \citep{Sun-Yan-Zhang-Lu-2014},
+and that the LAGR estimates of true zero coefficients tend to zero
+with probability one. Thus, selection and estimation by LAGR has the
+oracle property. To establish the oracle properties of LAGR, we assumed
+that $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$.
+Therefore, $h^{-1}n^{-1/2}\lambda_{n}\to0$ for $j\le p_{0}$ and
+$hn^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}\to\infty$
 for $j>p_{0}$. We require that $\lambda_{n}$ satisfy both assumptions.
 Suppose $\lambda_{n}=n^{\alpha}$. Since $h=O\left(n^{-1/6}\right)$
 and $\|\tilde{\bm{\zeta}}_{(p)}(\bm{s})\|=O\left(h^{-1}n^{-1/2}\right)$,
@@ -474,7 +484,7 @@ set of covariates was used to fit each local model.
 		\hline 
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Wed Jul 23 10:52:36 2014
+% Wed Jul 23 12:54:25 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
     &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
@@ -503,7 +513,7 @@ set of covariates was used to fit each local model.
 
 \subsection{Simulation Results}
 
-The MISE of the estimates of $\beta_{1}(\bm{s})$ are in Table \ref{tab:misex}.
+The MISE of the estimates of $\beta_{1}(\bm{s})$ are in Table \ref{tab:mise}.
 Recall that $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$ are exactly
 zero across the entire domain. Oracle selection will estimate these
 coefficients perfectly, so we focus on the comparison between estimation
@@ -532,7 +542,7 @@ the others in this simulation at fitting the model output.
 		\hline 
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Wed Jul 23 10:52:39 2014
+% Wed Jul 23 12:54:28 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
     &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
@@ -619,7 +629,7 @@ price and parts where it is associated with a lesser median house
 price.
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Wed Jul 23 10:52:46 2014
+% Wed Jul 23 12:54:35 2014
 \begin{table}
 \centering
 \begin{tabular}{|c|ccc|}
@@ -660,7 +670,7 @@ are smooth functions of location. If the response variable $y$ is
 from an exponential-family distribution then its density is 
 
 \[
-f\left(y(\bm{s})|\bm{x}(\bm{s}),\theta(\bm{s}0\right)=c\left(y(\bm{s}0\right)\times\exp\left[\theta(\bm{s})y(\bm{s})-b\left(\theta(\bm{s})\right)\right]
+f\left(y(\bm{s})|\bm{x}(\bm{s}),\theta(\bm{s})\right)=c\left(y(\bm{s})\right)\times\exp\left[\theta(\bm{s})y(\bm{s})-b\left(\theta(\bm{s})\right)\right]
 \]
 
 
@@ -681,18 +691,16 @@ Then the local coefficients can be estimated by maximizing the local
 quasi-likelihood 
 
 \begin{align}
-\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right),
+\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right).
 \end{align}
 
 
-where $\bm{Z}\left(\bm{s}\right)$ and $\bm{\zeta}\left(\bm{s}\right)$
-are defined in (\ref{eq:augmented-covariates}) and (\ref{eq:augmented-coefficients}).
 The local quasi-likelihood generalizes the local log-likelihood that
 was used to estimate coefficients in the local linear model case.
-The quasi-likelihood is convex, and is defined in terms of its derivative,
-the quasi-score function $\left(\partial/\partial\mu\right)Q(\mu,y)=(y-\mu)\{V(\mu)\}^{-1}$.
+The local quasi-likelihood is convex, and is defined in terms of its
+derivative, the local quasi-score function $\left(\partial/\partial\mu\right)Q(\mu,y)=(y-\mu)\{V(\mu)\}^{-1}$.
 The local quasi-likelihood is maximized by setting the local quasi-score
-equation to zero:
+to zero:
 
 \begin{align}
 (\partial/\partial\bm{\zeta})\mathcal{\ell}^{*}\left(\hat{\bm{\zeta}}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\left(y_{i}-\hat{\mu}(\bm{s}_{i};\bm{s})\right)\left\{ V\left(\hat{\mu}(\bm{s}_{i};\bm{s})\right)\right\} ^{-1}\bm{z}_{i}=\bm{0}_{3p},
@@ -704,13 +712,14 @@ is the mean at location $\bm{s}_{i}$ estimated using the coefficients
 $\hat{\bm{\zeta}}(\bm{s})$ fitted at location $\bm{s}$. The asymptotic
 distribution of the local coefficients in a varying-coefficient GLM
 with a one-dimensional effect-modifying parameter are given in \citet{Cai-Fan-Li-2000}.
-For coefficients that vary in two dimensions, it follows from Lemmas
-\ref{lemma:omega} and \ref{lemma:delta} that the distribution of
-the estimated local coefficients is:
+For coefficients that vary in two dimensions, it follows from the
+arguments in the proof of Theorem \ref{theorem:normality-glm} that
+the distribution of the estimated local coefficients is:
 
-\[
-\left\{ nh^{2}f(\bm{s})\right\} ^{1/2}\left[\tilde{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right).
-\]
+\begin{gather*}
+\left\{ nh^{2}f(\bm{s})\right\} ^{1/2}\left[\tilde{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right\} \right]\\
+\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma(\bm{s})^{-1}\right).
+\end{gather*}
 
 
 
@@ -739,21 +748,26 @@ Section \ref{sub:oracle-properties}:
 Define $\rho(\bm{s},\bm{z})=\left[g_{1}\left(\mu(\bm{s},\bm{z})\right)\right]^{2}Var\left\{ Y(\bm{s})|\bm{X}(\bm{s}),\bm{s}\right\} $,
 where $g_{1}(\cdot)=g'_{0}(\cdot)/g'(\cdot)$, and $g_{0}(\cdot)$
 is the canonical link function. So when the canonical link is used,
-$\rho(\bm{s},\bm{z})=V\left(\mu(\bm{s},\bm{z})\right)$. Let $\Gamma\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}(\bm{s})\right)\bm{X}(\bm{s})\bm{X}(\bm{s})^{T}|\bm{s},\bm{Z}(\bm{s})=\bm{z}\right\} $.
-
-Assume the following conditions.
+$\rho(\bm{s},\bm{z})=V\left(\mu(\bm{s},\bm{z})\right)$. Let $\Gamma\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}(\bm{s})\right)\bm{X}(\bm{s})\bm{X}(\bm{s})^{T}|\bm{s},\bm{Z}(\bm{s})=\bm{z}\right\} $
+and $\Gamma_{(a)}\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}_{(a)}(\bm{s})\right)\bm{X}_{(a)}(\bm{s})\bm{X}_{(a)}(\bm{s})^{T}|\bm{s},\bm{Z}(\bm{s})=\bm{z}\right\} $.
+Assume the following conditions:
 \begin{itemize}
 \item[(A.9)] The functions $g'''\left(\bm{s}\right)$, $\nabla\Gamma\left(\bm{s}\right)$,
-$V\left(\mu\left(\bm{s},\bm{z}\right)\right)$, and $V'\left(\mu\left(\bm{s},\bm{z}\right)\right)$
-are continuous at $\bm{s}$.
+$\nabla\Gamma_{(a)}\left(\bm{s}\right)$, $V\left(\mu\left(\bm{s},\bm{z}\right)\right)$,
+and $V'\left(\mu\left(\bm{s},\bm{z}\right)\right)$ are continuous
+at $\bm{s}$.
 \item[(A.10)] The function $\left(\partial^{2}/\partial\mu^{2}\right)Q\left(g^{-1}\left(\mu\right),y\right)<0$
-for $\mu\in\mathbb{R}$ and $y$ in the range of the response.\end{itemize}
+for $\mu\in\mathbb{R}$ and $y$ in the range of the response.
+\end{itemize}
+These additonal conditions are necessary for Taylor expansion of the
+local quasi-likelihood. Condition (A.10) assures that the local quasi-likelihood
+is convex and has a unique minimizer.
 \begin{thm}[Asymptotic normality]
 \label{theorem:normality-glm}  Under (A.1)-(A.10), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$ then 
+and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$, then 
 \begin{gather*}
 \left\{ nh^{2}f(\bm{s})\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\left(2\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{\left(a\right)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{\left(a\right)}(\bm{s})\right\} \right]\\
-\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
+\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\Gamma_{(a)}(\bm{s})^{-1}\right)
 \end{gather*}
 \end{thm}
 
@@ -761,10 +775,23 @@ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$ then
 \label{theorem:selection-glm}  Under (A.1)-(A.10), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
 and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$ then 
 \[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to0\text{ if }j\le p_{0},\text{ and }P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
 \]
  
 \end{thm}
+By Theorem (\ref{theorem:normality-glm}), the LAGR estimates acheive
+the same asymptotic distribution as if the nonzero coefficients were
+known in advance. The difference between the Gaussian and GLM cases
+is that $\sigma^{2}\Psi_{(a)}(\bm{s})^{-1}$ in the variance term
+of Theorem (\ref{theorem:normality}) has been replaced by $\Gamma_{(a)}(\bm{s})^{-1}$
+in Theorem (\ref{theorem:normality-glm}) because the variance of
+the response in the GLM case depends on the expectation of the response.
+Theorem \ref{theorem:selection-glm} gives the same result for the
+GLM setting as Theorem \ref{theorem:selection} does for the Gaussian
+setting: true nonzero coefficients are dropped from the model with
+probability going to one. Thus, the oracle properties for the GLM
+setting are esatblished.
+
 
 \section{References}
 \bibliographystyle{chicago}
@@ -809,27 +836,26 @@ $j>p_{0}$, and
 \[
 H_{n}^{*}(\bm{u})=(1/2)\alpha_{n}^{2}\bm{u}^{T}\left\{ \bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}-\alpha_{n}\bm{u}^{T}\left[\bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]
 \]
-otherwise. It follows that $H_{n}^{*}(\bm{u})$ is convex and its
-unique minimizer is 
+otherwise. It follows that $H_{n}^{*}(\bm{u})$ is convex and has
+a unique minimizer, called $\hat{\bm{u}}_{n}$. Let $\hat{\bm{u}}_{(a)n}$
+and $\hat{\bm{u}}_{(b)n}$ be, repectively, the subvectors of $\bm{u}_{n}$
+corresponding to the true nonzero coefficients and true zero coefficients.
+Then 
 \[
-\hat{\bm{u}}_{n}=\left\{ n^{-1}\bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\left[hn^{1/2}\bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right].
+\hat{\bm{u}}_{(a)n}=\left\{ n^{-1}\bm{Z}_{(a)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(a)}(\bm{s})\right\} ^{-1}\left[hn^{1/2}\bm{Z}_{(a)}(\bm{s})^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}_{(a)}(\bm{s})\bm{\zeta}_{(a)}(\bm{s})\right\} \right]\text{ and }\hat{\bm{u}}_{(b)n}=\bm{0}.
 \]
 By epiconvergence, the minimizer of the limiting function is the limit
 of the minimizers $\hat{\bm{u}}_{n}$ \citep{Geyer-1994,Knight-Fu-2000}.
 Since, by Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014},
 \[
-\hat{\bm{u}}_{n}-\left(2\alpha_{n}f(\bm{s})^{1/2}\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \xrightarrow{d}N\left(0,\alpha_{n}^{-2}f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi(\bm{s})^{-1}\right)
+\hat{\bm{u}}_{(a)n}-\left(2\alpha_{n}f(\bm{s})^{1/2}\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(a)}(\bm{s})\right\} \xrightarrow{d}N\left(0,\alpha_{n}^{-2}f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi_{(a)}(\bm{s})^{-1}\right)
 \]
 the result of Theorem \ref{theorem:normality} follows.
 \end{proof}
 \section*{Appendix: Proof of Theorem \ref{theorem:selection}\label{sec:gaussian-selection-proof}}
 \begin{proof}
-We showed in Theorem \ref{theorem:normality} that $\hat{\bm{\zeta}}_{(j)}(\bm{s})\xrightarrow{p}\bm{\zeta}_{(j)}(\bm{s})+\left(2\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\nabla_{uu}^{2}\left\{ \bm{\zeta}_{(j)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(j)}(\bm{s})\right\} $,
-so to complete the proof of selection consistency, it only remains
-to show that $P\left\{ \hat{\bm{\zeta}}_{(j)}(\bm{s})=\bm{0}\right\} \to1$
-if $j>p_{0}$.
 The proof is by contradiction. Without loss of generality we consider
-only the case $j=p$.
+only the $p$th covariate group.
 Assume $\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\ne0$. Then $\mathcal{J}\left(\bm{\zeta}(\bm{s})\right)$
 is differentiable w.r.t. $\bm{\zeta}_{(p)}(\bm{s})$ and is minimized
 where 
@@ -965,19 +991,23 @@ By Lemma \ref{lemma:delta}, $\Delta_{n}=\Delta+O_{p}\left(\alpha_{n}\right)$,
 so the limit of $H_{n}(\bm{u})$ is the same as the limit of $H_{n}^{*}(\bm{u})$
 where
 \[
-H_{n}^{*}(\bm{u})=\Omega_{n}^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta\bm{u}+o_{p}\left(1\right)
+H_{n}^{*}(\bm{u})=\Omega_{(a)n}^{T}\bm{u}_{(a)}+(1/2)\bm{u}_{(a)}^{T}\Delta_{(a)}\bm{u}_{(a)}+o_{p}\left(1\right)
 \]
- 
 if $\|\bm{u}_{j}\|=0\;\forall j>p_{0}$, and $H_{n}^{*}(\bm{u})=\infty$
-otherwise. It follows that $H_{n}^{*}(\bm{u})$ is convex and its
-unique minimizer is
+otherwise. It follows that $H_{n}^{*}(\bm{u})$ is convex and has
+a unique minimizer, called $\hat{\bm{u}}_{n}$. Let $\hat{\bm{u}}_{(a)n}$
+$\Delta_{(a)}$ and $\Omega_{(a)n}$ be, respectively, the parts of
+$\bm{u}_{n}$, $\Delta$, and $\Omega_{n}$ corresponding to the true
+nonzero coefficients, and let $\hat{\bm{u}}_{(b)n}$ be the subvector
+of $\hat{\bm{u}}_{n}$ corresponding to the true zero coefficients.
+Then
 \begin{align*}
-\hat{\bm{u}}_{n}= & \Delta^{-1}\Omega_{n}+o_{p}\left(1\right)
+\hat{\bm{u}}_{(a)n}= & \Delta_{(a)}^{-1}\Omega_{(a)n}+o_{p}\left(1\right)\text{ and }\hat{\bm{u}}_{(b)n}=\bm{0}
 \end{align*}
 by the quadratic approximation lemma \citep{Fan-Gijbels-1996}. And
 by epiconvergence, the minimizer of the limiting function is the limit
 of the minimizers $\hat{\bm{u}}_{n}$ \citep{Geyer-1994,Knight-Fu-2000}.
-Since $\Delta$ is a constant, the normality of $\hat{\bm{u}}_{n}$
+Since $\Delta$ is a constant, the normality of $\hat{\bm{u}}_{(a)n}$
 follows from the normality of $\Omega_{n}$, which is establised via
 the Cram\'{e}r-Wold device. Let $\bm{d}\in\mathbb{R}^{3p}$ be a
 unit vector, and let
@@ -1000,12 +1030,8 @@ approximation lemma.
 \end{proof}
 \section*{Appendix: Proof of Theorem \ref{theorem:selection-glm}}
 \begin{proof}
-We showed in Theorem \ref{theorem:normality-glm} that $\hat{\bm{\zeta}}_{(j)}(\bm{s})\xrightarrow{p}\bm{\zeta}_{(j)}(\bm{s})+\left(2\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\{\nabla_{uu}^{2}\bm{\zeta}_{(j)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(j)}(\bm{s})\}$,
-so to complete the proof of selection consistency, it only remains
-to show that $P\left\{ \hat{\bm{\zeta}}_{(j)}(\bm{s})=\bm{0}\right\} \to1$
-if $j>p_{0}$.
 The proof is by contradiction. Without loss of generality we consider
-only the case $j=p$.
+only the $p$th covariate group.
 Assume $\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\ne0$. Then $\mathcal{J}\left(\bm{\zeta}(\bm{s})\right)$
 is differentiable w.r.t. $\bm{\zeta}_{(p)}(\bm{s})$ and is minimized
 where 
