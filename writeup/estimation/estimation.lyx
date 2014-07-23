@@ -1290,7 +1290,7 @@ Selection consistency
 , then 
 \begin_inset Formula 
 \[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to0\text{ if }j\le p_{0},\text{ and }P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
 \]
 
 \end_inset
@@ -1313,9 +1313,9 @@ reference "theorem:selection"
 
 \end_inset
 
- indicate that the LAGR estimates have the same asymptotic distribution
- as a local regression model where the true nonzero coefficients are known
- in advance 
+ indicate that the LAGR estimates for true nonzero coefficients have the
+ same asymptotic distribution as a local regression model where the true
+ nonzero coefficients are known in advance 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Sun-Yan-Zhang-Lu-2014"
@@ -2600,7 +2600,7 @@ The MISE of the estimates of
  are in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:misex"
+reference "tab:mise"
 
 \end_inset
 
@@ -3698,7 +3698,7 @@ key "McCullagh-Nelder-1989"
 \begin_layout Standard
 \begin_inset Formula 
 \[
-f\left(y(\bm{s})|\bm{x}(\bm{s}),\theta(\bm{s}0\right)=c\left(y(\bm{s}0\right)\times\exp\left[\theta(\bm{s})y(\bm{s})-b\left(\theta(\bm{s})\right)\right]
+f\left(y(\bm{s})|\bm{x}(\bm{s}),\theta(\bm{s})\right)=c\left(y(\bm{s})\right)\times\exp\left[\theta(\bm{s})y(\bm{s})-b\left(\theta(\bm{s})\right)\right]
 \]
 
 \end_inset
@@ -3772,7 +3772,7 @@ lihood
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right),
+\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right).
 \end{align}
 
 \end_inset
@@ -3781,39 +3781,16 @@ lihood
 \end_layout
 
 \begin_layout Standard
-where 
-\begin_inset Formula $\bm{Z}\left(\bm{s}\right)$
-\end_inset
-
- and 
-\begin_inset Formula $\bm{\zeta}\left(\bm{s}\right)$
-\end_inset
-
- are defined in 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "eq:augmented-covariates"
-
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "eq:augmented-coefficients"
-
-\end_inset
-
-.
- The local quasi-likelihood generalizes the local log-likelihood that was
+The local quasi-likelihood generalizes the local log-likelihood that was
  used to estimate coefficients in the local linear model case.
- The quasi-likelihood is convex, and is defined in terms of its derivative,
- the quasi-score function 
+ The local quasi-likelihood is convex, and is defined in terms of its derivative
+, the local quasi-score function 
 \begin_inset Formula $\left(\partial/\partial\mu\right)Q(\mu,y)=(y-\mu)\{V(\mu)\}^{-1}$
 \end_inset
 
 .
  The local quasi-likelihood is maximized by setting the local quasi-score
- equation to zero:
+ to zero:
 \end_layout
 
 \begin_layout Standard
@@ -3854,17 +3831,11 @@ key "Cai-Fan-Li-2000"
 \end_inset
 
 .
- For coefficients that vary in two dimensions, it follows from Lemmas 
+ For coefficients that vary in two dimensions, it follows from the arguments
+ in the proof of Theorem 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "lemma:omega"
-
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "lemma:delta"
+reference "theorem:normality-glm"
 
 \end_inset
 
@@ -3873,9 +3844,10 @@ reference "lemma:delta"
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
-\left\{ nh^{2}f(\bm{s})\right\} ^{1/2}\left[\tilde{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right).
-\]
+\begin{gather*}
+\left\{ nh^{2}f(\bm{s})\right\} ^{1/2}\left[\tilde{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right\} \right]\\
+\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma(\bm{s})^{-1}\right).
+\end{gather*}
 
 \end_inset
 
@@ -3972,10 +3944,7 @@ Define
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-Assume the following conditions.
+ Assume the following conditions:
 \end_layout
 
 \begin_layout Itemize
@@ -4122,7 +4091,7 @@ Selection consistency
 \begin_layout Theorem
 \begin_inset Formula 
 \[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to0\text{ if }j\le p_{0},\text{ and }P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
 \]
 
 \end_inset
@@ -4164,6 +4133,23 @@ reference "theorem:normality-glm"
 
  because the variance of the response in the GLM case depends on the expectation
  of the response.
+ Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:selection-glm"
+
+\end_inset
+
+ gives the same result for the GLM setting as Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:selection"
+
+\end_inset
+
+ does for the Gaussian setting: true nonzero coefficients are dropped from
+ the model with probability going to one.
+ Thus, the oracle properties for the GLM setting are esatblished.
 \end_layout
 
 \begin_layout Section*
@@ -4351,10 +4337,28 @@ otherwise.
 \begin_inset Formula $H_{n}^{*}(\bm{u})$
 \end_inset
 
- is convex and its unique minimizer is 
+ is convex and has a unique minimizer, called 
+\begin_inset Formula $\hat{\bm{u}}_{n}$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\hat{\bm{u}}_{(a)n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\bm{u}}_{(b)n}$
+\end_inset
+
+ be, repectively, the subvectors of 
+\begin_inset Formula $\bm{u}_{n}$
+\end_inset
+
+ corresponding to the true nonzero coefficients and true zero coefficients.
+ Then 
 \begin_inset Formula 
 \[
-\hat{\bm{u}}_{n}=\left\{ n^{-1}\bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\left[hn^{1/2}\bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right].
+\hat{\bm{u}}_{(a)n}=\left\{ n^{-1}\bm{Z}_{(a)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(a)}(\bm{s})\right\} ^{-1}\left[hn^{1/2}\bm{Z}_{(a)}(\bm{s})^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}_{(a)}(\bm{s})\bm{\zeta}_{(a)}(\bm{s})\right\} \right]\text{ and }\hat{\bm{u}}_{(b)n}=\bm{0}.
 \]
 
 \end_inset
@@ -4385,7 +4389,7 @@ key "Sun-Yan-Zhang-Lu-2014"
 \begin_layout Proof
 \begin_inset Formula 
 \[
-\hat{\bm{u}}_{n}-\left(2\alpha_{n}f(\bm{s})^{1/2}\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \xrightarrow{d}N\left(0,\alpha_{n}^{-2}f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi(\bm{s})^{-1}\right)
+\hat{\bm{u}}_{(a)n}-\left(2\alpha_{n}f(\bm{s})^{1/2}\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(a)}(\bm{s})\right\} \xrightarrow{d}N\left(0,\alpha_{n}^{-2}f(\bm{s})^{-1}\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi_{(a)}(\bm{s})^{-1}\right)
 \]
 
 \end_inset
@@ -4419,36 +4423,12 @@ name "sec:gaussian-selection-proof"
 \end_layout
 
 \begin_layout Proof
-We showed in Theorem 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "theorem:normality"
-
-\end_inset
-
- that 
-\begin_inset Formula $\hat{\bm{\zeta}}_{(j)}(\bm{s})\xrightarrow{p}\bm{\zeta}_{(j)}(\bm{s})+\left(2\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\nabla_{uu}^{2}\left\{ \bm{\zeta}_{(j)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(j)}(\bm{s})\right\} $
-\end_inset
-
-, so to complete the proof of selection consistency, it only remains to
- show that 
-\begin_inset Formula $P\left\{ \hat{\bm{\zeta}}_{(j)}(\bm{s})=\bm{0}\right\} \to1$
-\end_inset
-
- if 
-\begin_inset Formula $j>p_{0}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Proof
 The proof is by contradiction.
- Without loss of generality we consider only the case 
-\begin_inset Formula $j=p$
+ Without loss of generality we consider only the 
+\begin_inset Formula $p$
 \end_inset
 
-.
+th covariate group.
 \end_layout
 
 \begin_layout Proof
@@ -5059,12 +5039,12 @@ reference "lemma:delta"
 \begin_layout Proof
 \begin_inset Formula 
 \[
-H_{n}^{*}(\bm{u})=\Omega_{n}^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta\bm{u}+o_{p}\left(1\right)
+H_{n}^{*}(\bm{u})=\Omega_{(a)n}^{T}\bm{u}_{(a)}+(1/2)\bm{u}_{(a)}^{T}\Delta_{(a)}\bm{u}_{(a)}+o_{p}\left(1\right)
 \]
 
 \end_inset
 
- 
+
 \end_layout
 
 \begin_layout Proof
@@ -5081,13 +5061,51 @@ if
 \begin_inset Formula $H_{n}^{*}(\bm{u})$
 \end_inset
 
- is convex and its unique minimizer is
+ is convex and has a unique minimizer, called 
+\begin_inset Formula $\hat{\bm{u}}_{n}$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\hat{\bm{u}}_{(a)n}$
+\end_inset
+
+ 
+\begin_inset Formula $\Delta_{(a)}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Omega_{(a)n}$
+\end_inset
+
+ be, respectively, the parts of 
+\begin_inset Formula $\bm{u}_{n}$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta$
+\end_inset
+
+, and 
+\begin_inset Formula $\Omega_{n}$
+\end_inset
+
+ corresponding to the true nonzero coefficients, and let 
+\begin_inset Formula $\hat{\bm{u}}_{(b)n}$
+\end_inset
+
+ be the subvector of 
+\begin_inset Formula $\hat{\bm{u}}_{n}$
+\end_inset
+
+ corresponding to the true zero coefficients.
+ Then
 \end_layout
 
 \begin_layout Proof
 \begin_inset Formula 
 \begin{align*}
-\hat{\bm{u}}_{n}= & \Delta^{-1}\Omega_{n}+o_{p}\left(1\right)
+\hat{\bm{u}}_{(a)n}= & \Delta_{(a)}^{-1}\Omega_{(a)n}+o_{p}\left(1\right)\text{ and }\hat{\bm{u}}_{(b)n}=\bm{0}
 \end{align*}
 
 \end_inset
@@ -5125,7 +5143,7 @@ Since
 \end_inset
 
  is a constant, the normality of 
-\begin_inset Formula $\hat{\bm{u}}_{n}$
+\begin_inset Formula $\hat{\bm{u}}_{(a)n}$
 \end_inset
 
  follows from the normality of 
@@ -5242,36 +5260,12 @@ reference "theorem:selection-glm"
 \end_layout
 
 \begin_layout Proof
-We showed in Theorem 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "theorem:normality-glm"
-
-\end_inset
-
- that 
-\begin_inset Formula $\hat{\bm{\zeta}}_{(j)}(\bm{s})\xrightarrow{p}\bm{\zeta}_{(j)}(\bm{s})+\left(2\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\{\nabla_{uu}^{2}\bm{\zeta}_{(j)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(j)}(\bm{s})\}$
-\end_inset
-
-, so to complete the proof of selection consistency, it only remains to
- show that 
-\begin_inset Formula $P\left\{ \hat{\bm{\zeta}}_{(j)}(\bm{s})=\bm{0}\right\} \to1$
-\end_inset
-
- if 
-\begin_inset Formula $j>p_{0}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Proof
 The proof is by contradiction.
- Without loss of generality we consider only the case 
-\begin_inset Formula $j=p$
+ Without loss of generality we consider only the 
+\begin_inset Formula $p$
 \end_inset
 
-.
+th covariate group.
 \end_layout
 
 \begin_layout Proof
