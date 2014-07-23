@@ -70,8 +70,8 @@ knitr
 \end_index
 \secnumdepth 3
 \tocdepth 3
-\paragraph_separation skip
-\defskip bigskip
+\paragraph_separation indent
+\paragraph_indentation default
 \quotes_language english
 \papercolumns 1
 \papersides 1
@@ -100,7 +100,7 @@ Introduction
 
 \begin_layout Standard
 Whereas the coefficients in traditional linear regression are scalar constants,
- the coefficients in a varying coefficients regression (VCR) model are functions
+ the coefficients in a varying coefficient regression (VCR) model are functions
  - often 
 \emph on
 smooth
@@ -113,36 +113,9 @@ key "Cleveland-Grosse-1991,Hastie-Tibshirani-1993"
 \end_inset
 
 .
- Varying coefficients regression has been used, e.g.
- to model the dynamic relationship between HIV viral load and immune response
- as infection progresses 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Liang-Wu-Carroll-2003"
-
-\end_inset
-
-, to estimate airborne particulate matter concentration based on satellite
- observations of the atmosphere 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Pelletier-Santer-Vidot-2007"
-
-\end_inset
-
-, and to model how the response of the fertility rate to biological and
- socioeconomic determinants has changed over time in Denmark 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Kohler-Rodgers-Christensen-2003"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Current practice for VCR models relies on global model selection to decide
+ Here we treat the case of a VCR model on a spatial domain where the spatial
+ locaton is a two-dimensional effect-modifying parameter.
+ Current practice for VCR models relies on global model selection to decide
  which variables should be included in the model, meaning that covariates
  are selected for inclusion or exclusion over the entire spatial domain.
  Various methods have been developed by using, for example, P-splines 
@@ -271,10 +244,10 @@ key "Yuan-Lin-2006,Wang-Leng-2008"
 \end_inset
 
 .
- The proposed LAGR method uses the adaptive group Lasso for local variable
- selection and coefficient estimation in a locally linear regression model,
- where each group consists of a single covariate and its interactions with
- location.
+ The main innovation of the proposed LAGR method is to use the adaptive
+ group Lasso for local variable selection and coefficient estimation in
+ a locally linear regression model, where each group consists of a single
+ covariate and its interactions with location.
  Further, we extend the method to non-Gaussian responses.
 \end_layout
 
@@ -283,10 +256,7 @@ We show that for both LAGR posesses the oracle properties of asymptotically
  selecting exactly the correct local covariates and estimating their local
  coefficients as accurately as would be possible if the identity of the
  nonzero coefficients for the local model were known in advance.
-\end_layout
-
-\begin_layout Standard
-The remainder of this document is organized as follows.
+ The remainder of this document is organized as follows.
  The kernel-based estimation of a VCR model is described in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -320,20 +290,20 @@ reference "sec:example"
 \end_inset
 
  the proposed method is applied to the Boston house price dataset.
- It is demonstrated in Section 
+ In Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:lagr-gllm"
 
 \end_inset
 
- that LAGR posesses oracle properties when applied to varying coefficient
- generalized linear models.
+, LAGR pis extended to varying coefficient generalized linear regression
+ and the oracle properties for this setting are established.
  Technical proofs are left to the appendix.
 \end_layout
 
 \begin_layout Section
-Varying Coefficients Regression
+Varying Coefficient Regression
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:vcr"
@@ -647,7 +617,16 @@ K(x) & =\begin{cases}
 \end_layout
 
 \begin_layout Standard
-Let 
+The local log-likelihood at 
+\begin_inset Formula $\bm{s}$
+\end_inset
+
+ is maximized to obtain an estimate 
+\begin_inset Formula $\tilde{\bm{\zeta}}(\bm{s})$
+\end_inset
+
+ of the local coefficients.
+ Let 
 \begin_inset Formula $\bm{W}\!(\bm{s})={\rm diag}\left\{ K_{h}(\|\bm{s}-\bm{s}_{i}\|)\right\} _{i'=1}^{n}$
 \end_inset
 
@@ -728,14 +707,14 @@ LAGR-Penalized Local Likelihood
 \end_layout
 
 \begin_layout Standard
-Estimating the local coefficients by (
+Estimating the local coefficients by 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:zeta-hat"
 
 \end_inset
 
-) relies on 
+ relies on 
 \emph on
 a priori
 \emph default
@@ -760,7 +739,7 @@ a priori
  penalty akin to the adaptive group Lasso 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "Zou-2006,Wang-Leng-2008"
+key "Yuan-Lin-2006,Wang-Leng-2008"
 
 \end_inset
 
@@ -1182,9 +1161,6 @@ name "theorem:normality"
 \end_inset
 
  
-\end_layout
-
-\begin_layout Theorem
 \begin_inset Argument 1
 status open
 
@@ -1194,11 +1170,7 @@ Asymptotic normality
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Theorem
-Under (A.1)-(A.8), if 
+ Under (A.1)-(A.8), if 
 \begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
 \end_inset
 
@@ -1211,10 +1183,10 @@ Under (A.1)-(A.8), if
 
 \begin_layout Theorem
 \begin_inset Formula 
-\begin{align*}
-\left\{ f(\bm{s})h^{2}n\right\} ^{1/2} & \left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-2^{-1}\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} \right]\\
- & \xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi(\bm{s})^{-1}\right)
-\end{align*}
+\begin{gather*}
+\left\{ f(\bm{s})h^{2}n\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-2^{-1}\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} \right]\\
+\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi(\bm{s})^{-1}\right)
+\end{gather*}
 
 \end_inset
 
@@ -1241,9 +1213,6 @@ name "theorem:selection"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Theorem
 \begin_inset Argument 1
 status open
 
@@ -1253,11 +1222,7 @@ Selection consistency
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Theorem
-Under (A.1)-(A.8), if 
+ Under (A.1)-(A.8), if 
 \begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
 \end_inset
 
@@ -1268,20 +1233,12 @@ Under (A.1)-(A.8), if
 , then 
 \begin_inset Formula 
 \[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to0\text{ if }j\le p_{0},\text{ and}
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to0\text{ if }j\le p_{0},\text{ and }P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
 \]
 
 \end_inset
 
- 
-\begin_inset Formula 
-\[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
-\]
 
-\end_inset
-
- 
 \end_layout
 
 \begin_layout Standard
@@ -3647,7 +3604,7 @@ key "Sun-Yan-Zhang-Lu-2014"
 \end_layout
 
 \begin_layout Section
-Extension to GLMs
+Extension to Generalized Linear Regression
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:lagr-gllm"
@@ -3894,7 +3851,7 @@ As in the case of linear models, the LAGR for GLMs is a grouped
 \end_layout
 
 \begin_layout Standard
-As in the case of gaussian data, let 
+As in the case of Gaussian data, let 
 \begin_inset Formula $\phi_{j}(\bm{s})=\lambda_{n}\|\tilde{\bm{\zeta}}_{(j)}(\bm{s})\|^{-\gamma}$
 \end_inset
 
@@ -4026,9 +3983,6 @@ name "theorem:normality-glm"
 \end_inset
 
  
-\end_layout
-
-\begin_layout Theorem
 \begin_inset Argument 1
 status open
 
@@ -4038,11 +3992,7 @@ Asymptotic normality
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Theorem
-If 
+ Under (A.1)-(A.10), if 
 \begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
 \end_inset
 
@@ -4051,10 +4001,14 @@ If
 \end_inset
 
  then 
+\end_layout
+
+\begin_layout Theorem
 \begin_inset Formula 
-\[
-\left\{ nh^{2}f(\bm{s})\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\left(2\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{\left(a\right)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{\left(a\right)}(\bm{s})\right\} \right]\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
-\]
+\begin{gather*}
+\left\{ nh^{2}f(\bm{s})\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\left(2\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{\left(a\right)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{\left(a\right)}(\bm{s})\right\} \right]\\
+\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
+\end{gather*}
 
 \end_inset
 
@@ -4072,10 +4026,7 @@ name "theorem:selection-glm"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Theorem
+ 
 \begin_inset Argument 1
 status open
 
@@ -4085,11 +4036,7 @@ Selection consistency
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Theorem
-If 
+ Under (A.1)-(A.10), if 
 \begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
 \end_inset
 
@@ -4103,31 +4050,12 @@ If
 \begin_layout Theorem
 \begin_inset Formula 
 \[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to0\text{ if }j\le p_{0},\text{ and}
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to0\text{ if }j\le p_{0},\text{ and }P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
 \]
 
 \end_inset
 
  
-\begin_inset Formula 
-\[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset bibtex
-LatexCommand bibtex
-bibfiles "/Users/wesley/git/gwr/references/gwr"
-options "chicago"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section*
@@ -5190,7 +5118,7 @@ reference "eq:lyapunov-bound"
 \begin_inset Formula $\Omega_{n}$
 \end_inset
 
- asymptotically follows a gaussian distribution and the result follows from
+ asymptotically follows a Gaussian distribution and the result follows from
  the quadratic approximation lemma.
 \end_layout
 
@@ -5785,6 +5713,17 @@ And it follows that
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "/Users/wesley/git/gwr/references/gwr"
+options "chicago"
+
+\end_inset
+
+
 \end_layout
 
 \end_body

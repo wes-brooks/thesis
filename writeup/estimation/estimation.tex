@@ -76,29 +76,26 @@ Nonparametric, variable selection
 \end{frontmatter}
 
 \section{Introduction}
+
 Whereas the coefficients in traditional linear regression are scalar
-constants, the coefficients in a varying coefficients regression (VCR)
+constants, the coefficients in a varying coefficient regression (VCR)
 model are functions - often \emph{smooth} functions - of some effect-modifying
-variable \citep{Cleveland-Grosse-1991,Hastie-Tibshirani-1993}. Varying
-coefficients regression has been used, e.g. to model the dynamic relationship
-between HIV viral load and immune response as infection progresses
-\citep{Liang-Wu-Carroll-2003}, to estimate airborne particulate matter
-concentration based on satellite observations of the atmosphere \citep{Pelletier-Santer-Vidot-2007},
-and to model how the response of the fertility rate to biological
-and socioeconomic determinants has changed over time in Denmark \citep{Kohler-Rodgers-Christensen-2003}.
-Current practice for VCR models relies on global model selection to
-decide which variables should be included in the model, meaning that
-covariates are selected for inclusion or exclusion over the entire
-spatial domain. Various methods have been developed by using, for
-example, P-splines \citep{Antoniadis:2012a}, basis expansion \citep{Wang-2008a},
-and local regression \citep{Wang-Xia-2009}. Since the coefficients
-vary in a VCR model, in principle there is no reason that the best
-model must use the same set of covariates everywhere on the domain
-- that is, some of the coefficients may be zero in part of the domain.
-New methodology is developed here for guiding the decision of which
-covariates belong in the VCR model at a specific location, or local
-variable selection, as the literature on how to do so is currently
-scarce.
+variable \citep{Cleveland-Grosse-1991,Hastie-Tibshirani-1993}. Here
+we treat the case of a VCR model on a spatial domain where the spatial
+locaton is a two-dimensional effect-modifying parameter. Current practice
+for VCR models relies on global model selection to decide which variables
+should be included in the model, meaning that covariates are selected
+for inclusion or exclusion over the entire spatial domain. Various
+methods have been developed by using, for example, P-splines \citep{Antoniadis:2012a},
+basis expansion \citep{Wang-2008a}, and local regression \citep{Wang-Xia-2009}.
+Since the coefficients vary in a VCR model, in principle there is
+no reason that the best model must use the same set of covariates
+everywhere on the domain - that is, some of the coefficients may be
+zero in part of the domain. New methodology is developed here for
+guiding the decision of which covariates belong in the VCR model at
+a specific location, or local variable selection, as the literature
+on how to do so is currently scarce.
+
 Specifically, local adaptive grouped regularization (LAGR) is developed
 here as a method of local variable selection at any location in the
 domain of a VCR model. The method of LAGR applies to VCR models where
@@ -113,6 +110,7 @@ the obverved response. These methods minimize the boundary effect
 of odd degree (usually locally linear). In this work, we assume a
 two dimensional effect modifying parameter but changing its dimensionality
 affects only the rate of convergence.
+
 For standard linear regression models, the least absolute shrinkage
 and selection operator (Lasso) is a penalized regression method that
 simultaneously selects variables for the regression model and shrinks
@@ -128,11 +126,13 @@ were known in advance \citep{Zou-2006}. For data where the obvserved
 variables fall into mutually exclusive groups that are known in advance,
 the adaptive group Lasso has similar oracle properties to the adaptive
 Lasso but does selection on groups rather than individual variables
-\citep{Yuan-Lin-2006,Wang-Leng-2008}. The proposed LAGR method uses
-the adaptive group Lasso for local variable selection and coefficient
-estimation in a locally linear regression model, where each group
-consists of a single covariate and its interactions with location.
-Further, we extend the method to non-Gaussian responses.
+\citep{Yuan-Lin-2006,Wang-Leng-2008}. The main innovation of the
+proposed LAGR method is to use the adaptive group Lasso for local
+variable selection and coefficient estimation in a locally linear
+regression model, where each group consists of a single covariate
+and its interactions with location. Further, we extend the method
+to non-Gaussian responses.
+
 We show that for both LAGR posesses the oracle properties of asymptotically
 selecting exactly the correct local covariates and estimating their
 local coefficients as accurately as would be possible if the identity
@@ -143,11 +143,17 @@ The proposed LAGR technique and its oracle properties are presented
 in Section \ref{sec:lagr-gaussian}. In Section \ref{sec:simulations},
 the performance of the proposed LAGR technique is evaluated in a simulation
 study, and in Section \ref{sec:example} the proposed method is applied
-to the Boston house price dataset. It is demonstrated in Section \ref{sec:lagr-gllm}
-that LAGR posesses oracle properties when applied to varying coefficient
-generalized linear models. Technical proofs are left to the appendix.
-\section{Varying Coefficients Regression\label{sec:vcr}}
+to the Boston house price dataset. In Section \ref{sec:lagr-gllm},
+LAGR pis extended to varying coefficient generalized linear regression
+and the oracle properties for this setting are established. Technical
+proofs are left to the appendix.
+
+
+\section{Varying Coefficient Regression\label{sec:vcr}}
+
+
 \subsection{Varying Coefficient Model}
+
 Consider $n$ data points, observed at sampling locations $\bm{s}_{i}=(s_{i,1},\; s_{i,2})^{T}$
 for $i=1,\dots,n$, which are distributed in a domain $\mathcal{D}\subset\mathbb{R}^{2}$
 according to a density $f$. For $i=1,\dots,n$, let $y_{i}=y(\bm{s}_{i})$
@@ -161,10 +167,13 @@ That is,
 \begin{align}
 y_{i}=\bm{x}_{i}^{T}\bm{\beta}_{i}(\bm{s}_{i})+\varepsilon_{i}.\label{eq:lm(s)}
 \end{align}
+
+
 Further assume that the error term $\varepsilon_{i}$ is normally
 distributed with zero mean and variance $\sigma^{2}$, and that $\varepsilon_{i}$,
 $i=1,\dots,n$ are independent. That is, for $\bm{\varepsilon}=\left(\varepsilon_{1},\dots,\varepsilon_{n}\right)^{T}$,
 $\bm{\varepsilon}\sim N\left(\bm{0},\sigma^{2}\mathrm{I}_{n}\right)$. 
+
 In the context of nonparametric regression, the boundary-effect bias
 can be reduced by local polynomial modeling, usually in the form of
 a locally linear model \citep{Fan-Gijbels-1996}. Here, to prepare
@@ -175,6 +184,7 @@ be the design matrix of observed covariate values. Then the augmented
 local design matrix at location $\bm{s}_{i}$ is defined to be $\bm{Z}(\bm{s}_{i})=\left(\bm{X}\ \:\bm{L}_{i}\bm{X}\ \:\bm{M}_{i}\bm{X}\right),$
 where $\bm{L}_{i}=\text{diag}\{s_{i',1}-s_{i,1}\}_{i'=1}^{n}$ and
 $\bm{M}_{i}=\text{diag}\{s_{i',2}-s_{i,2}\}_{i'=1}^{n}$.
+
 Let $\bm{Z}_{i}=\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}$ denote the
 $i$th row of the matrix $\bm{Z}(\bm{s}_{i})$ as a column vector.
 Let $\bm{\zeta}(\bm{s}_{i})=\left(\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{u}\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{v}\bm{\beta}(\bm{s}_{i})^{T}\right)^{T}$
@@ -182,7 +192,10 @@ denote the vector of local coefficients at location $\bm{s}_{i}$,
 augmented with the local gradients of the coefficient surfaces in
 the two dimensions, denoted $\nabla_{u}$ and $\nabla_{v}$. Now we
 have $Y_{i}=\bm{Z}_{i}^{T}\bm{\zeta}_{i}+\varepsilon_{i}$.
+
+
 \subsection{Coefficient Estimation via Local Likelihood}
+
 Let $\bm{\zeta}=\left(\bm{\zeta}(\bm{s}_{1}),\dots,\bm{\zeta}(\bm{s}_{n})\right)^{T}$
 denote a matrix of the local coefficients at all observation locations
 $\bm{s}_{1},\dots,\bm{s}_{n}$. The total log-likelihood of the observed
@@ -190,6 +203,8 @@ data is the sum of the log-likelihood of each individual observation:
 \begin{align}
 \ell\left(\bm{\zeta}\right)= & -(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}_{i})\right\} ^{2}\right].\label{eq:coefficients}
 \end{align}
+
+
 Since there are a total of $n\times3(p+1)+1$ parameters for $n$
 observations, the model is not identifiable and it is not possible
 to directly maximize the total likelihood. When the coefficient functions
@@ -197,9 +212,12 @@ are smooth, though, the coefficients $\bm{\zeta}(\bm{s})$ at location
 $\bm{s}$ can be approximated by the coefficients $\bm{\zeta}(\bm{t})$
 , where $\bm{t}$ is within some neighborhood of $\bm{s}$. This intuition
 is formalized by the local log-likelihood at location $\bm{s}\in\mathcal{D}$:
+
 \begin{align}
 \ell\left(\bm{\zeta}(\bm{s})\right)= & -(1/2)\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left[\log\sigma^{2}+\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right\} ^{2}\right]\label{eq:local-log-likelihood}
 \end{align}
+
+
 where $h$ is a bandwidth parameter and the $K_{h}(\|\bm{s}-\bm{s}_{i}\|)$
 for $i=1,\dots,n$ are local weights from a kernel function. For instance,
 the Epanechnikov kernel is defined as \citep{Samiuddin-el-Sayyad-1990}:
@@ -210,16 +228,24 @@ K(x) & =\begin{cases}
 0 & \mbox{ if }x\geq1.
 \end{cases}
 \end{align}
-Let $\bm{W}\!(\bm{s})={\rm diag}\left\{ K_{h}(\|\bm{s}-\bm{s}_{i}\|)\right\} _{i'=1}^{n}$
+
+
+The local log-likelihood at $\bm{s}$ is maximized to obtain an estimate
+$\tilde{\bm{\zeta}}(\bm{s})$ of the local coefficients. Let $\bm{W}\!(\bm{s})={\rm diag}\left\{ K_{h}(\|\bm{s}-\bm{s}_{i}\|)\right\} _{i'=1}^{n}$
 denote a diagonal matrix of kernel weights. The local likelihood can
 be maximized by minimizing a locally weighted least squares: 
 \begin{equation}
 \mathcal{S}\left(\bm{\zeta}(\bm{s})\right)=(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ,^{T}\label{eq:local-sum-of-squares}
 \end{equation}
+
+
 and the minimizer is
+
 \begin{equation}
 \tilde{\bm{\zeta}}(\bm{s})=\left\{ \bm{Z}^{T}(\bm{s})\bm{W}\!(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\bm{Z}^{T}(\bm{s})\bm{W}\!(\bm{s})\bm{Y}.\label{eq:zeta-hat}
 \end{equation}
+
+
 By Theorem 3 of \citet{Sun-Yan-Zhang-Lu-2014}, for any given $\bm{s}$,
 the estimated local coefficients $\tilde{\bm{\beta}}(\bm{s})=\left(\tilde{\zeta}_{1}(\bm{s})^{T},\dots,\tilde{\zeta}_{p}(\bm{s})^{T}\right)^{T}$
 converge in probability to $\bm{\beta}(\bm{s})+2^{-1}\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right\} $
@@ -227,23 +253,31 @@ are asymptotically normally distributed and the true $\bm{\beta}(\bm{s})$
 at the optimal rate of $O\left(n^{-1/3}\right)$. The estimated local
 coefficients are asymptotically unbiased, with finite-sample bias
 proportional to the second derivatives of the true coefficient functions.
+
+
 \section{Local Variable Selection with LAGR\label{sec:lagr-gaussian}}
+
+
 \subsection{LAGR-Penalized Local Likelihood}
+
 Estimating the local coefficients by (\ref{eq:zeta-hat}) relies on
 \emph{a priori} variable selection. Here we develop a new method of
 penalized regression to simultaneously select local covariates and
 estimate the local coefficients. For this purpose, each raw covariate
 is grouped with its covariate-by-location interactions. That is, $\bm{\zeta}_{(j)}(\bm{s})=\left(\beta_{j}(\bm{s}),\;\;\nabla_{u}\beta_{j}(\bm{s}),\;\;\nabla_{v}\beta_{j}(\bm{s})\right)^{T}$
 for $j=1,\dots,p$. The proposed LAGR penalty is an adaptive $\ell_{1}$
-penalty akin to the adaptive group Lasso \citep{Zou-2006,Wang-Leng-2008}.
+penalty akin to the adaptive group Lasso \citep{Yuan-Lin-2006,Wang-Leng-2008}.
 By the mechanism of the adaptive group Lasso, variables within the
 same group are included in or dropped from the model together. The
 intercept group is left unpenalized.
+
 To select and estimate the local coefficients at location $\bm{s}$,
 we minimize a penalized local sum of squares at location $\bm{s}$:
 \begin{align*}
 \mathcal{J}\left(\bm{\zeta}(\bm{s})\right) & =\mathcal{S}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right),
 \end{align*}
+
+
 where $\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right)$ is
 defined in (\ref{eq:local-sum-of-squares}), $\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)=\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{(j)}(\bm{s})\|$
 is a local adaptive grouped regularization (LAGR) penalty, and $\|\cdot\|$
@@ -252,7 +286,10 @@ at location $\bm{s}$ is $\phi_{j}(\bm{s})=\lambda_{n}\|\tilde{\bm{\zeta}}_{(j)}(
 where $\lambda_{n}>0$ is a local tuning parameter applied to all
 coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{(j)}(\bm{s})$
 is a subset of the vector of unpenalized local coefficients from (\ref{eq:zeta-hat}).
+
+
 \subsection{Oracle Properties\label{sub:oracle-properties}}
+
 For a local model at location $\bm{s}$, we let $a_{n}=\max\left\{ \phi_{j}(\bm{s}),j\le p_{0}\right\} $
 be the largest penalty applied to a covariate group whose true coefficient
 norm is nonzero and $b_{n}=\min\left\{ \phi_{j}(\bm{s}),j>p_{0}\right\} $
@@ -271,6 +308,7 @@ and $\nabla^{2}\zeta_{j}(\bm{s})=\left(\begin{array}{cc}
 and $\nu_{0}=\int_{R^{2}}K^{2}(\|\bm{s}\|)ds$. Finally, let $\xrightarrow{p}$
 and $\xrightarrow{d}$ denote convergence in probability and distribution,
 respectively, as $n\to\infty$.
+
 Assume the following conditions.
 \begin{itemize}
 \item[(A.1)] The kernel function $K(\cdot)$ is bounded, positive, symmetric,
@@ -296,27 +334,21 @@ as location $\bm{s}$.
 \end{itemize}
 Under these conditions, we obtain the following:
 \begin{thm}[Asymptotic normality]
-\label{theorem:normality} 
-Under (A.1)-(A.8), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-then
-\begin{align*}
-\left\{ f(\bm{s})h^{2}n\right\} ^{1/2} & \left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-2^{-1}\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} \right]\\
- & \xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi(\bm{s})^{-1}\right)
-\end{align*}
+\label{theorem:normality}  Under (A.1)-(A.8), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
+and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$ then
+\begin{gather*}
+\left\{ f(\bm{s})h^{2}n\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-2^{-1}\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} \right]\\
+\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi(\bm{s})^{-1}\right)
+\end{gather*}
 where $\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} =\left(\nabla_{uu}^{2}\bm{\beta}_{1}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{1}(\bm{s}),\dots,\nabla_{uu}^{2}\bm{\beta}_{p_{o}}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{p_{o}}(\bm{s})\right)^{T}$.
 \end{thm}
+
 \begin{thm}[Selection consistency]
-\label{theorem:selection}
-Under (A.1)-(A.8), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$,
-then 
+\label{theorem:selection} Under (A.1)-(A.8), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
+and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$, then 
 \[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to0\text{ if }j\le p_{0},\text{ and}
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to0\text{ if }j\le p_{0},\text{ and }P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
 \]
- 
-\[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
-\]
- 
 \end{thm}
 Together, Theorem \ref{theorem:normality} and Theorem \ref{theorem:selection}
 indicate that the LAGR estimates have the same asymptotic distribution
@@ -334,7 +366,10 @@ it follows that $h^{-1}n^{-1/2}\lambda_{n}=O\left(n^{-1/3+\alpha}\right)$
 and $hn^{-1/2}\lambda_{n}\|\tilde{\bm{\zeta}}_{(p)}(\bm{s})\|^{-\gamma}=O\left(n^{-2/3+\alpha+\gamma/3}\right)$.
 Thus, $\left(2-\gamma\right)/3<\alpha<1/3$, which can only be satisfied
 for $\gamma>1$.
+
+
 \subsection{Tuning Parameter Selection}
+
 In practical application, it is necessary to select the LAGR tuning
 parameter $\lambda_{n}$ for each local model. A popular approach
 in other Lasso-type problems is to select the tuning parameter that
@@ -342,22 +377,33 @@ maximizes a criterion that approximates the expected log-likelihood
 of a new, independent data set drawn from the same distribution. This
 is the framework of Mallows' Cp, Stein's unbiased risk estimate (SURE)
 and Akaike's information criterion (AIC) \citep{Mallows-1973,Stein-1981,Akaike-1973}.
+
 These criteria use a so-called covariance penalty to estimate the
 bias due to using the same data set to select a model and to estimate
 its parameters \citep{Efron:2004a}. We adopt the approximate degrees
 of freedom for the adaptive group Lasso from \citet{Yuan-Lin-2006}
 and minimize the AICc to select the tuning parameter $\lambda_{n}$
 \citep{Hurvich-1998}. That is, let
+
 \begin{align*}
 \hat{df}(\lambda_{n};\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|>0\right)+\sum_{j=1}^{p}\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|\|\tilde{\bm{\zeta}}(\bm{s})\|^{-1}(p_{j}-1)\\
 \text{AIC}_{c}(\lambda_{n};\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\right\} ^{2}+2\hat{df}(\lambda_{n};\bm{s})\\
  & +2\hat{df}(\lambda_{n};\bm{s})\left\{ \hat{df}(\lambda_{n};\bm{s})+1\right\} \left\{ \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)-\hat{df}(\lambda_{n};\bm{s})-1\right\} ^{-1}
 \end{align*}
+
+
 where $I\left(\cdot\right)$ is the indicator function and the local
 coefficient estimate is written $\hat{\bm{\zeta}}(\lambda_{n};\bm{s})$
 to emphasize that it depends on the tuning parameter.
+
+
 \section{Simulation Study\label{sec:simulations}}
+
+
+
+
 \subsection{Simulation Setup}
+
 A simulation study was conducted to assess the performance of the
 method described in Sections \ref{sec:vcr}--\ref{sec:lagr-gaussian}.
 Data were simulated on the domain $[0,1]^{2}$, which was divided
@@ -367,12 +413,14 @@ covariance function $\text{Cov}\left(X_{ij},X_{i'j}\right)=\sigma_{x}^{2}\exp\le
 where $\sigma_{x}^{2}=1$ is the variance, $\tau_{x}=0.1$ is the
 range parameter, and $\delta_{ii'}=\|\bm{s}_{i}-\bm{s}_{i'}\|_{2}$
 is the Euclidean distance between locations $\bm{s}_{i}$ and $\bm{s}_{i'}$. 
+
 Correlation was induced between the covariates by multiplying the
 design matrix $\bm{X}$ by $\bm{R}$, where $\bm{R}$ is the Cholesky
 decomposition of the covariance matrix $\bm{\Sigma}=\bm{R}'\bm{R}$.
 The covariance matrix $\bm{\Sigma}$ is a $5\times5$ matrix that
 has ones on the diagonal and $\rho$ for all off-diagonal entries,
 where $\rho$ is the between-covariate correlation. 
+
 The simulated response was $y_{i}=\bm{x}_{i}^{T}\bm{\beta}(\bm{s}_{i})+\varepsilon_{i}$
 for $i=1,\dots,n$ where $n=900$ and the $\varepsilon_{i}$'s were
 iid Gaussian with mean zero and variance $\sigma_{\varepsilon}^{2}$.
@@ -380,19 +428,24 @@ The simulated data included the response $y$ and five covariates
 $x_{1},\dots,x_{5}$. The true data-generating model uses only $x_{1}$.
 The variables $x_{2},\dots,x_{5}$ are included to assess performance
 in model selection. 
+
 Three different functions were used for the coefficient surface $\beta_{1}(\bm{s})$
 (Figure \ref{fig:simulation-coefficient-functions}). The first is
 the ``step'' function $\mathbf{\beta_{step}(\bm{s})=}1$ if $s_{x}>0.6$,
 $5s_{x}-2$ if $0.4<s_{x}\le0.6$, and $0$ otherwise. The second
 is the gradient function, $\beta_{gradient}(\bm{s})=s_{x}$, and the
 third is the parabola $\beta_{parabola}(\bm{s})=1-2\left\{ (s_{x}-0.5)^{2}+(s_{y}-0.5)^{2}\right\} $.
+
 \begin{figure}
 \includegraphics[width=0.33\textwidth]{0_Users_wesley_git_gwr_figures_simulation_step.pdf}\includegraphics[width=0.33\textwidth]{1_Users_wesley_git_gwr_figures_simulation_gradient.pdf}\includegraphics[width=0.33\textwidth]{2_Users_wesley_git_gwr_figures_simulation_parabola.pdf}
+
 \protect\caption{The step function (left), gradient function (middle), and parabola
 function (right) that were used as the coefficient function $\beta_{1}(\bm{s})$
 in the VCR model $y_{i}=x_{1}(\bm{s}_{i})\beta_{1}(\bm{s}_{i})+\varepsilon_{i}$
 when generating the data for the simulation study.\label{fig:simulation-coefficient-functions}}
 \end{figure}
+
+
 In total, three parameters were varied to produce 18 settings, each
 of which was simulated 100 times. There were the three functional
 forms for the coefficient surface $\beta_{1}(\bm{s})$; data was simulated
@@ -400,6 +453,9 @@ both with low ($\rho=0$), medium ($\rho=0.5$), and high ($\rho=0.9$)
 correlation between the covariates; and simulations were made with
 low ($\sigma_{\varepsilon}=0.5$) and high ($\sigma_{\varepsilon}=1$)
 variance for the random error term.
+
+
+
 The results are presented in terms of the mean integrated squared
 error (MISE) of the coefficient surface estimates $\hat{\beta}_{1}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$,
 the MISE of the fitted response $\hat{y}(\bm{s})$, and the frequency
@@ -408,6 +464,7 @@ estimated by LAGR were zero. The performance of LAGR was compared
 to that of a VCR model without variable selection, and to a VCR model
 with oracle selection. Oracle selection means that exactly the correct
 set of covariates was used to fit each local model.
+
 \begin{table}
 	\centering
 	\begin{tabular}{|ccc|ccc|cc|}
@@ -415,8 +472,9 @@ set of covariates was used to fit each local model.
 		\multicolumn{3}{|c|}{\begin{tabular}[c]{@{}c@{}}Simulation\\settings\end{tabular}} & \multicolumn{3}{|c|}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{\beta}_1$\end{tabular}} & \multicolumn{2}{|c|}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{\beta}_2, \dots, \hat{\beta}_5$\end{tabular}} \\
 		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & LAGR & VCR & Oracle & LAGR & VCR \\
 		\hline 
+
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Tue Jul 22 18:32:07 2014
+% Wed Jul 23 10:52:36 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
     &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
@@ -441,7 +499,10 @@ set of covariates was used to fit each local model.
 	\caption{For each setting in the simulation study, the mean integrated squared error (MISE) of the coefficient estimates. First, the MISE of $\hat{\beta}_1$ from estimation by local adaptive grouped regularization (LAGR), by locally linear regression without selection (VCR), and by locally linear regression with oracular selection (Oracle). Here, highlighting indicates the \textbf{smallest} and \emph{next-smallest} MISE for $\hat{\beta}_1$. Also, the MISE of $\hat{\beta}_2,\dots,\hat{\beta}_5$ from estimation by LAGR and VCR. Here, highlighting indicates the \textbf{smallest} MISE.}
 	\label{tab:mise}
 \end{table}
+
+
 \subsection{Simulation Results}
+
 The MISE of the estimates of $\beta_{1}(\bm{s})$ are in Table \ref{tab:misex}.
 Recall that $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$ are exactly
 zero across the entire domain. Oracle selection will estimate these
@@ -449,6 +510,9 @@ coefficients perfectly, so we focus on the comparison between estimation
 by LAGR and by the VCR model with no selection. These results show
 that for every simulation setting, LAGR estimation is more accurate
 than the standard VCR model.
+
+
+
 From Table \ref{tab:misey} we see that LAGR has good ability to identify
 zero-coefficient covariates. The frequency with which $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
 were dropped from the LAGR models ranged from 0.78
@@ -458,6 +522,7 @@ on which methods estimate an error variance that is closest to the
 known truth for the simulation. The results are all very similar to
 each other, indicating that no method was consistently better than
 the others in this simulation at fitting the model output.
+
 \begin{table}
 	\centering
 	\begin{tabular}{|ccc|c|ccc|}
@@ -465,8 +530,9 @@ the others in this simulation at fitting the model output.
 		\multicolumn{3}{|c|}{\begin{tabular}[c]{@{}c@{}}Simulation\\settings\end{tabular}} &  \multicolumn{1}{|c|}{\begin{tabular}[c]{@{}c@{}}Zero\\frequency\end{tabular}} &  \multicolumn{3}{|c|}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{y}$\end{tabular}} \\
 		$\beta_{1}(\bm{s})$ & $\rho$ & $\sigma_{\varepsilon}$ & $\hat{\beta}_2,\dots,\hat{\beta}_5$ & LAGR & VCR & Oracle \\
 		\hline 
+
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Tue Jul 22 18:32:09 2014
+% Wed Jul 23 10:52:39 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
     &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
@@ -491,17 +557,25 @@ the others in this simulation at fitting the model output.
 	\caption{For each setting of the simulation study, the frequency of exact zeroes in the estimates of $\hat{\beta}_2,\dots,\hat{\beta}_5$ as estimated by local adaptive grouped regularizaton (LAGR). Also, the mean integrated squared error (MISE) for the fitted output of each simulation setting, under variable selection via LAGR, locally linear regression without selection (VCR), and by locally linear regression with oracular selection (Oracle). Highlighting indicates the \textbf{closest} and \emph{next-closest} to the actual error variance $\sigma_\varepsilon^2$ for that simulation setting.}
 	\label{tab:misey}
 \end{table}
+
 The proposed LAGR method was accurate in selection and estimation,
 with estimation accuracy for $\beta_{1}(\bm{s})$ about equal to that
 of the VCR model with no selection, and with consistently better accuracy
 for estimating $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$.
+
 There was minimal difference in the performance of the proposed LAGR
 method between low ($\sigma_{\varepsilon}=0.5$) and high ($\sigma_{\varepsilon}=1$)
 error variance, and between no ($\rho=0$) and moderate ($\rho=0.5$)
 correlation among the covariates. But the selection and estimation
 accuracy did decline when there was high ($\rho=0.9$) correlation
 among the covariates.
+
+
 \section{Data Example\label{sec:example}}
+
+
+
+
 The proposed LAGR estimation method was used to estimate the coefficients
 in a VCR model of the effect of some covariates on the price of homes
 in Boston based on data from the 1970 U.S. census\citep{Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997}.
@@ -515,15 +589,21 @@ and LSTAT (the percentage of the tract's residents who are considered
 nearest neighbors-type bandwidth, meaning that the sum of kernel weights
 for each local model was 20\% of the total number of observations.
 The kernel used was the Epanechnikov kernel.
+
 A summary of the local coefficients is in Table \ref{tab:boston-coefs-lagr}.
 It indicates that RM is the only covariate with a positive mean of
 the local coefficients. The coefficient of the CRIM variable was estimated
 to be exactly zero at 49\%
 of the locations. The percentage for the RAD variable was 37\%.
+
 \begin{figure}
+
 \includegraphics[width=\maxwidth]{figure/boston-plots} 
+
+
 \caption{Coefficients for the Boston house price data as estimated by local adaptive grouped regularization.\label{fig:boston-lagr-coefs}}
 \end{figure}
+
 Estimates of the regression coefficients are plotted in Figure \ref{fig:boston-lagr-coefs}.
 One interesting result is that the TAX variable was nowhere found
 to be an important predictor of the median house price. Another is
@@ -537,8 +617,9 @@ and negative in others. This indicates that there are parts of Boston
 where access to radial roads is associated with a greater median house
 price and parts where it is associated with a lesser median house
 price.
+
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Tue Jul 22 18:32:16 2014
+% Wed Jul 23 10:52:46 2014
 \begin{table}
 \centering
 \begin{tabular}{|c|ccc|}
@@ -555,6 +636,8 @@ CRIM & -0.07 & 0.08 & 0.49 \\
 \caption{The mean, standard deviation, and proportion of zeros among the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by LAGR.} 
 \label{tab:boston-coefs-lagr}
 \end{table}
+
+
 In their example using the same data, \citet{Sun-Yan-Zhang-Lu-2014}
 estimated that the coefficients of RAD annd LSTAT should be constant,
 at $0.36$ and $-0.45$, respectively. That conclusion differs from
@@ -562,17 +645,25 @@ our result, which says that the mean local coefficient of RAD is actually
 negative (\ensuremath{-0.08}), while
 our mean fitted local coefficient for LSTAT was more negative than
 the estimate of \citet{Sun-Yan-Zhang-Lu-2014}.
-\section{Extension to GLMs\label{sec:lagr-gllm}}
+
+
+\section{Extension to Generalized Linear Regression\label{sec:lagr-gllm}}
+
+
 \subsection{Model}
+
 Generalized linear models (GLMs) extend the linear regression model
 to a response variable following any distribution in a single-parameter
 exponential family \citep{McCullagh-Nelder-1989}. As was the case
 for the local linear regression model, local generalized GLM coefficients
 are smooth functions of location. If the response variable $y$ is
 from an exponential-family distribution then its density is 
+
 \[
 f\left(y(\bm{s})|\bm{x}(\bm{s}),\theta(\bm{s}0\right)=c\left(y(\bm{s}0\right)\times\exp\left[\theta(\bm{s})y(\bm{s})-b\left(\theta(\bm{s})\right)\right]
 \]
+
+
 where $\phi$ and $\theta$ are parameters, $E\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} =\mu(\bm{s})=b'\left(\theta(\bm{s})\right)$,
 $\theta(\bm{s})=(g\circ b')^{-1}\left(\eta(\bm{s})\right)$, $\eta(\bm{s})=\bm{x}(\bm{s})^{T}\bm{\beta}(\bm{s})=g\left(\mu(\bm{s})\right)$,
 and $\text{\text{Var}}\left\{ y(\bm{s})|\bm{x}(\bm{s})\right\} =b''\left(\theta(\bm{s})\right)$.
@@ -580,14 +671,20 @@ The function $g(\cdot)$ is called the link function. If its inverse
 $g^{-1}(\cdot)=b'(\cdot)$, then the composition $(g\circ b')(\cdot)$
 is the identity function. This particular $g$ is called the canonical
 link. 
+
+
 \subsection{Coefficient Estimation via Local Quasi-likelihood}
+
 Assuming the canonical link, all that is required is to specify the
 mean-variance relationship via the variance function, $V\left(\mu(\bm{s})\right)$.
 Then the local coefficients can be estimated by maximizing the local
 quasi-likelihood 
+
 \begin{align}
 \mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right),
 \end{align}
+
+
 where $\bm{Z}\left(\bm{s}\right)$ and $\bm{\zeta}\left(\bm{s}\right)$
 are defined in (\ref{eq:augmented-covariates}) and (\ref{eq:augmented-coefficients}).
 The local quasi-likelihood generalizes the local log-likelihood that
@@ -596,9 +693,12 @@ The quasi-likelihood is convex, and is defined in terms of its derivative,
 the quasi-score function $\left(\partial/\partial\mu\right)Q(\mu,y)=(y-\mu)\{V(\mu)\}^{-1}$.
 The local quasi-likelihood is maximized by setting the local quasi-score
 equation to zero:
+
 \begin{align}
 (\partial/\partial\bm{\zeta})\mathcal{\ell}^{*}\left(\hat{\bm{\zeta}}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\left(y_{i}-\hat{\mu}(\bm{s}_{i};\bm{s})\right)\left\{ V\left(\hat{\mu}(\bm{s}_{i};\bm{s})\right)\right\} ^{-1}\bm{z}_{i}=\bm{0}_{3p},
 \end{align}
+
+
 where $\hat{\mu}(\bm{s}_{i};\bm{s})=g^{-1}\left(\bm{z}_{i}^{T}\hat{\bm{\zeta}}(\bm{s})\right)$
 is the mean at location $\bm{s}_{i}$ estimated using the coefficients
 $\hat{\bm{\zeta}}(\bm{s})$ fitted at location $\bm{s}$. The asymptotic
@@ -607,27 +707,40 @@ with a one-dimensional effect-modifying parameter are given in \citet{Cai-Fan-Li
 For coefficients that vary in two dimensions, it follows from Lemmas
 \ref{lemma:omega} and \ref{lemma:delta} that the distribution of
 the estimated local coefficients is:
+
 \[
 \left\{ nh^{2}f(\bm{s})\right\} ^{1/2}\left[\tilde{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right\} \right]\xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right).
 \]
+
+
+
 \subsection{LAGR Penalized Local Likelihood}
+
 As in the case of linear models, the LAGR for GLMs is a grouped $\ell_{1}$
 regularization method. Now, though, we use a penalized local quasi-likelihood:
+
 \begin{align}
 \mathcal{J}\left(\bm{\zeta}(\bm{s})\right) & =\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\label{eq:adaptive-lasso-GLLM}\\
  & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right)+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{(j)}(\bm{s})\|.
 \end{align}
-As in the case of gaussian data, let $\phi_{j}(\bm{s})=\lambda_{n}\|\tilde{\bm{\zeta}}_{(j)}(\bm{s})\|^{-\gamma}$,
+
+
+As in the case of Gaussian data, let $\phi_{j}(\bm{s})=\lambda_{n}\|\tilde{\bm{\zeta}}_{(j)}(\bm{s})\|^{-\gamma}$,
 where $\lambda_{n}>0$ is a the local tuning parameter applied to
 all coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{(j)}(\bm{s})$
 is the vector of unpenalized local coefficients.
+
+
 \subsection{Oracle properties of LAGR in the GLM setting}
+
 The following are additional to the definitions and assumptions of
 Section \ref{sub:oracle-properties}:
+
 Define $\rho(\bm{s},\bm{z})=\left[g_{1}\left(\mu(\bm{s},\bm{z})\right)\right]^{2}Var\left\{ Y(\bm{s})|\bm{X}(\bm{s}),\bm{s}\right\} $,
 where $g_{1}(\cdot)=g'_{0}(\cdot)/g'(\cdot)$, and $g_{0}(\cdot)$
 is the canonical link function. So when the canonical link is used,
 $\rho(\bm{s},\bm{z})=V\left(\mu(\bm{s},\bm{z})\right)$. Let $\Gamma\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}(\bm{s})\right)\bm{X}(\bm{s})\bm{X}(\bm{s})^{T}|\bm{s},\bm{Z}(\bm{s})=\bm{z}\right\} $.
+
 Assume the following conditions.
 \begin{itemize}
 \item[(A.9)] The functions $g'''\left(\bm{s}\right)$, $\nabla\Gamma\left(\bm{s}\right)$,
@@ -636,33 +749,32 @@ are continuous at $\bm{s}$.
 \item[(A.10)] The function $\left(\partial^{2}/\partial\mu^{2}\right)Q\left(g^{-1}\left(\mu\right),y\right)<0$
 for $\mu\in\mathbb{R}$ and $y$ in the range of the response.\end{itemize}
 \begin{thm}[Asymptotic normality]
-\label{theorem:normality-glm} 
-If $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-then 
-\[
-\left\{ nh^{2}f(\bm{s})\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\left(2\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{\left(a\right)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{\left(a\right)}(\bm{s})\right\} \right]\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
-\]
+\label{theorem:normality-glm}  Under (A.1)-(A.10), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
+and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$ then 
+\begin{gather*}
+\left\{ nh^{2}f(\bm{s})\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\left(2\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{\left(a\right)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{\left(a\right)}(\bm{s})\right\} \right]\\
+\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\Gamma^{-1}(\bm{s})\right)
+\end{gather*}
 \end{thm}
+
 \begin{thm}[Selection consistency]
-\label{theorem:selection-glm}
-If $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-then 
+\label{theorem:selection-glm}  Under (A.1)-(A.10), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
+and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$ then 
 \[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to0\text{ if }j\le p_{0},\text{ and}
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to0\text{ if }j\le p_{0},\text{ and }P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
 \]
  
-\[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
-\]
 \end{thm}
-\appendix
 
+\section{References}
 \bibliographystyle{chicago}
 \bibliography{../../references/gwr}
 
 \clearpage
 \pagenumbering{arabic}
+\appendix
 
+\appendix
 \section*{Appendix: Proof of Theorem \ref{theorem:normality}\label{sec:gaussian-normality-proof} }
 \begin{proof}
 Let $H_{n}(\bm{u})=\mathcal{J}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}\left(\bm{\zeta}(\bm{s})\right)$
@@ -883,7 +995,7 @@ n\alpha_{n}^{3}E\left(\left|\xi_{1}\right|^{3}\right)=O\left(\alpha_{n}\right)\t
 We observe that (\ref{eq:lyapunov-bound}) implies that $n\alpha_{n}^{3}\left|E\left(\xi_{1}\right)\right|^{3}\to0$,
 and since $E\left(\left|\xi_{1}-E\xi_{1}\right|^{3}\right)<E\left\{ \left(\left|\xi_{1}\right|+\left|E\xi_{1}\right|\right)^{3}\right\} \to0$,
 the Lyapunov condition is satisfied. Thus, $\Omega_{n}$ asymptotically
-follows a gaussian distribution and the result follows from the quadratic
+follows a Gaussian distribution and the result follows from the quadratic
 approximation lemma.
 \end{proof}
 \section*{Appendix: Proof of Theorem \ref{theorem:selection-glm}}
