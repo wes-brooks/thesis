@@ -3,46 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: aux/estimation.aux
 The style file: chicago.bst
 Database file #1: ../../references/gwr.bib
-Warning--page numbers missing in Pelletier-Santer-Vidot-2007
-You've used 30 entries,
+You've used 27 entries,
             2861 wiz_defined-function locations,
-            827 strings with 9665 characters,
-and the built_in function-call counts, 20949 in all, are:
-= -- 1803
-> -- 1483
+            805 strings with 8917 characters,
+and the built_in function-call counts, 18782 in all, are:
+= -- 1620
+> -- 1309
 < -- 1
-+ -- 446
-- -- 524
-* -- 1826
-:= -- 3809
-add.period$ -- 91
-call.type$ -- 30
-change.case$ -- 210
-chr.to.int$ -- 30
-cite$ -- 31
-duplicate$ -- 532
-empty$ -- 1298
-format.name$ -- 616
-if$ -- 3930
++ -- 392
+- -- 468
+* -- 1615
+:= -- 3418
+add.period$ -- 82
+call.type$ -- 27
+change.case$ -- 187
+chr.to.int$ -- 27
+cite$ -- 27
+duplicate$ -- 481
+empty$ -- 1177
+format.name$ -- 548
+if$ -- 3527
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 32
-newline$ -- 153
-num.names$ -- 304
-pop$ -- 141
+missing$ -- 29
+newline$ -- 138
+num.names$ -- 274
+pop$ -- 127
 preamble$ -- 1
-purify$ -- 392
+purify$ -- 351
 quote$ -- 0
-skip$ -- 603
+skip$ -- 547
 stack$ -- 0
-substring$ -- 1223
-swap$ -- 160
+substring$ -- 1111
+swap$ -- 144
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 580
-warning$ -- 1
-while$ -- 303
+type$ -- 520
+warning$ -- 0
+while$ -- 277
 width$ -- 0
-write$ -- 394
-(There was 1 warning)
+write$ -- 355

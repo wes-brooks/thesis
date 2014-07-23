@@ -8,6 +8,7 @@ estimation = []
 proofs = []
 body = false
 appendix = false
+theorem = false
 
 #Read the source file
 File.open(source, "r").each_line do |line|
@@ -16,17 +17,29 @@ File.open(source, "r").each_line do |line|
         puts "starting body"
     end
 
-    if body
-        if not line == "\n"
-            if line.include?("\\section*{Appendix") 
-                body = false
-                appendix = true
-                puts "ending body, beginning appendix"
-            else
-                estimation << line
-            end
+    if body and not theorem
+        if line.include?("\\begin{thm}")
+            theorem = true
+        elsif line.include?("\\appendix") 
+            body = false
+            appendix = true
+            puts "ending body, beginning appendix"        
+        else
+            estimation << line
         end
     end
+    
+    #Dont include blank lines within theorems
+    if body and theorem
+        if line != "\n"
+            estimation << line
+        end
+        
+        if line.include?("\\end{thm}")
+            theorem = false
+        end
+    end
+    
 
     if appendix
         if not line == "\n"
