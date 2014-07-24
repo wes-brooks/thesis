@@ -381,7 +381,7 @@ Consider
  That is, 
 \begin_inset Formula 
 \begin{align}
-y_{i}=\bm{x}_{i}^{T}\bm{\beta}_{i}(\bm{s}_{i})+\varepsilon_{i}.\label{eq:lm(s)}
+y_{i}=\bm{x}_{i}^{T}\bm{\beta}(\bm{s}_{i})+\varepsilon_{i}.\label{eq:lm(s)}
 \end{align}
 
 \end_inset
