@@ -3,12 +3,20 @@
 source = "estimation.tex"
 destination = "estimation.tex"
 template = "template.tex"
+abstract = "abstract.txt"
+keywords = "keywords.txt"
 
 estimation = []
 proofs = []
 body = false
 appendix = false
 theorem = false
+
+#Read the abstract
+abstract = IO.read(abstract)
+
+#Read the keywords
+keywords = IO.read(keywords)
 
 #Read the source file
 File.open(source, "r").each_line do |line|
@@ -61,6 +69,13 @@ File.open(template, "r").each_line do |line|
     template_contents << line
 end
 
+#Replace the abstract section in template:
+loc = template_contents.index {|s| s.include?("[abstract]")}
+template_contents[loc..loc] = abstract
+
+#Replace the keywords section in template:
+loc = template_contents.index {|s| s.include?("[keywords]")}
+template_contents[loc..loc] = keywords
 
 #Replace the body section in template:
 loc = template_contents.index {|s| s.include?("[body]")}
