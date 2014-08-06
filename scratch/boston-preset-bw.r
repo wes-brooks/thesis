@@ -94,7 +94,7 @@ boston.loc = rbind(boston.c[,c("LON", "LAT")], dtn.loc)
 rownames(boston.loc) = boston.tracts@data$TRACTBASE
 
 #Make a lagr model for the bandwidth and save it:
-model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT-1, data=boston.c, coords=boston.c[,c('LON','LAT')], fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=0.2, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT, data=boston.c, coords=c('LON','LAT'), fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=0.2, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
 
 stop()
 
