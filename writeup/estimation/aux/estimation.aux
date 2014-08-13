@@ -38,52 +38,54 @@
 \newlabel{eq:penalized-least-squares}{{6}{6}}
 \newlabel{sub:oracle-properties}{{3.2}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Oracle Properties}{7}}
+\citation{Sun-Yan-Zhang-Lu-2014}
 \citation{Cai-Fan-Li-2000}
 \citation{Sun-Yan-Zhang-Lu-2014}
 \citation{Sun-Yan-Zhang-Lu-2014}
-\newlabel{theorem:normality}{{1}{8}}
-\newlabel{theorem:selection}{{2}{8}}
 \citation{Mallows-1973,Stein-1981,Akaike-1973}
+\newlabel{theorem:normality}{{1}{9}}
+\newlabel{theorem:selection}{{2}{9}}
 \citation{Efron:2004a}
 \citation{Yuan-Lin-2006}
 \citation{Hurvich-1998}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Tuning Parameter Selection}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Tuning Parameter Selection}{10}}
 \newlabel{sec:simulations}{{4}{10}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Simulation Study}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Simulation Setup}{10}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The step function (left), gradient function (middle), and parabola function (right) that were used as the coefficient function $\beta _{1}(\bm  {s})$ in the VCR model $y_{i}=x_{1}(\bm  {s}_{i})\beta _{1}(\bm  {s}_{i})+\varepsilon _{i}$ when generating the data for the simulation study.}}{11}}
 \newlabel{fig:simulation-coefficient-functions}{{1}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Simulation Results}{11}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces For each setting in the simulation study, the mean integrated squared error (MISE) of the coefficient estimates. First, the MISE of $\mathaccentV {hat}05E{\beta }_1$ from estimation by local adaptive grouped regularization (LAGR), by locally linear regression without selection (VCR), and by locally linear regression with oracular selection (Oracle). Here, highlighting indicates the \textbf  {smallest} and \emph  {next-smallest} MISE for $\mathaccentV {hat}05E{\beta }_1$. Also, the MISE of $\mathaccentV {hat}05E{\beta }_2,\dots  ,\mathaccentV {hat}05E{\beta }_5$ from estimation by LAGR and VCR. Here, highlighting indicates the \textbf  {smallest} MISE.}}{12}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces For each setting as a combination of coefficient surface $\beta _1(\bm  {s})$, cross-covariate correlation $\rho $, and error variance $\sigma ^2$, the mean integrated squared error (MISE) of the coefficient estimates. In the middle three columns, the MISE of $\mathaccentV {hat}05E{\beta }_1$ from estimation by local adaptive grouped regularization (LAGR), by locally linear regression without selection (VCR), and by locally linear regression with oracular selection (Oracle). Here, highlighting indicates the \textbf  {smallest} and \emph  {next-smallest} MISE for $\mathaccentV {hat}05E{\beta }_1$. In the last two columns, the MISE of $\mathaccentV {hat}05E{\beta }_2,\dots  ,\mathaccentV {hat}05E{\beta }_5$ from estimation by LAGR and VCR. Here, highlighting indicates the \textbf  {smallest} MISE.}}{12}}
 \newlabel{tab:mise}{{1}{12}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces For each setting of the simulation study, the frequency of exact zeroes in the estimates of $\mathaccentV {hat}05E{\beta }_2,\dots  ,\mathaccentV {hat}05E{\beta }_5$ as estimated by local adaptive grouped regularizaton (LAGR). Also, the mean integrated squared error (MISE) for the fitted output of each simulation setting, under variable selection via LAGR, locally linear regression without selection (VCR), and by locally linear regression with oracular selection (Oracle). Highlighting indicates the \textbf  {closest} and \emph  {next-closest} to the actual error variance $\sigma _\varepsilon ^2$ for that simulation setting.}}{13}}
-\newlabel{tab:misey}{{2}{13}}
 \citation{Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997}
-\newlabel{sec:example}{{5}{14}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Data Example}{14}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Coefficients for the Boston house price data as estimated by local adaptive grouped regularization.}}{15}}
-\newlabel{fig:boston-lagr-coefs}{{2}{15}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Simulation Results}{13}}
+\newlabel{sec:example}{{5}{13}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Data Example}{13}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces For each setting as a combination of coefficient surface $\beta _1(\bm  {s})$, cross-covariate correlation $\rho $, and error variance $\sigma ^2$, the frequency of exact zeroes in the estimates of $\mathaccentV {hat}05E{\beta }_2,\dots  ,\mathaccentV {hat}05E{\beta }_5$ as estimated by local adaptive grouped regularizaton (LAGR). Also, the mean integrated squared error (MISE) for the fitted output of each simulation setting, under variable selection via LAGR, locally linear regression without selection (VCR), and by locally linear regression with oracular selection (Oracle). Highlighting indicates the \textbf  {closest} and \emph  {next-closest} to the actual error variance $\sigma _\varepsilon ^2$ for that simulation setting.}}{14}}
+\newlabel{tab:misey}{{2}{14}}
 \citation{Sun-Yan-Zhang-Lu-2014}
 \citation{Sun-Yan-Zhang-Lu-2014}
 \citation{McCullagh-Nelder-1989}
 \citation{Cai-Fan-Li-2000}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces The mean, standard deviation, and proportion of zeros among the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by LAGR.}}{16}}
-\newlabel{tab:boston-coefs-lagr}{{3}{16}}
-\newlabel{sec:lagr-gllm}{{6}{16}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Extension to Generalized Linear Regression}{16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Local GLM and Local Quasi-likelihood Estimation}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Coefficients for the Boston house price data as estimated by local adaptive grouped regularization.}}{16}}
+\newlabel{fig:boston-lagr-coefs}{{2}{16}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces The mean, standard deviation, and proportion of zeros among the estimates of the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by local adaptive grouped regularization. The covariates are CRIM (per capita crime rate in the census tract), RM (average number of rooms per home sold in the census tract), RAD (an index of the tract's access to radial roads), TAX (property tax per USD10,000 of property value), and LSTAT (percentage of the tract's residents who are considered ``lower status").}}{17}}
+\newlabel{tab:boston-coefs-lagr}{{3}{17}}
+\newlabel{sec:lagr-gllm}{{6}{17}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Extension to Generalized Linear Regression}{17}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Local GLM and Local Quasi-likelihood Estimation}{17}}
 \citation{Cai-Fan-Li-2000}
-\newlabel{eq:local-quasi-likelihood}{{7}{17}}
+\newlabel{eq:local-quasi-likelihood}{{7}{18}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2}LAGR Penalized Local Likelihood and Oracle Properties}{18}}
+\citation{Cai-Fan-Li-2000}
 \bibstyle{chicago}
 \bibdata{../../references/gwr}
 \bibcite{Akaike-1973}{{1}{1973}{{Akaike}}{{Akaike}}}
+\newlabel{theorem:normality-glm}{{3}{20}}
+\newlabel{theorem:selection-glm}{{4}{20}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusions and Discussion}{20}}
 \bibcite{Antoniadis:2012a}{{2}{2012}{{Antoniadas et~al.}}{{Antoniadas, Gijbels, and Verhasselt}}}
 \bibcite{Cai-Fan-Li-2000}{{3}{2000}{{Cai et~al.}}{{Cai, Fan, and Li}}}
 \bibcite{Cleveland-Grosse-1991}{{4}{1991}{{Cleveland and Grosse}}{{Cleveland and Grosse}}}
-\newlabel{theorem:normality-glm}{{3}{19}}
-\newlabel{theorem:selection-glm}{{4}{19}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}References}{19}}
 \bibcite{Efron:2004a}{{5}{2004}{{Efron}}{{Efron}}}
 \bibcite{Fan-Gijbels-1996}{{6}{1996}{{Fan and Gijbels}}{{Fan and Gijbels}}}
 \bibcite{Fan-Zhang-1999}{{7}{1999}{{Fan and Zhang}}{{Fan and Zhang}}}
@@ -107,17 +109,17 @@
 \bibcite{Wang-2008b}{{25}{2008}{{Wang et~al.}}{{Wang, Mei, and Yan}}}
 \bibcite{Yuan-Lin-2006}{{26}{2006}{{Yuan and Lin}}{{Yuan and Lin}}}
 \bibcite{Zou-2006}{{27}{2006}{{Zou}}{{Zou}}}
-\newlabel{sec:gaussian-normality-proof}{{7}{1}}
+\newlabel{sec:gaussian-normality-proof}{{7}{24}}
 \citation{Geyer-1994,Knight-Fu-2000}
 \citation{Sun-Yan-Zhang-Lu-2014}
-\newlabel{sec:gaussian-selection-proof}{{7}{2}}
+\newlabel{sec:gaussian-selection-proof}{{7}{25}}
 \citation{Sun-Yan-Zhang-Lu-2014}
 \citation{Sun-Yan-Zhang-Lu-2014}
-\newlabel{eq:selection}{{.1}{3}}
-\newlabel{lemma:omega}{{1}{4}}
-\newlabel{lemma:delta}{{2}{4}}
-\newlabel{eq:taylor-expanded-glm-criterion}{{.2}{6}}
+\newlabel{eq:selection}{{.1}{26}}
+\newlabel{eq:taylor-expanded-glm-criterion}{{.2}{28}}
 \citation{Fan-Gijbels-1996}
 \citation{Geyer-1994,Knight-Fu-2000}
-\newlabel{eq:lyapunov-bound}{{.3}{7}}
-\newlabel{eq:glm-selection}{{.4}{8}}
+\newlabel{eq:lyapunov-bound}{{.3}{29}}
+\newlabel{eq:glm-selection}{{.4}{30}}
+\newlabel{lemma:omega}{{1}{30}}
+\newlabel{lemma:delta}{{2}{31}}

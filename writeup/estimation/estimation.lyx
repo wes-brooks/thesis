@@ -856,6 +856,58 @@ reference "eq:zeta-hat"
 .
 \end_layout
 
+\begin_layout Standard
+Minimization of 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:penalized-least-squares"
+
+\end_inset
+
+ is by blockwise coordinate descent, where each block is a covariate group
+ (one raw covariate and its interactions on location).
+ Software for estimating a LAGR model is available in the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+texttt{R}
+\end_layout
+
+\end_inset
+
+ package 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+texttt{lagr}
+\end_layout
+
+\end_inset
+
+, available at 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+texttt{github.com/wrbrooks/lagr}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Subsection
 Oracle Properties
 \begin_inset CommandInset label
@@ -993,34 +1045,20 @@ status open
 
 \end_inset
 
-There are 
-\begin_inset Formula $p_{0}<p$
+The coefficient functions 
+\begin_inset Formula $ $
 \end_inset
 
- covariates 
-\begin_inset Formula $\bm{X}_{(a)}(\bm{s})$
+
+\begin_inset Formula $\beta_{j}(\cdot)$
 \end_inset
 
- with nonzero local regression coefficients, denoted 
-\begin_inset Formula $\bm{\beta}_{(a)}(\bm{s})\ne\bm{0}$
+ for 
+\begin_inset Formula $j=1,\dots,p$
 \end_inset
 
-.
- Without loss of generality, assume these are covariates 
-\begin_inset Formula $1,\dots,p_{0}$
-\end_inset
-
-.
- The remaining 
-\begin_inset Formula $p-p_{0}$
-\end_inset
-
- covariates 
-\begin_inset Formula $\bm{X}_{(b)}(\bm{s})$
-\end_inset
-
- have true coefficients equal to zero, denoted 
-\begin_inset Formula $\bm{\beta}_{(b)}(\bm{s})=\bm{0}$
+ have continuous second-order partial derivatives at 
+\begin_inset Formula $\bm{s}$
 \end_inset
 
 .
@@ -1057,18 +1095,6 @@ The covariates
 \begin_inset Formula $\bm{s}$
 \end_inset
 
-, 
-\begin_inset Formula $E\left|\bm{X}(\bm{s})\right|^{2q}<\infty$
-\end_inset
-
-, and 
-\begin_inset Formula $E\left|\varepsilon(\bm{s})\right|^{2q}<\infty$
-\end_inset
-
- for some 
-\begin_inset Formula $q>2$
-\end_inset
-
 .
 \end_layout
 
@@ -1078,60 +1104,6 @@ status open
 
 \begin_layout Plain Layout
 (A.4)
-\end_layout
-
-\end_inset
-
-The coefficient functions 
-\begin_inset Formula $ $
-\end_inset
-
-
-\begin_inset Formula $\beta_{j}(\cdot)$
-\end_inset
-
- for 
-\begin_inset Formula $j=1,\dots,p$
-\end_inset
-
- have continuous second-order partial derivatives at 
-\begin_inset Formula $\bm{s}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Itemize
-\begin_inset Argument item:1
-status open
-
-\begin_layout Plain Layout
-(A.6)
-\end_layout
-
-\end_inset
-
-The density function 
-\begin_inset Formula $f(\bm{s})$
-\end_inset
-
- of the sampling locations is differentiable at 
-\begin_inset Formula $\bm{s}$
-\end_inset
-
- and 
-\begin_inset Formula $f(\bm{s})>0$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Itemize
-\begin_inset Argument item:1
-status open
-
-\begin_layout Plain Layout
-(A.6)
 \end_layout
 
 \end_inset
@@ -1156,7 +1128,61 @@ status open
 status open
 
 \begin_layout Plain Layout
-(A.7)
+(A.5)
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\{\bm{s}_{i}\}$
+\end_inset
+
+ is a sequence of fixed design points on a bounded compact support 
+\begin_inset Formula $\mathcal{S}$
+\end_inset
+
+.
+ Further, there exists a positive joint density function 
+\begin_inset Formula $f(\cdot)$
+\end_inset
+
+ satisfying a Lipschitz condition such that 
+\begin_inset Formula 
+\[
+\sup_{\bm{s}\text{∈}\mathcal{S}}\left|n^{-1}\sum_{i=1}^{n}\left[r(\bm{s}_{i})K_{h}(\|\bm{s}_{i}-\bm{s}\|)\right]-\int r(\bm{t})K_{h}(\|\bm{t}-\bm{s}\|)f(\bm{t})d\bm{t}\right|=O(h)    
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $f(\cdot)$
+\end_inset
+
+ is bounded away from zero on 
+\begin_inset Formula $\mathcal{S}$
+\end_inset
+
+, 
+\begin_inset Formula $r(\cdot)$
+\end_inset
+
+ is any bounded continuous function, and 
+\begin_inset Formula $K_{h}(\cdot)=K(\cdot/h)/h^{2}$
+\end_inset
+
+ where 
+\begin_inset Formula $K(\cdot)$
+\end_inset
+
+ satisfies condition (1).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+(A.6)
 \end_layout
 
 \end_inset
@@ -1165,21 +1191,86 @@ status open
 \begin_inset Formula $h=O\left(n^{-1/6}\right)$
 \end_inset
 
-
+.
 \end_layout
 
-\begin_layout Standard
-These regularity conditions are generally similar to those of 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Cai-Fan-Li-2000"
+\begin_layout Itemize
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+(A.7)
+\end_layout
 
 \end_inset
 
+There are 
+\begin_inset Formula $p_{0}<p$
+\end_inset
+
+ covariates 
+\begin_inset Formula $\bm{X}_{(a)}(\bm{s})$
+\end_inset
+
+ with nonzero local regression coefficients, denoted 
+\begin_inset Formula $\bm{\beta}_{(a)}(\bm{s})\ne\bm{0}$
+\end_inset
+
+.
+ Without loss of generality, assume these are covariates 
+\begin_inset Formula $1,\dots,p_{0}$
+\end_inset
+
+.
+ The remaining 
+\begin_inset Formula $p-p_{0}$
+\end_inset
+
+ covariates 
+\begin_inset Formula $\bm{X}_{(b)}(\bm{s})$
+\end_inset
+
+ have coefficients equal to zero, denoted 
+\begin_inset Formula $\bm{\beta}_{(b)}(\bm{s})=\bm{0}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+(A.8)
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
+\end_inset
+
  and 
+\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Conditions (A.1)--(A.4) are common in the literature on nonparametric estimation,
+ for instance see conditions (1)--(3) of 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Sun-Yan-Zhang-Lu-2014"
+
+\end_inset
+
+ and conditions (5) and (6) of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cai-Fan-Li-2000"
 
 \end_inset
 
@@ -1208,136 +1299,42 @@ key "Sun-Yan-Zhang-Lu-2014"
 \begin_inset Formula $\hat{\bm{\beta}}(\bm{s})$
 \end_inset
 
-; its differentiability and that of 
+; its differentiability is used in the Taylor's expansions.
+ Condition (A.4) is used when bounding the remainder term in the Taylor's
+ expansions.
+ Condition (A.5) is the same as condition (4) of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sun-Yan-Zhang-Lu-2014"
+
+\end_inset
+
+ and see Remark 1 of that paper for a discussion of how this condition is
+ more general than the case of strict infill asymptotics where the elements
+ of 
+\begin_inset Formula $\{\bm{s}_{i}\}$
+\end_inset
+
+ are 
+\begin_inset Formula $iid$
+\end_inset
+
+ as density 
 \begin_inset Formula $f(\cdot)$
 \end_inset
 
- are used to approximate those functions by Taylor's expansions.
- The condition on the moments of 
-\begin_inset Formula $Y$
-\end_inset
-
- is used when bounding the remainder term in the Taylor's expansions.
-\end_layout
-
-\begin_layout Theorem
-\begin_inset CommandInset label
-LatexCommand label
-name "theorem:normality"
-
-\end_inset
-
- 
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-Asymptotic normality
-\end_layout
-
-\end_inset
-
- Under (A.1)--(A.8), if 
-\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-\end_inset
-
- and 
-\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-\end_inset
-
-, then it follows that
-\end_layout
-
-\begin_layout Theorem
-\begin_inset Formula 
-\begin{gather*}
-\left\{ f(\bm{s})h^{2}n\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-2^{-1}\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} \right]\\
-\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi_{(a)}(\bm{s})^{-1}\right),
-\end{gather*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Theorem
-where 
-\begin_inset Formula $\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} =\left(\nabla_{uu}^{2}\bm{\beta}_{1}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{1}(\bm{s}),\dots,\nabla_{uu}^{2}\bm{\beta}_{p_{o}}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{p_{o}}(\bm{s})\right)^{T}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout --Separator--
-
-\end_layout
-
-\begin_layout Theorem
-\begin_inset CommandInset label
-LatexCommand label
-name "theorem:selection"
-
-\end_inset
-
-
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-Selection consistency
-\end_layout
-
-\end_inset
-
- Under (A.1)--(A.8), if 
-\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-\end_inset
-
- and 
-\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-\end_inset
-
-, then it follows that 
-\begin_inset Formula 
-\[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
-\]
-
-\end_inset
-
-
+, in which case the Lipschitz condition in (A.5) is satisfied with probability
+ one.
+ Under condition (A.6), the coefficient estimates attain the optimal rate
+ of convergence for bivariate nonparametric regression.
 \end_layout
 
 \begin_layout Standard
-Together, Theorem 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "theorem:normality"
-
-\end_inset
-
- and Theorem 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "theorem:selection"
-
-\end_inset
-
- indicate that the LAGR estimates for true nonzero coefficients have the
- same asymptotic distribution as a local regression model where the true
- nonzero coefficients are known in advance, and that the LAGR estimates
- of true zero coefficients tend to zero with probability one.
- Thus, selection and estimation by LAGR has the oracle property.
- To establish the oracle properties of LAGR, we assumed that 
-\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-\end_inset
-
- and 
-\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-\end_inset
-
-.
- Therefore, 
+Condition (A.7) simply defines the setting for variable selection, where
+ under condition (A.8), the local penalty goes to zero on covariates with
+ true nonzero coefficients and to infinity on covariates with true zero
+ coefficients.
+ By (A.8), 
 \begin_inset Formula $h^{-1}n^{-1/2}\lambda_{n}\to0$
 \end_inset
 
@@ -1390,7 +1387,101 @@ reference "theorem:selection"
 \end_inset
 
 .
- The technical proof of theorems 
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "theorem:normality"
+
+\end_inset
+
+ 
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Asymptotic normality
+\end_layout
+
+\end_inset
+
+ Under (A.1)--(A.8),
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Formula 
+\begin{gather*}
+\left\{ f(\bm{s})h^{2}n\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-2^{-1}\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} \right]\\
+\xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi_{(a)}(\bm{s})^{-1}\right),
+\end{gather*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+where 
+\begin_inset Formula $\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} =\left(\nabla_{uu}^{2}\bm{\beta}_{1}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{1}(\bm{s}),\dots,\nabla_{uu}^{2}\bm{\beta}_{p_{o}}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{p_{o}}(\bm{s})\right)^{T}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout --Separator--
+
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "theorem:selection"
+
+\end_inset
+
+
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Selection consistency
+\end_layout
+
+\end_inset
+
+ Under (A.1)--(A.8), 
+\begin_inset Formula 
+\[
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Together, Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:normality"
+
+\end_inset
+
+ and Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:selection"
+
+\end_inset
+
+ indicate that the LAGR estimates for true nonzero coefficients have the
+ same asymptotic distribution as a local regression model where the true
+ nonzero coefficients are known in advance, and that the LAGR estimates
+ of true zero coefficients tend to zero with probability one.
+ Thus, selection and estimation by LAGR has the oracle property.
+ The technical proofs of theorems 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "theorem:normality"
@@ -2541,9 +2632,16 @@ end{tabular}
 
 	
 \backslash
-caption{For each setting in the simulation study, the mean integrated squared
- error (MISE) of the coefficient estimates.
- First, the MISE of $
+caption{For each setting as a combination of coefficient surface $
+\backslash
+beta_1(
+\backslash
+bm{s})$, cross-covariate correlation $
+\backslash
+rho$, and error variance $
+\backslash
+sigma^2$, the mean integrated squared error (MISE) of the coefficient estimates.
+ In the middle three columns, the MISE of $
 \backslash
 hat{
 \backslash
@@ -2559,7 +2657,7 @@ emph{next-smallest} MISE for $
 hat{
 \backslash
 beta}_1$.
- Also, the MISE of $
+ In the last two columns, the MISE of $
 \backslash
 hat{
 \backslash
@@ -2596,31 +2694,6 @@ end{table}
 
 \begin_layout Subsection
 Simulation Results
-\end_layout
-
-\begin_layout Standard
-The MISE of the estimates of 
-\begin_inset Formula $\beta_{1}(\bm{s})$
-\end_inset
-
- are in Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:mise"
-
-\end_inset
-
-.
- Recall that 
-\begin_inset Formula $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
-\end_inset
-
- are exactly zero across the entire domain.
- Oracle selection will estimate these coefficients perfectly, so we focus
- on the comparison between estimation by LAGR and by the VCR model with
- no selection.
- These results show that for every simulation setting, LAGR estimation is
- more accurate than the standard VCR model.
 \end_layout
 
 \begin_layout Standard
@@ -2682,7 +2755,44 @@ colnames(zz) = c("Frequency of exact zero")
 \end_layout
 
 \begin_layout Standard
-From Table 
+The MISE of the coefficient estimates are in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:mise"
+
+\end_inset
+
+.
+ The MISE of true nonzero coefficient 
+\begin_inset Formula $\hat{\beta}_{1}(\bm{s})$
+\end_inset
+
+ was always most smallest under oracular selection.
+ The difference in MISE of 
+\begin_inset Formula $\hat{\beta}_{1}(\bm{s})$
+\end_inset
+
+ under LAGR versus VCR estimation was small and each method produced the
+ smaller MISE for nine of 
+\begin_inset Formula $18$
+\end_inset
+
+ settings.
+ Recall that 
+\begin_inset Formula $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+\end_inset
+
+ are exactly zero across the entire domain.
+ Oracle selection will estimate these coefficients perfectly, so we focus
+ on the comparison between estimation by LAGR and by the VCR model with
+ no selection.
+ These results show that for every simulation setting, LAGR estimation of
+ 
+\begin_inset Formula $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+\end_inset
+
+ is more accurate than the standard VCR model.
+ From Table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:misey"
@@ -3024,8 +3134,15 @@ end{tabular}
 
 	
 \backslash
-caption{For each setting of the simulation study, the frequency of exact
- zeroes in the estimates of $
+caption{For each setting as a combination of coefficient surface $
+\backslash
+beta_1(
+\backslash
+bm{s})$, cross-covariate correlation $
+\backslash
+rho$, and error variance $
+\backslash
+sigma^2$, the frequency of exact zeroes in the estimates of $
 \backslash
 hat{
 \backslash
@@ -3071,8 +3188,8 @@ end{table}
 \end_layout
 
 \begin_layout Standard
-The proposed LAGR method was accurate in selection and estimation, with
- estimation accuracy for 
+Overall, the proposed LAGR method was accurate in selection and estimation,
+ with estimation accuracy for 
 \begin_inset Formula $\beta_{1}(\bm{s})$
 \end_inset
 
@@ -3082,10 +3199,7 @@ The proposed LAGR method was accurate in selection and estimation, with
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-There was minimal difference in the performance of the proposed LAGR method
+ There was little difference in the performance of the proposed LAGR method
  between low (
 \begin_inset Formula $\sigma_{\varepsilon}=0.5$
 \end_inset
@@ -3289,8 +3403,8 @@ reference "tab:boston-coefs-lagr"
 .
  It indicates that RM is the only covariate with a positive mean local coefficie
 nt estimate.
- The coefficient of the CRIM variable was estimated to be exactly zero at
- 
+ The percentage of census tracts where the local coefficient was estimated
+ to be exactly zero was 
 \begin_inset ERT
 status open
 
@@ -3298,14 +3412,27 @@ status open
 
 
 \backslash
-Sexpr{100*round(boston.coef.summary['CRIM','Prop.
+Sexpr{100*round(boston.coef.summary['LSTAT','Prop.
  zero'],2)}
 \end_layout
 
 \end_inset
 
-% of the locations.
- The percentage for the RAD variable was 
+% for LSTAT, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{100*round(boston.coef.summary['RM','Prop.
+ zero'],2)}
+\end_layout
+
+\end_inset
+
+% for RM, 
 \begin_inset ERT
 status open
 
@@ -3319,7 +3446,38 @@ Sexpr{100*round(boston.coef.summary['RAD','Prop.
 
 \end_inset
 
-%.
+% for RAD, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{100*round(boston.coef.summary['CRIM','Prop.
+ zero'],2)}
+\end_layout
+
+\end_inset
+
+% for CRIM, 
+and 
+\lang english
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{100*round(boston.coef.summary['TAX','Prop.
+ zero'],2)}
+\end_layout
+
+\end_inset
+
+% for TAX.
 \end_layout
 
 \begin_layout Standard
@@ -3598,8 +3756,16 @@ boston.coef.table = xtable(boston.coef.summary, align="|c|ccc|")
 \begin_layout Plain Layout
 
 caption(boston.coef.table) = "The mean, standard deviation, and proportion
- of zeros among the local coefficients in a model for the median house price
- in census tracts in Boston, with coefficients selected and fitted by LAGR."
+ of zeros among the estimates of the local coefficients in a model for the
+ median house price in census tracts in Boston, with coefficients selected
+ and fitted by local adaptive grouped regularization.
+ The covariates are CRIM (per capita crime rate in the census tract), RM
+ (average number of rooms per home sold in the census tract), RAD (an index
+ of the tract's access to radial roads), TAX (property tax per USD10,000
+ of property value), and LSTAT (percentage of the tract's residents who
+ are considered ``lower status
+\backslash
+")."
 \end_layout
 
 \begin_layout Plain Layout
@@ -3630,7 +3796,7 @@ key "Sun-Yan-Zhang-Lu-2014"
 
 \end_inset
 
- estimated that the coefficients of RAD annd LSTAT should be constant, at
+ estimated that the coefficients of RAD and LSTAT should be constant, at
  
 \begin_inset Formula $0.36$
 \end_inset
@@ -3951,11 +4117,14 @@ Define
 \end_inset
 
  and 
-\begin_inset Formula $\bm{\Gamma}_{(a)}\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}_{(a)}(\bm{s})\right)\bm{X}_{(a)}(\bm{s})\bm{X}_{(a)}(\bm{s})^{T}|\bm{s},\bm{Z}(\bm{s})=\bm{z}\right\} $
+\begin_inset Formula 
+\[
+\bm{\Gamma}_{(a)}\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}_{(a)}(\bm{s})\right)\bm{X}_{(a)}(\bm{s})\bm{X}_{(a)}(\bm{s})^{T}|\bm{s},\bm{Z}(\bm{s})=\bm{z}\right\} .
+\]
+
 \end_inset
 
-.
- Assume the following regularity conditions:
+Assume the following regularity conditions:
 \end_layout
 
 \begin_layout Itemize
@@ -4021,8 +4190,17 @@ The function
 \end_layout
 
 \begin_layout Standard
-These additonal conditions are necessary for Taylor expansion of the local
- quasi-likelihood.
+These additonal conditions are typical in the nonparametric regression literatur
+e - see, for instance, conditions (1) and (2) of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cai-Fan-Li-2000"
+
+\end_inset
+
+.
+ Condition (A.9) is necessary for the Taylor's expansion of the local quasi-likel
+ihood.
  Condition (A.10) assures that the local quasi-likelihood is convex and has
  a unique minimizer.
 \end_layout
@@ -4044,15 +4222,7 @@ Asymptotic normality
 
 \end_inset
 
- Under (A.1)--(A.10), if 
-\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-\end_inset
-
- and 
-\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-\end_inset
-
-, then 
+ Under (A.1)--(A.10),
 \end_layout
 
 \begin_layout Theorem
@@ -4088,15 +4258,7 @@ Selection consistency
 
 \end_inset
 
- Under (A.1)--(A.10), if 
-\begin_inset Formula $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-\end_inset
-
- and 
-\begin_inset Formula $hn^{-1/2}b_{n}\xrightarrow{p}\infty$
-\end_inset
-
- then 
+ Under (A.1)--(A.10),
 \end_layout
 
 \begin_layout Theorem
@@ -4160,12 +4322,52 @@ reference "theorem:selection"
 
  does for the Gaussian setting: the true zero coefficients are dropped from
  the model with probability going to one.
- Thus, the oracle properties for the GLM setting are esatblished.
+ Thus, the oracle properties for the GLM setting are established.
+ The technical proofs are given in Appendix A and the necessary lemmas are
+ given in Appendix B.
+\end_layout
+
+\begin_layout Section
+Conclusions and Discussion
+\end_layout
+
+\begin_layout Standard
+Here we considered the case of two-dimensional effect-modifying parameter.
+ Similar results can be obtained when the effect-modifying parameter has
+ dimension other than two, but in higher dimensions the so-called 
+\begin_inset Quotes eld
+\end_inset
+
+curse of dimensionality
+\begin_inset Quotes erd
+\end_inset
+
+ means that the estimation accuracy quickly degrades.
+ Since the optimal rate of convergence for nonparametric regression is acheived
+ when 
+\begin_inset Formula $h=O\left(n^{-1/\{4+d\}}\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $d$
+\end_inset
+
+ is the dimension of the effect-modifying parameter, it follows that to
+ attain the oracle properties, the exponent in the adaptive weights for
+ LAGR estimation must satisfy 
+\begin_inset Formula $\gamma>d/2$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section*
 \start_of_appendix
-Appendix: Proof of Theorem 
+Appendix A: Proofs of Theorems
+\end_layout
+
+\begin_layout Subsection*
+Proof of Theorem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "theorem:normality"
@@ -4415,8 +4617,8 @@ reference "theorem:normality"
  follows.
 \end_layout
 
-\begin_layout Section*
-Appendix: Proof of Theorem 
+\begin_layout Subsection*
+Proof of Theorem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "theorem:selection"
@@ -4643,12 +4845,19 @@ reference "eq:selection"
  
 \end_layout
 
-\begin_layout Section*
-Appendix: Lemmas
+\begin_layout Subsection*
+Proof of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "theorem:normality-glm"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-The next proofs require the following lemmas.
+The next proofs require the lemmas in Appendix B.
  First, let 
 \begin_inset Formula $\bm{z}\in\mathbb{R}^{3p}$
 \end_inset
@@ -4682,99 +4891,6 @@ The next proofs require the following lemmas.
 
 -vector of quadratic forms of location interactions on the second derivatives
  of the coefficient functions.
-\end_layout
-
-\begin_layout Lemma
-\begin_inset CommandInset label
-LatexCommand label
-name "lemma:omega"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Lemma
-\begin_inset Formula 
-\begin{multline*}
-E\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=\\
-\left(\begin{array}{c}
-2^{-1}n^{1/2}h^{3}f(\bm{s})\kappa_{2}\bm{\Gamma}(\bm{s})\left(\nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right)^{T}\\
-\bm{0}_{2p}
-\end{array}\right)+o_{p}\left(h^{2}\bm{1}_{3p}\right)
-\end{multline*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Lemma
-and
-\end_layout
-
-\begin_layout Lemma
-\begin_inset Formula 
-\begin{align*}
-Var\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & f(\bm{s}){\rm diag}\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
-= & \Lambda+o\left(1\right)
-\end{align*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout --Separator--
-
-\end_layout
-
-\begin_layout Lemma
-\begin_inset CommandInset label
-LatexCommand label
-name "lemma:delta"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Lemma
-\begin_inset Formula 
-\begin{align*}
-E\left[\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & -f(\bm{s}){\rm diag}\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
-= & -\Delta+o\left(1\right)
-\end{align*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Lemma
-and
-\end_layout
-
-\begin_layout Lemma
-\begin_inset Formula 
-\[
-Var\left\{ \left(\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section*
-Appendix: Proof of Theorem 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "theorem:normality-glm"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Proof
@@ -4814,10 +4930,9 @@ Define
 
 \begin_layout Proof
 \begin_inset Formula 
-\begin{align*}
-\Omega_{n}= & \alpha_{n}\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
-= & \alpha_{n}\sum_{i=1}^{n}\omega_{i}
-\end{align*}
+\[
+\Omega_{n}=\alpha_{n}\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)=\alpha_{n}\sum_{i=1}^{n}\omega_{i}
+\]
 
 \end_inset
 
@@ -4830,10 +4945,9 @@ and
 
 \begin_layout Proof
 \begin_inset Formula 
-\begin{align*}
-\Delta_{n}= & \alpha_{n}^{2}\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
-= & \alpha_{n}^{2}\sum_{i=1}^{n}\delta_{i}
-\end{align*}
+\[
+\Delta_{n}=\alpha_{n}^{2}\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)=\alpha_{n}^{2}\sum_{i=1}^{n}\delta_{i}.
+\]
 
 \end_inset
 
@@ -5220,7 +5334,7 @@ Then
 \begin_inset Formula $Y_{i}$
 \end_inset
 
-, and assumptions (A.6), (A.7), and (A.9), we have that
+, and conditions (A.6) and (A.9), we have that
 \end_layout
 
 \begin_layout Proof
@@ -5259,8 +5373,8 @@ reference "eq:lyapunov-bound"
  the quadratic approximation lemma.
 \end_layout
 
-\begin_layout Section*
-Appendix: Proof of Theorem 
+\begin_layout Subsection*
+Proof of Theorem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "theorem:selection-glm"
@@ -5398,7 +5512,93 @@ reference "eq:glm-selection"
 \end_layout
 
 \begin_layout Section*
-Appendix: Proof of Lemma 
+Appendix B: Lemmas
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lemma:omega"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Lemma
+\begin_inset Formula 
+\begin{multline*}
+E\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=\\
+\left(\begin{array}{c}
+2^{-1}n^{1/2}h^{3}f(\bm{s})\kappa_{2}\bm{\Gamma}(\bm{s})\left(\nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right)^{T}\\
+\bm{0}_{2p}
+\end{array}\right)+o_{p}\left(h^{2}\bm{1}_{3p}\right)
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Lemma
+and
+\end_layout
+
+\begin_layout Lemma
+\begin_inset Formula 
+\begin{align*}
+Var\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & f(\bm{s}){\rm diag}\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
+= & \Lambda+o\left(1\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout --Separator--
+
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lemma:delta"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Lemma
+\begin_inset Formula 
+\begin{align*}
+E\left[\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & -f(\bm{s}){\rm diag}\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
+= & -\Delta+o\left(1\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Lemma
+and
+\end_layout
+
+\begin_layout Lemma
+\begin_inset Formula 
+\[
+Var\left\{ \left(\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Proof of Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lemma:omega"
@@ -5504,7 +5704,15 @@ q_{1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}),\mu(\bm{s}_{i},\bm{z}_{i})\right)= &
 \end_layout
 
 \begin_layout Proof
-And by (D.A.2)(a) and (D.A.2)(b), we have that
+And by the definitions of 
+\begin_inset Formula $q_{1}(\cdot)$
+\end_inset
+
+ and 
+\begin_inset Formula $q_{2}(\cdot)$
+\end_inset
+
+, we have that
 \end_layout
 
 \begin_layout Proof
@@ -5695,8 +5903,8 @@ Var\left(\Omega_{n}\right)=f(\bm{s}){\rm diag}\left\{ \nu_{0},\nu_{2},\nu_{2}\ri
 
 \end_layout
 
-\begin_layout Section*
-Appendix: Proof of Lemma 
+\begin_layout Subsection*
+Proof of Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lemma:delta"
