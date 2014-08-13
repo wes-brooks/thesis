@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2014.1.2)  31 JUL 2014 19:32
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2014.1.2)  12 AUG 2014 21:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -355,7 +355,7 @@ OT1/cmr/m/n/12 )\OMS/cmsy/m/n/12 k$
  []
 
 [6]
-Overfull \hbox (61.136pt too wide) in paragraph at lines 290--308
+Overfull \hbox (61.136pt too wide) in paragraph at lines 296--314
 []$\T1/cmr/m/n/12 . Let $\OML/cmm/m/it/12 ^^T[] \OT1/cmr/m/n/12 = [][] \OML/cmm
 /m/it/12 K\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 k\OML/cmm/b/it/12 s\OMS/cmsy/m/n/12
  k\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 d\OML/cmm/b/it/12 s$\T1/cmr/m/n/12 , $\OML/
@@ -368,14 +368,7 @@ OMS/cmsy/m/n/12 k\OML/cmm/b/it/12 s\OMS/cmsy/m/n/12 k\OT1/cmr/m/n/12 )\OML/cmm/
 m/it/12 d\OML/cmm/b/it/12 s$\T1/cmr/m/n/12 ,
  []
 
-[7]
-Overfull \hbox (3.36176pt too wide) in paragraph at lines 341--343
-[]\T1/cmr/bx/n/12 Theorem 1 \T1/cmr/m/n/12 (Asymp-totic nor-mal-ity)\T1/cmr/bx/
-n/12 . []\T1/cmr/m/it/12 Un-der (A.1)--(A.8), if $\OML/cmm/m/it/12 h[]n[]a[] []
- \OT1/cmr/m/n/12 0$ \T1/cmr/m/it/12 and $\OML/cmm/m/it/12 hn[]b[] []
- []
-
-[8] [9]
+[7] [8] [9] [10]
 File: 0_Users_wesley_git_gwr_figures_simulation_step.pdf Graphic file (type QTm
 )
  <use  "0_Users_wesley_git_gwr_figures_simulation_step.pdf" >
@@ -386,31 +379,12 @@ File: 1_Users_wesley_git_gwr_figures_simulation_gradient.pdf Graphic file (type
 File: 2_Users_wesley_git_gwr_figures_simulation_parabola.pdf Graphic file (type
  QTm)
 
-<use  "2_Users_wesley_git_gwr_figures_simulation_parabola.pdf" > [10] [11]
-[12] [13]
+<use  "2_Users_wesley_git_gwr_figures_simulation_parabola.pdf" > [11] [12]
+[13] [14]
 File: figure/boston-plots.pdf Graphic file (type QTm)
- <use  "figure/boston-plots.pdf" > [14] [15] [16] [17]
-Overfull \hbox (64.40274pt too wide) in paragraph at lines 733--740
-\OML/cmm/m/it/12 E []$ \T1/cmr/m/n/12 and $\OT1/cmr/bx/n/12 ^^@[] [] \OT1/cmr/m
-/n/12 = \OML/cmm/m/it/12 E []$\T1/cmr/m/n/12 .
- []
-
-
-Overfull \hbox (9.36029pt too wide) in paragraph at lines 751--753
-[]\T1/cmr/bx/n/12 Theorem 3 \T1/cmr/m/n/12 (Asymp-totic nor-mal-ity)\T1/cmr/bx/
-n/12 . []\T1/cmr/m/it/12 Un-der (A.1)--(A.10), if $\OML/cmm/m/it/12 h[]n[]a[] [
-] \OT1/cmr/m/n/12 0$ \T1/cmr/m/it/12 and $\OML/cmm/m/it/12 hn[]b[] []
- []
-
-[18]
-Overfull \hbox (3.88248pt too wide) in paragraph at lines 760--762
-[]\T1/cmr/bx/n/12 Theorem 4 \T1/cmr/m/n/12 (Se-lec-tion con-sis-tency)\T1/cmr/b
-x/n/12 . []\T1/cmr/m/it/12 Un-der (A.1)--(A.10), if $\OML/cmm/m/it/12 h[]n[]a[]
- [] \OT1/cmr/m/n/12 0$ \T1/cmr/m/it/12 and $\OML/cmm/m/it/12 hn[]b[] []
- []
-
-(aux/estimation.bbl [19] [20] [21]) [22]
-Overfull \hbox (23.75461pt too wide) in paragraph at lines 801--807
+ <use  "figure/boston-plots.pdf" > [15] [16] [17] [18] [19]
+(aux/estimation.bbl [20] [21] [22]) [23]
+Overfull \hbox (23.75461pt too wide) in paragraph at lines 848--854
 \OML/cmm/m/it/12 p[]$\T1/cmr/m/n/12 : If $\OML/cmm/m/it/12 j \OMS/cmsy/m/n/12 ^
 ^T \OML/cmm/m/it/12 p[]$\T1/cmr/m/n/12 , then $\OML/cmm/m/it/12 n[]^^^[]\OT1/cm
 r/m/n/12 (\OML/cmm/b/it/12 s\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ! \OML/cmm/m/it/
@@ -419,52 +393,45 @@ it/12 s\OT1/cmr/m/n/12 )\OMS/cmsy/m/n/12 k[]$ \T1/cmr/m/n/12 and $\OMS/cmsy/m/n
 /12 j\OML/cmm/m/it/12 n[] [] \OMS/cmsy/m/n/12 j ^^T
  []
 
-[1
+[24
 
 ]
-Overfull \hbox (23.48734pt too wide) detected at line 831
+Overfull \hbox (23.48734pt too wide) detected at line 878
 [] \OT1/cmr/m/n/12 = [][] [] [][] = \OT1/cmr/bx/n/12 0\OML/cmm/m/it/12 :
  []
 
 
-Overfull \hbox (10.7943pt too wide) detected at line 837
+Overfull \hbox (10.7943pt too wide) detected at line 884
 [] \OMS/cmsy/m/n/12 ^^@ [][] \OML/cmm/m/it/12 ^^T[]h[] [] [] N []
  []
 
 
-Overfull \hbox (69.11649pt too wide) in paragraph at lines 860--860
+Overfull \hbox (69.11649pt too wide) in paragraph at lines 907--907
 [] 
  []
 
-[2] [3]
-Overfull \hbox (28.87212pt too wide) in paragraph at lines 889--897
-\T1/cmr/m/n/12 the deriva-tives of the quasi-likelihood: $\OML/cmm/m/it/12 q[]\
-OT1/cmr/m/n/12 (\OML/cmm/m/it/12 t; y\OT1/cmr/m/n/12 ) = [][] \OML/cmm/m/it/12 
-Q []$\T1/cmr/m/n/12 . Then $\OML/cmm/m/it/12 q[] [] \OT1/cmr/m/n/12 =
+[25] [26]
+Overfull \hbox (236.40126pt too wide) in paragraph at lines 936--945
+\OML/cmm/m/it/12 q[] [] \OT1/cmr/m/n/12 = \OT1/cmr/bx/n/12 0$\T1/cmr/m/n/12 , a
+nd $\OML/cmm/m/it/12 q[] [] \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 ^^@\OML/cmm/m/it
+/12 ^^Z []$\T1/cmr/m/n/12 . Let $[] \OT1/cmr/m/n/12 = [][]$
  []
 
-
-Overfull \hbox (119.04802pt too wide) in paragraph at lines 889--897
-\OT1/cmr/bx/n/12 0$\T1/cmr/m/n/12 , and $\OML/cmm/m/it/12 q[] [] \OT1/cmr/m/n/1
-2 = \OMS/cmsy/m/n/12 ^^@\OML/cmm/m/it/12 ^^Z []$\T1/cmr/m/n/12 . Let $[] \OT1/c
-mr/m/n/12 = [][]$
- []
-
-[4] [5] [6]
-Overfull \hbox (46.16248pt too wide) in paragraph at lines 1009--1015
+[27] [28]
+Overfull \hbox (46.16248pt too wide) in paragraph at lines 1027--1033
 \T1/cmr/m/n/12 We ob-serve that (.3[]) im-plies that $\OML/cmm/m/it/12 n^^K[] [
 ][] \OMS/cmsy/m/n/12 ! \OT1/cmr/m/n/12 0$\T1/cmr/m/n/12 , and since $\OML/cmm/m
 /it/12 E [] < E [] \OMS/cmsy/m/n/12 !
  []
 
-[7] [8] [9] [10] [11] (aux/estimation.aux) ) 
+[29] [30] [31] [32] [33] [34] (aux/estimation.aux) ) 
 Here is how much of TeX's memory you used:
- 3364 strings out of 493918
- 42805 string characters out of 6148600
- 113213 words of memory out of 5000000
- 6579 multiletter control sequences out of 15000+600000
- 26490 words of font info for 80 fonts, out of 8000000 for 9000
+ 3366 strings out of 493918
+ 42827 string characters out of 6148600
+ 113221 words of memory out of 5000000
+ 6580 multiletter control sequences out of 15000+600000
+ 26803 words of font info for 81 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 32i,18n,34p,1123b,326s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 32i,18n,34p,1123b,328s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on aux/estimation.pdf (33 pages).
+Output written on aux/estimation.pdf (34 pages).

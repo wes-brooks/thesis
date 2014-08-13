@@ -284,6 +284,12 @@ where $\lambda_{n}>0$ is a local tuning parameter applied to all
 coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{(j)}(\bm{s})$
 is a subset of the vector of unpenalized local coefficients from (\ref{eq:zeta-hat}).
 
+Minimization of (\ref{eq:penalized-least-squares}) is by blockwise
+coordinate descent, where each block is a covariate group (one raw
+covariate and its interactions on location). Software for estimating
+a LAGR model is available in the \texttt{R} package \texttt{lagr},
+available at \texttt{github.com/wrbrooks/lagr}.
+
 
 \subsection{Oracle Properties\label{sub:oracle-properties}}
 
@@ -310,36 +316,64 @@ Assume the following regularity conditions.
 \begin{itemize}
 \item[(A.1)] The kernel function $K(\cdot)$ is bounded, positive, symmetric,
 and Lipschitz continuous on $\mathbb{R}$, and has a bounded support.
-\item[(A.2)] There are $p_{0}<p$ covariates $\bm{X}_{(a)}(\bm{s})$ with nonzero
-local regression coefficients, denoted $\bm{\beta}_{(a)}(\bm{s})\ne\bm{0}$.
-Without loss of generality, assume these are covariates $1,\dots,p_{0}$.
-The remaining $p-p_{0}$ covariates $\bm{X}_{(b)}(\bm{s})$ have true
-coefficients equal to zero, denoted $\bm{\beta}_{(b)}(\bm{s})=\bm{0}$.
+\item[(A.2)] The coefficient functions $ $$\beta_{j}(\cdot)$ for $j=1,\dots,p$
+have continuous second-order partial derivatives at $\bm{s}$.
 \item[(A.3)] The covariates $\bm{X}(\bm{s}_{1}),\dots,\bm{X}(\bm{s}_{n})$ are
 random vectors that are independent of $\varepsilon_{1},\dots,\varepsilon_{n}$.
 Also $\bm{\Psi}(\bm{s})=E\left\{ \bm{X}(\bm{s})\bm{X}(\bm{s})^{T}|\bm{s}\right\} $
 and $\bm{\Psi}_{(a)}(\bm{s})=E\left\{ \bm{X}_{(a)}(\bm{s})\bm{X}_{(a)}(\bm{s})^{T}|\bm{s}\right\} $
-are positive-definite and differentiable at location $\bm{s}$, $E\left|\bm{X}(\bm{s})\right|^{2q}<\infty$,
-and $E\left|\varepsilon(\bm{s})\right|^{2q}<\infty$ for some $q>2$.
-\item[(A.4)] The coefficient functions $ $$\beta_{j}(\cdot)$ for $j=1,\dots,p$
-have continuous second-order partial derivatives at $\bm{s}$.
-\item[(A.6)] The density function $f(\bm{s})$ of the sampling locations is differentiable
-at $\bm{s}$ and $f(\bm{s})>0$.
-\item[(A.6)] $E\left\{ \left|\bm{X}(\bm{s})\right|^{3}|\bm{s}\right\} $ and $E\left\{ Y(\bm{s})^{4}|\bm{X}(\bm{s}),\bm{s}\right\} $
+are positive-definite and differentiable at location $\bm{s}$.
+\item[(A.4)] $E\left\{ \left|\bm{X}(\bm{s})\right|^{3}|\bm{s}\right\} $ and $E\left\{ Y(\bm{s})^{4}|\bm{X}(\bm{s}),\bm{s}\right\} $
 are continuous at a given location $\bm{s}$.
-\item[(A.7)] $h=O\left(n^{-1/6}\right)$
+\item[(A.5)] $\{\bm{s}_{i}\}$ is a sequence of fixed design points on a bounded
+compact support $\mathcal{S}$. Further, there exists a positive joint
+density function $f(\cdot)$ satisfying a Lipschitz condition such
+that 
+\[
+\sup_{\bm{s}\text{\ensuremath{\in}}\mathcal{S}}\left|n^{-1}\sum_{i=1}^{n}\left[r(\bm{s}_{i})K_{h}(\|\bm{s}_{i}-\bm{s}\|)\right]-\int r(\bm{t})K_{h}(\|\bm{t}-\bm{s}\|)f(\bm{t})d\bm{t}\right|=O(h)
+\]
+where $f(\cdot)$ is bounded away from zero on $\mathcal{S}$, $r(\cdot)$
+is any bounded continuous function, and $K_{h}(\cdot)=K(\cdot/h)/h^{2}$
+where $K(\cdot)$ satisfies condition (1).
+\item[(A.6)] $h=O\left(n^{-1/6}\right)$.
+\item[(A.7)] There are $p_{0}<p$ covariates $\bm{X}_{(a)}(\bm{s})$ with nonzero
+local regression coefficients, denoted $\bm{\beta}_{(a)}(\bm{s})\ne\bm{0}$.
+Without loss of generality, assume these are covariates $1,\dots,p_{0}$.
+The remaining $p-p_{0}$ covariates $\bm{X}_{(b)}(\bm{s})$ have coefficients
+equal to zero, denoted $\bm{\beta}_{(b)}(\bm{s})=\bm{0}$.
+\item[(A.8)] $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$.
 \end{itemize}
-These regularity conditions are generally similar to those of \citet{Cai-Fan-Li-2000}
-and \citet{Sun-Yan-Zhang-Lu-2014}. However, the covariates $\bm{X}(\bm{s}_{1}),\dots,\bm{X}(\bm{s}_{n})$
-were assumed to be $iid$ in \citet{Sun-Yan-Zhang-Lu-2014}, which
-is not required here. The existence of of $\bm{\Psi}(\cdot)$ is needed
-for the existence of the limiting distribution of $\hat{\bm{\beta}}(\bm{s})$;
-its differentiability and that of $f(\cdot)$ are used to approximate
-those functions by Taylor's expansions. The condition on the moments
-of $Y$ is used when bounding the remainder term in the Taylor's expansions.
+Conditions (A.1)--(A.4) are common in the literature on nonparametric
+estimation, for instance see conditions (1)--(3) of \citet{Sun-Yan-Zhang-Lu-2014}
+and conditions (5) and (6) of \citet{Cai-Fan-Li-2000}. However, the
+covariates $\bm{X}(\bm{s}_{1}),\dots,\bm{X}(\bm{s}_{n})$ were assumed
+to be $iid$ in \citet{Sun-Yan-Zhang-Lu-2014}, which is not required
+here. The existence of of $\bm{\Psi}(\cdot)$ is needed for the existence
+of the limiting distribution of $\hat{\bm{\beta}}(\bm{s})$; its differentiability
+is used in the Taylor's expansions. Condition (A.4) is used when bounding
+the remainder term in the Taylor's expansions. Condition (A.5) is
+the same as condition (4) of \citet{Sun-Yan-Zhang-Lu-2014} and see
+Remark 1 of that paper for a discussion of how this condition is more
+general than the case of strict infill asymptotics where the elements
+of $\{\bm{s}_{i}\}$ are $iid$ as density $f(\cdot)$, in which case
+the Lipschitz condition in (A.5) is satisfied with probability one.
+Under condition (A.6), the coefficient estimates attain the optimal
+rate of convergence for bivariate nonparametric regression.
+
+Condition (A.7) simply defines the setting for variable selection,
+where under condition (A.8), the local penalty goes to zero on covariates
+with true nonzero coefficients and to infinity on covariates with
+true zero coefficients. By (A.8), $h^{-1}n^{-1/2}\lambda_{n}\to0$
+for $j\le p_{0}$ and $hn^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}\to\infty$
+for $j>p_{0}$. We require that $\lambda_{n}$ satisfy both assumptions.
+Suppose $\lambda_{n}=n^{\alpha}$. Since $h=O\left(n^{-1/6}\right)$
+and $\|\tilde{\bm{\zeta}}_{(p)}(\bm{s})\|=O\left(h^{-1}n^{-1/2}\right)$,
+it follows that $h^{-1}n^{-1/2}\lambda_{n}=O\left(n^{-1/3+\alpha}\right)$
+and $hn^{-1/2}\lambda_{n}\|\tilde{\bm{\zeta}}_{(p)}(\bm{s})\|^{-\gamma}=O\left(n^{-2/3+\alpha+\gamma/3}\right)$.
+Thus, $\left(2-\gamma\right)/3<\alpha<1/3$, which can only be satisfied
+for $\gamma>1$.
 \begin{thm}[Asymptotic normality]
-\label{theorem:normality}  Under (A.1)--(A.8), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$, then it follows that
+\label{theorem:normality}  Under (A.1)--(A.8),
 \begin{gather*}
 \left\{ f(\bm{s})h^{2}n\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-2^{-1}\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} \right]\\
 \xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi_{(a)}(\bm{s})^{-1}\right),
@@ -348,8 +382,7 @@ where $\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}
 \end{thm}
 
 \begin{thm}[Selection consistency]
-\label{theorem:selection} Under (A.1)--(A.8), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$, then it follows that 
+\label{theorem:selection} Under (A.1)--(A.8), 
 \[
 P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
 \]
@@ -360,17 +393,8 @@ the same asymptotic distribution as a local regression model where
 the true nonzero coefficients are known in advance, and that the LAGR
 estimates of true zero coefficients tend to zero with probability
 one. Thus, selection and estimation by LAGR has the oracle property.
-To establish the oracle properties of LAGR, we assumed that $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$. Therefore, $h^{-1}n^{-1/2}\lambda_{n}\to0$
-for $j\le p_{0}$ and $hn^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}\to\infty$
-for $j>p_{0}$. We require that $\lambda_{n}$ satisfy both assumptions.
-Suppose $\lambda_{n}=n^{\alpha}$. Since $h=O\left(n^{-1/6}\right)$
-and $\|\tilde{\bm{\zeta}}_{(p)}(\bm{s})\|=O\left(h^{-1}n^{-1/2}\right)$,
-it follows that $h^{-1}n^{-1/2}\lambda_{n}=O\left(n^{-1/3+\alpha}\right)$
-and $hn^{-1/2}\lambda_{n}\|\tilde{\bm{\zeta}}_{(p)}(\bm{s})\|^{-\gamma}=O\left(n^{-2/3+\alpha+\gamma/3}\right)$.
-Thus, $\left(2-\gamma\right)/3<\alpha<1/3$, which can only be satisfied
-for $\gamma>1$. The technical proof of theorems \ref{theorem:normality}
-and \ref{theorem:selection} are given in Appendix A.
+The technical proofs of theorems \ref{theorem:normality} and \ref{theorem:selection}
+are given in Appendix A.
 
 
 \subsection{Tuning Parameter Selection}
@@ -475,7 +499,7 @@ set of covariates was used to fit each local model.
 		\hline 
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Thu Jul 31 19:31:44 2014
+% Tue Aug 12 21:23:50 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
     &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
@@ -497,25 +521,28 @@ set of covariates was used to fit each local model.
   
 	\hline
 	\end{tabular}
-	\caption{For each setting in the simulation study, the mean integrated squared error (MISE) of the coefficient estimates. First, the MISE of $\hat{\beta}_1$ from estimation by local adaptive grouped regularization (LAGR), by locally linear regression without selection (VCR), and by locally linear regression with oracular selection (Oracle). Here, highlighting indicates the \textbf{smallest} and \emph{next-smallest} MISE for $\hat{\beta}_1$. Also, the MISE of $\hat{\beta}_2,\dots,\hat{\beta}_5$ from estimation by LAGR and VCR. Here, highlighting indicates the \textbf{smallest} MISE.}
+	\caption{For each setting as a combination of coefficient surface $\beta_1(\bm{s})$, cross-covariate correlation $\rho$, and error variance $\sigma^2$, the mean integrated squared error (MISE) of the coefficient estimates. In the middle three columns, the MISE of $\hat{\beta}_1$ from estimation by local adaptive grouped regularization (LAGR), by locally linear regression without selection (VCR), and by locally linear regression with oracular selection (Oracle). Here, highlighting indicates the \textbf{smallest} and \emph{next-smallest} MISE for $\hat{\beta}_1$. In the last two columns, the MISE of $\hat{\beta}_2,\dots,\hat{\beta}_5$ from estimation by LAGR and VCR. Here, highlighting indicates the \textbf{smallest} MISE.}
 	\label{tab:mise}
 \end{table}
 
 
 \subsection{Simulation Results}
 
-The MISE of the estimates of $\beta_{1}(\bm{s})$ are in Table \ref{tab:mise}.
-Recall that $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$ are exactly
-zero across the entire domain. Oracle selection will estimate these
-coefficients perfectly, so we focus on the comparison between estimation
-by LAGR and by the VCR model with no selection. These results show
-that for every simulation setting, LAGR estimation is more accurate
-than the standard VCR model.
 
 
-
-From Table \ref{tab:misey} we see that LAGR has good ability to identify
-zero-coefficient covariates. The frequency with which $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+The MISE of the coefficient estimates are in Table \ref{tab:mise}.
+The MISE of true nonzero coefficient $\hat{\beta}_{1}(\bm{s})$ was
+always most smallest under oracular selection. The difference in MISE
+of $\hat{\beta}_{1}(\bm{s})$ under LAGR versus VCR estimation was
+small and each method produced the smaller MISE for nine of $18$
+settings. Recall that $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+are exactly zero across the entire domain. Oracle selection will estimate
+these coefficients perfectly, so we focus on the comparison between
+estimation by LAGR and by the VCR model with no selection. These results
+show that for every simulation setting, LAGR estimation of $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+is more accurate than the standard VCR model. From Table \ref{tab:misey}
+we see that LAGR has good ability to identify zero-coefficient covariates.
+The frequency with which $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
 were dropped from the LAGR models ranged from 0.78
 to 0.97. The MISE of the fitted $\hat{y}(\bm{s})$
 is listed in Table \ref{tab:misey}, where the highlighting is based
@@ -533,7 +560,7 @@ the others in this simulation at fitting the model output.
 		\hline 
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Thu Jul 31 19:31:46 2014
+% Tue Aug 12 21:23:53 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
     &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
@@ -555,17 +582,16 @@ the others in this simulation at fitting the model output.
   
 	\hline
 	\end{tabular}
-	\caption{For each setting of the simulation study, the frequency of exact zeroes in the estimates of $\hat{\beta}_2,\dots,\hat{\beta}_5$ as estimated by local adaptive grouped regularizaton (LAGR). Also, the mean integrated squared error (MISE) for the fitted output of each simulation setting, under variable selection via LAGR, locally linear regression without selection (VCR), and by locally linear regression with oracular selection (Oracle). Highlighting indicates the \textbf{closest} and \emph{next-closest} to the actual error variance $\sigma_\varepsilon^2$ for that simulation setting.}
+	\caption{For each setting as a combination of coefficient surface $\beta_1(\bm{s})$, cross-covariate correlation $\rho$, and error variance $\sigma^2$, the frequency of exact zeroes in the estimates of $\hat{\beta}_2,\dots,\hat{\beta}_5$ as estimated by local adaptive grouped regularizaton (LAGR). Also, the mean integrated squared error (MISE) for the fitted output of each simulation setting, under variable selection via LAGR, locally linear regression without selection (VCR), and by locally linear regression with oracular selection (Oracle). Highlighting indicates the \textbf{closest} and \emph{next-closest} to the actual error variance $\sigma_\varepsilon^2$ for that simulation setting.}
 	\label{tab:misey}
 \end{table}
 
-The proposed LAGR method was accurate in selection and estimation,
+Overall, the proposed LAGR method was accurate in selection and estimation,
 with estimation accuracy for $\beta_{1}(\bm{s})$ about equal to that
 of the VCR model with no selection, and with consistently better accuracy
-for estimating $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$.
-
-There was minimal difference in the performance of the proposed LAGR
-method between low ($\sigma_{\varepsilon}=0.5$) and high ($\sigma_{\varepsilon}=1$)
+for estimating $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$. There
+was little difference in the performance of the proposed LAGR method
+between low ($\sigma_{\varepsilon}=0.5$) and high ($\sigma_{\varepsilon}=1$)
 error variance, and between no ($\rho=0$) and moderate ($\rho=0.5$)
 correlation among the covariates. But the selection and estimation
 accuracy did decline when there was high ($\rho=0.9$) correlation
@@ -593,9 +619,13 @@ number of observations.
 
 A summary of the estimates of the local coefficients is in Table \ref{tab:boston-coefs-lagr}.
 It indicates that RM is the only covariate with a positive mean local
-coefficient estimate. The coefficient of the CRIM variable was estimated
-to be exactly zero at 49\%
-of the locations. The percentage for the RAD variable was 37\%.
+coefficient estimate. The percentage of census tracts where the local
+coefficient was estimated to be exactly zero was 1\%
+for LSTAT, 2\%
+for RM, 37\%
+for RAD, 49\%
+for CRIM, and 100\%
+for TAX.
 
 \begin{figure}
 
@@ -619,7 +649,7 @@ to radial roads is associated with a greater median house price and
 parts where it is associated with a lesser median house price.
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Thu Jul 31 19:31:54 2014
+% Tue Aug 12 21:23:59 2014
 \begin{table}
 \centering
 \begin{tabular}{|c|ccc|}
@@ -633,13 +663,13 @@ CRIM & -0.07 & 0.08 & 0.49 \\
   LSTAT & -0.72 & 0.16 & 0.01 \\ 
    \hline
 \end{tabular}
-\caption{The mean, standard deviation, and proportion of zeros among the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by LAGR.} 
+\caption{The mean, standard deviation, and proportion of zeros among the estimates of the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by local adaptive grouped regularization. The covariates are CRIM (per capita crime rate in the census tract), RM (average number of rooms per home sold in the census tract), RAD (an index of the tract's access to radial roads), TAX (property tax per USD10,000 of property value), and LSTAT (percentage of the tract's residents who are considered ``lower status").} 
 \label{tab:boston-coefs-lagr}
 \end{table}
 
 
 In their example using the same data, \citet{Sun-Yan-Zhang-Lu-2014}
-estimated that the coefficients of RAD annd LSTAT should be constant,
+estimated that the coefficients of RAD and LSTAT should be constant,
 at $0.36$ and $-0.45$, respectively. That conclusion differs from
 our result, which says that the mean estimated local coefficient of
 RAD is actually negative (\ensuremath{-0.08}),
@@ -734,7 +764,10 @@ Define $\rho(\bm{s},\bm{z})=\left[g_{1}\left(\mu(\bm{s},\bm{z})\right)\right]^{2
 where $g_{1}(\cdot)=g'_{0}(\cdot)/g'(\cdot)$, and $g_{0}(\cdot)$
 is the canonical link function. So when the canonical link is used,
 $\rho(\bm{s},\bm{z})=V\left(\mu(\bm{s},\bm{z})\right)$. Let $\bm{\Gamma}\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}(\bm{s})\right)\bm{X}(\bm{s})\bm{X}(\bm{s})^{T}|\bm{s},\bm{Z}(\bm{s})=\bm{z}\right\} $
-and $\bm{\Gamma}_{(a)}\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}_{(a)}(\bm{s})\right)\bm{X}_{(a)}(\bm{s})\bm{X}_{(a)}(\bm{s})^{T}|\bm{s},\bm{Z}(\bm{s})=\bm{z}\right\} $.
+and 
+\[
+\bm{\Gamma}_{(a)}\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}_{(a)}(\bm{s})\right)\bm{X}_{(a)}(\bm{s})\bm{X}_{(a)}(\bm{s})^{T}|\bm{s},\bm{Z}(\bm{s})=\bm{z}\right\} .
+\]
 Assume the following regularity conditions:
 \begin{itemize}
 \item[(A.9)] The functions $g'''\left(\bm{s}\right)$, $\nabla\bm{\Gamma}\left(\bm{s}\right)$,
@@ -744,12 +777,13 @@ at $\bm{s}$.
 \item[(A.10)] The function $\left(\partial^{2}/\partial\mu^{2}\right)Q\left(g^{-1}\left(\mu\right),y\right)<0$
 for $\mu\in\mathbb{R}$ and $y$ in the range of the response.
 \end{itemize}
-These additonal conditions are necessary for Taylor expansion of the
-local quasi-likelihood. Condition (A.10) assures that the local quasi-likelihood
+These additonal conditions are typical in the nonparametric regression
+literature - see, for instance, conditions (1) and (2) of \citet{Cai-Fan-Li-2000}.
+Condition (A.9) is necessary for the Taylor's expansion of the local
+quasi-likelihood. Condition (A.10) assures that the local quasi-likelihood
 is convex and has a unique minimizer.
 \begin{thm}[Asymptotic normality]
-\label{theorem:normality-glm}  Under (A.1)--(A.10), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$, then 
+\label{theorem:normality-glm}  Under (A.1)--(A.10),
 \begin{gather*}
 \left\{ nh^{2}f(\bm{s})\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-\left(2\kappa_{0}\right)^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{\left(a\right)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{\left(a\right)}(\bm{s})\right\} \right]\\
 \xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\bm{\Gamma}_{(a)}(\bm{s})^{-1}\right)
@@ -757,8 +791,7 @@ and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$, then
 \end{thm}
 
 \begin{thm}[Selection consistency]
-\label{theorem:selection-glm}  Under (A.1)--(A.10), if $h^{-1}n^{-1/2}a_{n}\xrightarrow{p}0$
-and $hn^{-1/2}b_{n}\xrightarrow{p}\infty$ then 
+\label{theorem:selection-glm}  Under (A.1)--(A.10),
 \[
 P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
 \]
@@ -775,19 +808,33 @@ Theorem \ref{theorem:selection-glm} gives the same result for the
 GLM setting as Theorem \ref{theorem:selection} does for the Gaussian
 setting: the true zero coefficients are dropped from the model with
 probability going to one. Thus, the oracle properties for the GLM
-setting are esatblished.
+setting are established. The technical proofs are given in Appendix
+A and the necessary lemmas are given in Appendix B.
 
 
-\section{References}
+\section{Conclusions and Discussion}
+
+Here we considered the case of two-dimensional effect-modifying parameter.
+Similar results can be obtained when the effect-modifying parameter
+has dimension other than two, but in higher dimensions the so-called
+``curse of dimensionality'' means that the estimation accuracy quickly
+degrades. Since the optimal rate of convergence for nonparametric
+regression is acheived when $h=O\left(n^{-1/\{4+d\}}\right)$ where
+$d$ is the dimension of the effect-modifying parameter, it follows
+that to attain the oracle properties, the exponent in the adaptive
+weights for LAGR estimation must satisfy $\gamma>d/2$.
+
+
+\section*{References}
 \bibliographystyle{chicago}
 \bibliography{../../references/gwr}
 
 \clearpage
-\pagenumbering{arabic}
 \appendix
 
 \appendix
-\section*{Appendix: Proof of Theorem \ref{theorem:normality}\label{sec:gaussian-normality-proof} }
+\section*{Appendix A: Proofs of Theorems}
+\subsection*{Proof of Theorem \ref{theorem:normality}\label{sec:gaussian-normality-proof} }
 \begin{proof}
 Let $H_{n}(\bm{u})=\mathcal{J}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}\left(\bm{\zeta}(\bm{s})\right)$
 and $\alpha_{n}=h^{-1}n^{-1/2}$. Then, we have 
@@ -837,7 +884,7 @@ Since, by Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014},
 \]
 the result of Theorem \ref{theorem:normality} follows.
 \end{proof}
-\section*{Appendix: Proof of Theorem \ref{theorem:selection}\label{sec:gaussian-selection-proof}}
+\subsection*{Proof of Theorem \ref{theorem:selection}\label{sec:gaussian-selection-proof}}
 \begin{proof}
 The proof is by contradiction. Without loss of generality we consider
 only the $p$th covariate group.
@@ -885,8 +932,8 @@ and therefore the left hand side of (\ref{eq:selection}) dominates
 the sum to the right side. Thus, for large enough $n$, $\hat{\bm{\zeta}}_{(p)}(\bm{s})\ne\bm{0}$
 cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $P\left\{ \hat{\bm{\zeta}}_{(b)}(\bm{s})=\bm{0}\right\} \to1$. 
 \end{proof}
-\section*{Appendix: Lemmas}
-The next proofs require the following lemmas. First, let $\bm{z}\in\mathbb{R}^{3p}$.
+\subsection*{Proof of Theorem \ref{theorem:normality-glm}}
+The next proofs require the lemmas in Appendix B. First, let $\bm{z}\in\mathbb{R}^{3p}$.
 Define the $q$-functions to be the derivatives of the quasi-likelihood:
 $q_{j}(t,y)=\left(\partial/\partial t\right)^{j}Q\left(g^{-1}(t),y\right)$.
 Then $q_{1}\left(\eta\left(\bm{s},\bm{z}\right),\mu\left(\bm{s},\bm{z}\right)\right)=\bm{0}$,
@@ -894,33 +941,6 @@ and $q_{2}\left(\eta\left(\bm{s},\bm{z}\right),\mu\left(\bm{s},\bm{z}\right)\rig
 Let $\tilde{\bm{\beta}}_{i}''=\left[\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\beta_{1}(\bm{s})\right\} \left(\bm{s}_{i}-\bm{s}\right),\dots,\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\beta_{p}(\bm{s})\right\} \left(\bm{s}_{i}-\bm{s}\right)\right]^{T}$
 be the $p$-vector of quadratic forms of location interactions on
 the second derivatives of the coefficient functions.
-\begin{lem}
-\label{lemma:omega}
-\begin{multline*}
-E\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=\\
-\left(\begin{array}{c}
-2^{-1}n^{1/2}h^{3}f(\bm{s})\kappa_{2}\bm{\Gamma}(\bm{s})\left(\nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right)^{T}\\
-\bm{0}_{2p}
-\end{array}\right)+o_{p}\left(h^{2}\bm{1}_{3p}\right)
-\end{multline*}
-and
-\begin{align*}
-Var\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & f(\bm{s}){\rm diag}\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
-= & \Lambda+o\left(1\right)
-\end{align*}
-\end{lem}
-\begin{lem}
-\label{lemma:delta}
-\begin{align*}
-E\left[\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & -f(\bm{s}){\rm diag}\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
-= & -\Delta+o\left(1\right)
-\end{align*}
-and
-\[
-Var\left\{ \left(\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
-\]
-\end{lem}
-\section*{Appendix: Proof of Theorem \ref{theorem:normality-glm}}
 \begin{proof}
 Let $H'_{n}(\bm{u})=\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})\right)$
 and $\alpha_{n}=h^{-1}n^{-1/2}$. Then, maximixing $H'_{n}(\bm{u})$
@@ -931,15 +951,13 @@ H_{n}(\bm{u})= & n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\bm{Z}_{i}^{T}\left\{ \b
  & +n^{-1}\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}\|-\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{(j)}(\bm{s})\|
 \end{align*}
 Define
-\begin{align*}
-\Omega_{n}= & \alpha_{n}\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
-= & \alpha_{n}\sum_{i=1}^{n}\omega_{i}
-\end{align*}
+\[
+\Omega_{n}=\alpha_{n}\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)=\alpha_{n}\sum_{i=1}^{n}\omega_{i}
+\]
 and 
-\begin{align*}
-\Delta_{n}= & \alpha_{n}^{2}\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
-= & \alpha_{n}^{2}\sum_{i=1}^{n}\delta_{i}
-\end{align*}
+\[
+\Delta_{n}=\alpha_{n}^{2}\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)=\alpha_{n}^{2}\sum_{i=1}^{n}\delta_{i}.
+\]
 Then it follows from the Taylor expansion of $\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right)$
 around $\bm{\zeta}(\bm{s})$ that
 \begin{align}
@@ -1003,7 +1021,7 @@ Then $\bm{d}^{T}\Omega_{n}=\alpha_{n}\sum_{i=1}^{n}\xi_{i}$. We establish
 the normality of $\bm{d}^{T}\Omega_{n}$ by checking the Lyapunov
 condition of the sequence $\left\{ \bm{d}^{T}Var\left(\Omega_{n}\right)\bm{d}\right\} ^{-1/2}\left\{ \bm{d}^{T}\Omega_{n}-\bm{d}^{T}E\Omega_{n}\right\} $.
 By boundedness of $K\left(\cdot\right)$, linearity of $q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)$
-in $Y_{i}$, and assumptions (A.6), (A.7), and (A.9), we have that
+in $Y_{i}$, and conditions (A.6) and (A.9), we have that
 \begin{equation}
 n\alpha_{n}^{3}E\left(\left|\xi_{1}\right|^{3}\right)=O\left(\alpha_{n}\right)\to0.\label{eq:lyapunov-bound}
 \end{equation}
@@ -1013,7 +1031,7 @@ the Lyapunov condition is satisfied. Thus, $\Omega_{n}$ asymptotically
 follows a Gaussian distribution and the result follows from the quadratic
 approximation lemma.
 \end{proof}
-\section*{Appendix: Proof of Theorem \ref{theorem:selection-glm}}
+\subsection*{Proof of Theorem \ref{theorem:selection-glm}}
 \begin{proof}
 The proof is by contradiction. Without loss of generality we consider
 only the $p$th covariate group.
@@ -1034,7 +1052,34 @@ and therefore the left hand side of (\ref{eq:glm-selection}) dominates
 the sum to the right side. Thus, for large enough $n$, $\hat{\bm{\zeta}}_{(p)}(\bm{s})\ne\bm{0}$
 cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $P\left\{ \hat{\bm{\zeta}}_{(b)}(\bm{s})=\bm{0}\right\} \to1$. 
 \end{proof}
-\section*{Appendix: Proof of Lemma \ref{lemma:omega}}
+\section*{Appendix B: Lemmas}
+\begin{lem}
+\label{lemma:omega}
+\begin{multline*}
+E\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=\\
+\left(\begin{array}{c}
+2^{-1}n^{1/2}h^{3}f(\bm{s})\kappa_{2}\bm{\Gamma}(\bm{s})\left(\nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right)^{T}\\
+\bm{0}_{2p}
+\end{array}\right)+o_{p}\left(h^{2}\bm{1}_{3p}\right)
+\end{multline*}
+and
+\begin{align*}
+Var\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & f(\bm{s}){\rm diag}\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
+= & \Lambda+o\left(1\right)
+\end{align*}
+\end{lem}
+\begin{lem}
+\label{lemma:delta}
+\begin{align*}
+E\left[\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & -f(\bm{s}){\rm diag}\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
+= & -\Delta+o\left(1\right)
+\end{align*}
+and
+\[
+Var\left\{ \left(\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
+\]
+\end{lem}
+\subsection*{Proof of Lemma \ref{lemma:omega}}
 \begin{proof}
 \textbf{Expectation}: For $j=1,\dots,p$, by a Taylor expansion of
 $\beta_{j}(\bm{s}_{i})$ around $\bm{s}$,
@@ -1059,7 +1104,8 @@ q_{1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}),\mu(\bm{s}_{i},\bm{z}_{i})\right)= &
  & -q_{2}\left(\bm{x}_{i}^{T}\bm{\beta}(\bm{s}_{i}),\mu(\bm{s}_{i},\bm{z})\right)\bm{x}_{i}^{T}\tilde{\bm{\beta}}''_{i}\\
  & +o\left(h^{2}\right).
 \end{align*}
-And by (D.A.2)(a) and (D.A.2)(b), we have that
+And by the definitions of $q_{1}(\cdot)$ and $q_{2}(\cdot)$, we
+have that
 \[
 q_{1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}),\mu(\bm{s}_{i},\bm{z}_{i})\right)=\rho(\bm{s}_{i},\bm{z}_{i})\bm{x}_{i}^{T}\tilde{\bm{\beta}}''_{i}+o\left(h^{2}\right).
 \]
@@ -1116,7 +1162,7 @@ Thus,
 Var\left(\Omega_{n}\right)=f(\bm{s}){\rm diag}\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right).
 \]
 \end{proof}
-\section*{Appendix: Proof of Lemma \ref{lemma:delta}}
+\subsection*{Proof of Lemma \ref{lemma:delta}}
 \begin{proof}
 \textbf{Expectation}: The approach is similar to the proof of Lemma
 \ref{lemma:omega}. By the Taylor expansion of $q_{2}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}),\mu\left(\bm{s}_{i},\bm{z}_{i}\right)\right)$
