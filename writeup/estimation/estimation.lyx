@@ -3460,10 +3460,7 @@ Sexpr{100*round(boston.coef.summary['CRIM','Prop.
 
 \end_inset
 
-% for CRIM, 
-and 
-\lang english
-
+% for CRIM, and 
 \begin_inset ERT
 status open
 
@@ -4329,6 +4326,41 @@ reference "theorem:selection"
 
 \begin_layout Section
 Conclusions and Discussion
+\end_layout
+
+\begin_layout Standard
+We have shown that the method of LAGR has oracle properties for local variable
+ selection and coefficient estimation in VCR models.
+ This is a novel result; the existing literature on variable selection for
+ VCR models focusses on global variable selection.
+ The method of LAGR extends the adaptive group lasso (AGL) - in particular,
+ the previous literature on the AGL is insufficient for local selection
+ in a VCR model because the local weights are functions of the kernel 
+\begin_inset Formula $K(\cdot)$
+\end_inset
+
+ and the bandwidth 
+\begin_inset Formula $h$
+\end_inset
+
+, with the result that the local observation weights change with sample
+ size and the coefficient estimates converge at a slower rate than in the
+ traditional AGL model.
+ As a consequence, the conditions for oracle properties of the AGL must
+ be refined for the LAGR setting (compare (A.8) to the corresponding condition
+ of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Wang-Leng-2008"
+
+\end_inset
+
+).
+ Satisfying (A.8) required an additional restriction on 
+\begin_inset Formula $\gamma$
+\end_inset
+
+, the unpenalized group norm in the LAGR penalty.
 \end_layout
 
 \begin_layout Standard

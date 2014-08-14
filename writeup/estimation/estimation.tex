@@ -499,7 +499,7 @@ set of covariates was used to fit each local model.
 		\hline 
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Tue Aug 12 21:23:50 2014
+% Wed Aug 13 18:48:08 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
     &  & 1.0 & \emph{0.03} & 0.03 & \textbf{0.02} & \textbf{0.00} & 0.02 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & \emph{0.02} & 0.02 & \textbf{0.01} & \textbf{0.00} & 0.01 \\ 
@@ -560,7 +560,7 @@ the others in this simulation at fitting the model output.
 		\hline 
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Tue Aug 12 21:23:53 2014
+% Wed Aug 13 18:48:11 2014
   \multirow{6}{*}{step} & \multirow{2}{*}{0} & 0.5 & 0.97 & \emph{0.25} & 0.26 & \textbf{0.25} \\ 
     &  & 1.0 & 0.96 & \emph{1.00} & \textbf{1.00} & 0.99 \\ 
     & \multirow{2}{*}{0.5} & 0.5 & 0.96 & \emph{0.26} & 0.26 & \textbf{0.25} \\ 
@@ -649,7 +649,7 @@ to radial roads is associated with a greater median house price and
 parts where it is associated with a lesser median house price.
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Tue Aug 12 21:23:59 2014
+% Wed Aug 13 18:48:19 2014
 \begin{table}
 \centering
 \begin{tabular}{|c|ccc|}
@@ -813,6 +813,21 @@ A and the necessary lemmas are given in Appendix B.
 
 
 \section{Conclusions and Discussion}
+
+We have shown that the method of LAGR has oracle properties for local
+variable selection and coefficient estimation in VCR models. This
+is a novel result; the existing literature on variable selection for
+VCR models focusses on global variable selection. The method of LAGR
+extends the adaptive group lasso (AGL) - in particular, the previous
+literature on the AGL is insufficient for local selection in a VCR
+model because the local weights are functions of the kernel $K(\cdot)$
+and the bandwidth $h$, with the result that the local observation
+weights change with sample size and the coefficient estimates converge
+at a slower rate than in the traditional AGL model. As a consequence,
+the conditions for oracle properties of the AGL must be refined for
+the LAGR setting (compare (A.8) to the corresponding condition of
+\citet{Wang-Leng-2008}). Satisfying (A.8) required an additional
+restriction on $\gamma$, the unpenalized group norm in the LAGR penalty.
 
 Here we considered the case of two-dimensional effect-modifying parameter.
 Similar results can be obtained when the effect-modifying parameter
