@@ -43,7 +43,7 @@
 \setlength{\oddsidemargin}{0in}
 \setlength{\evensidemargin}{0in}
 
-\journal{Annals of Statistics}
+\journal{JRSSB}
 
 \begin{document}
 
@@ -1217,33 +1217,6 @@ and therefore the left hand side of (\ref{eq:glm-selection}) dominates
 the sum to the right side. Thus, for large enough $n$, $\hat{\bm{\zeta}}_{(p)}(\bm{s})\ne\bm{0}$
 cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $P\left\{ \hat{\bm{\zeta}}_{(b)}(\bm{s})=\bm{0}\right\} \to1$. 
 \end{proof}
-\section{Lemmas}
-\begin{lem}
-\label{lemma:omega}
-\begin{align*}
-E\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right] &= \left(\begin{array}{c}
-2^{-1}n^{1/2}h^{3}f(\bm{s})\kappa_{2}\bm{\Gamma}(\bm{s})\left(\nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right)^{T}\\
-\bm{0}_{2p}
-\end{array}\right) \\
-&+o_{p}\left(h^{2}\bm{1}_{3p}\right)
-\end{align*}
-and
-\begin{align*}
-Var\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & f(\bm{s}){\rm diag}\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
-= & \Lambda+o\left(1\right)
-\end{align*}
-\end{lem}
-\begin{lem}
-\label{lemma:delta}
-\begin{align*}
-E\left[\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & -f(\bm{s}){\rm diag}\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
-= & -\Delta+o\left(1\right)
-\end{align*}
-and
-\[
-Var\left\{ \left(\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
-\]
-\end{lem}
 
 \end{document}
 

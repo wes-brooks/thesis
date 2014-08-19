@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2014.1.2)  19 AUG 2014 14:56
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2014.1.2)  19 AUG 2014 16:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -394,19 +394,14 @@ Overfull \hbox (54.48128pt too wide) in paragraph at lines 1192--1198
 m/it/12 E [] < E [] \OMS/cmsy/m/n/12 !
  []
 
-[29]
-Overfull \hbox (9.67766pt too wide) in paragraph at lines 1229--1229
-[] 
- []
-
-[30] (aux/estimation.aux) ) 
+[29] [30] (aux/estimation.aux) ) 
 Here is how much of TeX's memory you used:
- 3363 strings out of 493918
- 42556 string characters out of 6148600
- 113246 words of memory out of 5000000
- 6580 multiletter control sequences out of 15000+600000
+ 3361 strings out of 493918
+ 42530 string characters out of 6148600
+ 113213 words of memory out of 5000000
+ 6578 multiletter control sequences out of 15000+600000
  26803 words of font info for 81 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 32i,18n,34p,1116b,335s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 32i,18n,34p,1116b,309s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on aux/estimation.pdf (30 pages).
