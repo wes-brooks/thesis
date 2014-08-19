@@ -1223,7 +1223,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-Conditions (A.1)--(A.4) are common in the literature on nonparametric estimation,
+Conditions (C.1)--(C.4) are common in the literature on nonparametric estimation,
  for instance see conditions (1)--(3) of 
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -1264,7 +1264,7 @@ key "Sun-Yan-Zhang-Lu-2014"
 \end_inset
 
 ; its differentiability is used in the Taylor's expansions.
- Condition (A.4) is used when bounding the remainder term in the Taylor's
+ Condition (C.4) is used when bounding the remainder term in the Taylor's
  expansions.
  Condition (C.5) is the same as condition (4) of 
 \begin_inset CommandInset citation
@@ -1289,17 +1289,31 @@ key "Sun-Yan-Zhang-Lu-2014"
 , and the Lipschitz condition in (C.5) is satisfied with probability one.
  Under condition (C.6), the coefficient estimates attain the optimal rate
  of convergence for bivariate nonparametric regression.
+ Condition (C.7) is needed for establishing the oracle properties, and is
+ a refinement of the condition for the adaptive group lasso 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Wang-Leng-2008"
+
+\end_inset
+
+.
+ In particular, satisfying (C.7) requires an additional restriction on 
+\begin_inset Formula $\gamma$
+\end_inset
+
+, the unpenalized group norm exponent in the LAGR penalty.
 \end_layout
 
 \begin_layout Standard
-Under condition (A.8), the local penalty tends to zero on covariates with
+Under condition (C.7), the local penalty tends to zero on covariates with
  true nonzero coefficients and to infinity on covariates with true zero
  coefficients.
  By (C.7), 
 \begin_inset Formula $h^{-1}n^{-1/2}\lambda_{n}\to0$
 \end_inset
 
- for 
+ for all 
 \begin_inset Formula $j\le p_{0}$
 \end_inset
 
@@ -1307,7 +1321,7 @@ Under condition (A.8), the local penalty tends to zero on covariates with
 \begin_inset Formula $hn^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}\to\infty$
 \end_inset
 
- for 
+ for all 
 \begin_inset Formula $j>p_{0}$
 \end_inset
 
@@ -4002,19 +4016,15 @@ LAGR Penalized Local Likelihood and Oracle Properties
 \end_layout
 
 \begin_layout Standard
-Similar to the local linear regression, the LAGR for GLMs is a grouped 
-\begin_inset Formula $\ell_{1}$
-\end_inset
-
- regularization method.
- Now, though, we use a penalized local quasi-likelihood:
+Whereas the method of LAGR for local linear regression uses a penalized
+ local likelihood, LAGR for GLMs uses a penalized local quasi-likelihood:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
 \mathcal{J}\left(\bm{\zeta}(\bm{s})\right)= & \mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\\
-= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right)+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{(j)}(\bm{s})\|
+= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right)+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{(j)}(\bm{s})\|.
 \end{align*}
 
 \end_inset
@@ -4041,10 +4051,7 @@ Further, let
 \end_inset
 
  is the vector of unpenalized local coefficients.
-\end_layout
-
-\begin_layout Standard
-The following are additional to the definitions and assumptions of Section
+ The following are additional to the definitions and conditions of Section
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -4052,11 +4059,8 @@ reference "sub:oracle-properties"
 
 \end_inset
 
-:
-\end_layout
-
-\begin_layout Standard
-Define 
+.
+ Define 
 \begin_inset Formula $\rho(\bm{s},\bm{z})=\left[g_{1}\left(\mu(\bm{s},\bm{z})\right)\right]^{2}Var\left\{ Y(\bm{s})|\bm{X}(\bm{s}),\bm{s}\right\} $
 \end_inset
 
@@ -4315,11 +4319,6 @@ ent for local selection in a VCR model because the local weights are functions
  adaptive group lasso.
  Thus, the conditions for oracle properties of the adaptive group lasso
  must be refined for the LAGR method.
- Satisfying (C.7) required an additional restriction on 
-\begin_inset Formula $\gamma$
-\end_inset
-
-, the unpenalized group norm exponent in the LAGR penalty.
 \end_layout
 
 \begin_layout Standard
@@ -5000,7 +4999,7 @@ where
 \begin_inset Formula $K\left(\cdot\right)$
 \end_inset
 
- is bounded, and, by condition (A.6),
+ is bounded, and, by condition (C.6),
 \end_layout
 
 \begin_layout Proof
@@ -5328,7 +5327,7 @@ Then
 \begin_inset Formula $Y_{i}$
 \end_inset
 
-, and conditions (A.6) and (A.9), we have that
+, and conditions (C.6) and (C.8), we have that
 \end_layout
 
 \begin_layout Proof

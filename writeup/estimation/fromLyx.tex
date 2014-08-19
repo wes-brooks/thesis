@@ -47,7 +47,6 @@
 
 \begin{document}
 
-
 \begin{frontmatter}
 
 \title{Local Adaptive Grouped Regularization and its Oracle Properties for Varying Coefficient Regression}
@@ -839,13 +838,6 @@ $d$ is the dimension of the effect-modifying parameter, it follows
 that to attain the oracle properties, the exponent in the adaptive
 weights for LAGR estimation must satisfy $\gamma>d/2$.
 
-
-\section*{References}
-\bibliographystyle{chicago}
-\bibliography{../../references/gwr}
-
-\clearpage
-
 \appendix
 \section{Proofs of Theorems 1--2}
 \subsection*{Proof of Theorem \ref{theorem:normality}\label{sec:gaussian-normality-proof} }
@@ -898,6 +890,7 @@ of the limiting function is the limit of the minimizers $\hat{\bm{u}}_{n}$
 \]
 the result of Theorem \ref{theorem:normality} follows.
 \end{proof}
+
 \subsection*{Proof of Theorem \ref{theorem:selection}\label{sec:gaussian-selection-proof}}
 \begin{proof}
 The proof is by contradiction. Without loss of generality we consider
@@ -945,6 +938,7 @@ and therefore the left hand side of (\ref{eq:selection}) dominates
 the sum to the right side. Thus, for large enough $n$, $\hat{\bm{\zeta}}_{(p)}(\bm{s})\ne\bm{0}$
 cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $P\left\{ \hat{\bm{\zeta}}_{(b)}(\bm{s})=\bm{0}\right\} \to1$. 
 \end{proof}
+
 \section{Proofs of Theorems 2--3}
 \subsection*{Proof of Theorem \ref{theorem:normality-glm}}
 The next proofs require the lemmas in the web-based supplemental material.
@@ -1068,5 +1062,6 @@ the sum to the right side. Thus, for large enough $n$, $\hat{\bm{\zeta}}_{(p)}(\
 cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $P\left\{ \hat{\bm{\zeta}}_{(b)}(\bm{s})=\bm{0}\right\} \to1$. 
 \end{proof}
 
+\bibliographystyle{chicago}
 \end{document}
 

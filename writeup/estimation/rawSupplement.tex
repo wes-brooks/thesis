@@ -1,0 +1,224 @@
+\documentclass[authoryear,review, 12pt]{elsarticle}
+
+
+
+\newcommand{\maxwidth}{\textwidth}
+
+\usepackage{alltt}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose}
+\setlength{\parskip}{\bigskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{undertilde}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{esint}
+\usepackage{booktabs}
+\usepackage{color}
+\usepackage{multirow}
+\usepackage{natbib}
+
+\mathchardef\mhyphen="2D % Define a "math hyphen"
+
+\newcommand{\hlc}[2][yellow]{ {\sethlcolor{#1} \hl{#2}} }
+\newcommand{\highlight}[1]{\colorbox{yellow}{$\displaystyle #1$}}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+
+\newcommand\pr{\mathbf P}
+\newcommand{\E}{\mathbb{E}}
+
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8.5in}
+\textwidth=6.5in
+\textheight=8.5in
+\setlength{\topmargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+
+\journal{Statistica Sinica}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Web-based Supplementary Material for ``Local Adaptive Grouped Regularization and its Oracle Properties for Varying Coefficient Regression"}
+
+
+\author[wrbrooks]{Wesley Brooks}
+\ead{wrbrooks@uwalumni.com}
+
+\author[jzhu]{Jun Zhu}
+\ead{jzhu@stat.wisc.edu}
+
+\author[zlu]{Zudi Lu}
+\ead{Z.Lu@soton.ac.uk}
+
+\address[wrbrooks]{Department of Statistics, University of Wisconsin, Madison, WI 53706}
+\address[jzhu]{Department of Statistics and Department of Entomology, University of Wisconsin, Madison, WI 53706}
+\address[zlu]{School of Mathematical Sciences, The University of Southampton, Highfield, Southampton UK}
+
+\end{frontmatter}
+
+\section{Lemmas}
+\begin{lem}
+\label{lemma:omega}
+\begin{multline*}
+E\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]=\\
+\left(\begin{array}{c}
+2^{-1}n^{1/2}h^{3}f(\bm{s})\kappa_{2}\bm{\Gamma}(\bm{s})\left(\nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right)^{T}\\
+\bm{0}_{2p}
+\end{array}\right)+o_{p}\left(h^{2}\bm{1}_{3p}\right)
+\end{multline*}
+and
+\begin{align*}
+Var\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & f(\bm{s}){\rm diag}\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
+= & \Lambda+o\left(1\right)
+\end{align*}
+\end{lem}
+\begin{proof}
+\textbf{Expectation}: For $j=1,\dots,p$, by a Taylor expansion of
+$\beta_{j}(\bm{s}_{i})$ around $\bm{s}$,
+\[
+\beta_{j}(\bm{s}_{i})=\beta_{j}(\bm{s})+\nabla\beta_{j}(\bm{s})(\bm{s}_{i}-\bm{s})+(\bm{s}_{i}-\bm{s})^{T}\left\{ \nabla^{2}\beta_{j}(\bm{s})\right\} (\bm{s}_{i}-\bm{s})+o\left(h^{2}\right)
+\]
+and thus, for $\bm{x}\in\mathbb{R}^{p}$, 
+\[
+\bm{x}_{i}^{T}\bm{\beta}\!\left(\bm{s}_{i}\right)=\sum_{j=1}^{p}x_{ij}\left[\beta_{j}(\bm{s})+\nabla\beta_{j}(\bm{s})^{T}(\bm{s}_{i}-\bm{s})+\tilde{\beta}''_{ij}\right]+o\left(h^{2}\right).
+\]
+Letting $\bm{z}_{i}^{T}=\left\{ \left(1,s_{i,1}-s_{1},s_{i,2}-s_{2}\right)\otimes\bm{x}_{i}^{T}\right\} $
+and $\bm{\zeta}(\bm{s})=\left(\bm{\beta}(\bm{s})^{T},\nabla_{u}\bm{\beta}(\bm{s})^{T},\nabla_{v}\bm{\beta}(\bm{s})^{T}\right)^{T}$,
+we have that 
+\begin{align*}
+\bm{x}_{i}^{T}\bm{\beta}(\bm{s}_{i})-\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})= & \bm{x}_{i}^{T}\tilde{\bm{\beta}}''_{i}+o\left(h^{2}\right)\\
+= & O_{p}\left(h^{2}\right).
+\end{align*}
+By a Taylor expansion around $\bm{x}^{T}\bm{\beta}(\bm{s}_{i})$,
+then, 
+\begin{align*}
+q_{1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}),\mu(\bm{s}_{i},\bm{z}_{i})\right)= & q_{1}\left(\bm{x}_{i}^{T}\bm{\beta}(\bm{s}_{i}),\mu(\bm{s}_{i},\bm{z})\right)\\
+ & -q_{2}\left(\bm{x}_{i}^{T}\bm{\beta}(\bm{s}_{i}),\mu(\bm{s}_{i},\bm{z})\right)\bm{x}_{i}^{T}\tilde{\bm{\beta}}''_{i}\\
+ & +o\left(h^{2}\right).
+\end{align*}
+And by the definitions of $q_{1}(\cdot)$ and $q_{2}(\cdot)$, we
+have that
+\[
+q_{1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}),\mu(\bm{s}_{i},\bm{z}_{i})\right)=\rho(\bm{s}_{i},\bm{z}_{i})\bm{x}_{i}^{T}\tilde{\bm{\beta}}''_{i}+o\left(h^{2}\right).
+\]
+Now the expectation of $\Omega_{n}$ is 
+\begin{align*}
+nE\left(\omega_{i}|\bm{Z}_{i}=\bm{z}_{i},\bm{s}_{i}\right)= & \left(1/2\right)\alpha_{n}\bm{z}_{i}q_{1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}),\mu(\bm{s}_{i},\bm{z}_{i})\right)K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
+= & \left(1/2\right)\alpha_{n}h^{2}\bm{z}_{i}\left\{ h^{-2}\rho(\bm{s}_{i},\bm{z}_{i})\bm{x}_{i}^{T}\tilde{\bm{\beta}}''_{i}+o\left(\bm{1}_{3p}\right)\right\} K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right).
+\end{align*}
+To facilitate a change of variables, we observe that $h^{-2}\tilde{\beta}''_{j}=\left(\frac{\bm{s}_{i}-\bm{s}}{h}\right)^{T}\left\{ \nabla^{2}\beta_{j}(\bm{s})\right\} \left(\frac{\bm{s}_{i}-\bm{s}}{h}\right)$.
+Thus,
+\begin{align*}
+E\left(\omega_{i}|\bm{s}_{i}\right)= & \left(1/2\right)\alpha_{n}h^{2}\left[\left(\begin{array}{c}
+1\\
+h^{-1}(s_{i,1}-s_{1})\\
+h^{-1}(s_{i,2}-s_{2})
+\end{array}\right)\otimes\left\{ \bm{\Gamma}(\bm{s}_{i})h^{-2}\tilde{\bm{\beta}}''_{i}\right\} +o\left(\bm{1}_{3p}\right)\right]K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right).
+\end{align*}
+And, using the symmetry of the kernel function,
+\begin{align*}
+E\left(\omega_{i}\right)= & (1/2)\alpha_{n}h^{4}f(\bm{s})\left(\begin{array}{c}
+\kappa_{2}\\
+h\kappa_{3}\\
+h\kappa_{3}
+\end{array}\right)\otimes\left[\bm{\Gamma}(\bm{s})\left\{ \nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right\} \right]+o\left(h^{2}\bm{1}_{3p}\right)
+\end{align*}
+where $\left\{ \nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right\} =\left(\nabla_{uu}^{2}\beta_{1}(\bm{s})+\nabla_{vv}^{2}\beta_{1}(\bm{s}),\dots,\nabla_{uu}^{2}\beta_{p}(\bm{s})+\nabla_{vv}^{2}\beta_{p}(\bm{s})\right)^{T}$.
+Thus,
+\begin{align*}
+E\left(\Omega_{n}\right)= & \left(\begin{array}{c}
+\alpha_{n}^{-1}2^{-1}h^{2}\kappa_{2}f(\bm{s})\bm{\Gamma}(\bm{s})\left(\nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right)^{T}\\
+\bm{0}_{2p}
+\end{array}\right)+o_{p}\left(h^{2}\bm{1}_{3p}\right)
+\end{align*}
+\textbf{Variance}: By the previous result, $E\left(\Omega_{n}\right)=O\left(h^{2}\right)$.
+Thus, $var\left(\Omega_{n}\right)\to E\left(\Omega_{n}^{2}\right)$,
+and since the observations are independent, $E\left(\Omega_{n}^{2}\right)=\sum_{i=1}^{n}E\left(\omega_{i}^{2}\right)$.
+And, by Taylor expansion around $\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}_{i})$, 
+\begin{align*}
+q_{1}^{2}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)= & q_{1}^{2}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}_{i}),Y_{i}\right)\\
+ & -q_{1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}_{i}),Y_{i}\right)q_{2}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}_{i}),Y_{i}\right)\bm{x}_{i}^{T}\tilde{\bm{\beta}}''_{i}\\
+ & +o\left(h^{2}\right).
+\end{align*}
+Since $q_{1}\left(\cdot,\cdot\right)$ is the quasi-score function,
+it follows that 
+\begin{align*}
+E\left(\omega_{i}^{2}|\bm{Z}_{i}=\bm{z}_{i},\bm{s}_{i}\right)= & \alpha_{n}^{2}\rho(\bm{s}_{i},\bm{z}_{i})\bm{z}_{i}\bm{z}_{i}^{T}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)+o\left(h^{2}\right).
+\end{align*}
+By the symmetry of the kernel function,
+\[
+E\left(\omega_{i}^{2}\right)=n^{-1}f(\bm{s}){\rm diag}\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right).
+\]
+Thus, 
+\[
+Var\left(\Omega_{n}\right)=f(\bm{s}){\rm diag}\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right).
+\]
+\end{proof}
+\begin{lem}
+\label{lemma:delta}
+\begin{align*}
+E\left[\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & -f(\bm{s}){\rm diag}\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
+= & -\Delta+o\left(1\right)
+\end{align*}
+and
+\[
+Var\left\{ \left(\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
+\]
+\end{lem}
+\begin{proof}
+\textbf{Expectation}: The approach is similar to the proof of Lemma
+\ref{lemma:omega}. By the Taylor expansion of $q_{2}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}),\mu\left(\bm{s}_{i},\bm{z}_{i}\right)\right)$
+around $\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}_{i})$:
+\begin{align*}
+q_{2}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}),\mu(\bm{s}_{i},\bm{z}_{i})\right)= & q_{2}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}_{i}),\mu(\bm{s}_{i},\bm{z}_{i})\right)+q_{3}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}_{i}),\mu(\bm{s}_{i},\bm{z}_{i})\right)\left\{ \bm{z}_{i}^{T}\bm{\zeta}(\bm{s})-\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}_{i})\right\} \\
+= & -\rho(\bm{s}_{i},\bm{z}_{i})+o\left(1\right).
+\end{align*}
+And by the same arguments as before
+\begin{align*}
+E\left(\delta_{i}|\bm{Z}_{i}=\bm{z}_{i},\bm{s}_{i}\right)= & -\alpha_{n}^{2}\rho(\bm{s}_{i},\bm{z}_{i})\bm{z}_{i}\bm{z}_{i}^{T}K\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)\\
+E\left(\delta_{i}|\bm{s}_{i}\right)= & -\alpha_{n}^{2}\left(\begin{array}{c}
+1\\
+h^{-1}(s_{i,1}-s_{1})\\
+h^{-1}(s_{i,2}-s_{2})
+\end{array}\right)\left(\begin{array}{c}
+1\\
+h^{-1}(s_{i,1}-s_{1})\\
+h^{-1}(s_{i,2}-s_{2})
+\end{array}\right)^{T}\otimes\bm{\Gamma}(\bm{s}_{i})K\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)\\
+E\left(\delta_{i}\right)= & -nf\left(\bm{s}\right){\rm diag}\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\bm{\Gamma}\left(\bm{s}\right)+o\left(n^{-1}\right)
+\end{align*}
+Thus, 
+\[
+E\left(\Delta_{n}\right)=-f(\bm{s}){\rm diag}\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)
+\]
+\textbf{Variance}: From the previous result, it follows that $\left\{ E\left(\delta_{i}\right)\right\} ^{2}=O\left(n^{-2}\right)$.
+By the definition of $\delta_{i}$,
+\begin{multline*}
+E\left(\delta_{i}^{2}|\bm{Z}_{i}=\bm{z}_{i},\bm{s}_{i}\right)=\\
+\alpha_{n}^{4}\bm{z}_{i}^{T}\bm{z}_{i}q_{2}^{2}(\bm{s}_{i},\bm{z}_{i})\left(\begin{array}{c}
+1\\
+h^{-1}(s_{i,1}-s_{1})\\
+h^{-1}(s_{i,2}-s_{2})
+\end{array}\right)\left(\begin{array}{c}
+1\\
+h^{-1}(s_{i,1}-s_{1})\\
+h^{-1}(s_{i,2}-s_{2})
+\end{array}\right)^{T}\bm{z}_{i}\bm{z}_{i}^{T}K^{2}\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)+o\left(1\right)
+\end{multline*}
+And it follows that $E\left(\delta_{i}^{2}\right)=O\left(n^{-1}\alpha_{n}^{2}\right)$,
+and $Var\left(\Delta_{n}\right)=O\left(\alpha_{n}^{2}\right)$.
+\end{proof}
+
+\bibliographystyle{chicago}
+\end{document}
