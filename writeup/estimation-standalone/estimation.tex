@@ -43,7 +43,7 @@
 \setlength{\oddsidemargin}{0in}
 \setlength{\evensidemargin}{0in}
 
-\journal{Statistica Sinica}
+\journal{Annals of Statistics}
 
 \begin{document}
 
@@ -446,7 +446,7 @@ and $0$ otherwise. The second is a gradient function, $\beta_{{\rm gradient}}(\b
 and the third is a parabola $\beta_{{\rm parabola}}(\bm{s})=1-2\left\{ (s_{u}-0.5)^{2}+(s_{v}-0.5)^{2}\right\} $.
 
 \begin{figure}
-    \includegraphics[width=0.33\textwidth]{0_Users_wesley_git_gwr_figures_simulation_step.pdf}\includegraphics[width=0.33\textwidth]{1_Users_wesley_git_gwr_figures_simulation_gradient.pdf}\includegraphics[width=0.33\textwidth]{2_Users_wesley_git_gwr_figures_simulation_parabola.pdf}
+    \includegraphics[width=0.33\textwidth]{figure/step.pdf}\includegraphics[width=0.33\textwidth]{figure/gradient.pdf}\includegraphics[width=0.33\textwidth]{figure/parabola.pdf}
     \protect\caption{The step function (left), gradient function (middle), and parabola
 function (right) that were used as the coefficient function $\beta_{1}(\bm{s})$
 in the VCR model $y_{i}=x_{1}(\bm{s}_{i})\beta_{1}(\bm{s}_{i})+\varepsilon_{i}$
@@ -816,7 +816,185 @@ weights for LAGR estimation must satisfy $\gamma>d/2$.
 
 \section*{References}
 \bibliographystyle{chicago}
-\bibliography{../../references/gwr}
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Akaike}{Akaike}{1973}]{Akaike-1973}
+Akaike, H. (1973).
+\newblock Information theory and an extension of the maximum likelihood
+  principle.
+\newblock In B.~Petrov and F.~Csaki (Eds.), {\em 2nd International Symposium on
+  Information Theory}, pp.\  267--281.
+
+\bibitem[\protect\citeauthoryear{Antoniadas, Gijbels, and
+  Verhasselt}{Antoniadas et~al.}{2012}]{Antoniadis:2012a}
+Antoniadas, A., I.~Gijbels, and A.~Verhasselt (2012).
+\newblock Variable selection in varying-coefficient models using {P}-splines.
+\newblock {\em Journal of Computational and Graphical Statistics\/}~{\em 21},
+  638--661.
+
+\bibitem[\protect\citeauthoryear{Cai, Fan, and Li}{Cai
+  et~al.}{2000}]{Cai-Fan-Li-2000}
+Cai, Z., J.~Fan, and R.~Li (2000).
+\newblock Efficient estimation and inferences for varying-coefficient models.
+\newblock {\em Journal of the American Statistical Association\/}~{\em 95},
+  888--902.
+
+\bibitem[\protect\citeauthoryear{Cleveland and Grosse}{Cleveland and
+  Grosse}{1991}]{Cleveland-Grosse-1991}
+Cleveland, W. and E.~Grosse (1991).
+\newblock Local regression models.
+\newblock In J.~Chambers and T.~Hastie (Eds.), {\em Statistical models in S}.
+  Wadsworth and Brooks/Cole.
+
+\bibitem[\protect\citeauthoryear{Efron}{Efron}{2004}]{Efron:2004a}
+Efron, B. (2004).
+\newblock The estimation of prediction error: covariance penalties and
+  cross-validation.
+\newblock {\em Journal of the American Statistical Association\/}~{\em 99},
+  619--632.
+
+\bibitem[\protect\citeauthoryear{Fan and Gijbels}{Fan and
+  Gijbels}{1996}]{Fan-Gijbels-1996}
+Fan, J. and I.~Gijbels (1996).
+\newblock {\em Local Polynomial Modeling and its Applications}.
+\newblock Chapman and Hall, London.
+
+\bibitem[\protect\citeauthoryear{Fan and Zhang}{Fan and
+  Zhang}{1999}]{Fan-Zhang-1999}
+Fan, J. and W.~Zhang (1999).
+\newblock Statistical estimation in varying coefficient models.
+\newblock {\em Annals of Statistics\/}~{\em 27}, 1491--1518.
+
+\bibitem[\protect\citeauthoryear{Geyer}{Geyer}{1994}]{Geyer-1994}
+Geyer, C.~J. (1994).
+\newblock On the asymptotics of constrained ${M}$-estimation.
+\newblock {\em Annals of Statistics\/}~{\em 22}, 1993--2010.
+
+\bibitem[\protect\citeauthoryear{Gilley and Pace}{Gilley and
+  Pace}{1996}]{Gilley-Pace-1996}
+Gilley, O. and R.~K. Pace (1996).
+\newblock On the {H}arrison and {R}ubinfeld data.
+\newblock {\em Journal of Environmental Economics and Management\/}~{\em 31},
+  403--405.
+
+\bibitem[\protect\citeauthoryear{Harrison and Rubinfeld}{Harrison and
+  Rubinfeld}{1978}]{Harrison-Rubinfeld-1978}
+Harrison, D. and D.~L. Rubinfeld (1978).
+\newblock Hedonic housing prices and the demand for clean air.
+\newblock {\em Journal of Environmental Economics and Management\/}~{\em 5},
+  81--102.
+
+\bibitem[\protect\citeauthoryear{Hastie and Loader}{Hastie and
+  Loader}{1993}]{Hastie:1993b}
+Hastie, T. and C.~Loader (1993).
+\newblock Local regression: automatic kernel carpentry.
+\newblock {\em Statistical Science\/}~{\em 8}, 120--143.
+
+\bibitem[\protect\citeauthoryear{Hastie and Tibshirani}{Hastie and
+  Tibshirani}{1993}]{Hastie-Tibshirani-1993}
+Hastie, T. and R.~Tibshirani (1993).
+\newblock Varying-coefficient models.
+\newblock {\em Journal of the Royal Statistical Society Series B\/}~{\em 55},
+  757--796.
+
+\bibitem[\protect\citeauthoryear{Hurvich, Simonoff, and Tsai}{Hurvich
+  et~al.}{1998}]{Hurvich-1998}
+Hurvich, C.~M., J.~S. Simonoff, and C.-L. Tsai (1998).
+\newblock Smoothing parameter selection in nonparametric regression using an
+  improved {A}kaike information criterion.
+\newblock {\em Journal of the Royal Statistical Society Series B\/}~{\em 60},
+  271--293.
+
+\bibitem[\protect\citeauthoryear{Knight and Fu}{Knight and
+  Fu}{2000}]{Knight-Fu-2000}
+Knight, K. and W.~Fu (2000).
+\newblock Asymptotics for {L}asso-type estimators.
+\newblock {\em Annals of Statistics\/}~{\em 28}, 1356--1378.
+
+\bibitem[\protect\citeauthoryear{Mallows}{Mallows}{1973}]{Mallows-1973}
+Mallows, C. (1973).
+\newblock Some comments on ${C}_p$.
+\newblock {\em Technometrics\/}~{\em 15}, 661--675.
+
+\bibitem[\protect\citeauthoryear{McCullagh and Nelder}{McCullagh and
+  Nelder}{1989}]{McCullagh-Nelder-1989}
+McCullagh, P. and J.~Nelder (1989).
+\newblock {\em Generalized Linear Models, Second Edition}.
+\newblock Taylor and Francis.
+
+\bibitem[\protect\citeauthoryear{Pace and Gilley}{Pace and
+  Gilley}{1997}]{Pace-Gilley-1997}
+Pace, R.~K. and O.~Gilley (1997).
+\newblock Using the spatial configuration of the data to improve estimation.
+\newblock {\em Journal of Real Estate Finance and Economics\/}~{\em 14},
+  333--340.
+
+\bibitem[\protect\citeauthoryear{Samiuddin and el~Sayyad}{Samiuddin and
+  el~Sayyad}{1990}]{Samiuddin-el-Sayyad-1990}
+Samiuddin, M. and G.~M. el~Sayyad (1990).
+\newblock On nonparametric kernel density estimates.
+\newblock {\em Biometrika\/}~{\em 77}, 865--874.
+
+\bibitem[\protect\citeauthoryear{Stein}{Stein}{1981}]{Stein-1981}
+Stein, C. (1981).
+\newblock Estimation of the mean of a multivariate normal distribution.
+\newblock {\em Annals of Statistics\/}~{\em 9}, 1135--1151.
+
+\bibitem[\protect\citeauthoryear{Sun, Yan, Zhang, and Lu}{Sun
+  et~al.}{2014}]{Sun-Yan-Zhang-Lu-2014}
+Sun, Y., H.~Yan, W.~Zhang, and Z.~Lu (2014).
+\newblock A semiparametric spatial dynamic model.
+\newblock {\em Annals of Statistics\/}~{\em 42}, 700--727.
+
+\bibitem[\protect\citeauthoryear{Tibshirani}{Tibshirani}{1996}]{Tibshirani-1996}
+Tibshirani, R. (1996).
+\newblock Regression shrinkage and selection via the {L}asso.
+\newblock {\em Journal of the Royal Statistical Society Series B\/}~{\em 58},
+  267--288.
+
+\bibitem[\protect\citeauthoryear{Wang and Leng}{Wang and
+  Leng}{2008}]{Wang-Leng-2008}
+Wang, H. and C.~Leng (2008).
+\newblock A note on adaptive group {L}asso.
+\newblock {\em Computational Statistics and Data Analysis\/}~{\em 52},
+  5277--5286.
+
+\bibitem[\protect\citeauthoryear{Wang and Xia}{Wang and
+  Xia}{2009}]{Wang-Xia-2009}
+Wang, H. and Y.~Xia (2009).
+\newblock Shrinkage estimation of the varying coefficient model.
+\newblock {\em Journal of the American Statistical Association\/}~{\em 104},
+  747--757.
+
+\bibitem[\protect\citeauthoryear{Wang, Li, and Huang}{Wang
+  et~al.}{2008}]{Wang-2008a}
+Wang, L., H.~Li, and J.~Z. Huang (2008).
+\newblock Variable selection in nonparametric varying-coefficient models for
+  analysis of repeated measurements.
+\newblock {\em Journal of the American Statistical Association\/}~{\em 103},
+  1556--1569.
+
+\bibitem[\protect\citeauthoryear{Wang, Mei, and Yan}{Wang
+  et~al.}{2008}]{Wang-2008b}
+Wang, N., C.-L. Mei, and X.-D. Yan (2008).
+\newblock Local linear estimation of spatially varying coefficient models: an
+  improvement on the geographically weighted regression technique.
+\newblock {\em Environment and Planning A\/}~{\em 40}, 986--1005.
+
+\bibitem[\protect\citeauthoryear{Yuan and Lin}{Yuan and
+  Lin}{2006}]{Yuan-Lin-2006}
+Yuan, M. and Y.~Lin (2006).
+\newblock Model selection and estimation in regression with grouped variables.
+\newblock {\em Journal of the Royal Statistical Society Series B\/}~{\em 68},
+  49--67.
+
+\bibitem[\protect\citeauthoryear{Zou}{Zou}{2006}]{Zou-2006}
+Zou, H. (2006).
+\newblock The adaptive {L}asso and its oracle properties.
+\newblock {\em Journal of the American Statistical Association\/}~{\em 101},
+  1418--1429.
+
+\end{thebibliography}
 
 \clearpage
 
