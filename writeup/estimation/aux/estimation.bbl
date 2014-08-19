@@ -10,7 +10,7 @@ Akaike, H. (1973).
 \bibitem[\protect\citeauthoryear{Antoniadas, Gijbels, and
   Verhasselt}{Antoniadas et~al.}{2012}]{Antoniadis:2012a}
 Antoniadas, A., I.~Gijbels, and A.~Verhasselt (2012).
-\newblock Variable selection in varying-coefficient models using p-splines.
+\newblock Variable selection in varying-coefficient models using {P}-splines.
 \newblock {\em Journal of Computational and Graphical Statistics\/}~{\em 21},
   638--661.
 
@@ -49,13 +49,13 @@ Fan, J. and W.~Zhang (1999).
 
 \bibitem[\protect\citeauthoryear{Geyer}{Geyer}{1994}]{Geyer-1994}
 Geyer, C.~J. (1994).
-\newblock On the asymptotics of constrained m-estimation.
+\newblock On the asymptotics of constrained ${M}$-estimation.
 \newblock {\em Annals of Statistics\/}~{\em 22}, 1993--2010.
 
 \bibitem[\protect\citeauthoryear{Gilley and Pace}{Gilley and
   Pace}{1996}]{Gilley-Pace-1996}
 Gilley, O. and R.~K. Pace (1996).
-\newblock On the harrison and rubinfeld data.
+\newblock On the {H}arrison and {R}ubinfeld data.
 \newblock {\em Journal of Environmental Economics and Management\/}~{\em 31},
   403--405.
 
@@ -83,19 +83,19 @@ Hastie, T. and R.~Tibshirani (1993).
   et~al.}{1998}]{Hurvich-1998}
 Hurvich, C.~M., J.~S. Simonoff, and C.-L. Tsai (1998).
 \newblock Smoothing parameter selection in nonparametric regression using an
-  improved akaike information criterion.
+  improved {A}kaike information criterion.
 \newblock {\em Journal of the Royal Statistical Society Series B\/}~{\em 60},
   271--293.
 
 \bibitem[\protect\citeauthoryear{Knight and Fu}{Knight and
   Fu}{2000}]{Knight-Fu-2000}
 Knight, K. and W.~Fu (2000).
-\newblock Asymptotics for lasso-type estimators.
+\newblock Asymptotics for {L}asso-type estimators.
 \newblock {\em Annals of Statistics\/}~{\em 28}, 1356--1378.
 
 \bibitem[\protect\citeauthoryear{Mallows}{Mallows}{1973}]{Mallows-1973}
 Mallows, C. (1973).
-\newblock Some comments on cp.
+\newblock Some comments on ${C}_p$.
 \newblock {\em Technometrics\/}~{\em 15}, 661--675.
 
 \bibitem[\protect\citeauthoryear{McCullagh and Nelder}{McCullagh and
@@ -114,7 +114,7 @@ Pace, R.~K. and O.~Gilley (1997).
 \bibitem[\protect\citeauthoryear{Samiuddin and el~Sayyad}{Samiuddin and
   el~Sayyad}{1990}]{Samiuddin-el-Sayyad-1990}
 Samiuddin, M. and G.~M. el~Sayyad (1990).
-\newblock On nonparametrickernel density estimates.
+\newblock On nonparametric kernel density estimates.
 \newblock {\em Biometrika\/}~{\em 77}, 865--874.
 
 \bibitem[\protect\citeauthoryear{Stein}{Stein}{1981}]{Stein-1981}
@@ -130,14 +130,14 @@ Sun, Y., H.~Yan, W.~Zhang, and Z.~Lu (2014).
 
 \bibitem[\protect\citeauthoryear{Tibshirani}{Tibshirani}{1996}]{Tibshirani-1996}
 Tibshirani, R. (1996).
-\newblock Regression shrinkage and selection via the lasso.
+\newblock Regression shrinkage and selection via the {L}asso.
 \newblock {\em Journal of the Royal Statistical Society Series B\/}~{\em 58},
   267--288.
 
 \bibitem[\protect\citeauthoryear{Wang and Leng}{Wang and
   Leng}{2008}]{Wang-Leng-2008}
 Wang, H. and C.~Leng (2008).
-\newblock A note on adaptive group lasso.
+\newblock A note on adaptive group {L}asso.
 \newblock {\em Computational Statistics and Data Analysis\/}~{\em 52},
   5277--5286.
 
@@ -172,7 +172,7 @@ Yuan, M. and Y.~Lin (2006).
 
 \bibitem[\protect\citeauthoryear{Zou}{Zou}{2006}]{Zou-2006}
 Zou, H. (2006).
-\newblock The adaptive lasso and its oracle properties.
+\newblock The adaptive {L}asso and its oracle properties.
 \newblock {\em Journal of the American Statistical Association\/}~{\em 101},
   1418--1429.
 

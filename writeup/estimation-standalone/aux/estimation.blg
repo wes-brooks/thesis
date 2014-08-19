@@ -1,0 +1,74 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: aux/estimation.aux
+The style file: chicago.bst
+I found no \bibdata command---while reading file aux/estimation.aux
+Warning--I didn't find a database entry for "Cleveland-Grosse-1991"
+Warning--I didn't find a database entry for "Hastie-Tibshirani-1993"
+Warning--I didn't find a database entry for "Antoniadis:2012a"
+Warning--I didn't find a database entry for "Wang-2008a"
+Warning--I didn't find a database entry for "Wang-Xia-2009"
+Warning--I didn't find a database entry for "Fan-Gijbels-1996"
+Warning--I didn't find a database entry for "Fan-Zhang-1999"
+Warning--I didn't find a database entry for "Sun-Yan-Zhang-Lu-2014"
+Warning--I didn't find a database entry for "Hastie:1993b"
+Warning--I didn't find a database entry for "Tibshirani-1996"
+Warning--I didn't find a database entry for "Zou-2006"
+Warning--I didn't find a database entry for "Yuan-Lin-2006"
+Warning--I didn't find a database entry for "Wang-Leng-2008"
+Warning--I didn't find a database entry for "Wang-2008b"
+Warning--I didn't find a database entry for "Samiuddin-el-Sayyad-1990"
+Warning--I didn't find a database entry for "Cai-Fan-Li-2000"
+Warning--I didn't find a database entry for "Mallows-1973"
+Warning--I didn't find a database entry for "Stein-1981"
+Warning--I didn't find a database entry for "Akaike-1973"
+Warning--I didn't find a database entry for "Efron:2004a"
+Warning--I didn't find a database entry for "Hurvich-1998"
+Warning--I didn't find a database entry for "Harrison-Rubinfeld-1978"
+Warning--I didn't find a database entry for "Gilley-Pace-1996"
+Warning--I didn't find a database entry for "Pace-Gilley-1997"
+Warning--I didn't find a database entry for "McCullagh-Nelder-1989"
+Warning--I didn't find a database entry for "Geyer-1994"
+Warning--I didn't find a database entry for "Knight-Fu-2000"
+You've used 0 entries,
+            2861 wiz_defined-function locations,
+            665 strings with 5665 characters,
+and the built_in function-call counts, 17 in all, are:
+= -- 0
+> -- 0
+< -- 0
++ -- 0
+- -- 0
+* -- 0
+:= -- 7
+add.period$ -- 0
+call.type$ -- 0
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 0
+duplicate$ -- 0
+empty$ -- 1
+format.name$ -- 0
+if$ -- 1
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 0
+newline$ -- 3
+num.names$ -- 0
+pop$ -- 0
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 1
+stack$ -- 0
+substring$ -- 0
+swap$ -- 0
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 0
+width$ -- 0
+write$ -- 2
+(There was 1 error message)

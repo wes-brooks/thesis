@@ -148,11 +148,9 @@ LAGR is applied to the Boston housing price dataset. In Section \ref{sec:lagr-gl
 LAGR is extended to varying coefficient generalized linear regression
 and the oracle properties for this setting are established, followed
 by conclusions and discussion in section 7. Technical proofs are left
-to the appendix.
-
+to the appendices.
 
 \section{Varying Coefficient Regression\label{sec:vcr}}
-
 
 \subsection{Varying Coefficient Model}
 
@@ -169,7 +167,6 @@ is,
 \begin{align}
 Y_{i}=\bm{X}_{i}^{T}\bm{\beta}(\bm{s}_{i})+\varepsilon_{i}.\label{eq:lm(s)}
 \end{align}
-
 
 Further assume that the error term $\varepsilon_{i}$ is normally
 distributed with zero mean and variance $\sigma^{2}$, and that $\varepsilon_{i}$,
@@ -196,7 +193,6 @@ augmented with the local gradients of the coefficient surfaces in
 the two dimensions, denoted $\nabla_{u}$ and $\nabla_{v}$. Now we
 have $Y_{i}=\bm{Z}_{i}^{T}\bm{\zeta}_{i}+\varepsilon_{i}$.
 
-
 \subsection{Coefficient Estimation via Local Likelihood}
 
 Let $\bm{\zeta}=\left(\bm{\zeta}(\bm{s}_{1}),\dots,\bm{\zeta}(\bm{s}_{n})\right)^{T}$
@@ -207,7 +203,6 @@ data is the sum of the log-likelihood of each individual observation:
 \ell\left(\bm{\zeta}\right)= & -(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}_{i})\right\} ^{2}\right].\label{eq:coefficients}
 \end{align}
 
-
 Since there are a total of $3(p+1)n+1$ parameters for $n$ observations,
 the model is not identifiable and it is not possible to directly maximize
 the total likelihood. When the coefficient functions are smooth, though,
@@ -215,11 +210,9 @@ the coefficients $\bm{\zeta}(\bm{s})$ at location $\bm{s}$ can be
 approximated by the coefficients $\bm{\zeta}(\bm{t})$ , where $\bm{t}$
 is within some neighborhood of $\bm{s}$. This intuition is formalized
 by the following local log-likelihood at location $\bm{s}\in\mathcal{D}$:
-
 \begin{align}
 \ell\left(\bm{\zeta}(\bm{s})\right)= & -(1/2)\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left[\log\sigma^{2}+\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right\} ^{2}\right]\label{eq:local-log-likelihood}
 \end{align}
-
 
 where $h$ is a bandwidth parameter, $\|\cdot\|$ is the $\ell_{2}$-norm,
 and $K_{h}(\|\bm{s}-\bm{s}_{i}\|)$ for $i=1,\dots,n$ are local weights
@@ -236,13 +229,10 @@ can be maximized by minimizing a locally weighted least squares:
 \mathcal{S}\left(\bm{\zeta}(\bm{s})\right)=(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} .\label{eq:local-sum-of-squares}
 \end{equation}
 
-
 The minimizer of (\ref{eq:local-sum-of-squares}) is
-
 \begin{equation}
 \tilde{\bm{\zeta}}(\bm{s})=\left\{ \bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Y}.\label{eq:zeta-hat}
 \end{equation}
-
 
 By Theorem 3 of \citet{Sun-Yan-Zhang-Lu-2014}, for any given $\bm{s}$,
 the estimated local coefficients $\tilde{\bm{\beta}}(\bm{s})=\left(\tilde{\zeta}_{1}(\bm{s}),\dots,\tilde{\zeta}_{p}(\bm{s})\right)^{T}$
@@ -251,9 +241,7 @@ and are asymptotically normally distributed. The bias of the local
 coefficient estimates is proportional to the second derivatives of
 the true coefficient functions.
 
-
 \section{Local Variable Selection with LAGR\label{sec:lagr-gaussian}}
-
 
 \subsection{LAGR Penalized Local Likelihood}
 
@@ -275,7 +263,6 @@ we minimize a penalized local sum of squares at location $\bm{s}$:
 \mathcal{J}\left(\bm{\zeta}(\bm{s})\right) & =\mathcal{S}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right),\label{eq:penalized-least-squares}
 \end{align}
 
-
 where $\mathcal{S}\left(\bm{\zeta}\left(\bm{s}\right)\right)$ is
 the locally weighted least squares defined in (\ref{eq:local-sum-of-squares}),
 $\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)=\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{(j)}(\bm{s})\|$
@@ -291,7 +278,6 @@ Minimization of (\ref{eq:penalized-least-squares}) is by blockwise
 coordinate descent, where each block is a covariate group (one raw
 covariate and its interactions on location). Software for estimating
 $\bm{\zeta}(\bm{s})$ will be made available in an \texttt{R} package.
-
 
 \subsection{Oracle Properties\label{sub:oracle-properties}}
 
@@ -399,7 +385,6 @@ one. Together, selection and local coefficient estimation by LAGR
 has the oracle property. The technical proofs of Theorems \ref{theorem:normality}
 and \ref{theorem:selection} are given in Appendix A.
 
-
 \subsection{Tuning Parameter Selection}
 
 In practical application, it is necessary to select the LAGR tuning
@@ -423,16 +408,11 @@ and minimize the AICc to select the tuning parameter $\lambda_{n}$
  & +2\hat{{\rm df}}(\lambda_{n};\bm{s})\left\{ \hat{{\rm df}}(\lambda_{n};\bm{s})+1\right\} \left\{ \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)-\hat{{\rm df}}(\lambda_{n};\bm{s})-1\right\} ^{-1}
 \end{align*}
 
-
 where $I\left(\cdot\right)$ is the indicator function and the local
 coefficient estimate is written $\hat{\bm{\zeta}}(\lambda_{n};\bm{s})$
 to emphasize that it depends on the tuning parameter.
 
-
 \section{Simulation Study\label{sec:simulations}}
-
-
-
 
 \subsection{Simulation Setup}
 
@@ -465,14 +445,12 @@ and $0$ otherwise. The second is a gradient function, $\beta_{{\rm gradient}}(\b
 and the third is a parabola $\beta_{{\rm parabola}}(\bm{s})=1-2\left\{ (s_{u}-0.5)^{2}+(s_{v}-0.5)^{2}\right\} $.
 
 \begin{figure}
-\includegraphics[width=0.33\textwidth]{0_Users_wesley_git_gwr_figures_simulation_step.pdf}\includegraphics[width=0.33\textwidth]{1_Users_wesley_git_gwr_figures_simulation_gradient.pdf}\includegraphics[width=0.33\textwidth]{2_Users_wesley_git_gwr_figures_simulation_parabola.pdf}
-
-\protect\caption{The step function (left), gradient function (middle), and parabola
+    \includegraphics[width=0.33\textwidth]{0_Users_wesley_git_gwr_figures_simulation_step.pdf}\includegraphics[width=0.33\textwidth]{1_Users_wesley_git_gwr_figures_simulation_gradient.pdf}\includegraphics[width=0.33\textwidth]{2_Users_wesley_git_gwr_figures_simulation_parabola.pdf}
+    \protect\caption{The step function (left), gradient function (middle), and parabola
 function (right) that were used as the coefficient function $\beta_{1}(\bm{s})$
 in the VCR model $y_{i}=x_{1}(\bm{s}_{i})\beta_{1}(\bm{s}_{i})+\varepsilon_{i}$
 when generating the data for the simulation study.\label{fig:simulation-coefficient-functions}}
 \end{figure}
-
 
 In total, three parameters were varied to produce 18 settings, each
 of which was 100 simulated data sets. There were the three functional
@@ -481,8 +459,6 @@ simulated with low ($\rho=0$), medium ($\rho=0.5$), and high ($\rho=0.9$)
 correlation between the covariates; and simulations were made with
 low ($\sigma_{\varepsilon}=0.5$) and high ($\sigma_{\varepsilon}=1$)
 variance for the random error term.
-
-
 
 The results are presented in terms of the mean integrated squared
 error (MISE) of the coefficient surface estimates $\hat{\beta}_{1}(\bm{s}),\dots,\hat{\beta}_{5}(\bm{s})$,
@@ -530,8 +506,6 @@ set of covariates was used to fit each local model.
 
 
 \subsection{Simulation Results}
-
-
 
 The MISE of the coefficient surface estimates are in Table \ref{tab:mise}.
 The MISE of true nonzero coefficient $\hat{\beta}_{1}(\bm{s})$ was
@@ -939,7 +913,7 @@ the sum to the right side. Thus, for large enough $n$, $\hat{\bm{\zeta}}_{(p)}(\
 cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $P\left\{ \hat{\bm{\zeta}}_{(b)}(\bm{s})=\bm{0}\right\} \to1$. 
 \end{proof}
 
-\section{Proofs of Theorems 2--3}
+\section{Proofs of Theorems 3--4}
 \subsection*{Proof of Theorem \ref{theorem:normality-glm}}
 The next proofs require the lemmas in the web-based supplemental material.
 First, let $\bm{z}\in\mathbb{R}^{3p}$. Define the $q$-functions
@@ -986,8 +960,7 @@ the third term in (\ref{eq:taylor-expanded-glm-criterion}) is $O_{p}\left(\alpha
 The limiting behavior of the last term of (\ref{eq:taylor-expanded-glm-criterion})
 differs between the cases $j\le p_{0}$ and $j>p_{0}$.
 \emph{Case $j\le p_{0}$:} If $j\le p_{0}$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}$
-and $|\sqrt{n}\left\{ \|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{(j)}\|$
-. Thus, 
+and $|\sqrt{n}\left\{ \|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{(j)}\|$. Thus, 
 \[
 \lim\limits _{n\to\infty}\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right)\le\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{(j)}\|\le\alpha_{n}a_{n}\|\bm{u}_{(j)}\|\to0
 \]
@@ -1016,8 +989,7 @@ Then
 \begin{align*}
 \hat{\bm{u}}_{(a)n}= & \Delta_{(a)}^{-1}\Omega_{(a)n}+o_{p}\left(1\right)\text{ and }\hat{\bm{u}}_{(b)n}=\bm{0}
 \end{align*}
-by the quadratic approximation lemma \citep{Fan-Gijbels-1996}. And
-by epiconvergence, the minimizer of the limiting function is the limit
+by the quadratic approximation lemma \citep{Fan-Gijbels-1996}. By epiconvergence, the minimizer of the limiting function is the limit
 of the minimizers $\hat{\bm{u}}_{n}$ \citep{Geyer-1994,Knight-Fu-2000}.
 Since $\Delta$ is a constant, the normality of $\hat{\bm{u}}_{(a)n}$
 follows from the normality of $\Omega_{n}$, which is established
@@ -1061,6 +1033,36 @@ and therefore the left hand side of (\ref{eq:glm-selection}) dominates
 the sum to the right side. Thus, for large enough $n$, $\hat{\bm{\zeta}}_{(p)}(\bm{s})\ne\bm{0}$
 cannot maximize $\mathcal{J}\left(\cdot\right)$, and therefore $P\left\{ \hat{\bm{\zeta}}_{(b)}(\bm{s})=\bm{0}\right\} \to1$. 
 \end{proof}
+
+\section{Lemmas}
+\begin{lem}
+\label{lemma:omega}
+\begin{align*}
+E\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right] &= \left(\begin{array}{c}
+2^{-1}n^{1/2}h^{3}f(\bm{s})\kappa_{2}\bm{\Gamma}(\bm{s})\left(\nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right)^{T}\\
+\bm{0}_{2p}
+\end{array}\right) \\
+&+o_{p}\left(h^{2}\bm{1}_{3p}\right)
+\end{align*}
+and
+\begin{align*}
+Var\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & f(\bm{s}){\rm diag}\left\{ \nu_{0},\nu_{2},\nu_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
+= & \Lambda+o\left(1\right)
+\end{align*}
+\end{lem}
+
+\begin{lem}
+\label{lemma:delta}
+\begin{align*}
+E\left[\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & -f(\bm{s}){\rm diag}\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
+= & -\Delta+o\left(1\right)
+\end{align*}
+and
+\[
+Var\left\{ \left(\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
+\]
+\end{lem}
+
 
 \bibliographystyle{chicago}
 \end{document}
