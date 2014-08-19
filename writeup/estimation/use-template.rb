@@ -1,10 +1,17 @@
 #! /usr/bin/ruby
 
-source = "estimation.tex"
-destination = "estimation.tex"
-template = "template.tex"
-abstract = "abstract.txt"
-keywords = "keywords.txt"
+#Parse command line arguments:
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+    opts.banner = "Usage: example.rb [options]"
+
+    opts.on('-n', '--source SOURCE', 'Source file') { |v| options[:source] = v }
+    opts.on('-h', '--destination DEST', 'Destination file') { |v| options[:destination] = v }
+    opts.on('-p', '--template TEMPLATE', 'Template file') { |v| options[:template] = v }
+
+end.parse!
 
 estimation = []
 proofs = []
@@ -12,43 +19,9 @@ body = false
 appendix = false
 theorem = false
 
-#Read the abstract
-abstract = IO.read(abstract)
-
-#Read the keywords
-keywords = IO.read(keywords)
 
 #Read the source file
-File.open(source, "r").each_line do |line|
-    if (!body and !appendix and line.include?("\\section{Introduction}"))
-        body = true
-        puts "starting body"
-    end
-
-    if body and not theorem
-        if line.include?("\\begin{thm}")
-            theorem = true
-        elsif line.include?("\\appendix") 
-            body = false
-            appendix = true
-            puts "ending body, beginning appendix"        
-        else
-            estimation << line
-        end
-    end
-    
-    #Dont include blank lines within theorems
-    if body and theorem
-        if line != "\n"
-            estimation << line
-        end
-        
-        if line.include?("\\end{thm}")
-            theorem = false
-        end
-    end
-    
-
+File.open(options[:source], "r").each_line do |line|
     if appendix
         if not line == "\n"
             if line.include?("\\bibliographystyle") 
@@ -59,23 +32,42 @@ File.open(source, "r").each_line do |line|
             end
         end
     end
+    
+    #Dont include blank lines within theorems
+    if body and theorem
+        if line.include?("\\end{thm}")
+            theorem = false
+        elsif line != "\n"
+            estimation << line
+        end
+    end
 
+    if body and not theorem
+        if line.include?("\\begin{thm}")
+            theorem = true
+            estimation << line
+        elsif line.include?("\\appendix") 
+            body = false
+            appendix = true
+            puts "ending body, beginning appendix"        
+            proofs << line
+        else
+            estimation << line
+        end
+    end
+
+    if (!body and !appendix and line.include?("\\begin{document}"))
+        body = true
+        puts "starting body"
+    end
 end
 
 
 #Read the template file:
 template_contents = []
-File.open(template, "r").each_line do |line|
+File.open(options[:template], "r").each_line do |line|
     template_contents << line
 end
-
-#Replace the abstract section in template:
-loc = template_contents.index {|s| s.include?("[abstract]")}
-template_contents[loc..loc] = abstract
-
-#Replace the keywords section in template:
-loc = template_contents.index {|s| s.include?("[keywords]")}
-template_contents[loc..loc] = keywords
 
 #Replace the body section in template:
 loc = template_contents.index {|s| s.include?("[body]")}
@@ -86,7 +78,7 @@ loc = template_contents.index {|s| s.include?("[appendix]")}
 template_contents[loc..loc] = proofs
 
 #Write the complete result to disk
-File.open(destination, "w") do |f|
+File.open(options[:destination], "w") do |f|
     template_contents.each {|element| f.write(element)}
 end
 
