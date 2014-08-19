@@ -4294,13 +4294,14 @@ Conclusions and Discussion
 \end_layout
 
 \begin_layout Standard
-We have shown that the method of LAGR has oracle properties for local variable
- selection and coefficient estimation in VCR models.
- This is a novel result; the existing literature on variable selection for
- VCR models focusses on global variable selection.
- The method of LAGR extends the adaptive group lasso (AGL) - in particular,
- the previous literature on the AGL is insufficient for local selection
- in a VCR model because the local weights are functions of the kernel 
+We have developed a new method of LAGR and shown its oracle properties for
+ local variable selection and coefficient estimation in VCR models.
+ This is in contrast to the existing literature on variable selection for
+ VCR models that focuses on global variable selection.
+ Further, the method of LAGR extends the adaptive group lasso.
+ In particular, the previous literature on the adaptive group lasso is insuffici
+ent for local selection in a VCR model because the local weights are functions
+ of the kernel 
 \begin_inset Formula $K(\cdot)$
 \end_inset
 
@@ -4308,24 +4309,17 @@ We have shown that the method of LAGR has oracle properties for local variable
 \begin_inset Formula $h$
 \end_inset
 
-, with the result that the local observation weights change with sample
- size and the coefficient estimates converge at a slower rate than in the
- traditional AGL model.
- As a consequence, the conditions for oracle properties of the AGL must
- be refined for the LAGR setting (compare (A.8) to the corresponding condition
- of 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Wang-Leng-2008"
-
-\end_inset
-
-).
- Satisfying (A.8) required an additional restriction on 
+.
+ As a result, the local observation weights change with sample size and
+ the coefficient estimates converge at a slower rate than in the traditional
+ adaptive group lasso.
+ Thus, the conditions for oracle properties of the adaptive group lasso
+ must be refined for the LAGR method.
+ Satisfying (C.7) required an additional restriction on 
 \begin_inset Formula $\gamma$
 \end_inset
 
-, the unpenalized group norm in the LAGR penalty.
+, the unpenalized group norm exponent in the LAGR penalty.
 \end_layout
 
 \begin_layout Standard
@@ -4399,7 +4393,7 @@ H_{n}(\bm{u})= & (1/2)\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+\alp
  & -(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} -\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|\\
 = & \left(1/2\right)\alpha_{n}^{2}\bm{u}^{T}\left\{ \bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}\\
  & -\alpha_{n}\bm{u}^{T}\left[\bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\\
- & +\sum_{j=1}^{p}n^{-1/2}\phi_{j}(\bm{s})n^{1/2}\left\{ \|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right\} 
+ & +\sum_{j=1}^{p}n^{-1/2}\phi_{j}(\bm{s})n^{1/2}\left\{ \|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right\} .
 \end{align*}
 
 \end_inset
@@ -4444,7 +4438,7 @@ Case
  Thus, 
 \begin_inset Formula 
 \[
-\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right)\le\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{(j)}\|\le\alpha_{n}a_{n}\|\bm{u}_{(j)}\|\to0
+\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right)\le\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{(j)}\|\le\alpha_{n}a_{n}\|\bm{u}_{(j)}\|\to0.
 \]
 
 \end_inset
@@ -4568,13 +4562,17 @@ otherwise.
  Then 
 \begin_inset Formula 
 \[
-\hat{\bm{u}}_{(a)n}=\left\{ n^{-1}\bm{Z}_{(a)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(a)}(\bm{s})\right\} ^{-1}\left[hn^{1/2}\bm{Z}_{(a)}(\bm{s})^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}_{(a)}(\bm{s})\bm{\zeta}_{(a)}(\bm{s})\right\} \right]\text{ and }\hat{\bm{u}}_{(b)n}=\bm{0}.
+\hat{\bm{u}}_{(a)n}=\left\{ n^{-1}\bm{Z}_{(a)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(a)}(\bm{s})\right\} ^{-1}\left[hn^{1/2}\bm{Z}_{(a)}(\bm{s})^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}_{(a)}(\bm{s})\bm{\zeta}_{(a)}(\bm{s})\right\} \right]
 \]
 
 \end_inset
 
-By epiconvergence, the minimizer of the limiting function is the limit of
- the minimizers 
+and 
+\begin_inset Formula $\hat{\bm{u}}_{(b)n}=\bm{0}.$
+\end_inset
+
+ By epiconvergence, the minimizer of the limiting function is the limit
+ of the minimizers 
 \begin_inset Formula $\hat{\bm{u}}_{n}$
 \end_inset
 
@@ -4639,10 +4637,7 @@ The proof is by contradiction.
 \end_inset
 
 th covariate group.
-\end_layout
-
-\begin_layout Proof
-Assume 
+ Assume 
 \begin_inset Formula $\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\ne0$
 \end_inset
 
@@ -4663,7 +4658,7 @@ Assume
 = & \bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\left(2\kappa_{0}\right)^{-1}h^{2}\kappa_{2}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\\
  & +\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(\mhyphen p)}(\bm{s})\left[\bm{\zeta}_{(\mhyphen p)}(\bm{s})+\left(2\kappa_{0}\right)^{-1}h^{2}\kappa_{2}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(\mhyphen p)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(\mhyphen p)}(\bm{s})\right\} -\hat{\bm{\zeta}}_{(\mhyphen p)}(\bm{s})\right]\\
  & +\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(p)}(\bm{s})\left[\bm{\zeta}_{(p)}(\bm{s})+\left(2\kappa_{0}\right)^{-1}h^{2}\kappa_{2}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(p)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(p)}(\bm{s})\right\} -\hat{\bm{\zeta}}_{(p)}(\bm{s})\right]\\
- & -\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|^{-1}
+ & -\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|^{-1}.
 \end{align*}
 
 \end_inset
@@ -4679,9 +4674,9 @@ Thus,
 \begin_inset Formula 
 \begin{align}
 \left(n^{-1}h^{2}\right)^{1/2} & \phi_{p}(\bm{s})\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|^{-1}=\nonumber \\
- & \bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\left(n^{-1}h^{2}\right)^{1/2}\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\nonumber \\
- & +\left\{ n^{-1}\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(\mhyphen p)}(\bm{s})\right\} \left(nh^{2}\right)^{1/2}\left[\bm{\zeta}_{(\mhyphen p)}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(\mhyphen p)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(\mhyphen p)}(\bm{s})\right\} -\hat{\bm{\zeta}}_{(\mhyphen p)}(\bm{s})\right]\nonumber \\
- & +\left\{ n^{-1}\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(p)}(\bm{s})\right\} \left(nh^{2}\right)^{1/2}\left[\bm{\zeta}_{(p)}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(p)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(p)}(\bm{s})\right\} -\hat{\bm{\zeta}}_{(p)}(\bm{s})\right]\label{eq:selection}
+ & \mkern-18mu\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\left(n^{-1}h^{2}\right)^{1/2}\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\nonumber \\
+ & \mkern-18mu+\left\{ n^{-1}\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(\mhyphen p)}(\bm{s})\right\} \left(nh^{2}\right)^{1/2}\left[\bm{\zeta}_{(\mhyphen p)}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(\mhyphen p)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(\mhyphen p)}(\bm{s})\right\} -\hat{\bm{\zeta}}_{(\mhyphen p)}(\bm{s})\right]\nonumber \\
+ & \mkern-18mu+\left\{ n^{-1}\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(p)}(\bm{s})\right\} \left(nh^{2}\right)^{1/2}\left[\bm{\zeta}_{(p)}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(p)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(p)}(\bm{s})\right\} -\hat{\bm{\zeta}}_{(p)}(\bm{s})\right].\label{eq:selection}
 \end{align}
 
 \end_inset
@@ -4854,7 +4849,7 @@ reference "theorem:normality-glm"
 \end_layout
 
 \begin_layout Standard
-The next proofs require the lemmas in Appendix B.
+The next proofs require the lemmas in the web-based supplemental material.
  First, let 
 \begin_inset Formula $\bm{z}\in\mathbb{R}^{3p}$
 \end_inset
@@ -4879,7 +4874,11 @@ The next proofs require the lemmas in Appendix B.
 
 .
  Let 
-\begin_inset Formula $\tilde{\bm{\beta}}_{i}''=\left[\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\beta_{1}(\bm{s})\right\} \left(\bm{s}_{i}-\bm{s}\right),\dots,\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\beta_{p}(\bm{s})\right\} \left(\bm{s}_{i}-\bm{s}\right)\right]^{T}$
+\begin_inset Formula 
+\[
+\tilde{\bm{\beta}}_{i}''=\left[\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\beta_{1}(\bm{s})\right\} \left(\bm{s}_{i}-\bm{s}\right),\dots,\left(\bm{s}_{i}-\bm{s}\right)^{T}\left\{ \nabla^{2}\beta_{p}(\bm{s})\right\} \left(\bm{s}_{i}-\bm{s}\right)\right]^{T}
+\]
+
 \end_inset
 
  be the 
@@ -4913,7 +4912,7 @@ Let
 \begin{align*}
 H_{n}(\bm{u})= & n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\bm{Z}_{i}^{T}\left\{ \bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right\} \right),Y_{i}\right)K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
  & -n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right)K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
- & +n^{-1}\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}\|-\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{(j)}(\bm{s})\|
+ & +n^{-1}\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}\|-\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{(j)}(\bm{s})\|.
 \end{align*}
 
 \end_inset
@@ -4966,9 +4965,7 @@ Then it follows from the Taylor expansion of
 \begin_layout Proof
 \begin_inset Formula 
 \begin{align}
-H_{n}\left(\bm{u}\right)= & \Omega_{n}^{T}\bm{u}\nonumber \\
- & +(1/2)\bm{u}^{T}\Delta_{n}\bm{u}\nonumber \\
- & +\left(\alpha_{n}^{3}/6\right)\sum_{i=1}^{n}q_{3}\left(\bm{Z}_{i}^{T}\tilde{\bm{\zeta}}_{i},Y_{i}\right)\left[\bm{Z}_{i}^{T}\bm{u}\right]^{3}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\nonumber \\
+H_{n}\left(\bm{u}\right)= & \Omega_{n}^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta_{n}\bm{u}+\left(\alpha_{n}^{3}/6\right)\sum_{i=1}^{n}q_{3}\left(\bm{Z}_{i}^{T}\tilde{\bm{\zeta}}_{i},Y_{i}\right)\left[\bm{Z}_{i}^{T}\bm{u}\right]^{3}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\nonumber \\
  & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\left\{ \|\bm{\zeta}_{(j)}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right\} .\label{eq:taylor-expanded-glm-criterion}
 \end{align}
 
@@ -5553,58 +5550,6 @@ Var\left[\sum_{i=1}^{n}q_{1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\
 
 \end_layout
 
-\begin_layout --Separator--
-
-\end_layout
-
-\begin_layout Lemma
-\begin_inset CommandInset label
-LatexCommand label
-name "lemma:delta"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Lemma
-\begin_inset Formula 
-\begin{align*}
-E\left[\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & -f(\bm{s}){\rm diag}\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
-= & -\Delta+o\left(1\right)
-\end{align*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Lemma
-and
-\end_layout
-
-\begin_layout Lemma
-\begin_inset Formula 
-\[
-Var\left\{ \left(\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection*
-Proof of Lemma 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "lemma:omega"
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Proof
 
 \series bold
@@ -5900,11 +5845,41 @@ Var\left(\Omega_{n}\right)=f(\bm{s}){\rm diag}\left\{ \nu_{0},\nu_{2},\nu_{2}\ri
 
 \end_layout
 
-\begin_layout Subsection*
-Proof of Lemma 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "lemma:delta"
+\begin_layout --Separator--
+
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lemma:delta"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Lemma
+\begin_inset Formula 
+\begin{align*}
+E\left[\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right]= & -f(\bm{s}){\rm diag}\left\{ \kappa_{0},\kappa_{2},\kappa_{2}\right\} \otimes\bm{\Gamma}(\bm{s})+o\left(1\right)\\
+= & -\Delta+o\left(1\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Lemma
+and
+\end_layout
+
+\begin_layout Lemma
+\begin_inset Formula 
+\[
+Var\left\{ \left(\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)\right)_{ij}\right\} =O\left(n^{-1}h^{-2}\right)
+\]
 
 \end_inset
 
