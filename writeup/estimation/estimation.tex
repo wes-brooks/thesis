@@ -186,8 +186,8 @@ local design matrix at location $\bm{s}_{i}$ is defined to be $\bm{Z}(\bm{s}_{i}
 where $\bm{L}_{i}=\text{diag}\{s_{i',1}-s_{i,1}\}_{i'=1}^{n}$ and
 $\bm{M}_{i}=\text{diag}\{s_{i',2}-s_{i,2}\}_{i'=1}^{n}$.
 
-Let $\bm{Z}_{i}=\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}$ denote the
-$i$th row of the matrix $\bm{Z}(\bm{s}_{i})$ as a column vector.
+Let $\bm{Z}_{i}=\left\{ \bm{Z}(\bm{s}_i)\right\} _{i}$ denote the
+$i$th row of the matrix $\bm{Z}(\bm{s})$ as a column vector.
 Let $\bm{\zeta}(\bm{s}_{i})=\left(\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{u}\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{v}\bm{\beta}(\bm{s}_{i})^{T}\right)^{T}$
 denote the vector of local coefficients at location $\bm{s}_{i}$,
 augmented with the local gradients of the coefficient surfaces in
@@ -201,7 +201,7 @@ denote a matrix of the local coefficients at all observation locations
 $\bm{s}_{1},\dots,\bm{s}_{n}$. The total log-likelihood of the observed
 data is the sum of the log-likelihood of each individual observation:
 \begin{align}
-\ell\left(\bm{\zeta}\right)= & -(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}_{i})\right\} ^{2}\right].\label{eq:coefficients}
+\ell\left(\bm{\zeta}\right)= & -(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y_{i}- \{\bm{z}(\bm{s}_i)\}_i \bm{\zeta}(\bm{s}_i)\right\} ^{2}\right].\label{eq:coefficients}
 \end{align}
 
 Since there are a total of $3(p+1)n+1$ parameters for $n$ observations,

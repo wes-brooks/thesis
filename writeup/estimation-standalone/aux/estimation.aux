@@ -24,14 +24,14 @@
 \@writefile{toc}{\contentsline {section}{\numberline {2}Varying Coefficient Regression}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Varying Coefficient Model}{4}}
 \newlabel{eq:lm(s)}{{1}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Coefficient Estimation via Local Likelihood}{4}}
 \citation{Samiuddin-el-Sayyad-1990}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Coefficient Estimation via Local Likelihood}{5}}
+\citation{Sun-Yan-Zhang-Lu-2014}
 \newlabel{eq:coefficients}{{2}{5}}
 \newlabel{eq:local-log-likelihood}{{3}{5}}
 \newlabel{eq:local-sum-of-squares}{{4}{5}}
-\citation{Sun-Yan-Zhang-Lu-2014}
+\newlabel{eq:zeta-hat}{{5}{5}}
 \citation{Yuan-Lin-2006,Wang-Leng-2008}
-\newlabel{eq:zeta-hat}{{5}{6}}
 \newlabel{sec:lagr-gaussian}{{3}{6}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Local Variable Selection with LAGR}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}LAGR Penalized Local Likelihood}{6}}
@@ -46,10 +46,10 @@
 \citation{Mallows-1973,Stein-1981,Akaike-1973}
 \newlabel{theorem:normality}{{1}{9}}
 \newlabel{theorem:selection}{{2}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Tuning Parameter Selection}{9}}
 \citation{Efron:2004a}
 \citation{Yuan-Lin-2006}
 \citation{Hurvich-1998}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Tuning Parameter Selection}{10}}
 \newlabel{sec:simulations}{{4}{10}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Simulation Study}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Simulation Setup}{10}}
@@ -57,18 +57,18 @@
 \newlabel{fig:simulation-coefficient-functions}{{1}{11}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces For each setting as a combination of coefficient surface $\beta _1(\bm  {s})$, cross-covariate correlation $\rho $, and error variance $\sigma ^2$, the mean integrated squared error (MISE) of the coefficient estimates. In the middle three columns, the MISE of $\mathaccentV {hat}05E{\beta }_1$ from estimation by local adaptive grouped regularization (LAGR), by locally linear regression without selection (VCR), and by locally linear regression with oracular selection (Oracle). Here, highlighting indicates the \textbf  {smallest} and \emph  {next-smallest} MISE for $\mathaccentV {hat}05E{\beta }_1$. In the last two columns, the MISE of $\mathaccentV {hat}05E{\beta }_2,\dots  ,\mathaccentV {hat}05E{\beta }_5$ from estimation by LAGR and VCR. Here, highlighting indicates the \textbf  {smallest} MISE.}}{12}}
 \newlabel{tab:mise}{{1}{12}}
-\citation{Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Simulation Results}{13}}
-\newlabel{sec:example}{{5}{13}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Data Example}{13}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Simulation Results}{12}}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces For each setting as a combination of coefficient surface $\beta _1(\bm  {s})$, cross-covariate correlation $\rho $, and error variance $\sigma ^2$, the frequency of exact zeroes in the estimates of $\mathaccentV {hat}05E{\beta }_2,\dots  ,\mathaccentV {hat}05E{\beta }_5$ as estimated by local adaptive grouped regularizaton (LAGR). Also, the mean integrated squared error (MISE) for the fitted output of each simulation setting, under variable selection via LAGR, locally linear regression without selection (VCR), and by locally linear regression with oracular selection (Oracle). Highlighting indicates the \textbf  {closest} and \emph  {next-closest} to the actual error variance $\sigma _\varepsilon ^2$ for that simulation setting.}}{14}}
 \newlabel{tab:misey}{{2}{14}}
+\citation{Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997}
+\newlabel{sec:example}{{5}{15}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Data Example}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Coefficients for the Boston house price data as estimated by local adaptive grouped regularization.}}{16}}
+\newlabel{fig:boston-lagr-coefs}{{2}{16}}
 \citation{Sun-Yan-Zhang-Lu-2014}
 \citation{Sun-Yan-Zhang-Lu-2014}
 \citation{McCullagh-Nelder-1989}
 \citation{Cai-Fan-Li-2000}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Coefficients for the Boston house price data as estimated by local adaptive grouped regularization.}}{16}}
-\newlabel{fig:boston-lagr-coefs}{{2}{16}}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces The mean, standard deviation, and proportion of zeros among the estimates of the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by local adaptive grouped regularization. The covariates are CRIM (per capita crime rate in the census tract), RM (average number of rooms per home sold in the census tract), RAD (an index of the tract's access to radial roads), TAX (property tax per USD10,000 of property value), and LSTAT (percentage of the tract's residents who are considered ``lower status").}}{17}}
 \newlabel{tab:boston-coefs-lagr}{{3}{17}}
 \newlabel{sec:lagr-gllm}{{6}{17}}
