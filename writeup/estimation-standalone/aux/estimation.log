@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2014.1.2)  19 AUG 2014 16:38
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2014.1.2)  15 SEP 2014 17:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -341,11 +341,110 @@ LaTeX Font Info:    Try loading font information for T1+cmtt on input line 77.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-) [1
+)
+
+Package natbib Warning: Citation `Cleveland-Grosse-1991' on page 1 undefined on
+ input line 84.
 
 
-] [2] [3]
-[4] [5]
+Package natbib Warning: Citation `Hastie-Tibshirani-1993' on page 1 undefined o
+n input line 84.
+
+
+Package natbib Warning: Citation `Antoniadis:2012a' on page 1 undefined on inpu
+t line 91.
+
+
+Package natbib Warning: Citation `Wang-2008a' on page 1 undefined on input line
+ 91.
+
+
+Package natbib Warning: Citation `Wang-Xia-2009' on page 1 undefined on input l
+ine 92.
+
+[1
+
+
+]
+
+Package natbib Warning: Citation `Fan-Gijbels-1996' on page 2 undefined on inpu
+t line 105.
+
+
+Package natbib Warning: Citation `Fan-Zhang-1999' on page 2 undefined on input 
+line 106.
+
+
+Package natbib Warning: Citation `Sun-Yan-Zhang-Lu-2014' on page 2 undefined on
+ input line 107.
+
+
+Package natbib Warning: Citation `Hastie:1993b' on page 2 undefined on input li
+ne 111.
+
+
+Package natbib Warning: Citation `Tibshirani-1996' on page 2 undefined on input
+ line 118.
+
+
+Package natbib Warning: Citation `Zou-2006' on page 2 undefined on input line 1
+20.
+
+
+Package natbib Warning: Citation `Zou-2006' on page 2 undefined on input line 1
+26.
+
+
+Package natbib Warning: Citation `Yuan-Lin-2006' on page 2 undefined on input l
+ine 130.
+
+
+Package natbib Warning: Citation `Wang-Leng-2008' on page 2 undefined on input 
+line 130.
+
+[2]
+
+LaTeX Warning: Reference `sec:example' on page 3 undefined on input line 147.
+
+
+LaTeX Warning: Reference `sec:lagr-gllm' on page 3 undefined on input line 148.
+
+
+[3]
+
+Package natbib Warning: Citation `Fan-Gijbels-1996' on page 4 undefined on inpu
+t line 180.
+
+
+Package natbib Warning: Citation `Wang-2008b' on page 4 undefined on input line
+ 183.
+
+[4]
+
+Package natbib Warning: Citation `Samiuddin-el-Sayyad-1990' on page 5 undefined
+ on input line 222.
+
+[5]
+
+Package natbib Warning: Citation `Sun-Yan-Zhang-Lu-2014' on page 6 undefined on
+ input line 238.
+
+
+Overfull \hbox (1.66261pt too wide) in paragraph at lines 238--244
+[]\T1/cmr/m/n/12 By The-o-rem 3 of \T1/cmr/bx/n/12 ?\T1/cmr/m/n/12 , for any gi
+ven $\OML/cmm/b/it/12 s$\T1/cmr/m/n/12 , the es-ti-mated lo-cal co-ef-fi-cients
+ $[]\OT1/cmr/m/n/12 (\OML/cmm/b/it/12 s\OT1/cmr/m/n/12 ) = [][]$
+ []
+
+
+Package natbib Warning: Citation `Yuan-Lin-2006' on page 6 undefined on input l
+ine 256.
+
+
+Package natbib Warning: Citation `Wang-Leng-2008' on page 6 undefined on input 
+line 256.
+
+
 Overfull \hbox (21.3116pt too wide) in paragraph at lines 267--277
 []\T1/cmr/m/n/12 where $\OMS/cmsy/m/n/12 S []$ \T1/cmr/m/n/12 is the lo-cally w
 eighted least squares de-fined in (4[]), $\OMS/cmsy/m/n/12 P [] \OT1/cmr/m/n/12
@@ -354,19 +453,142 @@ eighted least squares de-fined in (4[]), $\OMS/cmsy/m/n/12 P [] \OT1/cmr/m/n/12
 OT1/cmr/m/n/12 )\OMS/cmsy/m/n/12 k$
  []
 
-[6] [7] [8] [9] [10]
-File: figure/step.pdf Graphic file (type QTm)
- <use  "figure/step.pdf" >
-File: figure/gradient.pdf Graphic file (type QTm)
- <use  "figure/gradient.pdf" >
-File: figure/parabola.pdf Graphic file (type QTm)
+[6] [7]
 
-<use  "figure/parabola.pdf" > [11] [12] [13] [14]
+Package natbib Warning: Citation `Sun-Yan-Zhang-Lu-2014' on page 8 undefined on
+ input line 335.
+
+
+Package natbib Warning: Citation `Cai-Fan-Li-2000' on page 8 undefined on input
+ line 336.
+
+
+Package natbib Warning: Citation `Sun-Yan-Zhang-Lu-2014' on page 8 undefined on
+ input line 338.
+
+
+Package natbib Warning: Citation `Sun-Yan-Zhang-Lu-2014' on page 8 undefined on
+ input line 343.
+
+
+Package natbib Warning: Citation `Wang-Leng-2008' on page 8 undefined on input 
+line 350.
+
+[8]
+
+Package natbib Warning: Citation `Mallows-1973' on page 9 undefined on input li
+ne 397.
+
+
+Package natbib Warning: Citation `Stein-1981' on page 9 undefined on input line
+ 397.
+
+
+Package natbib Warning: Citation `Akaike-1973' on page 9 undefined on input lin
+e 397.
+
+[9]
+
+Package natbib Warning: Citation `Efron:2004a' on page 10 undefined on input li
+ne 401.
+
+
+Package natbib Warning: Citation `Yuan-Lin-2006' on page 10 undefined on input 
+line 402.
+
+
+Package natbib Warning: Citation `Hurvich-1998' on page 10 undefined on input l
+ine 404.
+
+[10]
+File: figure/coefs.pdf Graphic file (type QTm)
+ <use  "figure/coefs.pdf" > [11]
+
+LaTeX Warning: Reference `tab:mise' on page 12 undefined on input line 499.
+
+
+LaTeX Warning: Reference `tab:misey' on page 12 undefined on input line 509.
+
+
+LaTeX Warning: Reference `tab:misey' on page 12 undefined on input line 514.
+
+[12]
+
+Package natbib Warning: Citation `Harrison-Rubinfeld-1978' on page 13 undefined
+ on input line 574.
+
+
+Package natbib Warning: Citation `Gilley-Pace-1996' on page 13 undefined on inp
+ut line 574.
+
+
+Package natbib Warning: Citation `Pace-Gilley-1997' on page 13 undefined on inp
+ut line 574.
+
+[13] [14]
+
+LaTeX Warning: Reference `tab:boston-coefs-lagr' on page 15 undefined on input 
+line 586.
+
 File: figure/boston-plots.pdf Graphic file (type QTm)
+<use  "figure/boston-plots.pdf" >
 
-<use  "figure/boston-plots.pdf" > [15] [16] [17] [18] [19] [20] [21] [22]
-[23]
-Overfull \hbox (23.75461pt too wide) in paragraph at lines 1014--1020
+LaTeX Warning: Reference `fig:boston-lagr-coefs' on page 15 undefined on input 
+line 604.
+
+
+Package natbib Warning: Citation `Sun-Yan-Zhang-Lu-2014' on page 15 undefined o
+n input line 637.
+
+
+Package natbib Warning: Citation `Sun-Yan-Zhang-Lu-2014' on page 15 undefined o
+n input line 643.
+
+
+Package natbib Warning: Citation `McCullagh-Nelder-1989' on page 15 undefined o
+n input line 653.
+
+
+Package natbib Warning: Citation `Cai-Fan-Li-2000' on page 15 undefined on inpu
+t line 655.
+
+[15] [16] [17]
+
+LaTeX Warning: Reference `eq:local-quasi-likelihood' on page 18 undefined on in
+put line 679.
+
+
+LaTeX Warning: Reference `eq:local-quasi-likelihood' on page 18 undefined on in
+put line 682.
+
+
+Package natbib Warning: Citation `Cai-Fan-Li-2000' on page 18 undefined on inpu
+t line 697.
+
+
+Package natbib Warning: Citation `Cai-Fan-Li-2000' on page 18 undefined on inpu
+t line 699.
+
+[18]
+
+Package natbib Warning: Citation `Cai-Fan-Li-2000' on page 19 undefined on inpu
+t line 744.
+
+[19]
+
+LaTeX Warning: Reference `theorem:normality-glm' on page 20 undefined on input 
+line 763.
+
+
+LaTeX Warning: Reference `theorem:normality-glm' on page 20 undefined on input 
+line 768.
+
+
+LaTeX Warning: Reference `theorem:selection-glm' on page 20 undefined on input 
+line 770.
+
+[20] [21] [22] [23]
+Overfull \hbox (23.75461pt too wide) in paragraph at lines 1002--1008
 \OML/cmm/m/it/12 p[]$\T1/cmr/m/n/12 : If $\OML/cmm/m/it/12 j \OMS/cmsy/m/n/12 ^
 ^T \OML/cmm/m/it/12 p[]$\T1/cmr/m/n/12 , then $\OML/cmm/m/it/12 n[]^^^[]\OT1/cm
 r/m/n/12 (\OML/cmm/b/it/12 s\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ! \OML/cmm/m/it/
@@ -378,28 +600,117 @@ it/12 s\OT1/cmr/m/n/12 )\OMS/cmsy/m/n/12 k[]$ \T1/cmr/m/n/12 and $\OMS/cmsy/m/n
 [24
 
 ]
-Overfull \hbox (10.7943pt too wide) detected at line 1050
+
+Package natbib Warning: Citation `Geyer-1994' on page 25 undefined on input lin
+e 1035.
+
+
+Package natbib Warning: Citation `Knight-Fu-2000' on page 25 undefined on input
+ line 1035.
+
+
+Package natbib Warning: Citation `Sun-Yan-Zhang-Lu-2014' on page 25 undefined o
+n input line 1035.
+
+
+Overfull \hbox (10.7943pt too wide) detected at line 1038
 [] \OMS/cmsy/m/n/12 ^^@ [][] \OML/cmm/m/it/12 ^^T[]h[] [] [] N []
  []
 
 
-Overfull \hbox (57.11667pt too wide) in paragraph at lines 1072--1072
+Overfull \hbox (57.11667pt too wide) in paragraph at lines 1060--1060
 [] 
  []
 
-[25] [26] [27] [28]
-Overfull \hbox (54.48128pt too wide) in paragraph at lines 1192--1198
-\T1/cmr/m/n/12 We ob-serve that (B.2[]) im-plies that $\OML/cmm/m/it/12 n^^K[] 
-[][] \OMS/cmsy/m/n/12 ! \OT1/cmr/m/n/12 0$\T1/cmr/m/n/12 , and since $\OML/cmm/
-m/it/12 E [] < E [] \OMS/cmsy/m/n/12 !
+[25]
+
+Package natbib Warning: Citation `Sun-Yan-Zhang-Lu-2014' on page 26 undefined o
+n input line 1061.
+
+
+Package natbib Warning: Citation `Sun-Yan-Zhang-Lu-2014' on page 26 undefined o
+n input line 1065.
+
+
+LaTeX Warning: Reference `eq:selection' on page 26 undefined on input line 1077
+.
+
+
+LaTeX Warning: Reference `eq:selection' on page 26 undefined on input line 1084
+.
+
+[26]
+
+LaTeX Warning: Reference `theorem:normality-glm' on page 27 undefined on input 
+line 1089.
+
+[27]
+
+LaTeX Warning: Reference `eq:taylor-expanded-glm-criterion' on page 28 undefine
+d on input line 1131.
+
+
+LaTeX Warning: Reference `eq:taylor-expanded-glm-criterion' on page 28 undefine
+d on input line 1132.
+
+[28]
+
+Package natbib Warning: Citation `Fan-Gijbels-1996' on page 29 undefined on inp
+ut line 1164.
+
+
+Package natbib Warning: Citation `Geyer-1994' on page 29 undefined on input lin
+e 1165.
+
+
+Package natbib Warning: Citation `Knight-Fu-2000' on page 29 undefined on input
+ line 1165.
+
+
+LaTeX Warning: Reference `eq:lyapunov-bound' on page 29 undefined on input line
+ 1181.
+
+
+Overfull \hbox (49.77272pt too wide) in paragraph at lines 1180--1186
+\T1/cmr/m/n/12 We ob-serve that ([]) im-plies that $\OML/cmm/m/it/12 n^^K[] [][
+] \OMS/cmsy/m/n/12 ! \OT1/cmr/m/n/12 0$\T1/cmr/m/n/12 , and since $\OML/cmm/m/i
+t/12 E [] < E [] \OMS/cmsy/m/n/12 !
  []
 
-[29] [30] (aux/estimation.aux) ) 
+
+LaTeX Warning: Reference `theorem:selection-glm' on page 29 undefined on input 
+line 1187.
+
+
+LaTeX Warning: Reference `eq:glm-selection' on page 29 undefined on input line 
+1197.
+
+
+LaTeX Warning: Reference `eq:glm-selection' on page 29 undefined on input line 
+1204.
+
+[29]
+
+Package natbib Warning: There were undefined citations.
+
+[30] (aux/estimation.aux
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 3361 strings out of 493918
- 42530 string characters out of 6148600
- 113213 words of memory out of 5000000
- 6578 multiletter control sequences out of 15000+600000
+ 3356 strings out of 493918
+ 42432 string characters out of 6148600
+ 111757 words of memory out of 5000000
+ 6575 multiletter control sequences out of 15000+600000
  26803 words of font info for 81 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  32i,18n,34p,1116b,309s stack positions out of 5000i,500n,10000p,200000b,80000s
