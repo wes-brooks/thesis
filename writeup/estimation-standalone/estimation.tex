@@ -179,29 +179,29 @@ In the context of nonparametric regression, the boundary-effect bias
 can be reduced by local polynomial modeling, usually in the form of
 a locally linear model \citep{Fan-Gijbels-1996}. Here, to prepare
 for the estimation of locally linear coefficients, we augment the
-design matrix with covariate-by-location interactions in two dimensions
+design matrix and the coefficient surfaces with interactions on location in two dimensions
 \citep{Wang-2008b}. Let $\bm{X}=\left(\bm{X}_{1},\dots,\bm{X}_{n}\right)^{T}$
 be the design matrix of observed covariate values. Then the augmented
-local design matrix at location $\bm{s}_{i}$ is defined to be $\bm{Z}(\bm{s}_{i})=\left(\bm{X}\ \:\bm{L}_{i}\bm{X}\ \:\bm{M}_{i}\bm{X}\right),$
-where $\bm{L}_{i}=\text{diag}\{s_{i',1}-s_{i,1}\}_{i'=1}^{n}$ and
-$\bm{M}_{i}=\text{diag}\{s_{i',2}-s_{i,2}\}_{i'=1}^{n}$.
-
-Let $\bm{Z}_{i}=\left\{ \bm{Z}(\bm{s}_{i})\right\} _{i}$ denote the
-$i$th row of the matrix $\bm{Z}(\bm{s}_{i})$ as a column vector.
-Let $\bm{\zeta}(\bm{s}_{i})=\left(\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{u}\bm{\beta}(\bm{s}_{i})^{T},\;\nabla_{v}\bm{\beta}(\bm{s}_{i})^{T}\right)^{T}$
-denote the vector of local coefficients at location $\bm{s}_{i}$,
-augmented with the local gradients of the coefficient surfaces in
-the two dimensions, denoted $\nabla_{u}$ and $\nabla_{v}$. Now we
-have $Y_{i}=\bm{Z}_{i}^{T}\bm{\zeta}_{i}+\varepsilon_{i}$.
+local design matrix at location $\bm{s}$ is defined to be $\bm{Z}(\bm{s})=\left(\bm{X}\ \:\bm{L}(\bm{s}) \bm{X}\ \:\bm{M}(\bm{s}) \bm{X}\right),$
+where $\bm{L}(\bm{s})=\text{diag}\{s_{i',1}-s_1\}_{i'=1}^{n}$ and
+$\bm{M}(\bm{s})=\text{diag}\{s_{i',2}-s_2\}_{i'=1}^{n}$. 
+The vector of augmented local coefficients at location $\bm{s}$ is defined to be $\bm{\zeta}(\bm{s})=\left(\bm{\beta}(\bm{s})^{T},\;\nabla_{u}\bm{\beta}(\bm{s})^{T},\;\nabla_{v}\bm{\beta}(\bm{s})^{T}\right)^{T}$,
+where $\nabla_{u}\bm{\beta}(\bm{s})$ and $\nabla_{v}\bm{\beta}(\bm{s})$ denote the local gradients 
+of the coefficient surfaces.
 
 \subsection{Coefficient Estimation via Local Likelihood}
 
+
+
+%Now we have $Y_{i}=\bm{Z}_{i}^{T}\bm{\zeta}_{i}+\varepsilon_{i}$.
+
 Let $\bm{\zeta}=\left(\bm{\zeta}(\bm{s}_{1}),\dots,\bm{\zeta}(\bm{s}_{n})\right)^{T}$
 denote a matrix of the local coefficients at all observation locations
-$\bm{s}_{1},\dots,\bm{s}_{n}$. The total log-likelihood of the observed
+$\bm{s}_{1},\dots,\bm{s}_{n}$ and let $\left\{\bm{Z}(\bm{s})\right\}_{i}$ denote the
+$i$th row of the matrix $\bm{Z}(\bm{s})$ as a column vector. The total log-likelihood of the observed
 data is the sum of the log-likelihood of each individual observation:
 \begin{align}
-\ell\left(\bm{\zeta}\right)= & -(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\bm{\zeta}(\bm{s}_{i})\right\} ^{2}\right].\label{eq:coefficients}
+\ell\left(\bm{\zeta}\right)= & -(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y_{i}- \{\bm{z}(\bm{s}_i)\}_i \bm{\zeta}(\bm{s}_{i})\right\} ^{2}\right].\label{eq:coefficients}
 \end{align}
 
 Since there are a total of $3(p+1)n+1$ parameters for $n$ observations,
@@ -215,7 +215,7 @@ by the following local log-likelihood at location $\bm{s}\in\mathcal{D}$:
 \ell\left(\bm{\zeta}(\bm{s})\right)= & -(1/2)\sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\left[\log\sigma^{2}+\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right\} ^{2}\right]\label{eq:local-log-likelihood}
 \end{align}
 
-where $h$ is a bandwidth parameter, $\|\cdot\|$ is the $\ell_{2}$-norm,
+where $\bm{Z}_{i}=\left\{\bm{Z}(\bm{s})\right\}_{i}$, $h$ is a bandwidth parameter, $\|\cdot\|$ is the $\ell_{2}$-norm,
 and $K_{h}(\|\bm{s}-\bm{s}_{i}\|)$ for $i=1,\dots,n$ are local weights
 from a kernel function. For instance, the Epanechnikov kernel is defined
 as $K_{h}(\|\bm{s}_{i}-\bm{s}_{i'}\|)=h^{-2}K\left(h^{-1}\|\bm{s}_{i}-\bm{s}_{i'}\|\right)$
@@ -502,12 +502,17 @@ The MISE of true nonzero coefficient $\hat{\beta}_{1}(\bm{s})$ was
 always the smallest under oracular selection. The difference in MISE
 of $\hat{\beta}_{1}(\bm{s})$ under LAGR versus VCR estimation was
 small and each method produced the smaller MISE for nine of $18$
-settings. Recall that $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
+settings. For both LAGR and VCR estimation, the MISE of $\hat{\beta}_{1}(\bm{s})$ under the settings with high cross-covariate correlation ($\rho=0.9$) and high noise variance ($\sigma_{\varepsilon}=1$) was about three times greater than under any of the other settings. 
+Under these settings, coefficient estimation is difficult because the signal is buried in noise and what signal can be discerned is difficult to attribute to a specific covariate because all five are highly correlated. In the absence of either complication, coefficient estimation would be more accurate, as seen by the other entries in Table \ref{tab:mise} and by the fact that oracular selection (which eliminates any cross-covariate correlation in this simulation) did not experience a jump in MISE of $\hat{\beta}_{1}(\bm{s})$ under any simulation settings.
+
+Recall that $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
 are exactly zero across the entire domain. Oracle selection will estimate
 these coefficients perfectly, so we focus on the comparison between
 estimation by LAGR and by the VCR model with no selection. These results
 show that for every simulation setting, LAGR estimation of $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
-is more accurate than the standard VCR model. From Table \ref{tab:misey}
+is more accurate than the standard VCR model. In particular, the MISE of $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$ for settings combining high cross-covariate correlation and high noise variance is at least five times higher under VCR estimation than under LAGR estimation.
+
+From Table \ref{tab:misey}
 we see that LAGR has good ability to identify zero-coefficient covariates.
 The frequency with which $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
 were dropped from the LAGR models ranged from 0.78
