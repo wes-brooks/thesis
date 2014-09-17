@@ -1,0 +1,6 @@
+---
+title: "inference"
+author: "Wesley Brooks"
+output: pdf_document
+---
+
