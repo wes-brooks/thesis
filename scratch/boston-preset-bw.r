@@ -57,9 +57,9 @@ require(maptools)
 require(spdep)
 require(lagr)
 require(doMC)
-#registerDoMC(7)
+registerDoMC(3)
 
-source("scratch/interpolate.bw.r")
+#source("scratch/interpolate.bw.r")
 
 #Import the boston house price dataset
 data(boston)
@@ -94,7 +94,8 @@ boston.loc = rbind(boston.c[,c("LON", "LAT")], dtn.loc)
 rownames(boston.loc) = boston.tracts@data$TRACTBASE
 
 #Make a lagr model for the bandwidth and save it:
-model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT, data=boston.c, coords=c('LON','LAT'), fit.loc=boston.loc, longlat=TRUE, varselect.method='AICc', kernel=epanechnikov, bw=0.2, bw.type='knn', verbose=TRUE, family='gaussian', resid.type='pearson')
+#bw = lagr.tune(MEDV~CRIM+RM+RAD+TAX+LSTAT, data=boston.c, coords=c('LON','LAT'), longlat=TRUE, varselect.method='AIC', bwselect.method='AIC', tol.loc=0.01, kernel=epanechnikov, bw.type='knn', verbose=TRUE, beta.converge.tol=0.1, family='gaussian')
+model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT, data=boston.c, coords=c('LON','LAT'), fit.loc=boston.loc, longlat=TRUE, varselect.method='AIC', kernel=epanechnikov, bw=0.26, bw.type='knn', verbose=TRUE, beta.converge.tol=0.1, family='gaussian')
 
 stop()
 

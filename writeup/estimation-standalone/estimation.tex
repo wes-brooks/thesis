@@ -438,7 +438,7 @@ The GRFs for generating $\beta_1(\bm{s}), \dots, \beta_3(\bm{s})$ had mean zero,
 covariance $\text{Cov}\left(\beta_j(\bm{s}_i), \beta_j(\bm{s}_{i'})\right)=\sigma_j^2 \exp\left(-\tau_{\beta}^{-1}\delta_{ii'}\right)$
 where $\tau_{\beta}=1$ is the range parameter. The scale of the coefficient surface $\beta_j(\bm{s})$ was set via the variance $\sigma_j^2$, and the values used in the simulations were $\bm{\sigma}^2 = \left( 10, 1, 0.1 \right)$.
 These values were chosen so that the the covariates $X_1, \dots, X_4$ would have progressively less influence on the simulated response.
-The values used for coefficients $\beta_1(\bm{s}), \dots, \beta_3(\bm{s})$ in simulation are plotted in Figure \ref{fig:simulation-coefficients}.
+The coefficient values $\beta_1(\bm{s}), \dots, \beta_3(\bm{s})$ generated in this way are plotted in Figure \ref{fig:simulation-coefficients}.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{figure/coefs.pdf}
@@ -469,25 +469,25 @@ estimated by LAGR were zero.
 		\hline 
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Thu Sep 18 09:21:44 2014
-  \multirow{6}{*}{100} & \multirow{2}{*}{0} & 0.5 & \textbf{1.42} & 1.46 & \textbf{0.40} & 0.43 & \textbf{0.04} & 0.10 & \textbf{0.04} & 0.09 \\ 
-    &  & 1.0 & \textbf{1.67} & 1.91 & \textbf{0.46} & 0.55 & \textbf{0.32} & 0.40 & \textbf{0.13} & 0.21 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & \textbf{1.76} & 1.82 & \textbf{0.26} & 0.33 & \textbf{0.09} & 0.14 & \textbf{0.30} & 0.51 \\ 
-    &  & 1.0 & 1.34 & \textbf{1.30} & 0.42 & \textbf{0.31} & \textbf{0.04} & 0.07 & \textbf{0.20} & 0.45 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & \textbf{2.35} & 3.62 & \textbf{0.91} & 2.73 & \textbf{1.20} & 2.20 & \textbf{1.50} & 2.27 \\ 
-    &  & 1.0 & \textbf{1.91} & 2.71 & \textbf{0.67} & 1.31 & \textbf{0.22} & 0.65 & \textbf{0.62} & 1.89 \\ 
-   \hline \multirow{6}{*}{200} & \multirow{2}{*}{0} & 0.5 & \textbf{1.31} & 1.33 & 0.18 & \textbf{0.17} & \textbf{0.15} & 0.24 & \textbf{0.03} & 0.07 \\ 
-    &  & 1.0 & \textbf{1.25} & 1.25 & 0.43 & \textbf{0.32} & \textbf{0.04} & 0.09 & \textbf{0.05} & 0.19 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & \textbf{1.44} & 1.56 & \textbf{0.19} & 0.19 & \textbf{0.07} & 0.15 & \textbf{0.03} & 0.10 \\ 
-    &  & 1.0 & \textbf{1.23} & 1.34 & 0.37 & \textbf{0.34} & 0.04 & \textbf{0.04} & \textbf{0.03} & 0.12 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & \textbf{2.18} & 2.53 & \textbf{0.72} & 1.15 & \textbf{0.58} & 0.90 & \textbf{0.61} & 0.78 \\ 
-    &  & 1.0 & \textbf{2.09} & 2.22 & \textbf{0.65} & 1.31 & \textbf{0.11} & 0.38 & \textbf{0.11} & 0.63 \\ 
-   \hline \multirow{6}{*}{400} & \multirow{2}{*}{0} & 0.5 & \textbf{1.22} & 1.23 & 0.18 & \textbf{0.17} & \textbf{0.06} & 0.08 & \textbf{0.03} & 0.05 \\ 
-    &  & 1.0 & 1.15 & \textbf{1.12} & 0.18 & \textbf{0.18} & \textbf{0.05} & 0.07 & \textbf{0.02} & 0.06 \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 1.26 & \textbf{1.26} & \textbf{0.19} & 0.24 & \textbf{0.05} & 0.08 & \textbf{0.01} & 0.09 \\ 
-    &  & 1.0 & 1.20 & \textbf{1.20} & 0.33 & \textbf{0.29} & \textbf{0.05} & 0.08 & \textbf{0.02} & 0.07 \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & \textbf{1.54} & 1.62 & \textbf{0.37} & 0.41 & \textbf{0.36} & 0.54 & \textbf{0.41} & 0.61 \\ 
-    &  & 1.0 & \textbf{1.41} & 1.70 & \textbf{0.46} & 0.71 & \textbf{0.14} & 0.34 & \textbf{0.02} & 0.23 \\
+% Fri Sep 19 13:04:18 2014
+  \multirow{6}{*}{100} & \multirow{2}{*}{0} & 0.5 & \textbf{1.43} & 1.46 & \textbf{0.42} & 0.43 & \textbf{0.03} & 0.10 & \textbf{0.05} & 0.09 \\ 
+    &  & 1.0 & \textbf{1.79} & 1.91 & \textbf{0.55} & 0.55 & \textbf{0.32} & 0.40 & \textbf{0.13} & 0.21 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & \textbf{1.78} & 1.82 & \textbf{0.29} & 0.33 & \textbf{0.10} & 0.14 & \textbf{0.35} & 0.51 \\ 
+    &  & 1.0 & 1.34 & \textbf{1.30} & 0.42 & \textbf{0.31} & \textbf{0.05} & 0.07 & \textbf{0.20} & 0.45 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & \textbf{2.73} & 3.62 & \textbf{1.26} & 2.73 & \textbf{1.39} & 2.20 & \textbf{1.67} & 2.27 \\ 
+    &  & 1.0 & \textbf{2.08} & 2.71 & \textbf{0.77} & 1.31 & \textbf{0.22} & 0.65 & \textbf{0.74} & 1.89 \\ 
+   \hline \multirow{6}{*}{200} & \multirow{2}{*}{0} & 0.5 & \textbf{1.32} & 1.33 & 0.18 & \textbf{0.17} & \textbf{0.15} & 0.24 & \textbf{0.04} & 0.07 \\ 
+    &  & 1.0 & \textbf{1.24} & 1.25 & 0.44 & \textbf{0.32} & \textbf{0.04} & 0.09 & \textbf{0.05} & 0.19 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & \textbf{1.41} & 1.56 & 0.20 & \textbf{0.19} & \textbf{0.07} & 0.15 & \textbf{0.04} & 0.10 \\ 
+    &  & 1.0 & \textbf{1.24} & 1.34 & 0.38 & \textbf{0.34} & 0.04 & \textbf{0.04} & \textbf{0.04} & 0.12 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & \textbf{2.32} & 2.53 & \textbf{1.12} & 1.15 & \textbf{0.67} & 0.90 & \textbf{0.64} & 0.78 \\ 
+    &  & 1.0 & \textbf{2.19} & 2.22 & \textbf{0.81} & 1.31 & \textbf{0.12} & 0.38 & \textbf{0.15} & 0.63 \\ 
+   \hline \multirow{6}{*}{400} & \multirow{2}{*}{0} & 0.5 & 1.23 & \textbf{1.23} & 0.18 & \textbf{0.17} & \textbf{0.06} & 0.08 & \textbf{0.04} & 0.05 \\ 
+    &  & 1.0 & 1.14 & \textbf{1.12} & 0.19 & \textbf{0.18} & \textbf{0.06} & 0.07 & \textbf{0.02} & 0.06 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 1.27 & \textbf{1.26} & \textbf{0.19} & 0.24 & \textbf{0.06} & 0.08 & \textbf{0.01} & 0.09 \\ 
+    &  & 1.0 & 1.20 & \textbf{1.20} & 0.35 & \textbf{0.29} & \textbf{0.06} & 0.08 & \textbf{0.03} & 0.07 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & \textbf{1.61} & 1.62 & \textbf{0.41} & 0.41 & \textbf{0.36} & 0.54 & \textbf{0.47} & 0.61 \\ 
+    &  & 1.0 & \textbf{1.34} & 1.70 & \textbf{0.58} & 0.71 & \textbf{0.17} & 0.34 & \textbf{0.03} & 0.23 \\
 
   
 	\hline
@@ -499,10 +499,11 @@ estimated by LAGR were zero.
 
 \subsection{Simulation Results}
 
-The MISE of the coefficient surface estimates are in Table \ref{tab:mise}. 
-For all coefficients, the MISE was more often smaller under estimation by LAGR than under estimation by VCR.
-The frequency with which MISE was lower under LAGR than under VCR for estimating $\beta_2$ was $11$ of $18$ cases, and was higher for all other coefficients.
+The MISE of the coefficient surface estimates are in Table \ref{tab:mise}. In general, the coefficients estimated by LAGR were more accurate in terms of MISE than those estimated by VCR. 
+The frequency with which MISE was smaller under LAGR than under VCR for estimating $\beta_1$ was $13$ of $18$ cases, and for $\beta_2$ the frequency was was $10$ of $18$ cases. 
 The improvement by MISE of LAGR over VCR was greater for covariates with smaller influence, with LAGR producing the smaller MISE for $\beta_3$ or $\beta_4$ $35$ times out of a possible $36$.
+With other factors held constant, the MISE for estimating the coefficients tended to decrease as the sample size increased, and to to increase as the correlation between covariates or error variance increased. 
+There were 
 
 
 
@@ -533,51 +534,42 @@ the others in this simulation at fitting the response.
 
 \begin{table}
 	\centering
-	\begin{tabular}{|ccc|cccc|cc|}
+	\begin{tabular}{|ccc|cccc|}
 		\hline
-		\multicolumn{3}{|c|}{\begin{tabular}[c]{@{}c@{}}Simulation\\settings\end{tabular}} &  \multicolumn{4}{c|}{\begin{tabular}[c]{@{}c@{}}Zero\\frequency\end{tabular}} &  \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}MISE\\$\hat{y}$\end{tabular}} \\
-		$n$ & $\rho$ & $\sigma_{\varepsilon}$ & $\hat{\beta}_1$ & $\hat{\beta}_2$ & $\hat{\beta}_3$ & $\hat{\beta}_4$ & LAGR & VCR \\
+		\multicolumn{3}{|c|}{\begin{tabular}[c]{@{}c@{}}Simulation\\settings\end{tabular}} &  \multicolumn{4}{c|}{\begin{tabular}[c]{@{}c@{}}Zero\\frequency\end{tabular}} \\
+		$n$ & $\rho$ & $\sigma_{\varepsilon}$ & $\hat{\beta}_1$ & $\hat{\beta}_2$ & $\hat{\beta}_3$ & $\hat{\beta}_4$ \\
 		\hline 
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Thu Sep 18 09:21:44 2014
-  \multirow{6}{*}{100} & \multirow{2}{*}{0} & 0.5 & 0.00 & 0.30 & 0.48 & 0.83 & 1.45 & \textbf{1.12} \\ 
-    &  & 1.0 & 0.00 & 0.24 & 0.31 & 0.30 & 1.93 & \textbf{1.79} \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.00 & 0.20 & 0.70 & 0.05 & 1.35 & \textbf{1.25} \\ 
-    &  & 1.0 & 0.00 & 0.74 & 0.85 & 0.57 & 1.86 & \textbf{1.65} \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & 0.23 & 0.44 & 0.37 & 0.27 & 1.42 & \textbf{1.31} \\ 
-    &  & 1.0 & 0.03 & 0.70 & 0.49 & 0.67 & 1.59 & \textbf{1.28} \\ 
-   \hline \multirow{6}{*}{200} & \multirow{2}{*}{0} & 0.5 & 0.00 & 0.10 & 0.44 & 0.70 & 1.33 & \textbf{1.25} \\ 
-    &  & 1.0 & 0.00 & 0.87 & 0.92 & 0.71 & 2.61 & \textbf{2.28} \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.00 & 0.30 & 0.70 & 0.64 & 1.49 & \textbf{1.38} \\ 
-    &  & 1.0 & 0.00 & 0.57 & 0.98 & 0.83 & 1.68 & \textbf{1.56} \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & 0.02 & 0.22 & 0.32 & 0.22 & 1.47 & \textbf{1.36} \\ 
-    &  & 1.0 & 0.04 & 0.05 & 0.80 & 0.72 & 1.95 & \textbf{1.77} \\ 
-   \hline \multirow{6}{*}{400} & \multirow{2}{*}{0} & 0.5 & 0.00 & 0.05 & 0.35 & 0.53 & 1.20 & \textbf{1.17} \\ 
-    &  & 1.0 & 0.00 & 0.20 & 0.48 & 0.62 & 2.15 & \textbf{2.03} \\ 
-    & \multirow{2}{*}{0.5} & 0.5 & 0.00 & 0.13 & 0.74 & 0.80 & 1.77 & \textbf{1.60} \\ 
-    &  & 1.0 & 0.00 & 0.31 & 0.70 & 0.79 & 1.71 & \textbf{1.61} \\ 
-    & \multirow{2}{*}{0.9} & 0.5 & 0.00 & 0.42 & 0.46 & 0.31 & 1.59 & \textbf{1.41} \\ 
-    &  & 1.0 & 0.00 & 0.28 & 0.72 & 0.84 & 2.41 & \textbf{2.24} \\ 
+% Fri Sep 19 13:05:26 2014
+  \multirow{6}{*}{100} & \multirow{2}{*}{0} & 0.5 & 0.00 & 0.33 & 0.56 & 0.88 \\ 
+    &  & 1.0 & 0.00 & 0.24 & 0.34 & 0.38 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.00 & 0.22 & 0.72 & 0.06 \\ 
+    &  & 1.0 & 0.00 & 0.75 & 0.88 & 0.62 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & 0.24 & 0.48 & 0.41 & 0.28 \\ 
+    &  & 1.0 & 0.06 & 0.75 & 0.54 & 0.69 \\ 
+   \hline \multirow{6}{*}{200} & \multirow{2}{*}{0} & 0.5 & 0.00 & 0.12 & 0.50 & 0.78 \\ 
+    &  & 1.0 & 0.00 & 0.88 & 0.96 & 0.72 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.00 & 0.34 & 0.74 & 0.68 \\ 
+    &  & 1.0 & 0.00 & 0.56 & 0.99 & 0.83 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & 0.07 & 0.25 & 0.36 & 0.22 \\ 
+    &  & 1.0 & 0.04 & 0.04 & 0.80 & 0.76 \\ 
+   \hline \multirow{6}{*}{400} & \multirow{2}{*}{0} & 0.5 & 0.00 & 0.05 & 0.44 & 0.57 \\ 
+    &  & 1.0 & 0.00 & 0.21 & 0.55 & 0.72 \\ 
+    & \multirow{2}{*}{0.5} & 0.5 & 0.00 & 0.14 & 0.79 & 0.83 \\ 
+    &  & 1.0 & 0.00 & 0.32 & 0.70 & 0.81 \\ 
+    & \multirow{2}{*}{0.9} & 0.5 & 0.00 & 0.46 & 0.49 & 0.34 \\ 
+    &  & 1.0 & 0.00 & 0.27 & 0.73 & 0.86 \\ 
 
 
   
 	\hline
 	\end{tabular}
-	\caption{For each setting as a combination of sample size $n$, cross-covariate correlation $\rho$, and error standard deviation $\sigma_{\varepsilon}$, the frequency of exact zeroes in the estimates of $\hat{\beta}_1,\dots,\hat{\beta}_4$ as estimated by local adaptive grouped regularizaton (LAGR). Also, the mean integrated squared error (MISE) for the fitted output of each simulation setting, under variable selection via LAGR, and by locally linear regression without selection (VCR). \textbf{Highlighting} indicates the closest to the actual error variance $\sigma_\varepsilon^2$ for that simulation setting.}
+	\caption{For each setting as a combination of sample size $n$, cross-covariate correlation $\rho$, and error standard deviation $\sigma_{\varepsilon}$, the frequency of exact zeroes in the estimates of $\hat{\beta}_1,\dots,\hat{\beta}_4$ as estimated by local adaptive grouped regularizaton.}
 	\label{tab:misey}
 \end{table}
 
-Overall, the proposed LAGR method was accurate in variable selection
-and coefficient surface estimation, with estimation accuracy for $\beta_{1}(\bm{s})$
-about equal to that of the VCR model with no selection, and with consistently
-better accuracy for estimating $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$.
-There was little difference in the performance of the proposed LAGR
-method between low ($\sigma_{\varepsilon}=0.5$) and high ($\sigma_{\varepsilon}=1$)
-error variance, and between no ($\rho=0$) and moderate ($\rho=0.5$)
-correlation among the covariates. But the selection and estimation
-accuracy did decline when there was high ($\rho=0.9$) correlation
-among the covariates.
+In general, the variables with less influence in the true simulated data were more likely to be 
 
 
 \section{Data Example\label{sec:example}}
@@ -631,18 +623,18 @@ to radial roads is associated with a greater median house price and
 parts where it is associated with a lesser median house price.
 
 % latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Mon Aug 18 22:12:11 2014
+% Fri Sep 19 14:55:26 2014
 \begin{table}
 \centering
 \begin{tabular}{|c|ccc|}
   \hline
  & Mean & SD & Prop. zero \\ 
   \hline
-CRIM & -0.07 & 0.08 & 0.49 \\ 
-  RM & 1.92 & 1.43 & 0.02 \\ 
-  RAD & -0.08 & 0.13 & 0.37 \\ 
-  TAX & 0.00 & 0.00 & 1.00 \\ 
-  LSTAT & -0.72 & 0.16 & 0.01 \\ 
+CRIM & -0.13 & 0.06 & 0.03 \\ 
+  RM & 2.93 & 1.73 & 0.00 \\ 
+  RAD & 0.19 & 0.20 & 0.00 \\ 
+  TAX & -0.01 & 0.01 & 0.33 \\ 
+  LSTAT & -0.67 & 0.11 & 0.00 \\ 
    \hline
 \end{tabular}
 \caption{The mean, standard deviation, and proportion of zeros among the estimates of the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by local adaptive grouped regularization. The covariates are CRIM (per capita crime rate in the census tract), RM (average number of rooms per home sold in the census tract), RAD (an index of the tract's access to radial roads), TAX (property tax per USD10,000 of property value), and LSTAT (percentage of the tract's residents who are considered ``lower status").} 
