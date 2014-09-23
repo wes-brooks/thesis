@@ -57,7 +57,10 @@ require(maptools)
 require(spdep)
 require(lagr)
 require(doMC)
-registerDoMC(3)
+registerDoMC(7)
+
+require(xtable)
+require(brooks)
 
 #source("scratch/interpolate.bw.r")
 
@@ -95,13 +98,37 @@ rownames(boston.loc) = boston.tracts@data$TRACTBASE
 
 #Make a lagr model for the bandwidth and save it:
 #bw = lagr.tune(MEDV~CRIM+RM+RAD+TAX+LSTAT, data=boston.c, coords=c('LON','LAT'), longlat=TRUE, varselect.method='AIC', bwselect.method='AIC', tol.loc=0.01, kernel=epanechnikov, bw.type='knn', verbose=TRUE, beta.converge.tol=0.1, family='gaussian')
-model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT, data=boston.c, coords=c('LON','LAT'), fit.loc=boston.loc, longlat=TRUE, varselect.method='AIC', kernel=epanechnikov, bw=0.26, bw.type='knn', verbose=TRUE, beta.converge.tol=0.1, family='gaussian')
+model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT, data=boston.c, coords=c('LON','LAT'), fit.loc=boston.loc, longlat=TRUE, varselect.method='AIC', kernel=epanechnikov, bw=0.26, bw.type='knn', verbose=TRUE, lagr.convergence.tol=0.05, n.lambda=200, lambda.min.ratio=1e-7, lagr.max.iter=50, family='gaussian')
 
-stop()
+cc = as.data.frame(t(sapply(model[['model']], function(x) x[['coef']])))
 
+
+vars = c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')
+
+boston.coef.summary = matrix(NA, nrow=0, ncol=3)
+for (v in vars) {
+    row = vector()
+    colname.coef = paste("coef", v, sep="")
+    
+    #Add the table's elements to this row:
+    row = c(row, mean(boston.tracts@data[,colname.coef]))
+    row = c(row, sd(boston.tracts@data[,colname.coef]))
+    row = c(row, mean(boston.tracts@data[,colname.coef]==0))
+    
+    #Add this row to the table:
+    boston.coef.summary = rbind(boston.coef.summary, row)
+}
+rownames(boston.coef.summary) = vars
+colnames(boston.coef.summary) = c('Mean', 'SD', 'Prop. zero')
+
+bb = as.factor(apply(sapply(model[['model']], function(x) ifelse(x[['coef']][-1]==0,0,1)), 2, function(x) paste(x,collapse="")))
+
+
+#PLOT OF ESTIMATED COEFFICIENTS:
 for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT', '(Intercept)')) {
     boston.tracts@data[[paste('coef', v, sep='')]] = sapply(model[['model']], function(x) x[['coef']][[v]])
 }
+boston.tracts@data[['model']] = bb
 
 #Draw a map:
 boston.map = poly_coords(boston.tracts)
@@ -115,5 +142,40 @@ for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
         xlab("longitude") +
         ylab("latitude")
 }
+bmap[['model']] = ggplot(boston.map) +
+        aes(x=PolyCoordsY, y=PolyCoordsX, group=Poly_Name) +
+        aes(fill=model) +
+        geom_polygon() +
+        scale_fill_brewer(type='qual', labels=c("RM, LSTAT", "RM, RAD, LSTAT", "CRIM, RM,\nRAD, LSTAT", "CRIM, RM,\nRAD,TAX, LSTAT")) +
+        theme(legend.text=element_text(size=rel(0.6))) +
+        xlab("longitude") +
+        ylab("latitude")
 
-print(bmap[[v]])
+pdf("~/git/gwr/writeup/estimation-standalone/figure/boston-plots.pdf", 8, 9)
+multiplot(plotlist=bmap, cols=2)    
+dev.off()
+
+
+#SUMMARY TABLE:
+boston.coef.summary = matrix(NA, nrow=0, ncol=3)
+for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
+    row = vector()
+    colname.coef = paste("coef", v, sep="")
+    
+    #Add the table's elements to this row:
+    row = c(row, mean(boston.tracts@data[1:506,colname.coef]))
+    row = c(row, sd(boston.tracts@data[1:506,colname.coef]))
+    row = c(row, mean(boston.tracts@data[1:506,colname.coef]==0))
+    
+    #Add this row to the table:
+    boston.coef.summary = rbind(boston.coef.summary, row)
+}
+rownames(boston.coef.summary) = vars
+colnames(boston.coef.summary) = c('Mean', 'SD', 'Prop. zero')
+
+#Generate the table, caption it, and print it with emphasis.
+boston.coef.table = xtable(boston.coef.summary, align="|c|ccc|")
+caption(boston.coef.table) = "The mean, standard deviation, and proportion of zeros among the estimates of the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by local adaptive grouped regularization. The covariates are CRIM (per capita crime rate in the census tract), RM (average number of rooms per home sold in the census tract), RAD (an index of the tract's access to radial roads), TAX (property tax per USD10,000 of property value), and LSTAT (percentage of the tract's residents who are considered ``lower status\")."
+label(boston.coef.table) = "tab:boston-coefs-lagr"
+print(boston.coef.table, table.placement=NULL)
+

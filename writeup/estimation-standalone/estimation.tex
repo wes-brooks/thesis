@@ -502,7 +502,7 @@ estimated by LAGR were zero.
 The MISE of the coefficient surface estimates are in Table \ref{tab:mise}. In general, the coefficients estimated by LAGR were more accurate in terms of MISE than those estimated by VCR. 
 The frequency with which MISE was smaller under LAGR than under VCR for estimating $\beta_1$ was $13$ of $18$ cases, and for $\beta_2$ the frequency was was $10$ of $18$ cases. 
 The improvement by MISE of LAGR over VCR was greater for covariates with smaller influence, with LAGR producing the smaller MISE for $\beta_3$ or $\beta_4$ $35$ times out of a possible $36$.
-With other factors held constant, the MISE for estimating the coefficients tended to decrease as the sample size increased, and to to increase as the correlation between covariates or error variance increased. 
+With other factors held constant, the MISE for estimating the coefficients tended to decrease as the sample size increased, and to to increase as the error variance or the correlation between covariates increased. 
 There were 
 
 
@@ -604,9 +604,8 @@ for TAX.
 \begin{figure}
 
 \includegraphics[width=\maxwidth]{figure/boston-plots} 
-
-
-\caption{Coefficients for the Boston house price data as estimated by local adaptive grouped regularization.\label{fig:boston-lagr-coefs}}
+\caption{Coefficients for the Boston house price data as estimated by local adaptive grouped regularization.
+\label{fig:boston-lagr-coefs}}
 \end{figure}
 
 The estimates of the local coefficients are plotted in Figure \ref{fig:boston-lagr-coefs}.
@@ -622,33 +621,51 @@ in others. This indicates that there are parts of Boston where access
 to radial roads is associated with a greater median house price and
 parts where it is associated with a lesser median house price.
 
-% latex table generated in R 3.1.1 by xtable 1.7-3 package
-% Fri Sep 19 14:55:26 2014
+\begin{table}
+    \centering
+    \begin{tabular}{|rc|}
+    \hline
+    Local variables & Count \\
+    \hline
+    CRIM, RM, RAD, TAX, LSTAT & 471 \\
+    CRIM, RM, RAD, LSTAT & 43 \\
+    RM, RAD, LSTAT & 6 \\
+    RM, LSTAT & 1 \\
+    \hline
+    \end{tabular}
+    \caption{}
+    \label{}
+\end{table}
+
+% latex table generated in R 3.1.1 by xtable 1.7-4 package
+% Mon Sep 22 17:27:07 2014
 \begin{table}
 \centering
 \begin{tabular}{|c|ccc|}
   \hline
  & Mean & SD & Prop. zero \\ 
   \hline
-CRIM & -0.13 & 0.06 & 0.03 \\ 
-  RM & 2.93 & 1.73 & 0.00 \\ 
-  RAD & 0.19 & 0.20 & 0.00 \\ 
-  TAX & -0.01 & 0.01 & 0.33 \\ 
-  LSTAT & -0.67 & 0.11 & 0.00 \\ 
+CRIM & -0.15 & 0.07 & 0.01 \\ 
+  RM & 2.56 & 1.68 & 0.00 \\ 
+  RAD & 0.21 & 0.25 & 0.00 \\ 
+  TAX & -0.02 & 0.01 & 0.10 \\ 
+  LSTAT & -0.73 & 0.13 & 0.00 \\ 
    \hline
 \end{tabular}
-\caption{The mean, standard deviation, and proportion of zeros among the estimates of the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by local adaptive grouped regularization. The covariates are CRIM (per capita crime rate in the census tract), RM (average number of rooms per home sold in the census tract), RAD (an index of the tract's access to radial roads), TAX (property tax per USD10,000 of property value), and LSTAT (percentage of the tract's residents who are considered ``lower status").} 
+\caption{The mean, standard deviation, and proportion of zeros among the estimates of the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by local adaptive grouped regularizatcapt The covariates are CRIM (per capita crime rate in the census tract), RM (average number of rooms per home sold in the census tract), RAD (an index of the tract's access to radial roads), TAX (property tax per USD10,000 of property value), and LSTAT (percentage of the tract's residents who are considered ``lower status").} 
 \label{tab:boston-coefs-lagr}
 \end{table}
 
+One interesting result from the simulation is an apparent relationship between access to radial roads and the coefficient of the TAX variable.
+Of the 506 Boston census tracts, there were 132 with the highest possible index for access to radial roads, and 50 where the estimated coefficient of the TAX variable was zero.
+Only one tract had the highest RAD index and a zero coefficient for the TAX variable.
+This is a quite extreme result against a null hypothesis that a zero coefficient for the TAX variable is independent of the whether a tract has the highest access to radial roads.
+If the tracts are treated as independent observations, then Pearson's chi-squared test tells us that the p-value of such a null hypothesis is $4.4 \times 10^{-5}$, which is well below any reasonable standard for rejection.
+This kind of result could elicit further inquiry into the reasons for the apparent relationship.
+For instance, it might be the case that the property tax rate has a slight influence on house prices.
+If the radial roads facilitate easier travel, then they may increase the number of people who are able to consider buying a house in a low-tax jurisdiction.
+Meanwhile, the preference for lower tax rates may be weak enough that it doesn't affect house prices where travel is more difficult.
 
-In their example using the same data, \citet{Sun-Yan-Zhang-Lu-2014}
-estimated that the coefficients of RAD and LSTAT should be constant,
-at $0.36$ and $-0.45$, respectively. That conclusion differs from
-our result, which says that the mean estimated local coefficient of
-RAD is actually negative (\ensuremath{-0.08}),
-while our mean fitted local coefficient for LSTAT was more negative
-than the estimate of \citet{Sun-Yan-Zhang-Lu-2014}.
 
 
 \section{Extension to Generalized Linear Regression\label{sec:lagr-gllm}}

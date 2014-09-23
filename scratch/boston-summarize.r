@@ -57,9 +57,9 @@ for (v in vars) {
     colname.coef = paste("coef", v, sep="")
     
     #Add the table's elements to this row:
-    row = c(row, mean(boston.tracts@data[,colname.coef]))
-    row = c(row, sd(boston.tracts@data[,colname.coef]))
-    row = c(row, mean(boston.tracts@data[,colname.coef]==0))
+    row = c(row, mean(boston.tracts@data[1:506,colname.coef]))
+    row = c(row, sd(boston.tracts@data[1:506,colname.coef]))
+    row = c(row, mean(boston.tracts@data[1:506,colname.coef]==0))
     
     #Add this row to the table:
     boston.coef.summary = rbind(boston.coef.summary, row)
