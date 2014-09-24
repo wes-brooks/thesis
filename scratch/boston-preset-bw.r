@@ -165,16 +165,16 @@ for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
     #Add the table's elements to this row:
     row = c(row, mean(boston.tracts@data[1:506,colname.coef]))
     row = c(row, sd(boston.tracts@data[1:506,colname.coef]))
-    row = c(row, mean(boston.tracts@data[1:506,colname.coef]==0))
+    row = c(row, sum(boston.tracts@data[1:506,colname.coef]==0))
     
     #Add this row to the table:
     boston.coef.summary = rbind(boston.coef.summary, row)
 }
 rownames(boston.coef.summary) = vars
-colnames(boston.coef.summary) = c('Mean', 'SD', 'Prop. zero')
+colnames(boston.coef.summary) = c('Mean', 'SD', '\begin{tabular}{c}Zero coef. \\ count\end{tabular}')
 
 #Generate the table, caption it, and print it with emphasis.
-boston.coef.table = xtable(boston.coef.summary, align="|c|ccc|")
+boston.coef.table = xtable(boston.coef.summary, align="|c|ccc|", digits=c(2,2,2,0))
 caption(boston.coef.table) = "The mean, standard deviation, and proportion of zeros among the estimates of the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by local adaptive grouped regularization. The covariates are CRIM (per capita crime rate in the census tract), RM (average number of rooms per home sold in the census tract), RAD (an index of the tract's access to radial roads), TAX (property tax per USD10,000 of property value), and LSTAT (percentage of the tract's residents who are considered ``lower status\")."
 label(boston.coef.table) = "tab:boston-coefs-lagr"
 print(boston.coef.table, table.placement=NULL)
