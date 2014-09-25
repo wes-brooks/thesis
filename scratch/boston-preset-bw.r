@@ -151,7 +151,7 @@ bmap[['model']] = ggplot(boston.map) +
         xlab("longitude") +
         ylab("latitude")
 
-pdf("~/git/gwr/writeup/estimation-standalone/figure/boston-plots.pdf", 8, 9)
+pdf("~/git/gwr/writeup/estimation-standalone/figure/boston-plots.pdf", 7, 8)
 multiplot(plotlist=bmap, cols=2)    
 dev.off()
 
@@ -171,7 +171,7 @@ for (v in c('CRIM', 'RM', 'RAD', 'TAX', 'LSTAT')) {
     boston.coef.summary = rbind(boston.coef.summary, row)
 }
 rownames(boston.coef.summary) = vars
-colnames(boston.coef.summary) = c('Mean', 'SD', '\begin{tabular}{c}Zero coef. \\ count\end{tabular}')
+colnames(boston.coef.summary) = c('Mean', 'SD', '\\begin{tabular}{c}Zero coef. \\\\ count\\end{tabular}')
 
 #Generate the table, caption it, and print it with emphasis.
 boston.coef.table = xtable(boston.coef.summary, align="|c|ccc|", digits=c(2,2,2,0))

@@ -282,14 +282,14 @@ $\bm{\zeta}(\bm{s})$ will be made available in an \texttt{R} package.
 
 \subsection{Oracle Properties\label{sub:oracle-properties}}
 
-At location $\bm{s}$, let there be are $p_{0}<p$ covariates $\bm{X}_{(a)}(\bm{s})$
+At location $\bm{s}$, let there be are $p_{0}(\bm{s})<p$ covariates $\bm{X}_{(a)}(\bm{s})$
 with nonzero local regression coefficients, denoted $\bm{\beta}_{(a)}(\bm{s})\ne\bm{0}$.
 Without loss of generality, assume the indices of these covariates
-are $1,\dots,p_{0}$. The remaining $p-p_{0}$ covariates $\bm{X}_{(b)}(\bm{s})$
+are $1,\dots,p_{0}(\bm{s})$. The remaining $p-p_{0}(\bm{s})$ covariates $\bm{X}_{(b)}(\bm{s})$
 have coefficients equal to zero, denoted $\bm{\beta}_{(b)}(\bm{s})=\bm{0}$.
-Denote by $a_{n}=\max\left\{ \phi_{j}(\bm{s}),j\le p_{0}\right\} $
+Denote by $a_{n}=\max\left\{ \phi_{j}(\bm{s}),j\le p_{0}(\bm{s})\right\} $
 the largest penalty applied to a covariate group whose true coefficient
-norm is nonzero, and by $b_{n}=\min\left\{ \phi_{j}(\bm{s}),j>p_{0}\right\} $
+norm is nonzero, and by $b_{n}=\min\left\{ \phi_{j}(\bm{s}),j>p_{0}(\bm{s})\right\} $
 the smallest penalty applied to a covariate group whose true coefficient
 norm is zero. Let $\bm{Z}_{(k)}(\bm{s})$ be the augmented design
 matrix for covariate group $k$, and let $\bm{Z}_{(\mhyphen k)}(\bm{s})$
@@ -354,8 +354,8 @@ on $\gamma$, the unpenalized group norm exponent in the LAGR penalty.
 Under condition (C.7), the local penalty tends to zero on covariates
 with true nonzero coefficients and to infinity on covariates with
 true zero coefficients. By (C.7), $h^{-1}n^{-1/2}\lambda_{n}\to0$
-for all $j\le p_{0}$ and $hn^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}\to\infty$
-for all $j>p_{0}$. We require that $\lambda_{n}$ satisfy both assumptions.
+for all $j\le p_{0}(\bm{s})$ and $hn^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}\to\infty$
+for all $j>p_{0}(\bm{s})$. We require that $\lambda_{n}$ satisfy both assumptions.
 Suppose $\lambda_{n}=n^{\alpha}$. Since $h=O\left(n^{-1/6}\right)$
 and $\|\tilde{\bm{\zeta}}_{(p)}(\bm{s})\|=O\left(h^{-1}n^{-1/2}\right)$,
 it follows that $h^{-1}n^{-1/2}\lambda_{n}=O\left(n^{-1/3+\alpha}\right)$
@@ -374,7 +374,7 @@ where $\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}
 \begin{thm}[Selection consistency]
 \label{theorem:selection} Under (C.1)--(C.8), 
 \[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}(\bm{s}).
 \]
 \end{thm}
 Theorem \ref{theorem:normality} indicates that the LAGR estimates
@@ -403,11 +403,11 @@ of freedom for the adaptive group Lasso from \citet{Yuan-Lin-2006}
 and minimize the AIC to select the tuning parameter $\lambda_{n}$. That is, let
 
 \begin{align*}
-\hat{{\rm df}}(\lambda_{n};\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|>0\right)+\sum_{j=1}^{p}\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|\|\tilde{\bm{\zeta}}(\bm{s})\|^{-1}(p_{j}-1)\\
+\hat{{\rm df}}(\lambda_{n};\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|>0\right)+\sum_{j=1}^{p}\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|\|\tilde{\bm{\zeta}}(\bm{s})\|^{-1}(d-1)\\
 \text{AIC}(\lambda_{n};\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\right\} ^{2}+2\hat{{\rm df}}(\lambda_{n};\bm{s})\\
 \end{align*}
 
-where $I\left(\cdot\right)$ is the indicator function and the local
+where $I\left(\cdot\right)$ is the indicator function, $d$ is the dimension of the effect-modifying parameter, and the local
 coefficient estimate is written $\hat{\bm{\zeta}}(\lambda_{n};\bm{s})$
 to emphasize that it depends on the tuning parameter.
 
@@ -487,7 +487,9 @@ For both estimation methods, the bandwidth parameter was $h=(3/2)n^{-1/6} - 0.36
   
 	\hline
 	\end{tabular}
-	\caption{For each setting as a combination of sample size $n$, cross-covariate correlation $\rho$, and error standard deviation $\sigma_{\varepsilon}$, the mean integrated squared error (MISE) of the coefficient estimates. The MISE of $\hat{\beta}_1, \dots, \hat{\beta}_4$ from estimation by local adaptive grouped regularization (LAGR) is compared to that from estimation by locally linear regression without selection (VCR). \textbf{Highlighting} indicates the smallest MISE for $\hat{\beta}_1, \dots, \hat{\beta}_4$.}
+	\caption{For each setting as a combination of sample size $n$, cross-covariate correlation $\rho$, and error standard deviation $\sigma_{\varepsilon}$, the mean integrated squared error (MISE) of the coefficient estimates.
+	The MISE of $\hat{\beta}_1, \dots, \hat{\beta}_4$ from estimation by local adaptive grouped regularization (LAGR) is compared to that from estimation by locally linear regression without selection (VCR).
+	\textbf{Highlighting} indicates whether LAGR or VCR produced the smaller MISE for each coefficient surface under each simulation setting.}
 	\label{tab:mise}
 \end{table}
 
@@ -497,42 +499,20 @@ For both estimation methods, the bandwidth parameter was $h=(3/2)n^{-1/6} - 0.36
 The MISE of the coefficient surface estimates are in Table \ref{tab:mise}. In general, the coefficients estimated by LAGR were more accurate in terms of MISE than those estimated by VCR. 
 The frequency with which MISE was smaller under LAGR than under VCR for estimating $\beta_1$ was $13$ of $18$ cases, and for $\beta_2$ the frequency was was $10$ of $18$ cases. 
 The improvement by MISE for LAGR over VCR was greater for covariates with smaller influence, with LAGR producing the smaller MISE for $\beta_3$ and $\beta_4$ in every case.
-In no case was the MISE for LAGR more than $11\%$ greater than for VCR, while the MISE for estimating $\beta_4$ with $\rho=0.9$, $\sigma=0.5$, and $n=100$ setting was $140$ times greater for VCR than for LAGR.
-That was the exception, though - under the other simulation settings, the greatest improvement for LAGR over VCR tended to fall between a $2--3$ times reduction in MISE.
+In no case was the MISE for LAGR more than $11\%$ greater than for VCR, while the MISE for estimating $\beta_4$ with $\rho=0.9$, $\sigma_{\varepsilon}=0.5$, and $n=100$ setting was $140$ times greater for VCR than for LAGR.
+That was the exception, as under the other simulation settings the greatest improvement for LAGR over VCR tended to be a $2-3$ times reduction in MISE.
 
 With other factors held constant, the MISE for estimating the coefficients tended to be smaller for less influential covariates and under larger sample sizes.
 On the other hand, the MISE tended to increase with high error variance or increasing correlation between covariates. 
 There was an exception: the MISE for estimating $\beta_3$ in simulations where $n=200$ was surprisingly high under both LAGR and VCR.
+In terms of MISE, the improvement from estimation by LAGR over VCR was greater for settings with smaller sample sizes, higher correlation between covariates, and greater error variance.
 
 The frequencies of exact zeros among the estimates of each coefficient for each simulation setting are in Table \ref{tab:zerofreq}.
 With one exception, the frequency of exact zeros in the coefficient estimates increased uniformly as covariates grew less influential.
 The exception is that in the eighteenth simulation the frequencies of exact zeros among the estimates of $\beta_3$ and $\beta_4$ were $66\%$ and $60\%$, respectively.
-
-
-The MISE of true nonzero coefficient $\hat{\beta}_{1}(\bm{s})$ was
-always the smallest under oracular selection. The difference in MISE
-of $\hat{\beta}_{1}(\bm{s})$ under LAGR versus VCR estimation was
-small and each method produced the smaller MISE for nine of $18$
-settings. For both LAGR and VCR estimation, the MISE of $\hat{\beta}_{1}(\bm{s})$ under the settings with high cross-covariate correlation ($\rho=0.9$) and high noise variance ($\sigma_{\varepsilon}=1$) was about three times greater than under any of the other settings. 
-Under these settings, coefficient estimation is difficult because the signal is buried in noise and what signal can be discerned is difficult to attribute to a specific covariate because all five are highly correlated. In the absence of either complication, coefficient estimation would be more accurate, as seen by the other entries in Table \ref{tab:mise} and by the fact that oracular selection (which eliminates any cross-covariate correlation in this simulation) did not experience a jump in MISE of $\hat{\beta}_{1}(\bm{s})$ under any simulation settings.
-
-Recall that $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
-are exactly zero across the entire domain. Oracle selection will estimate
-these coefficients perfectly, so we focus on the comparison between
-estimation by LAGR and by the VCR model with no selection. These results
-show that for every simulation setting, LAGR estimation of $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
-is more accurate than the standard VCR model. In particular, the MISE of $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$ for settings combining high cross-covariate correlation and high noise variance is at least five times higher under VCR estimation than under LAGR estimation.
-
-From Table \ref{tab:misey}
-we see that LAGR has good ability to identify zero-coefficient covariates.
-The frequency with which $\beta_{2}(\bm{s}),\dots,\beta_{5}(\bm{s})$
-were dropped from the LAGR models ranged from 0.78
-to 0.97. The MISE of the fitted response $\hat{y}(\bm{s})$
-is listed in Table \ref{tab:misey}, where the highlighting is based
-on which methods estimate an error variance that is closest to the
-known truth for the simulation. The results are all very similar to
-each other, indicating that no method was consistently better than
-the others in this simulation at fitting the response.
+In particular, the estimates $\hat{\beta}_1$ were almost never exactly zero, while the estimates $\hat{\beta}_3$ and $\hat{\beta}_4$ were exactly zero more often than not.
+Exact zero coefficient estimates were generally more frequent for smaller sample sizes and greater cross-covariate correlation. 
+With no cross-covariate correlation, exact zero coefficient estimates were always more frequent under greater error variance, a trend that continued under most but not all settings with moderate or high cross- covariate correlation.
 
 \begin{table}
 	\centering
@@ -572,8 +552,6 @@ the others in this simulation at fitting the response.
 	\label{tab:zerofreq}
 \end{table}
 
-In general, the variables with less influence in the true simulated data were more likely to be 
-
 
 \section{Data Example\label{sec:example}}
 
@@ -593,12 +571,14 @@ was set to $h=0.26$.
 \begin{figure}
 
 \includegraphics[width=\maxwidth]{figure/boston-plots} 
-\caption{Coefficients for the Boston house price data as estimated by local adaptive grouped regularization.
+\caption{A varying coefficient regression model for the median house price in each census tract in Boston in 1970, estimated by local adaptive grouped regularization.
+In the left column are the estimated coefficients for covariates CRIM (per-capita crime rate), RM (mean number of rooms per house), and RAD (an index of access to radial roads.
+In the right column are the estimated coefficients for covariates TAX (property tax per $\$10,000$) and LSTAT (proportion of residents who are ``lower status"), and a map indicating which covariates were estimated to have nonzero coefficients in each census tract.
 \label{fig:boston-lagr-coefs}}
 \end{figure}
 
-he estimates of the local coefficients are plotted in the first five panels of Figure \ref{fig:boston-lagr-coefs} and are summarized in Table \ref{tab:boston-coefs-lagr}.
-The coefficients of CRIM, and LSTAT were everywhere estimated to be negative or exactly zero, meaning that the crime rate and proportion of ``lower-status" individuals were associated with a lower median house price. 
+The estimates of the local coefficients are plotted in the first five panels of Figure \ref{fig:boston-lagr-coefs} and are summarized in Table \ref{tab:boston-coefs-lagr}.
+The estimated coefficients of CRIM and LSTAT were everywhere negative or exactly zero, meaning that the crime rate and proportion of ``lower-status" individuals were associated with a lower median house price. 
 Meanwhile, the coefficient of RM was everywhere estimated to be positive, so the more rooms in the average house was everywhere associated with a higher median house price.
 The coefficient of TAX was negative in most census tracts, but was estimated to be exactly zero in 50 tracts, meaning that in those tracts there was no discernable effect of the property tax rate on house prices.
 The coefficient of RAD is positive in some areas and negative
@@ -610,7 +590,7 @@ There were 471 tracts where all LAGR estimated that all the covariates had a non
 
 An interesting result from the data example is the apparent relationship between the property tax rate and the coefficient of the TAX variable.
 Of the $506$ Boston census tracts, there were $50$ where the estimated coefficient of the TAX variable was zero.
-Four of those $50$ tracts ($8\%$) were locations where the property tax rate was at least $\$666$ per $\$10000$, which encompasses the two highest property tax rates.
+Four of those $50$ tracts ($8\%$) were locations where the property tax rate was at least $\$666$ per $\$10000$ (which encompasses the two highest property tax rates).
 In total there were $137$ tracts where the property tax rate was at least $\$666$ per $\$10000$, which was $27\%$ of all tracts.
 This suggests that the coefficient of the TAX variable was less likely to be zero in tracts with the highest property tax rates than in other tracts.
 A rank sum test was used to test the null hypothesis that tracts where the coefficient of the TAX variable was estimated to be zero occurred independently of the property tax rate.
@@ -623,9 +603,9 @@ This is compelling evidence that the property tax rate was more likely to have n
 % Wed Sep 24 17:10:32 2014
 \begin{table}
 \centering
-\begin{tabular}{|c|ccc|}
+\begin{tabular}{|c|rcc|}
   \hline
- & 1 & 2 & 3 \\ 
+ Covariate & Mean & \begin{tabular}{c}Standard \\ dev. \end{tabular} & \begin{tabular}{c}Zero coef. \\ count \end{tabular}  \\ 
   \hline
 CRIM & -0.15 & 0.07 & 7 \\ 
   RM & 2.56 & 1.68 & 0 \\ 
@@ -634,7 +614,8 @@ CRIM & -0.15 & 0.07 & 7 \\
   LSTAT & -0.73 & 0.13 & 0 \\ 
    \hline
 \end{tabular}
-\caption{The mean, standard deviation, and count of zeros among the estimates of the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by local adaptive grouped regularization. The covariates are CRIM (per capita crime rate in the census tract), RM (average number of rooms per home sold in the census tract), RAD (an index of the tract's access to radial roads), TAX (property tax per USD10,000 of property value), and LSTAT (percentage of the tract's residents who are considered ``lower status").} 
+\caption{The mean, standard deviation, and count of zeros among the estimates of the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by local adaptive grouped regularization. The covariates are CRIM (per capita crime rate in the census tract), RM (average number of rooms per home sold in the census tract), RAD (an index of the tract's access to radial roads), TAX (property tax per USD10,000 of property value), and LSTAT (percentage of the tract's residents who are considered ``lower status").}
+\label{tab:boston-coefs-lagr} 
 \end{table}
 
 
@@ -752,7 +733,7 @@ is convex and has a unique minimizer.
 \begin{thm}[Selection consistency]
 \label{theorem:selection-glm}  Under (C.1)--(C.10),
 \[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}.
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}(\bm{s}).
 \]
  
 \end{thm}
@@ -996,15 +977,15 @@ H_{n}(\bm{u})= & (1/2)\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+\alp
  & -\alpha_{n}\bm{u}^{T}\left[\bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\\
  & +\sum_{j=1}^{p}n^{-1/2}\phi_{j}(\bm{s})n^{1/2}\left\{ \|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right\} .
 \end{align*}
-The limiting behavior of the last term differs between the cases $j\le p_{0}$
-and $j>p_{0}$.
-\emph{Case $j\le p_{0}$}: If $j\le p_{0}$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}$
+The limiting behavior of the last term differs between the cases $j\le p_{0}(\bm{s})$
+and $j>p_{0}(\bm{s})$.
+\emph{Case $j\le p_{0}(\bm{s})$}: If $j\le p_{0}(\bm{s})$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}$
 and $|n^{1/2}\left\{ \|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{(j)}\|$
 . Thus, 
 \[
 \phi_{j}(\bm{s})\left(\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right)\le\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{(j)}\|\le\alpha_{n}a_{n}\|\bm{u}_{(j)}\|\to0.
 \]
-\emph{Case $j>p_{0}$}: If $j>p_{0}$, then $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right)=\phi_{j}(\bm{s})\alpha_{n}\|\bm{u}_{(j)}\|$.
+\emph{Case $j>p_{0}(\bm{s})$}: If $j>p_{0}(\bm{s})$, then $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right)=\phi_{j}(\bm{s})\alpha_{n}\|\bm{u}_{(j)}\|$.
 Since $h=O(n^{-1/6})$, if $hn^{-1/2}b_{n}\xrightarrow{p}\infty$,
 then $\alpha_{n}b_{n}\xrightarrow{p}\infty$. Thus, if $\|\bm{u}_{(j)}\|\ne0$,
 then 
@@ -1014,7 +995,7 @@ then
 On the other hand, if $\|\bm{u}_{(j)}\|=0$, then $\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{(j)}\|=0$.
 Thus, the limit of $H_{n}(\bm{u})$ is the same as the limit of $H_{n}^{*}(\bm{u})$
 where $H_{n}^{*}(\bm{u})=\infty$ if $\|\bm{u}_{(j)}\|\ne0$ for some
-$j>p_{0}$, and 
+$j>p_{0}(\bm{s})$, and 
 \[
 H_{n}^{*}(\bm{u})=(1/2)\alpha_{n}^{2}\bm{u}^{T}\left\{ \bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}-\alpha_{n}\bm{u}^{T}\left[\bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]
 \]
@@ -1126,13 +1107,13 @@ condition (C.6),
 \]
 the third term in (\ref{eq:taylor-expanded-glm-criterion}) is $O_{p}\left(\alpha_{n}\right)$.
 The limiting behavior of the last term of (\ref{eq:taylor-expanded-glm-criterion})
-differs between the cases $j\le p_{0}$ and $j>p_{0}$.
-\emph{Case $j\le p_{0}$:} If $j\le p_{0}$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}$
+differs between the cases $j\le p_{0}(\bm{s})$ and $j>p_{0}(\bm{s})$.
+\emph{Case $j\le p_{0}(\bm{s})$:} If $j\le p_{0}(\bm{s})$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}$
 and $|\sqrt{n}\left\{ \|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{(j)}\|$. Thus, 
 \[
 \lim\limits _{n\to\infty}\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right)\le\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{(j)}\|\le\alpha_{n}a_{n}\|\bm{u}_{(j)}\|\to0
 \]
-\emph{Case $j>p_{0}$:} If $j>p_{0}$, then $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right)=\phi_{j}(\bm{s})\alpha_{n}\|\bm{u}_{(j)}\|$.
+\emph{Case $j>p_{0}(\bm{s})$:} If $j>p_{0}(\bm{s})$, then $\phi_{j}(\bm{s})\left(\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right)=\phi_{j}(\bm{s})\alpha_{n}\|\bm{u}_{(j)}\|$.
 Since $h=O(n^{-1/6})$, if $hn^{-1/2}b_{n}\xrightarrow{p}\infty$,
 then $\alpha_{n}b_{n}\xrightarrow{p}\infty$. Now, if $\|\bm{u}_{(j)}\|\ne0$,
 then 
@@ -1146,7 +1127,7 @@ where
 \[
 H_{n}^{*}(\bm{u})=\Omega_{(a)n}^{T}\bm{u}_{(a)}+(1/2)\bm{u}_{(a)}^{T}\Delta_{(a)}\bm{u}_{(a)}+o_{p}\left(1\right)
 \]
-if $\|\bm{u}_{j}\|=0\;\forall j>p_{0}$, and $H_{n}^{*}(\bm{u})=\infty$
+if $\|\bm{u}_{j}\|=0\;\forall j>p_{0}(\bm{s})$, and $H_{n}^{*}(\bm{u})=\infty$
 otherwise. It follows that $H_{n}^{*}(\bm{u})$ is convex and has
 a unique minimizer, called $\hat{\bm{u}}_{n}$. Let $\hat{\bm{u}}_{(a)n}$
 $\Delta_{(a)}$ and $\Omega_{(a)n}$ be, respectively, the parts of
