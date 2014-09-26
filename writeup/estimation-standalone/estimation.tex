@@ -282,6 +282,7 @@ $\bm{\zeta}(\bm{s})$ will be made available in an \texttt{R} package.
 
 \subsection{Oracle Properties\label{sub:oracle-properties}}
 
+<<<<<<< HEAD
 At location $\bm{s}$, let there be are $p_{0}(\bm{s})<p$ covariates $\bm{X}_{(a)}(\bm{s})$
 with nonzero local regression coefficients, denoted $\bm{\beta}_{(a)}(\bm{s})\ne\bm{0}$.
 Without loss of generality, assume the indices of these covariates
@@ -290,6 +291,16 @@ have coefficients equal to zero, denoted $\bm{\beta}_{(b)}(\bm{s})=\bm{0}$.
 Denote by $a_{n}=\max\left\{ \phi_{j}(\bm{s}),j\le p_{0}(\bm{s})\right\} $
 the largest penalty applied to a covariate group whose true coefficient
 norm is nonzero, and by $b_{n}=\min\left\{ \phi_{j}(\bm{s}),j>p_{0}(\bm{s})\right\} $
+=======
+At location $\bm{s}$, let there be are $p_{0}<p$ covariates $\bm{X}_{(a)}(\bm{s})$
+with nonzero local regression coefficients, denoted $\bm{\beta}_{(a)}(\bm{s})\ne\bm{0}$.
+Without loss of generality, assume the indices of these covariates
+are $1,\dots,p_{0}$. The remaining $p-p_{0}$ covariates $\bm{X}_{(b)}(\bm{s})$
+have coefficients equal to zero, denoted $\bm{\beta}_{(b)}(\bm{s})=\bm{0}$.
+Denote by $a_{n}=\max\left\{ \phi_{j}(\bm{s}),j\le p_{0}\right\} $
+the largest penalty applied to a covariate group whose true coefficient
+norm is nonzero, and by $b_{n}=\min\left\{ \phi_{j}(\bm{s}),j>p_{0}\right\} $
+>>>>>>> FETCH_HEAD
 the smallest penalty applied to a covariate group whose true coefficient
 norm is zero. Let $\bm{Z}_{(k)}(\bm{s})$ be the augmented design
 matrix for covariate group $k$, and let $\bm{Z}_{(\mhyphen k)}(\bm{s})$
@@ -354,8 +365,13 @@ on $\gamma$, the unpenalized group norm exponent in the LAGR penalty.
 Under condition (C.7), the local penalty tends to zero on covariates
 with true nonzero coefficients and to infinity on covariates with
 true zero coefficients. By (C.7), $h^{-1}n^{-1/2}\lambda_{n}\to0$
+<<<<<<< HEAD
 for all $j\le p_{0}(\bm{s})$ and $hn^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}\to\infty$
 for all $j>p_{0}(\bm{s})$. We require that $\lambda_{n}$ satisfy both assumptions.
+=======
+for all $j\le p_{0}$ and $hn^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}\to\infty$
+for all $j>p_{0}$. We require that $\lambda_{n}$ satisfy both assumptions.
+>>>>>>> FETCH_HEAD
 Suppose $\lambda_{n}=n^{\alpha}$. Since $h=O\left(n^{-1/6}\right)$
 and $\|\tilde{\bm{\zeta}}_{(p)}(\bm{s})\|=O\left(h^{-1}n^{-1/2}\right)$,
 it follows that $h^{-1}n^{-1/2}\lambda_{n}=O\left(n^{-1/3+\alpha}\right)$
@@ -406,7 +422,6 @@ and minimize the AIC to select the tuning parameter $\lambda_{n}$. That is, let
 \hat{{\rm df}}(\lambda_{n};\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|>0\right)+\sum_{j=1}^{p}\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|\|\tilde{\bm{\zeta}}(\bm{s})\|^{-1}(d-1)\\
 \text{AIC}(\lambda_{n};\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\right\} ^{2}+2\hat{{\rm df}}(\lambda_{n};\bm{s})\\
 \end{align*}
-
 where $I\left(\cdot\right)$ is the indicator function, $d$ is the dimension of the effect-modifying parameter, and the local
 coefficient estimate is written $\hat{\bm{\zeta}}(\lambda_{n};\bm{s})$
 to emphasize that it depends on the tuning parameter.
@@ -514,6 +529,7 @@ In particular, the estimates $\hat{\beta}_1$ were almost never exactly zero, whi
 Exact zero coefficient estimates were generally more frequent for smaller sample sizes and greater cross-covariate correlation. 
 With no cross-covariate correlation, exact zero coefficient estimates were always more frequent under greater error variance, a trend that continued under most but not all settings with moderate or high cross- covariate correlation.
 
+
 \begin{table}
 	\centering
 	\begin{tabular}{|ccc|cccc|}
@@ -551,7 +567,6 @@ With no cross-covariate correlation, exact zero coefficient estimates were alway
 	\caption{For each setting as a combination of sample size $n$, cross-covariate correlation $\rho$, and error standard deviation $\sigma_{\varepsilon}$, the frequency of exact zeroes in the estimates of $\hat{\beta}_1,\dots,\hat{\beta}_4$ as estimated by local adaptive grouped regularizaton.}
 	\label{tab:zerofreq}
 \end{table}
-
 
 \section{Data Example\label{sec:example}}
 
