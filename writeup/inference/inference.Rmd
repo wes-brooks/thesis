@@ -13,9 +13,26 @@ It has often been noted that the estimation error underestimates the prediction 
 
 Equivalent computations arise from the framework of Akaike's information criterion (AIC). The AIC arises from the framework of estimating the likelihood of a fitted model with respect to the unknowable truth that gave rise to the data. 
 
+Our focus is on local variable selection and estimating the local coefficients.
+
 #Methods
 
-Assume that we observe data $\bm{y} = (y_1, \dots, y_n)$ such that $y_i = m(\mu_i)$ where $\mu_i = Ey_i$.
+## Definition of a LAGR model
+
+Assume that we observe data $\bm{y} = (y_1, \dots, y_n)$ and covariates $\bm{X} =$
+
+
+ such that $y_i = m(\mu_i)$ where $\mu_i = Ey_i$.
+
+
+
+## Degrees of freedom for a LAGR model
+
+The degrees of freedom used in estimating the model are 
+\[
+    \hat{df} = \sum_{i=1}^n c w_{ii} / \rm{tr}(\bm{W}(\bm{s}_i)) 
+\]
+where $v$ is the number of covariates selected at site $i$ for local LAGR tuning parameter $\lambda$, $\bm{W}(\bm{s}_i)$ is the matrix of local kernel weights at location $\bm{s}_i$, and $w_{ii} = { \bm{W}(\bm{s}_i) }_{i,i}$.
 
 By the covariance penalty, the degrees of freedom used in estimating a model is given by
 
@@ -32,15 +49,21 @@ The divergence formula of [@Zou-Hastie-Tibshirani-2007] states that
 
 Thus, the divergence 
 \[
-\nabla \cdot \hat{\bm{\mu}} = \rm{tr}\left( \frac{\partial \hat{\bm{\mu}}}{\partial \bm{y}} \right).
+\nabla \cdot \hat{\bm{\mu}} = \rm{tr}\left( \frac{\partial \hat{\bm{\mu}}}{\partial \bm{y}} \right) = \sum_{i=1}^n \frac{\partial \hat{\mu}_i}{\partial y_i}.
 \]
 
-Now in the case of a model estimated by LAGR, there is an independent model for each observation, so the derivative must be calculated independently for each:
+Now in the case of a model estimated by LAGR, there is an independent model for each observation, so by (4.21) of @Zou-Hastie-Tibshirani-2007, the degrees of freedom used in fitting the $i$th observation are
 \[
-\rm{tr}\left( \frac{\partial \hat{\bm{\mu}}}{\partial \bm{y}} \right) = \sum_{i=1}^n \frac{\partial \hat{\mu}_i}{\partial y_i}
-\]
-where
-\[
-\frac{\partial \hat{\mu}_i}{\partial y_i} = ?
+    \partial \hat{\mu}_i / \partial y_i = { \bm{X} (\bm{X}^T \bm{W}(\bm{s}) \bm{X})^{-1} \bm{X} \bm{W}(\bm{s}) s}_{i,i}.
 \]
 
+And since the total degrees of freedom for the $i$th model are $\sum_{j=1}^n \partial \hat{\mu}_j / \partial y_j = { \bm{X} (\bm{X}^T \bm{W}(\bm{s}) \bm{X})^{-1} \bm{X} \bm{W}(\bm{s}) s}_{i,i} = | \mathcal{B}_{\lambda} |$, the result follows.
+
+## Bagging estimate of the bandwidth parameter
+
+Calculating the AIC of a LAGR model is done conditional on the selected local tuning parameters $\bm{\lambda} = (\lambda_1, \dots, \lambda_n)$. Selecting the bandwidth parameter to minimize the AIC may imply greater precision than is actually warranted. Bootstrap aggregation (bagging) is a method of incorporating the effects of model selection into parameter estimates and model predictions. 
+
+In the case of a LAGR model, bagging 
+
+
+# References
