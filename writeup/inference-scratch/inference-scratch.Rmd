@@ -1,0 +1,9 @@
+---
+title: "inference"
+author: "Wesley Brooks"
+output:
+    pdf_document:
+    fig_caption: true   
+bibliography: ../../references/gwr.bib
+---
+    

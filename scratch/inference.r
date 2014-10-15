@@ -4,7 +4,7 @@ library(brooks)
 library(dplyr)
 library(doMC)
 
-registerDoMC(7)
+registerDoMC(8)
 
 #Establish the simulation parameters
 # tau = 0
@@ -114,5 +114,5 @@ hh = seq(0.1, 0.5, len=S)
             #aic[[i]] = c(aic[[i]], ll + 2*df)
             print(ll)
 
-    write(c(h, err), paste("~/git/gwr/scratch/trace", iter, "txt", sep="."), append=FALSE)
+    write(c(h, err), "~/git/gwr/scratch/trace.txt", append=TRUE)
 
