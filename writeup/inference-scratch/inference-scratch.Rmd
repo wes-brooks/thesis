@@ -7,3 +7,26 @@ output:
 bibliography: ../../references/gwr.bib
 ---
     
+# Introduction
+
+What are the goals of inference?
+ - Select the model
+ - Estimate the model parameters
+ - Estimate confidence intervals for the parameters
+
+What challenges are unique to inference in LAGR models?
+ - Selecting the bandwidth
+ - LAGR is not a linear smoother, so estimating degrees of freedom is difficult
+ - LAGR uses lasso, so estimating distributions of coefficient estimates is difficult
+
+Why use AIC?
+ - Likelihood is the basis for most statistical inference
+ - The likelihood can be used for model selection and estimation
+ - Using the same data for selection and estimation produces a downward-biased estimate of the likelihood
+ - The AIC is bias-corrected likelihood
+ - Computing AIC requires an expression for the degrees of freedom used in estimating a model
+ 
+Why use the bootstrap?
+ - 
+ 
+ 
