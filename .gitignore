@@ -3,6 +3,7 @@ output/*
 .Rproj.user/*
 .Rhistory
 
+output/*
 writeup/*/*.aux
 writeup/*/*.log
 writeup/*/*.nav

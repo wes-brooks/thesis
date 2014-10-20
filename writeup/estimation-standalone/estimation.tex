@@ -23,6 +23,7 @@
 \usepackage{color}
 \usepackage{multirow}
 \usepackage{natbib}
+\usepackage{ifthen}
 
 \mathchardef\mhyphen="2D % Define a "math hyphen"
 
@@ -45,6 +46,9 @@
 
 \journal{JRSSB}
 
+\newboolean{thesis}
+\setboolean{thesis}{false}
+
 \begin{document}
 
 
@@ -64,10 +68,10 @@
 
 \address[wrbrooks]{Department of Statistics, University of Wisconsin, Madison, WI 53706}
 \address[jzhu]{Department of Statistics and Department of Entomology, University of Wisconsin, Madison, WI 53706}
-\address[zlu]{School of Mathematical Sciences, The University of Southampton, Highfield, Southampton UK}
+\address[zlu]{School of Mathematical Sciences, University of Southampton, Highfield, Southampton UK}
 
 \begin{abstract}
-Varying coefficient regression is a flexible technique for modeling data where the coefficients are functions of some effect-modifying parameter, often time or location. While there are a number of methods for variable selection in a varying coefficient regression model, the existing methods mostly do global selection, which includes or excludes each covariate over the entire domain. Presented here is a new local adaptive grouped regularization (LAGR) method for local variable selection in spatially varying coefficient linear and generalized linear regression. LAGR selects the covariates that are associated with the response at any point in space, and simultaneously estimates the coefficients of those covariates by tailoring the adaptive group Lasso toward a local regression model with locally linear coefficient estimates. Oracle properties of the proposed method are established under local linear regression and local generalized linear regression. The finite sample properties of LAGR are assessed in a simulation study and for illustration, the Boston housing price data set is analyzed.
+Varying coefficient regression is a flexible technique for modeling data where the coefficients are functions of some effect-modifying parameter, often time or location in a certain domain. While there are a number of methods for variable selection in a varying coefficient regression model, the existing methods are mostly for global selection, which includes or excludes each covariate over the entire domain. Presented here is a new local adaptive grouped regularization (LAGR) method for local variable selection in spatially varying coefficient linear and generalized linear regression. LAGR selects the covariates that are associated with the response at any point in space, and simultaneously estimates the coefficients of those covariates by tailoring the adaptive group Lasso toward a local regression model with locally linear coefficient estimates. Oracle properties of the proposed method are established under local linear regression and local generalized linear regression. The finite sample properties of LAGR are assessed in a simulation study and for illustration, the Boston housing price data set is analyzed.
 \end{abstract}
 
 \begin{keyword}
@@ -98,7 +102,7 @@ belong in the VCR model at any location, or local variable selection,
 as the literature on how to do so is currently scarce.
 
 Specifically, local adaptive grouped regularization (LAGR) is developed
-here as a method of local variable selection at any given location
+here as a method of local variable selection at a given location
 in the domain of a VCR model. The method of LAGR applies to VCR models
 where the coefficients are estimated using locally linear kernel smoothing.
 Kernel smoothing for nonparametric regression is described in detail
@@ -110,7 +114,7 @@ with autocorrelation. These methods mitigate the boundary effect by
 estimating the coefficients as local polynomials of odd degree (usually
 locally linear) \citep{Hastie:1993b}. In this work, we focus on a
 two-dimensional effect-modifying parameter and discuss the effect
-of different dimensionality on the results.
+of dimensionality on the results.
 
 For standard linear regression models, the least absolute shrinkage
 and selection operator (Lasso) is a penalized regression method that
@@ -126,7 +130,7 @@ and estimating their coefficients as well as if the correct covariates
 were known in advance \citep{Zou-2006}. For data where the observed
 covariates fall into mutually exclusive groups that are known in advance,
 the adaptive group Lasso has similar oracle properties to the adaptive
-Lasso but does selection on groups rather than individual covariates
+Lasso but selects groups rather than individual covariates
 \citep{Yuan-Lin-2006,Wang-Leng-2008}. The main innovation of the
 proposed LAGR method is to tailor the adaptive group Lasso toward
 local variable selection and coefficient estimation in a locally linear
@@ -148,8 +152,7 @@ LAGR are evaluated in a simulation study, and in Section \ref{sec:example}
 LAGR is applied to the Boston housing price dataset. In Section \ref{sec:lagr-gllm},
 LAGR is extended to varying coefficient generalized linear regression
 and the oracle properties for this setting are established, followed
-by conclusions and discussion in section 7. Technical proofs are left
-to the appendices.
+by conclusions and discussion in Section 7. Technical proofs are given in the appendices.
 
 \section{Varying Coefficient Regression\label{sec:vcr}}
 
@@ -179,12 +182,12 @@ In the context of nonparametric regression, the boundary-effect bias
 can be reduced by local polynomial modeling, usually in the form of
 a locally linear model \citep{Fan-Gijbels-1996}. Here, to prepare
 for the estimation of locally linear coefficients, we augment the
-design matrix and the coefficient surfaces with interactions on location in two dimensions
+design matrix with interactions between the covariates and location in two dimensions
 \citep{Wang-2008b}. Let $\bm{X}=\left(\bm{X}_{1},\dots,\bm{X}_{n}\right)^{T}$
 be the design matrix of observed covariate values. Then the augmented
-local design matrix at location $\bm{s}$ is defined to be $\bm{Z}(\bm{s})=\left(\bm{X}\ \:\bm{L}(\bm{s}) \bm{X}\ \:\bm{M}(\bm{s}) \bm{X}\right),$
-where $\bm{L}(\bm{s})=\text{diag}\{s_{i',1}-s_1\}_{i'=1}^{n}$ and
-$\bm{M}(\bm{s})=\text{diag}\{s_{i',2}-s_2\}_{i'=1}^{n}$. 
+local design matrix at location $\bm{s} = (u, v)^T$ is defined to be $\bm{Z}(\bm{s})=\left(\bm{X}\ \:\bm{L}(\bm{s}) \bm{X}\ \:\bm{M}(\bm{s}) \bm{X}\right),$
+where $\bm{L}(\bm{s})=\text{diag}\{s_{i',1}-u\}_{i'=1}^{n}$ and
+$\bm{M}(\bm{s})=\text{diag}\{s_{i',2}-v\}_{i'=1}^{n}$. 
 The vector of augmented local coefficients at location $\bm{s}$ is defined to be $\bm{\zeta}(\bm{s})=\left(\bm{\beta}(\bm{s})^{T},\;\nabla_{u}\bm{\beta}(\bm{s})^{T},\;\nabla_{v}\bm{\beta}(\bm{s})^{T}\right)^{T}$,
 where $\nabla_{u}\bm{\beta}(\bm{s})$ and $\nabla_{v}\bm{\beta}(\bm{s})$ denote the local gradients 
 of the coefficient surfaces.
@@ -201,12 +204,12 @@ $\bm{s}_{1},\dots,\bm{s}_{n}$ and let $\left\{\bm{Z}(\bm{s})\right\}_{i}$ denote
 $i$th row of the matrix $\bm{Z}(\bm{s})$ as a column vector. The total log-likelihood of the observed
 data is the sum of the log-likelihood of each individual observation:
 \begin{align}
-\ell\left(\bm{\zeta}\right)= & -(1/2)\sum_{i=1}^{n}\left[\log{\sigma^{2}}+\sigma^{-2}\left\{ y_{i}- \{\bm{z}(\bm{s}_i)\}_i \bm{\zeta}(\bm{s}_{i})\right\} ^{2}\right].\label{eq:coefficients}
+\ell\left(\bm{\zeta}\right)= & -(1/2)\sum_{i=1}^{n}\big( \log{\sigma^{2}}+\sigma^{-2} \left[ y_{i} - \{\bm{z}(\bm{s}_i)\}_i \bm{\zeta}(\bm{s}_{i}) \right] ^{2} \big).\label{eq-coefficients}
 \end{align}
 
 Since there are a total of $3(p+1)n+1$ parameters for $n$ observations,
 the model is not identifiable and it is not possible to directly maximize
-the total likelihood. When the coefficient functions are smooth, though,
+the total log-likelihood (\ref{eq-coefficients}). When the coefficient functions are smooth, though,
 the coefficients $\bm{\zeta}(\bm{s})$ at location $\bm{s}$ can be
 approximated by the coefficients $\bm{\zeta}(\bm{t})$ , where $\bm{t}$
 is within some neighborhood of $\bm{s}$. This intuition is formalized
@@ -230,7 +233,7 @@ can be maximized by minimizing a locally weighted least squares:
 \mathcal{S}\left(\bm{\zeta}(\bm{s})\right)=(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} .\label{eq:local-sum-of-squares}
 \end{equation}
 
-The minimizer of (\ref{eq:local-sum-of-squares}) is
+The minimizer of (\ref{eq:local-sum-of-squares}) is the locally weighted least squares estimate
 \begin{equation}
 \tilde{\bm{\zeta}}(\bm{s})=\left\{ \bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}(\bm{s})\right\} ^{-1}\bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Y}.\label{eq:zeta-hat}
 \end{equation}
@@ -252,7 +255,7 @@ is pre-determined. Here we develop a new method of penalized regression
 to simultaneously select covariates locally and estimate the corresponding
 local coefficients. For this purpose, each raw covariate is grouped
 with its covariate-by-location interactions. That is, $\bm{\zeta}_{(j)}(\bm{s})=\left(\beta_{j}(\bm{s}),\;\;\nabla_{u}\beta_{j}(\bm{s}),\;\;\nabla_{v}\beta_{j}(\bm{s})\right)^{T}$
-for $j=1,\dots,p$. The proposed LAGR penalty is akin to the adaptive
+for $j=1,\dots,p$. The proposed penalty is akin to the adaptive
 group Lasso \citep{Yuan-Lin-2006,Wang-Leng-2008}. By the mechanism
 of the adaptive group Lasso, covariates within the same group are
 included in or dropped from the model together. The intercept group
@@ -272,17 +275,17 @@ penalty for the $j$th group of coefficients at location $\bm{s}$
 is $\phi_{j}(\bm{s})=\lambda_{n}\|\tilde{\bm{\zeta}}_{(j)}(\bm{s})\|^{-\gamma}$,
 where $\lambda_{n}>0$ is a local tuning parameter applied to all
 coefficients at location $\bm{s}$, $\tilde{\bm{\zeta}}_{(j)}(\bm{s})$
-is a the vector of unpenalized local coefficients for the $j$th covariate
-and its interactions on location from (\ref{eq:zeta-hat}), and $\gamma>1$.
+is a vector of unpenalized local coefficients for the $j$th covariate
+and its interactions with location from (\ref{eq:zeta-hat}), and $\gamma>1$.
 
 Minimization of (\ref{eq:penalized-least-squares}) is by blockwise
 coordinate descent, where each block is a covariate group (one raw
-covariate and its interactions on location). Software for estimating
-$\bm{\zeta}(\bm{s})$ will be made available in an \texttt{R} package.
+covariate and its interactions with location). A software package for estimating
+$\bm{\zeta}(\bm{s})$ will be made available in \texttt{R} \citep{R-Core-2014}.
 
 \subsection{Oracle Properties\label{sub:oracle-properties}}
 
-At location $\bm{s}$, let there be are $p_{0}(\bm{s})<p$ covariates $\bm{X}_{(a)}(\bm{s})$
+At location $\bm{s}$, let there be $p_{0}(\bm{s})<p$ covariates $\bm{X}_{(a)}(\bm{s})$
 with nonzero local regression coefficients, denoted $\bm{\beta}_{(a)}(\bm{s})\ne\bm{0}$.
 Without loss of generality, assume the indices of these covariates
 are $1,\dots,p_{0}(\bm{s})$. The remaining $p-p_{0}(\bm{s})$ covariates $\bm{X}_{(b)}(\bm{s})$
@@ -319,7 +322,7 @@ and $\bm{\Psi}_{(a)}(\bm{s})=E\left\{ \bm{X}_{(a)}(\bm{s})\bm{X}_{(a)}(\bm{s})^{
 are positive-definite and differentiable at location $\bm{s}$.
 \item[(C.4)] $E\left\{ \left|\bm{X}(\bm{s})\right|^{3}|\bm{s}\right\} $ and $E\left\{ Y(\bm{s})^{4}|\bm{X}(\bm{s}),\bm{s}\right\} $
 are continuous at a given location $\bm{s}$.
-\item[(C.5)] The observation locations $\{\bm{s}_{i}\}$ are a sequence of fixed
+\item[(C.5)] The observation locations $\{\bm{s}_{i}\}$ are a sequence of
 design points on a bounded compact support $\mathcal{S}$. Further,
 there exists a positive joint density function $f(\cdot)$ satisfying
 a Lipschitz condition such that 
@@ -348,7 +351,7 @@ one. Under condition (C.6), the coefficient estimates attain the optimal
 rate of convergence for bivariate nonparametric regression. Condition
 (C.7) is needed for establishing the oracle properties, and is a refinement
 of the condition for the adaptive group lasso \citep{Wang-Leng-2008}.
-In particular, satisfying (C.7) requires an additional restriction
+In particular, satisfying (C.7) implies an additional restriction
 on $\gamma$, the unpenalized group norm exponent in the LAGR penalty.
 
 Under condition (C.7), the local penalty tends to zero on covariates
@@ -383,8 +386,8 @@ for true nonzero coefficients have the same asymptotic distribution
 as a local regression model where the true nonzero coefficients are
 known in advance. Further, by Theorem \ref{theorem:selection}, the
 LAGR estimates of true zero coefficients tend to zero with probability
-one. Together, selection and local coefficient estimation by LAGR
-has the oracle property. The technical proofs of Theorems \ref{theorem:normality}
+one. Together, local variable selection and local coefficient estimation by LAGR
+have the oracle property. The technical proofs of Theorems \ref{theorem:normality}
 and \ref{theorem:selection} are given in Appendix A.
 
 \subsection{Tuning Parameter Selection}
@@ -394,7 +397,7 @@ parameter $\lambda_{n}$ for each local model. A popular approach
 in other Lasso-type problems is to select the tuning parameter that
 maximizes a criterion that approximates the expected log-likelihood
 of a new, independent data set drawn from the same distribution. This
-is the framework of Mallows' Cp, Stein's unbiased risk estimate (SURE)
+is the framework of Mallows' ${\rm C_p}$, Stein's unbiased risk estimate (SURE)
 and Akaike's information criterion (AIC) \citep{Mallows-1973,Stein-1981,Akaike-1973}.
 
 These criteria use a so-called covariance penalty to estimate the
@@ -404,12 +407,12 @@ of freedom for the adaptive group Lasso from \citet{Yuan-Lin-2006}
 and minimize the AIC to select the tuning parameter $\lambda_{n}$. That is, let
 
 \begin{align*}
-\hat{{\rm df}}(\lambda_{n};\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|>0\right)+\sum_{j=1}^{p}\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|\|\tilde{\bm{\zeta}}(\bm{s})\|^{-1}(d-1)\\
+\hat{{\rm df}}(\lambda_{n};\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|>0\right) + d \sum_{j=1}^{p}\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|\|\tilde{\bm{\zeta}}(\bm{s})\|^{-1}\\
 \text{AIC}(\lambda_{n};\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\right\} ^{2}+2\hat{{\rm df}}(\lambda_{n};\bm{s})\\
 \end{align*}
 where $I\left(\cdot\right)$ is the indicator function, $d$ is the dimension of the effect-modifying parameter, and the local
 coefficient estimate is written $\hat{\bm{\zeta}}(\lambda_{n};\bm{s})$
-to emphasize that it depends on the tuning parameter.
+to emphasize that it depends on the tuning parameter. Here, $d=2$. We will discuss more general dimensionalilty in Section \ref{section-conclusion}.
 
 \section{Simulation Study\label{sec:simulations}}
 
@@ -436,8 +439,8 @@ iid Gaussian with mean zero and variance $\sigma_{\varepsilon}^{2}$.
 The coefficients $\beta_1(\bm{s}), \dots, \beta_3(\bm{s})$ were generated by GRFs, and the fourth coefficient was $\beta_4(\bm{s}) \equiv 0$.
 The GRFs for generating $\beta_1(\bm{s}), \dots, \beta_3(\bm{s})$ had mean zero, no nugget variance, and exponential
 covariance $\text{Cov}\left(\beta_j(\bm{s}_i), \beta_j(\bm{s}_{i'})\right)=\sigma_j^2 \exp\left(-\tau_{\beta}^{-1}\delta_{ii'}\right)$
-where $\tau_{\beta}=1$ is the range parameter. The scale of the coefficient surface $\beta_j(\bm{s})$ was set via the variance $\sigma_j^2$, and the values used in the simulations were $\bm{\sigma}^2 = \left( 10, 1, 0.1 \right)$.
-These values were chosen so that the the covariates $X_1, \dots, X_4$ would have progressively less influence on the simulated response.
+where $\tau_{\beta}=1$ is the range parameter. The scale of the coefficient surface $\beta_j(\bm{s})$ was set via the variance $\sigma_j^2$, and the values used in the simulations were $\sigma_1^2 = 10, \sigma_2^2=1, \sigma_3^2=0.1$.
+These values were chosen so that the the covariates $X_1, X_2, X_3$ would have progressively less influence on the response.
 The coefficient values $\beta_1(\bm{s}), \dots, \beta_3(\bm{s})$ generated in this way are plotted in Figure \ref{fig:simulation-coefficients}.
 
 \begin{figure}
@@ -498,8 +501,7 @@ For both estimation methods, the bandwidth parameter was $h=(3/2)n^{-1/6} - 0.36
 The MISE of the coefficient surface estimates are in Table \ref{tab:mise}. In general, the coefficients estimated by LAGR were more accurate in terms of MISE than those estimated by VCR. 
 The frequency with which MISE was smaller under LAGR than under VCR for estimating $\beta_1$ was $13$ of $18$ cases, and for $\beta_2$ the frequency was was $10$ of $18$ cases. 
 The improvement by MISE for LAGR over VCR was greater for covariates with smaller influence, with LAGR producing the smaller MISE for $\beta_3$ and $\beta_4$ in every case.
-In no case was the MISE for LAGR more than $11\%$ greater than for VCR, while the MISE for estimating $\beta_4$ with $\rho=0.9$, $\sigma_{\varepsilon}=0.5$, and $n=100$ setting was $140$ times greater for VCR than for LAGR.
-That was the exception, as under the other simulation settings the greatest improvement for LAGR over VCR tended to be a $2-3$ times reduction in MISE.
+In no case was the MISE for LAGR more than $11\%$ greater than for VCR. The MISE for estimating $\beta_4$ with $\rho=0.9$, $\sigma_{\varepsilon}=0.5$, and $n=100$ setting was $140$ times greater for VCR than for LAGR, although that was an exception, as under the other simulation settings the greatest improvement for LAGR over VCR tended to be a $2-3$ times reduction in MISE.
 
 With other factors held constant, the MISE for estimating the coefficients tended to be smaller for less influential covariates and under larger sample sizes.
 On the other hand, the MISE tended to increase with high error variance or increasing correlation between covariates. 
@@ -507,11 +509,11 @@ There was an exception: the MISE for estimating $\beta_3$ in simulations where $
 In terms of MISE, the improvement from estimation by LAGR over VCR was greater for settings with smaller sample sizes, higher correlation between covariates, and greater error variance.
 
 The frequencies of exact zeros among the estimates of each coefficient for each simulation setting are in Table \ref{tab:zerofreq}.
-With one exception, the frequency of exact zeros in the coefficient estimates increased uniformly as covariates grew less influential.
+With just one exception, the frequency of exact zeros in the coefficient estimates increased uniformly as covariates grew less influential.
 The exception is that in the eighteenth simulation the frequencies of exact zeros among the estimates of $\beta_3$ and $\beta_4$ were $66\%$ and $60\%$, respectively.
 In particular, the estimates $\hat{\beta}_1$ were almost never exactly zero, while the estimates $\hat{\beta}_3$ and $\hat{\beta}_4$ were exactly zero more often than not.
 Exact zero coefficient estimates were generally more frequent for smaller sample sizes and greater cross-covariate correlation. 
-With no cross-covariate correlation, exact zero coefficient estimates were always more frequent under greater error variance, a trend that continued under most but not all settings with moderate or high cross- covariate correlation.
+With no cross-covariate correlation, exact zero coefficient estimates were always more frequent under greater error variance, a trend that continued under most but not all settings with moderate or high cross-covariate correlation.
 
 
 \begin{table}
@@ -554,7 +556,7 @@ With no cross-covariate correlation, exact zero coefficient estimates were alway
 \section{Data Example\label{sec:example}}
 
 The proposed LAGR estimation method was applied to estimate the coefficients
-in a VCR model of the effect of some covariates on the price of homes
+in a VCR model for the price of homes
 in Boston based on data from the 1970 U.S. census \citep{Harrison-Rubinfeld-1978,Gilley-Pace-1996,Pace-Gilley-1997}.
 The data are the median price of homes sold in 506 census tracts (MEDV),
 along with the potential covariates CRIM (the per-capita crime rate
@@ -576,9 +578,9 @@ In the right column are the estimated coefficients for covariates TAX (property 
 \end{figure}
 
 The estimates of the local coefficients are plotted in the first five panels of Figure \ref{fig:boston-lagr-coefs} and are summarized in Table \ref{tab:boston-coefs-lagr}.
-The estimated coefficients of CRIM and LSTAT were everywhere negative or exactly zero, meaning that the crime rate and proportion of ``lower-status" individuals were associated with a lower median house price. 
+The estimated coefficients of CRIM and LSTAT were everywhere negative or exactly zero, suggesting that the crime rate and proportion of ``lower-status" individuals were associated with a lower median house price. 
 Meanwhile, the coefficient of RM was everywhere estimated to be positive, so the more rooms in the average house was everywhere associated with a higher median house price.
-The coefficient of TAX was negative in most census tracts, but was estimated to be exactly zero in 50 tracts, meaning that in those tracts there was no discernable effect of the property tax rate on house prices.
+The coefficient of TAX was negative in most census tracts, but was estimated to be exactly zero in 50 tracts, indicating no discernable effect of the property tax rate on house prices in those tracts.
 The coefficient of RAD is positive in some areas and negative
 in others. This indicates that there are parts of Boston where access
 to radial roads is associated with a greater median house price and
@@ -586,15 +588,16 @@ parts where it is associated with a lesser median house price.
 The sixth panel of Figure \ref{fig:boston-lagr-coefs} shows which covariates were estimated to have a nonzero coefficient in each tract.
 There were 471 tracts where all LAGR estimated that all the covariates had a nonzero coefficient, 43 tracts where all covariates except for TAX were estimated to have nonzero coefficients, six tracts where the coefficients of CRIM and TAX were estimated to be zero, and one tract where the coefficients of CRIM, RAD, and LSTAT were estimated to be zero.
 
+\ifthenelse{\boolean{thesis}}{
 An interesting result from the data example is the apparent relationship between the property tax rate and the coefficient of the TAX variable.
 Of the $506$ Boston census tracts, there were $50$ where the estimated coefficient of the TAX variable was zero.
 Four of those $50$ tracts ($8\%$) were locations where the property tax rate was at least $\$666$ per $\$10000$ (which encompasses the two highest property tax rates).
 In total there were $137$ tracts where the property tax rate was at least $\$666$ per $\$10000$, which was $27\%$ of all tracts.
 This suggests that the coefficient of the TAX variable was less likely to be zero in tracts with the highest property tax rates than in other tracts.
 A rank sum test was used to test the null hypothesis that tracts where the coefficient of the TAX variable was estimated to be zero occurred independently of the property tax rate.
-The alternative that was considered was that the tracts with an estimated zero TAX coefficient were clustered among the tracts with a lower property tax rate.
+The alternative considered was that the tracts with an estimated zero TAX coefficient were clustered among the tracts with a lower property tax rate.
 Of $1000$ uniform samples of size $50$ from the ranks of the property tax rates, only four had a smaller sum than that observed for the tracts where the TAX coefficient was estimated to be zero.
-This is compelling evidence that the property tax rate was more likely to have no apparent effect on the median house price in tracts where the property tax was lower.
+This provides evidence that the property tax rate was more likely to have no apparent effect on the median house price in tracts where the property tax was lower.}{}
 
 
 % latex table generated in R 3.1.1 by xtable 1.7-4 package
@@ -689,7 +692,7 @@ local likelihood, LAGR for GLMs uses a penalized local quasi-likelihood:
 
 \begin{align*}
 \mathcal{J}\left(\bm{\zeta}(\bm{s})\right)= & \mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\\
-= & \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right)+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{(j)}(\bm{s})\|.
+= & \;\; \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right)+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{(j)}(\bm{s})\|.
 \end{align*}
 
 
@@ -751,20 +754,20 @@ B and the necessary lemmas are provided in the online supplementary
 materials.
 
 
-\section{Conclusions and Discussion}
+\section{Conclusions and Discussion \label{section-conclusion}}
 
 We have developed a new method of LAGR and shown its oracle properties
 for local variable selection and coefficient estimation in VCR models.
 This is in contrast to the existing literature on variable selection
 for VCR models that focuses on global variable selection. Further,
-the method of LAGR extends the adaptive group lasso. In particular,
-the previous literature on the adaptive group lasso is insufficient
+the method of LAGR extends the adaptive group Lasso. In particular,
+the previous literature on the adaptive group Lasso is insufficient
 for local selection in a VCR model because the local weights are functions
 of the kernel $K(\cdot)$ and the bandwidth $h$. As a result, the
 local observation weights change with sample size and the coefficient
 estimates converge at a slower rate than in the traditional adaptive
-group lasso. Thus, the conditions for oracle properties of the adaptive
-group lasso must be refined for the LAGR method.
+group Lasso. Thus, the conditions for oracle properties of the adaptive
+group Lasso must be refined for the LAGR method.
 
 Here we considered the case of two-dimensional effect-modifying parameter.
 Similar results can be obtained when the effect-modifying parameter
@@ -775,6 +778,8 @@ regression is achieved when $h=O\left(n^{-1/\{4+d\}}\right)$ where
 $d$ is the dimension of the effect-modifying parameter, it follows
 that to attain the oracle properties, the exponent in the adaptive
 weights for LAGR estimation must satisfy $\gamma>d/2$.
+
+A possible future direction to take is extension to local regression for spatio-temporal data such that the regression coefficients vary not only in space but also over time. This extension is left to future research.
 
 
 \section*{References}
