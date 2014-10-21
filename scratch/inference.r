@@ -53,7 +53,7 @@ fitted = sapply(1:196, function(k) sum(coefs[k,] * cbind(1, sim[k,2:5])))
 dev.resids = gaussian()$dev.resids(sim$Y, fitted, rep(1,N**2))
 ll = gaussian()$aic(sim$Y, N**2, fitted, rep(1,N**2), sum(dev.resids))
 
-write(c(h, ll), paste("~/git/gwr/output/trace", "anti", i, j, "txt", sep="."), append=TRUE)
+write(c(h, ll), paste("~/git/gwr/output/trace", "jacknife", i, j, "txt", sep="."), append=TRUE)
 cat(paste("Bandwith: ", h, "; Jacknife loss: ", ll, "\n", sep=''))
 
 #Write jacknife LAGR coefficients:
