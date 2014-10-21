@@ -46,7 +46,7 @@ sim = read.table("~/git/gwr/scratch/sim.txt")
 
 h = hh[j]
 print(h)
-model = lagr(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bw=h, kernel=epanechnikov, bw.type='knn', verbose=TRUE, n.lambda=100, lagr.convergence.tol=0.005, jacknife=TRUE, bootstrap.index=index[[i]])
+model = lagr(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bw=h, kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005, jacknife=TRUE, bootstrap.index=index[[i]])
 
 #Write jacknife fitting results:
 coefs = t(sapply(model[['model']], function(x) x[['coef']]))
@@ -74,7 +74,7 @@ for (k in 1:(N**2)) {
 
 
 #Anti-jacknife:
-model = lagr(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bw=h, kernel=epanechnikov, bw.type='knn', verbose=TRUE, n.lambda=100, lagr.convergence.tol=0.005, jacknife='anti', bootstrap.index=indx)
+model = lagr(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bw=h, kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005, jacknife='anti', bootstrap.index=indx)
 
 #Write anti-jacknife fitting results:
 coefs = t(sapply(model[['model']], function(x) x[['coef']]))
