@@ -1,4 +1,4 @@
-for (( i=1; i<=1525; i++ ))
+for (( i=1; i<=10; i++ ))
 do
-    Rscript scratch/inference4.r $i
+    Rscript scratch/inference.r $i
 done
