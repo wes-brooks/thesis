@@ -55,7 +55,7 @@ fitted = sapply(1:196, function(k) sum(coefs[k,] * cbind(1, sim[k,2:5])))
 dev.resids = gaussian()$dev.resids(sim$Y, fitted, rep(1,N**2))
 ll = gaussian()$aic(sim$Y, N**2, fitted, rep(1,N**2), sum(dev.resids))
 
-write(c(h, ll), "~/git/gwr/output/trace.jacknife.txt", append=TRUE)
+write(c(h, ll), paste("~/git/gwr/output/trace", "anti", i, j, "txt", sep="."), append=TRUE)
 cat(paste("Bandwith: ", h, "; Jacknife loss: ", ll, "\n", sep=''))
 
 #Write jacknife LAGR coefficients:
@@ -86,7 +86,7 @@ df = sum(sapply(1:196, function(k) model[['model']][[k]][['tunelist']][['df-loca
 aic = ll + 2*df
 
 #Use the AIC for anti-jacknife bandwidth tuning:
-write(c(h, aic), "~/git/gwr/output/trace.anti.txt", append=TRUE)
+write(c(h, aic), paste("~/git/gwr/output/trace", "anti", i, j, "txt", sep="."), append=TRUE)
 cat(paste("Bandwith: ", h, "; Anti-jacknife AIC: ", aic, "\n", sep=''))
 
 

@@ -83,6 +83,6 @@ ll = gaussian()$aic(data$Y, N**2, fitted, rep(1,N**2), sum(dev.resids))
 aic = ll + 2*df
 print(aic)
 
-write(c(h, aic), "~/git/gwr/output/trace.txt", append=TRUE)
+write(c(h, aic), paste("~/git/gwr/output/trace", i, j, "txt", sep="."), append=TRUE)
 
 
