@@ -1,5 +1,4 @@
 library(lagr)
-library(dplyr)
 
 #Generate the covariates:
 N = 14 # number of width and length divisions in the domain
@@ -61,7 +60,7 @@ cat(paste("Bandwith: ", h, "; Jacknife loss: ", ll, "\n", sep=''))
 #Write jacknife LAGR coefficients:
 for (k in 1:(N**2)) {
     beta = model[['model']][[k]][['model']][['beta']][1:5,]
-    models = apply(beta, 2, function(x) paste(as.integer(x!=0), collapse="")) %>% as.factor
+    models = as.factor(apply(beta, 2, function(x) paste(as.integer(x!=0), collapse="")))
     aic.trace = model[['model']][[k]][['model']][['results']][['AIC']]
     
     best = vector()
@@ -93,7 +92,7 @@ cat(paste("Bandwith: ", h, "; Anti-jacknife AIC: ", aic, "\n", sep=''))
 #Write anti-jacknife LAGR coefficients:
 for (k in 1:(N**2)) {
     beta = model[['model']][[k]][['model']][['beta']][1:5,]
-    models = apply(beta, 2, function(x) paste(as.integer(x!=0), collapse="")) %>% as.factor
+    models = as.factor(apply(beta, 2, function(x) paste(as.integer(x!=0), collapse="")))
     aic.trace = model[['model']][[k]][['model']][['results']][['AIC']]
     
     best = vector()
