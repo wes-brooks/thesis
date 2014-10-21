@@ -1,6 +1,4 @@
 library(lagr)
-# library(RandomFields)
-library(brooks)
 library(dplyr)
 
 #Generate the covariates:
