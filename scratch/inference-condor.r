@@ -1,4 +1,9 @@
-library(lagr)
+library(sp, lib.loc"R-libs")
+library(iterators, lib.loc="R-libs")
+library(foreach, lib.loc="R-libs")
+library(pryr, lib.loc="R-libs")
+library(Matrix)
+library(lagr, lib.loc="R-libs")
 
 #Generate the covariates:
 N = 14 # number of width and length divisions in the domain
@@ -34,7 +39,7 @@ if (interactive()) {
     if (iter==1) {
         ind = as.data.frame(index)
         colnames(ind) = NULL
-        write.table(ind, "~/git/gwr/output/indexes.txt", row.names=FALSE, col.names=FALSE)
+        write.table(ind, "output/indexes.txt", row.names=FALSE, col.names=FALSE)
     }
 }
 
@@ -42,7 +47,7 @@ loc.x = rep(coord, times=N)
 loc.y = rep(coord, each=N)
 grid = cbind(loc.x, loc.y)
 
-sim = read.table("~/git/gwr/scratch/sim.txt")
+sim = read.table("sim.txt")
 
 h = hh[j]
 model = lagr(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bw=h, kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005, jacknife=TRUE, bootstrap.index=index[[i]])
@@ -53,7 +58,7 @@ fitted = sapply(1:196, function(k) sum(coefs[k,] * cbind(1, sim[k,2:5])))
 dev.resids = gaussian()$dev.resids(sim$Y, fitted, rep(1,N**2))
 ll = gaussian()$aic(sim$Y, N**2, fitted, rep(1,N**2), sum(dev.resids))
 
-write(c(h, ll), paste("~/git/gwr/output/trace", "jacknife", i, j, "txt", sep="."), append=TRUE)
+write(c(h, ll), paste("output/trace", "jacknife", i, j, "txt", sep="."), append=TRUE)
 cat(paste("Bandwith: ", h, "; Jacknife loss: ", ll, "\n", sep=''))
 
 #Write jacknife LAGR coefficients:
@@ -67,8 +72,8 @@ for (k in 1:(N**2)) {
         best = c(best, which.min(ifelse(models==l, aic.trace, Inf)))
     }
     
-    write.table(beta[,best], paste("~/git/gwr/output/beta", "jacknife", i, j, k, "txt", sep="."), row.names=FALSE, col.names=FALSE)
-    write(aic.trace[best], paste("~/git/gwr/output/aic", "jacknife", i, j, k, "txt", sep="."))
+    write.table(beta[,best], paste("output/beta", "jacknife", i, j, k, "txt", sep="."), row.names=FALSE, col.names=FALSE)
+    write(aic.trace[best], paste("output/aic", "jacknife", i, j, k, "txt", sep="."))
 }
 
 
@@ -84,7 +89,7 @@ df = sum(sapply(1:196, function(k) model[['model']][[k]][['tunelist']][['df-loca
 aic = ll + 2*df
 
 #Use the AIC for anti-jacknife bandwidth tuning:
-write(c(h, aic), paste("~/git/gwr/output/trace", "anti", i, j, "txt", sep="."), append=TRUE)
+write(c(h, aic), paste("output/trace", "anti", i, j, "txt", sep="."), append=TRUE)
 cat(paste("Bandwith: ", h, "; Anti-jacknife AIC: ", aic, "\n", sep=''))
 
 
@@ -99,6 +104,6 @@ for (k in 1:(N**2)) {
         best = c(best, which.min(ifelse(models==l, aic.trace, Inf)))
     }
     
-    write.table(beta[,best], paste("~/git/gwr/output/beta", "anti", i, j, k, "txt", sep="."), row.names=FALSE, col.names=FALSE)
-    write(aic.trace[best], paste("~/git/gwr/output/aic", "anti", i, j, k, "txt", sep="."))
+    write.table(beta[,best], paste("output/beta", "anti", i, j, k, "txt", sep="."), row.names=FALSE, col.names=FALSE)
+    write(aic.trace[best], paste("output/aic", "anti", i, j, k, "txt", sep="."))
 }
