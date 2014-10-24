@@ -3,7 +3,7 @@ library(brooks)
 library(dplyr)
 library(doMC)
 
-registerDoMC(6)
+registerDoMC(8)
 
 #Generate the covariates:
 N = 14 # number of width and length divisions in the domain

@@ -31,3 +31,5 @@ Why use the bootstrap?
  
 # Methods
 Local adaptive grouped regularization (LAGR) is a method for local variable selection and local coefficient estimation \citep{Brooks-Zhu-Liu-2014}.  
+
+
