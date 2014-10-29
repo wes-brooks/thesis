@@ -1,0 +1,9 @@
+---
+title: "Estimating a spatial regression model by means of Local Adaptive Grouped Regularization"
+author: "Wesley Brooks"
+output:
+    pdf_document:
+    fig_caption: true   
+bibliography: ../../references/gwr.bib
+---
+
