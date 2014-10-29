@@ -1,19 +1,16 @@
 S = 45
 
-        cc = matrix(0, 0, 5)
+cc = matrix(0, 0, 5)
 
 for (iter in 1:370) {
     i = ((iter-1) %/% S) + 1
     j = ((iter-1) %% S) + 1
 
     if (j==20) {
-
-
         row=1
-            a = read.table(paste(paste("output", iter, "aic", sep="/"), "jacknife", i, j, row, "txt", sep="."))
-            b = read.table(paste(paste("output", iter, "beta", sep="/"), "jacknife", i, j, row, "txt", sep="."))
-            cc = rbind(cc, b[,which.min(a)])
-        
+        a = read.table(paste(paste("~/Desktop/o/output", iter, "aic", sep="/"), "jacknife", i, j, row, "txt", sep="."))
+        b = read.table(paste(paste("~/Desktop/o/output", iter, "beta", sep="/"), "jacknife", i, j, row, "txt", sep="."))
+        cc = rbind(cc, b[,which.min(a)])        
     }
 }
 
