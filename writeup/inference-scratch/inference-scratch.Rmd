@@ -28,22 +28,25 @@ Why use AIC?
  
 Why use the bootstrap?
  - 
- 
 
-Local adaptive grouped regularization (LAGR) is a method for local variable selection and local coefficient estimation \citep{Brooks-Zhu-Liu-2014}. The method of LAGR possesses the oracle property of asymptotically selecting exactly the correct variables and estimating them as accurately as if their identities were known in advance. For local selection and estimation, LAGR relies on a version of the adaptive group Lasso [@Yuan-Lin-2006, @Wang-Leng-2008]. Thus, local coefficients estimated by LAGR asymptotically acheive the distributions given in @Sun-Yan-Zhang-Lu-2014 and @Cai-Fan-Li-2000.
+Local adaptive grouped regularization (LAGR) is a method for local variable selection and local coefficient estimation in a varying coefficient regression (VCR) model \citep{Brooks-Zhu-Liu-2014}. Estimating a model via LAGR is straightforward. This paper addresses inference for a VCR model estimated by LAGR, focusing on the estimation of confidence intervals for the local coefficient estimates and estimation of which local coefficients should be shrunk to exactly zero.
 
-However, the asymptotic case is never realized in actual data analysis. Given a finite quantity of data, the set of covariates selected by LAGR is subject to uncertainty. Since coefficient estimates in a model estimated by LAGR are conditional on the selected covariates, the asymptotic expression for the distribution of the local coefficients is not useful for inference in a LAGR model.
+The method of LAGR possesses the oracle property of asymptotically selecting exactly the correct variables and estimating them as accurately as if their identities were known in advance. For local selection and estimation, LAGR relies on a version of the adaptive group Lasso [@Yuan-Lin-2006, @Wang-Leng-2008]. Thus, local coefficients estimated by LAGR asymptotically acheive the distributions given in @Sun-Yan-Zhang-Lu-2014 and @Cai-Fan-Li-2000.
+
+However, the asymptotic case is never realized in actual data analysis. Given a finite quantity of data, the set of covariates selected by LAGR is subject to uncertainty. Since coefficient estimates in a model estimated by LAGR are conditional on the selected covariates, the asymptotic expression for the distribution of the local coefficients is not useful for inference.
 
 Further, while the local coefficient estimation is conditional on the local covariate selection, the local covariate selection is itself conditional on the bandwidth parameter $h$. In order to acheive the oracle properties, the optimal bandwidth for a LAGR model was shown to be $h_n=O(n^{-1/6})$ [@Brooks-Zhu-Lu-2014]. However, the optimal rate is not enough information to determine the badwidth, and is anyhow irrelevant when $n$ is fixed, as is the case in most practical data analysis.
 
 # Methods
-We assume no replication of observations.
-
 It is impossible to use maximum likelihood to estimate the bandwidth parameter, as reveled by a simple example: given a data set $(\bm{X}, Y, \bm{S})$, let $h=0$. Then $\hat{Y}=Y$ trivially, which results in the maximum possible likelihood. This is clearly an example of overfitting, because the model can tell us nothing about any future observations.
 
 We choose to work within an information-theoretic framework where the optimal model is the one closest to truth $f$ in the sense of Kullback-Leibler (KL) distance [@Kullback-Leibler-1951]. Since the truth $f$ is unknown, we are left to estimate the KL distance, which we do by means of the Akaike Information Criterion (AIC) [@Burnham-Anderson-2002, @Akaike-1973]. A model's AIC is an estimate of its expected KL distance from the truth. In fact, the AIC is an estimate of the log likelihood of an independent realization of the response, conditional on the observed covariates. The key to AIC is that a model's log likelihood is penalized by a factor equal to the degrees of freedom used in estimating the model.
 
-Which model minimizes the AIC is not the only consideration. 
+Which model minimizes the AIC is not the only consideration. For model selection via LAGR, the AIC is seems to be quite discontiuous.What's more, small differences in the AIC are indicative of ambiguity in model selection. In this work we consider model averaging with model weights based on their AIC values.
+
+## The bootstrap
+
+Because we lack an analytical expression for the distribution of local coefficients estimated by LAGR, we apply the bootstrap. Letting $Z_i = (\bm{s}_i, X_i, y_i))$, the naive bootstra
 
 
 
