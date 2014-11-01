@@ -7,3 +7,4 @@ output:
 bibliography: ../../references/gwr.bib
 ---
 
+Talk about using local polynomial regression to estimate the 
