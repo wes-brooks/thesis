@@ -1,4 +1,9 @@
 library(expm)
+library(lagr)
+library(doMC)
+library(MASS)
+
+registerDoMC(7)
 
 bw = lagr.tune(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bwselect.method="AIC", kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005, tol.bw=0.0005)
 bw$trace[order(bw$trace[,1]),][,c(1,2)] -> trace
