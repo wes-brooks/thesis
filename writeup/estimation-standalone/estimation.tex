@@ -54,7 +54,7 @@
 
 \begin{frontmatter}
 
-\title{Local Adaptive Grouped Regularization and its Oracle Properties for Varying Coefficient Regression}
+\title{Local Adaptive Group Regularization and its Oracle Properties for Varying Coefficient Regression}
 
 
 \author[wrbrooks]{Wesley Brooks}
@@ -67,7 +67,7 @@
 \ead{Z.Lu@soton.ac.uk}
 
 \address[wrbrooks]{Department of Statistics, University of Wisconsin, Madison, WI 53706}
-\address[jzhu]{Department of Statistics and Department of Entomology, University of Wisconsin, Madison, WI 53706}
+\address[jzhu]{Department of Statistics, University of Wisconsin, Madison, WI 53706}
 \address[zlu]{School of Mathematical Sciences, University of Southampton, Highfield, Southampton UK}
 
 \begin{abstract}
@@ -163,7 +163,7 @@ for $i=1,\dots,n$, which are distributed in a domain $\mathcal{D}\subset\mathbb{
 according to a density $f$. For $i=1,\dots,n$, let $Y_{i}=Y(\bm{s}_{i})$
 and $\bm{X}_{i}=\bm{X}(\bm{s}_{i})$ denote, respectively, the univariate
 response and the $(p+1)$--vector of covariates measured at location
-$\bm{s}_{i}$. At each location $\bm{s}_{i}$, assume that the outcome
+$\bm{s}_{i}$. At location $\bm{s}_{i}$, assume that the outcome
 is related to the covariates by a linear regression where the coefficients
 $\bm{\beta}(\bm{s}_{i})$ are functions in the two dimensions and
 $\varepsilon_{i}$ is random error at location $\bm{s}_{i}$. That
@@ -280,10 +280,10 @@ and its interactions with location from (\ref{eq:zeta-hat}), and $\gamma>1$.
 
 Minimization of (\ref{eq:penalized-least-squares}) is by blockwise
 coordinate descent, where each block is a covariate group (one raw
-covariate and its interactions with location). A software package for estimating
+covariate and its interactions with location). A companion software package for estimating
 $\bm{\zeta}(\bm{s})$ will be made available in \texttt{R} \citep{R-Core-2014}.
 
-\subsection{Oracle Properties\label{sub:oracle-properties}}
+\subsection{Oracle Property\label{sub:oracle-properties}}
 
 At location $\bm{s}$, let there be $p_{0}(\bm{s})<p$ covariates $\bm{X}_{(a)}(\bm{s})$
 with nonzero local regression coefficients, denoted $\bm{\beta}_{(a)}(\bm{s})\ne\bm{0}$.
@@ -344,22 +344,19 @@ of the limiting distribution of $\hat{\bm{\beta}}(\bm{s})$; its differentiabilit
 is used in the Taylor's expansions. Condition (C.4) is used when bounding
 the remainder term in the Taylor's expansions. Condition (C.5) is
 the same as condition (4) of \citet{Sun-Yan-Zhang-Lu-2014}, which
-is more general than strict infill asymptotics, as in the latter case
-the elements of $\{\bm{s}_{i}\}$ are $iid$ as density $f(\cdot)$,
-and the Lipschitz condition in (C.5) is satisfied with probability
-one. Under condition (C.6), the coefficient estimates attain the optimal
+is more essentially infill asymptotics \citep{Cressie-1993}. Under condition (C.6), the coefficient estimates attain the optimal
 rate of convergence for bivariate nonparametric regression. Condition
 (C.7) is needed for establishing the oracle properties, and is a refinement
-of the condition for the adaptive group lasso \citep{Wang-Leng-2008}.
+of the condition for the adaptive group Lasso \citep{Wang-Leng-2008}.
+
+
 In particular, satisfying (C.7) implies an additional restriction
 on $\gamma$, the unpenalized group norm exponent in the LAGR penalty.
-
 Under condition (C.7), the local penalty tends to zero on covariates
 with true nonzero coefficients and to infinity on covariates with
 true zero coefficients. By (C.7), $h^{-1}n^{-1/2}\lambda_{n}\to0$
 for all $j\le p_{0}(\bm{s})$ and $hn^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}\to\infty$
 for all $j>p_{0}(\bm{s})$. We require that $\lambda_{n}$ satisfy both assumptions.
-
 Suppose $\lambda_{n}=n^{\alpha}$. Since $h=O\left(n^{-1/6}\right)$
 and $\|\tilde{\bm{\zeta}}_{(p)}(\bm{s})\|=O\left(h^{-1}n^{-1/2}\right)$,
 it follows that $h^{-1}n^{-1/2}\lambda_{n}=O\left(n^{-1/3+\alpha}\right)$
@@ -372,7 +369,7 @@ for $\gamma>1$.
 \left\{ f(\bm{s})h^{2}n\right\} ^{1/2}\left[\hat{\bm{\beta}}_{(a)}(\bm{s})-\bm{\beta}_{(a)}(\bm{s})-(2\kappa_{0})^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} \right]\\
 \xrightarrow{d}N\left(0,\kappa_{0}^{-2}\nu_{0}\sigma^{2}\Psi_{(a)}(\bm{s})^{-1}\right),
 \end{gather*}
-where $\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} =\left(\nabla_{uu}^{2}\bm{\beta}_{1}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{1}(\bm{s}),\dots,\nabla_{uu}^{2}\bm{\beta}_{p_{o}}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{p_{o}}(\bm{s})\right)^{T}$.
+where $\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{(a)}(\bm{s})\right\} =\left(\nabla_{uu}^{2}\bm{\beta}_{1}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{1}(\bm{s}),\dots,\nabla_{uu}^{2}\bm{\beta}_{p_{0}}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}_{p_{0}}(\bm{s})\right)^{T}$.
 \end{thm}
 
 \begin{thm}[Selection consistency]
@@ -453,9 +450,9 @@ Data were simulated with low ($\rho=0$), medium ($\rho=0.5$), or high ($\rho=0.9
 correlation between the covariates, and with
 low ($\sigma_{\varepsilon}=0.5$) or high ($\sigma_{\varepsilon}=1$)
 variance for the random error term. Each setting was used to generate five data sets consisting of 400 observations each.
-For each data set, estimates were made of the coefficients for three different sample sizes $n$: the full 400 observations, and subsets generated by sampling 100 or 200 unique observations uniformly from the data set.
+For each data set, estimates were made of the coefficients for three different sample sizes $N$: the full 400 observations, and subsets generated by sampling 100 or 200 unique observations uniformly from the data set.
 The coefficients were estimated via LAGR and via a VCR model without variable selection as in Section \ref{sec:lagr-gaussian}.
-For both estimation methods, the bandwidth parameter was $h=(3/2)n^{-1/6} - 0.36$ with a nearest neighbors type bandwidth, meaning the kernel bandwidth was adjusted at each location $\bm{s}_i$ to achieve the ratio $\sum_{i'=1}^n w_{ii'}/n = h$.
+For both estimation methods, the bandwidth parameter was $h=(3/2)N^{-1/6} - 0.36$ with a nearest neighbors type bandwidth, meaning the kernel bandwidth was adjusted at each location $\bm{s}_i$ to achieve the ratio $\sum_{i'=1}^n w_{ii'}/n = h$.
 
 \begin{table}
 	\centering
@@ -498,9 +495,11 @@ For both estimation methods, the bandwidth parameter was $h=(3/2)n^{-1/6} - 0.36
 
 \subsection{Simulation Results}
 
-The MISE of the coefficient surface estimates are in Table \ref{tab:mise}. The results in Table \ref{tab:mise} are averaged over the five independent data sets for each simulation setting. In general, the coefficients estimated by LAGR were more accurate in terms of MISE than those estimated by VCR. 
-The frequency with which MISE was smaller under LAGR than under VCR for estimating $\beta_1$ was $8$ of $18$ cases, and for $\beta_2$ the frequency was was also $8$ of $18$ cases. 
-The improvement by MISE for LAGR over VCR was greater for covariates with smaller influence, with LAGR producing the smaller MISE for $\beta_3$ and $\beta_4$ in every case.
+The mean integrated squared error (MISE) of the coefficient surface estimates are in Table \ref{tab:mise}, where the MISE is calculated as
+$\text{MISE}(\beta_j) = N^{-1} \sum_{i=1}^N \{ \hat{\beta}_j(\bm{s}_i) - \beta_j(\bm{s}_i) \}^2$.
+The results in Table \ref{tab:mise} are averaged over the five independent data sets for each simulation setting. In general, the coefficients estimated by LAGR were more accurate in terms of MISE than those estimated by VCR. 
+Although the frequency with which MISE was smaller under LAGR than under VCR for estimating $\beta_1$ and $\beta_2$ was $8$ of $18$ cases each, 
+the improvement by MISE for LAGR over VCR was greater for covariates with smaller influence, with LAGR producing the smaller MISE for $\beta_3$ and $\beta_4$ in every case.
 In no case was the MISE for LAGR more than $27\%$ greater than for VCR. 
 The MISE for estimating $\beta_4$ with $\rho=0.9$, $\sigma_{\varepsilon}=1.0$, and $n=100$ setting was $5$ times greater for VCR than for LAGR, and under the other simulation settings the greatest improvement for LAGR over VCR tended to be a $2-3$ times reduction in MISE.
 
@@ -585,7 +584,7 @@ The coefficient of RAD is positive in some areas and negative
 in others. This indicates that there are parts of Boston where access
 to radial roads is associated with a greater median house price and
 parts where it is associated with a lesser median house price.
-The sixth panel of Figure \ref{fig:boston-lagr-coefs} shows which covariates were estimated to have a nonzero coefficient in each tract.
+The bottom right panel of Figure \ref{fig:boston-lagr-coefs} shows which covariates were estimated to have a nonzero coefficient in each tract.
 There were 471 tracts where all LAGR estimated that all the covariates had a nonzero coefficient, 43 tracts where all covariates except for TAX were estimated to have nonzero coefficients, six tracts where the coefficients of CRIM and TAX were estimated to be zero, and one tract where the coefficients of CRIM, RAD, and LSTAT were estimated to be zero.
 
 \ifthenelse{\boolean{thesis}}{
@@ -615,7 +614,7 @@ CRIM & -0.15 & 0.07 & 7 \\
   LSTAT & -0.73 & 0.13 & 0 \\ 
    \hline
 \end{tabular}
-\caption{The mean, standard deviation, and count of zeros among the estimates of the local coefficients in a model for the median house price in census tracts in Boston, with coefficients selected and fitted by local adaptive grouped regularization. The covariates are CRIM (per capita crime rate in the census tract), RM (average number of rooms per home sold in the census tract), RAD (an index of the tract's access to radial roads), TAX (property tax per USD10,000 of property value), and LSTAT (percentage of the tract's residents who are considered ``lower status").}
+\caption{The mean, standard deviation, and count of zeros among the estimates of the local coefficients in a model for the median house price in 506 census tracts in Boston, with coefficients selected and fitted by local adaptive grouped regularization. The covariates are CRIM (per capita crime rate in the census tract), RM (average number of rooms per home sold in the census tract), RAD (an index of the tract's access to radial roads), TAX (property tax per USD10,000 of property value), and LSTAT (percentage of the tract's residents who are considered ``lower status").}
 \label{tab:boston-coefs-lagr} 
 \end{table}
 
@@ -722,7 +721,7 @@ These additional conditions are not uncommon in the nonparametric
 regression literature (see, e.g., conditions (1) and (2) of \citet{Cai-Fan-Li-2000}).
 Condition (C.8) is needed for the Taylor's expansion of the local
 quasi-likelihood. Condition (C.9) assures that the local quasi-likelihood
-is convex and has a unique minimizer.
+is convex and has a unique maximizer.
 \begin{thm}[Asymptotic normality]
 \label{theorem:normality-glm}  Under (C.1)--(C.10),
 \begin{gather*}
@@ -767,7 +766,7 @@ of the kernel $K(\cdot)$ and the bandwidth $h$. As a result, the
 local observation weights change with sample size and the coefficient
 estimates converge at a slower rate than in the traditional adaptive
 group Lasso. Thus, the conditions for oracle properties of the adaptive
-group Lasso must be refined for the LAGR method.
+group Lasso have been refined for the LAGR method.
 
 Here we considered the case of two-dimensional effect-modifying parameter.
 Similar results can be obtained when the effect-modifying parameter
@@ -813,6 +812,11 @@ Cleveland, W. and E.~Grosse (1991).
 \newblock Local regression models.
 \newblock In J.~Chambers and T.~Hastie (Eds.), {\em Statistical models in S}.
   Wadsworth and Brooks/Cole.
+
+\bibitem[\protect\citeauthoryear{Cressie}{Cressie}{1991}]{Cressie-1993}
+Cressie, N. (1993).
+\newblock {\em Statistics for Spatial Data}.
+\newblock Wiley, New York.
 
 \bibitem[\protect\citeauthoryear{Efron}{Efron}{2004}]{Efron:2004a}
 Efron, B. (2004).
@@ -896,6 +900,13 @@ Pace, R.~K. and O.~Gilley (1997).
 \newblock Using the spatial configuration of the data to improve estimation.
 \newblock {\em Journal of Real Estate Finance and Economics\/}~{\em 14},
   333--340.
+
+\bibitem[\protect\citeauthoryear{R Core Team}{R Core Team}{2014}]{R-Core-2014}
+R Core Team (2014).
+\newblock {\em R: A Language and Environment for Statistical Computing.}
+\newblock {R Foundation for Statistical Computing},
+\newblock {Vienna, Austria}.
+\newblock {URL http://www.R-project.org/}.
 
 \bibitem[\protect\citeauthoryear{Samiuddin and el~Sayyad}{Samiuddin and
   el~Sayyad}{1990}]{Samiuddin-el-Sayyad-1990}
