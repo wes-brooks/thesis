@@ -13,6 +13,8 @@ loc.x = rep(coord, times=N)
 loc.y = rep(coord, each=N)
 grid = cbind(loc.x, loc.y)
 
+set.seed(123)
+
 #Calculate the coefficient surfaces
 B1 = RFsimulate(RMexp(var=10, scale=1), x=coord, y=coord)@data[[1]]
 B2 = RFsimulate(RMexp(var=1, scale=1), x=coord, y=coord)@data[[1]]
