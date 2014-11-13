@@ -10,26 +10,26 @@ bibliography: ../../references/gwr.bib
 # Introduction
 
 What are the goals of inference?
- - Select the model
- - Estimate the model parameters
- - Estimate confidence intervals for the parameters
+- Select the model
+- Estimate the model parameters
+- Estimate confidence intervals for the parameters
 
 What challenges are unique to inference in LAGR models?
- - Selecting the bandwidth
- - LAGR is not a linear smoother, so estimating degrees of freedom is difficult
- - LAGR uses lasso, so estimating distributions of coefficient estimates is difficult
+- Selecting the bandwidth
+- LAGR is not a linear smoother, so estimating degrees of freedom is difficult
+- LAGR uses lasso, so estimating distributions of coefficient estimates is difficult
 
 Why use AIC?
- - Likelihood is the basis for most statistical inference
- - The likelihood can be used for model selection and estimation
- - Using the same data for selection and estimation produces a downward-biased estimate of the likelihood
- - The AIC is bias-corrected likelihood
- - Computing AIC requires an expression for the degrees of freedom used in estimating a model
+- Likelihood is the basis for most statistical inference
+- The likelihood can be used for model selection and estimation
+- Using the same data for selection and estimation produces a downward-biased estimate of the likelihood
+- The AIC is bias-corrected likelihood
+- Computing AIC requires an expression for the degrees of freedom used in estimating a model
  
 Why use the bootstrap?
- - 
+ 
 
-Local adaptive grouped regularization (LAGR) is a method for local variable selection and local coefficient estimation in a varying coefficient regression (VCR) model \citep{Brooks-Zhu-Liu-2014}. Estimating a model via LAGR is straightforward. This paper addresses inference for a VCR model estimated by LAGR, focusing on the estimation of confidence intervals for the local coefficient estimates and estimation of which local coefficients should be shrunk to exactly zero.
+Local adaptive grouped regularization (LAGR) is a method for local variable selection and local coefficient estimation in a varying coefficient regression (VCR) model [@Brooks-Zhu-Lu-2014]. Estimating a model via LAGR is straightforward. This paper addresses inference for a VCR model estimated by LAGR, focusing on the estimation of confidence intervals for the local coefficient estimates and estimation of which local coefficients should be shrunk to exactly zero.
 
 The method of LAGR possesses the oracle property of asymptotically selecting exactly the correct variables and estimating them as accurately as if their identities were known in advance. For local selection and estimation, LAGR relies on a version of the adaptive group Lasso [@Yuan-Lin-2006, @Wang-Leng-2008]. Thus, local coefficients estimated by LAGR asymptotically acheive the distributions given in @Sun-Yan-Zhang-Lu-2014 and @Cai-Fan-Li-2000.
 
@@ -37,16 +37,30 @@ However, the asymptotic case is never realized in actual data analysis. Given a 
 
 Further, while the local coefficient estimation is conditional on the local covariate selection, the local covariate selection is itself conditional on the bandwidth parameter $h$. In order to acheive the oracle properties, the optimal bandwidth for a LAGR model was shown to be $h_n=O(n^{-1/6})$ [@Brooks-Zhu-Lu-2014]. However, the optimal rate is not enough information to determine the badwidth, and is anyhow irrelevant when $n$ is fixed, as is the case in most practical data analysis.
 
-# Methods
+The distribution of estimators after model selection is an area of active research. A typical approach in applications is to select a model that minimizes a selection criterion such as the AIC or BIC, and then proceed with estimation as though the model had been selected in advance. However, this leads to unreliable inference from the selected model [@Leeb-Potscher-2006]. It also ignores the discontinuous nature of estimation after model selection, which is well illustrated by Figures 8 and 9 of @Efron-2014.
+
+Model averaging is a technique that attempts to estimate the model parameters without conditioning on the selected model. When prior distributions can be established for the candidate models and their parameters, Bayesian model averaging (BMA) is a principled approach to multimodel inference [@Hoeting-Madigan-Raftery-Volinsky-1999]. However, the establishing the prior distributions is not a trivial step, especially in a setting with many parameters, as VCR has. There is an analagous procedure called frequentist model averaging (FMA) that avoids the need to specify prior distributions. The asyptotic distribution of estimators derived from FMA has been worked out in the framework of "dwindling confidence", where coefficients decrease at a $\sqrt{n}$ rate as the sample size increases [@Hjort-Claeskens-2003]. The framework of dwindling confidence is similar to the framework of "moving parameter" asymptotics, under which the adaptive Lasso estimator fails to be consistent [@Potscher-Schneider-2009].
+
 It is impossible to use maximum likelihood to estimate the bandwidth parameter, as reveled by a simple example: given a data set $(\bm{X}, Y, \bm{S})$, let $h=0$. Then $\hat{Y}=Y$ trivially, which results in the maximum possible likelihood. This is clearly an example of overfitting, because the model can tell us nothing about any future observations.
 
-We choose to work within an information-theoretic framework where the optimal model is the one closest to truth $f$ in the sense of Kullback-Leibler (KL) distance [@Kullback-Leibler-1951]. Since the truth $f$ is unknown, we are left to estimate the KL distance, which we do by means of the Akaike Information Criterion (AIC) [@Burnham-Anderson-2002, @Akaike-1973]. A model's AIC is an estimate of its expected KL distance from the truth. In fact, the AIC is an estimate of the log likelihood of an independent realization of the response, conditional on the observed covariates. The key to AIC is that a model's log likelihood is penalized by a factor equal to the degrees of freedom used in estimating the model.
+# Methods
 
-Which model minimizes the AIC is not the only consideration. For model selection via LAGR, the AIC is seems to be quite discontiuous.What's more, small differences in the AIC are indicative of ambiguity in model selection. In this work we consider model averaging with model weights based on their AIC values.
+## AIC step
+We work within an information-theoretic framework where the optimal model is the one closest to truth $f$ in the  sense of Kullback-Leibler (KL) distance [@Kullback-Leibler-1951]. Since the truth $f$ is unknown, we are left to estimate the KL distance, which we do by means of the Akaike Information Criterion (AIC) [@Burnham-Anderson-2002, @Akaike-1973]. A model's AIC is an estimate of its expected KL distance from the truth. In fact, the AIC is an estimate of the log likelihood of an independent realization of the response, conditional on the observed covariates. The key to AIC is that a model's log likelihood is penalized by a factor equal to the degrees of freedom used in estimating the model.
 
-## The bootstrap
+Which model minimizes the AIC is not the only consideration. For model selection via LAGR, the AIC is seems to be quite discontiuous. What's more, small differences in the AIC are indicative of ambiguity in model selection. In this work we consider model averaging with model weights based on their AIC values. The smoothed AIC estimate is [@Burnham-Anderson-2002]
+\begin{align}
+\breve{\bm{\beta}}(\bm{s}) &= \sum_{j=1}^M w_j \hat{\bm{\beta}}_j(\bm{s}) / \sum_{k=1}^M w_k \\
+w_j &= \exp ( - \Delta_j / 2 ) \\
+\Delta_j &= \text{AIC}_j - \text{min}_k \text{AIC}_k
+\end{align}
 
-Because we lack an analytical expression for the distribution of local coefficients estimated by LAGR, we apply the bootstrap. Letting $Z_i = (\bm{s}_i, X_i, y_i))$, the naive bootstra
+The smoothed AIC can be applied to any function of the estimated coefficients. In particular, the smoothed AIC can be used for prediction and to estimate whether a given coefficient is exactly zero.
+
+## Bootstrap step
+Even if the model were selected in advance, we lack an expression for the finite-sample distribution of the coefficients of a VCR model estimated by LAGR. We therefore turn to the bootstrap to estimate the finite-sample distribution of the coefficients. As it happens, we can capitalize on the bootstrap draws to smooth the discontinutiy in model selection as well.
+
+We use the parametric bootstrap to draw from the full model at each location, then apply the method of LAGR to the bootstrap draw to get a new estimate $\breve{\bm{\beta}}^*(\bm{s})$ of the coefficients.
 
 
 
