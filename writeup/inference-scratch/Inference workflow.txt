@@ -1,0 +1,19 @@
+1. Find the bandwidth that minimizes the AIC for the original data
+2. Identify the plausible bandwidths (those with AIC within 10 of the minimum)
+3. Calculate 10 evenly spaced candidate bandwidths across the plausible bandwidth region
+4. For each candidate bandwidth:
+    1. Randomly draw iid N(0,1) random numbers, numbering as many as the number of (augmented) covariates
+    2. Estimate the model using the original data
+    3. Compute the dispersion (residual variance) parameter, sigma^2
+    4. At each observation location:
+        1. Extract the square root covariance matrix of the WLS coefficients for each local model
+        2. For as many bootstrap draws as we'd like:
+            1. Multiply the square root covariance matrix by the iid N(0,1) random numbers we previously drew (these are the parametric bootstrap draws of the coefficients)
+            2. Multiply the parametric bootstrap coefficients by the covariates to get the systematic portion of the local parametric bootstrap draw
+            3. Generate a random error for the local model by drawing a N(0,sigma^2) random number - this is the random portion of the local parametric bootstrap draw
+            4. Add the systematic and random portions to compute a local parametric bootstrap response
+    5. Now we have our parametric bootstrap draws for this bandwidth
+    6. Estimate the local coefficients for each parametric bootstrap draw, using the current bandwidth
+    7. Compute the local coefficients estimates (conditional on current bandwidth) as the mean of the local bootstrap estimates
+    8. Compute the local coefficient variance estimates (using the method of Efron, 2014?)
+5. Calculate a weighted average of the estimated coefficients and variances, where the weights are based on the AIC for each bandwidth
