@@ -8,10 +8,10 @@ registerDoMC(7)
 
 source("scratch/inference/simulate-data.r")
 
-bw = lagr.tune(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bwselect.method="AIC", kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005, tol.bw=0.0005)
-bw$trace[order(bw$trace[,1]),][,c(1,2)] -> trace
-bw.range = range(trace[trace[,2]<min(trace[,2])+10,1])
-bw.range=c(0.18, 0.33)
+#bw = lagr.tune(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bwselect.method="AIC", kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005, tol.bw=0.0005)
+#bw$trace[order(bw$trace[,1]),][,c(1,2)] -> trace
+#bw.range = range(trace[trace[,2]<min(trace[,2])+10,1])
+bw.range=c(0.13, 0.27)
 
 #Number of bootstrap draws:
 B = 25
@@ -28,7 +28,7 @@ for (j in 1:length(hh)) {
     h = hh[j]
     model = lagr(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bw=h, kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005)
     
-    df = sum(sapply(model[['model']], function(x) {
+    df.natural = sum(sapply(model[['model']], function(x) {
         crit = x[['tunelist']][['criterion']]
         crit.weights = exp(-0.5*(min(crit)-crit)**2)
         sum((1+x[['model']][['results']][['df']]) * crit.weights) / sum(crit.weights)
@@ -40,7 +40,7 @@ for (j in 1:length(hh)) {
         sum(x[['tunelist']][['localfit']] * crit.weights) / sum(crit.weights)
     })
     
-    s2 = sum((fit - sim$Y)**2) / (nrow(sim) - df)
+    s2 = sum((fit - sim$Y)**2) / (nrow(sim) - df.natural)
     
     Sigma[[j]] = list()
     cc = list()
