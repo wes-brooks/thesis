@@ -9,25 +9,32 @@ bibliography: ../../references/gwr.bib
     
 # Introduction
 
-What are the goals of inference?
+
+###What are the goals of inference?
 - Select the model
 - Estimate the model parameters
 - Estimate confidence intervals for the parameters
 
-What challenges are unique to inference in LAGR models?
+###What challenges are unique to inference in LAGR models?
 - Selecting the bandwidth
 - LAGR is not a linear smoother, so estimating degrees of freedom is difficult
 - LAGR uses lasso, so estimating distributions of coefficient estimates is difficult
 
-Why use AIC?
+###Why use AIC?
 - Likelihood is the basis for most statistical inference
 - The likelihood can be used for model selection and estimation
 - Using the same data for selection and estimation produces a downward-biased estimate of the likelihood
 - The AIC is bias-corrected likelihood
 - Computing AIC requires an expression for the degrees of freedom used in estimating a model
  
-Why use the bootstrap?
- 
+###Why use the parametric bootstrap?
+- LAGR uses an $L_1$-norm penalty, which spoils the linearity of the estimates
+- Thus, the normal distribution of the estimates for fixed model are only approximate
+- Further, the model selection component of LAGR affects the coefficient estimates in unknown ways
+- The bootstrap is used in the context of estimating parameter distributions post-model-selection in @Efron-2014
+- Considered nonparametric bootstrap first, resampling $(X_i, y_i, \bm{s}_i)$ together
+- Question arose then of prediction vs. fitting, since the only observation we have that arose from model $f(\bm{s}_j)$ is $(X_j, y_j)$
+- And if we want to estimate 
 
 Local adaptive grouped regularization (LAGR) is a method for local variable selection and local coefficient estimation in a varying coefficient regression (VCR) model [@Brooks-Zhu-Lu-2014]. Estimating a model via LAGR is straightforward. This paper addresses inference for a VCR model estimated by LAGR, focusing on the estimation of confidence intervals for the local coefficient estimates and estimation of which local coefficients should be shrunk to exactly zero.
 
@@ -64,5 +71,34 @@ Even if the model were selected in advance, we lack an expression for the finite
 
 We use the parametric bootstrap to draw from the full model at each location, then apply the method of LAGR to the bootstrap draw to get a new estimate $\breve{\bm{\beta}}^*(\bm{s})$ of the coefficients.
 
+## Sorting property of adaptive Lasso
+Given the form of a model and the $p$ covariates for consideration, there are $2^p$ possible regression models to consider. It is computationally impractical to test all of these models. The adaptive lasso provides a principled way of reducing the number of models to consider from $O(2^p)$ to $O(p)$ (proof?). Despite the sorting being "principled" it remains to show that the models are good, and that they are wisely sorted.
+
+It has been shown that LAGR can asymptotically select exactly the "correct" covariates. In order to prove that property, we assumed that the tuning parameter $\lambda_n = n^{\alpha}$ for $\alpha \in \left( (2-\gamma)/3, 1/3 \right)$. This range of rates, though, isn't enough to decide exactly how to set the tuning parameter. In our case, we've used the AIC to tune the local variable selection.
+
+At location $\bm{s}$, the sequence $\mathcal{M}_n$ is the sequence of models as $\lambda_n$ sweeps from $\lambda_{n,0}$ to $0$. The first element of $\mathcal{M}_n$ is always $m_0 = \bm{0}$, the null (or intercept-only) model. The last element of $\mathcal{M}_n$ is always the full model. Proposition \ref{proposition:sorting} suggests that with probability going to one, the KL-best model appears in the sequence.
+
+\begin{proposition}
+\label{proposition:sorting}
+\emph{(Sorting Property)}
+As $n \to \infty$, the models $\mathcal{M}_n(\bm{s})$ on the LAGR solution path at $\bm{s}$ approach a well-sorted state, meaning that the models are are nested such that the $m_0, m_1, \dots, m_{p_0}$ add one variable of the KL-best model at each step, and models $m_{p_0+1}, \dots, m_p$ each add one variable that is not in the KL-best model.
+\end{proposition}
 
 
+##Model averaging
+We give weights to the models in the sequence based on their AIC values. If Proposition \ref{proposition:AIC-weighted-mean} holds, it indicates that the AIC weight vector converges to the weight vector that minimizes the KL distance between truth and the weighted model average. However, it is unclear whether Proposition \ref{proposition:AIC-weighted-mean} holds, since the largest difference we expect between a model that incorporates all the relevant covariates and one that is the same with one irrelevant covariate additionally is $2 \times (k+1)$, which is the complexity penalty for adding the new covariate and its interations with location, without any countervailing improvement in the model fit. That is, the model's AIC value incurs a fixed penalty for every irrelevant covariate, no matter how confident we are that that variable does not belong in the model.
+
+In this way, AIC seems like a "greedy" model selection method, where there may be a large penalty for not including a relevant covariate (because the model fit would be so much worse) but a fixed (and relatively small) penalty for adding an irrelevant covariate.
+
+\begin{proposition}
+\label{proposition:AIC-weighted-mean}
+\emph{(Consistency)}
+Let $w(\bm{s})$ be a vector of model weights at $\bm{s}$ and $\hat{w}(\bm{s})$ be the vector of weights estimated by LAGR and the AIC. Then 
+\begin{equation}
+\frac{L (\hat{w}(\bm{s}))}{\inf_{w(\bm{s}) \in \mathcal{H}} L (w(\bm{s}))} \xrightarrow{P} 1
+\end{equation}
+where $L{w}$ is the K-L distance between truth and the weighted model average indicated by $w$.
+\end{proposition}
+
+
+#References

@@ -8,9 +8,9 @@ registerDoMC(7)
 
 source("scratch/inference/simulate-data.r")
 
-#bw = lagr.tune(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bwselect.method="AIC", kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005, tol.bw=0.0005)
-#bw$trace[order(bw$trace[,1]),][,c(1,2)] -> trace
-#bw.range = range(trace[trace[,2]<min(trace[,2])+10,1])
+bw = lagr.tune(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bwselect.method="AIC", kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005, tol.bw=0.0005)
+bw$trace[order(bw$trace[,1]),][,c(1,2)] -> trace
+bw.range = range(trace[trace[,2]<min(trace[,2])+10,1])
 bw.range=c(0.13, 0.27)
 
 #Number of bootstrap draws:
@@ -23,7 +23,8 @@ aic = list()
 coef.distribution = list()
 is.zero = list()
 Sigma = list()
-hh = seq(bw.range[1], bw.range[2], length.out=21)
+paraboot.coefs = list()
+hh = trace[,1]
 for (j in 1:length(hh)) {
     h = hh[j]
     model = lagr(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bw=h, kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005)
@@ -43,7 +44,7 @@ for (j in 1:length(hh)) {
     s2 = sum((fit - sim$Y)**2) / (nrow(sim) - df.natural)
     
     Sigma[[j]] = list()
-    cc = list()
+    paraboot.coefs[[j]] = list()
     bootstrap.seed = sapply(1:B, function(m) return(matrix(rnorm(15, 0, 1))))
     err = sapply(1:B, function(m) return(matrix(rnorm(nrow(sim), 0, sqrt(s2)))))
     bootstrap.response = matrix(NA, 0, B)
@@ -52,13 +53,12 @@ for (j in 1:length(hh)) {
         S2 = 4/3/pi * model[['model']][[i]][['model']][['results']][['full.model.cov']]
         Sigma[[j]][[i]] = sqrtm(S2)
         bootstrap.coefs = t((Sigma[[j]][[i]] %*% bootstrap.seed) + mu)
-        cc[[i]] = bootstrap.coefs
+        paraboot.coefs[[j]][[i]] = bootstrap.coefs
         eta = bootstrap.coefs[,1:5] %*% matrix(as.numeric(c(1, sim[i,2:5])))
         bootstrap.response = rbind(bootstrap.response,
             rnorm(n=length(eta), mean=eta, sd=sqrt(s2)))
     }
     bootstrap.response = cbind(sim$Y, bootstrap.response)
-    
     
     bootstrap.model = list()
     df[[j]] = vector()
@@ -118,13 +118,31 @@ for (j in 1:length(hh)) {
     #cov(t(coef.distribution), cc[[133]])
 }
 
-
-bw.specific.coefs = matrix(0, 5*nrow(sim), 0)
+#For means:
+p = 5
+bw.specific.coefs = matrix(0, p*nrow(sim), 0)
 natural.aic = vector()
-for (l in 1:10) {
-    bw.specific.coefs = cbind(bw.specific.coefs, rowMeans(as.matrix(coef.distribution[[l]][,(5:B+5)[indx]])))
+indx = (0:195)*5 + 2 #(beta_1)
+for (l in 1:length(hh)) {
+    bw.specific.coefs = cbind(bw.specific.coefs, rowMeans(as.matrix(coef.distribution[[l]][,5:(B+5)])))
     natural.aic = sapply(aic, function(x) x[1])
 }
 natural.aic.weight = matrix(exp(-(natural.aic-min(natural.aic))/2))
 natural.aic.weight = natural.aic.weight / sum(natural.aic.weight)
 model.avg.coefs = bw.specific.coefs %*% natural.aic.weight
+
+
+#For sd's:
+p = 5
+bw.specific.coef.sd = matrix(0, p*nrow(sim), 0)
+natural.aic = vector()
+indx = (0:195)*5 + 2 #(beta_1)
+for (l in 1:length(hh)) {
+    bw.specific.coef.sd = cbind(bw.specific.coef.sd, rowMeans(as.matrix(coef.distribution[[l]][,5:(B+5)])))
+    natural.aic = sapply(aic, function(x) x[1])
+}
+natural.aic.weight = matrix(exp(-(natural.aic-min(natural.aic))/2))
+natural.aic.weight = natural.aic.weight / sum(natural.aic.weight)
+model.avg.sd = bw.specific.coef.sd %*% natural.aic.weight
+
+
