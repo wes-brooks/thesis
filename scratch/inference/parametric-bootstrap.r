@@ -8,13 +8,13 @@ registerDoMC(7)
 
 source("scratch/inference/simulate-data.r")
 
-bw = lagr.tune(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bwselect.method="AIC", kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005, tol.bw=0.0005)
-bw$trace[order(bw$trace[,1]),][,c(1,2)] -> trace
-bw.range = range(trace[trace[,2]<min(trace[,2])+10,1])
-bw.range=c(0.13, 0.27)
+#bw = lagr.tune(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='wAIC', bwselect.method="AIC", kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005, tol.bw=0.0005)
+#bw$trace[order(bw$trace[,1]),][,c(1,2)] -> trace
+#bw.range = range(trace[trace[,2]<min(trace[,2])+10,1])
+#bw.range=c(0.13, 0.27)
 
 #Number of bootstrap draws:
-B = 25
+B = 50
 
 bootstrap.data = sim
 df = list()
@@ -24,7 +24,7 @@ coef.distribution = list()
 is.zero = list()
 Sigma = list()
 paraboot.coefs = list()
-hh = trace[,1]
+hh = seq(0.1, 0.3, len=21)#trace[,1]
 for (j in 1:length(hh)) {
     h = hh[j]
     model = lagr(Y~X1+X2+X3+X4, data=sim, family='gaussian', coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bw=h, kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005)
@@ -68,12 +68,13 @@ for (j in 1:length(hh)) {
     for (i in 1:(B+1)) {
         cat(paste(i, "\n", sep=""))
         bootstrap.data$Y = bootstrap.response[,i]
-        bootstrap.model[[i]] = lagr(Y~X1+X2+X3+X4, data=bootstrap.data, coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='AIC', bw=h, kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005)
+        bootstrap.model[[i]] = lagr(Y~X1+X2+X3+X4, data=bootstrap.data, coords=c('loc.x','loc.y'), longlat=FALSE, varselect.method='wAIC', bw=h, kernel=epanechnikov, bw.type='knn', verbose=FALSE, n.lambda=100, lagr.convergence.tol=0.005)
 
         df[[j]] = c(df[[j]], sum(sapply(bootstrap.model[[i]][['model']], function(x) tail(x[['tunelist']][['df-local']], 1))))
         fitted = sapply(bootstrap.model[[i]][['model']], function(x) {
-            crit = x[['tunelist']][['criterion']]
-            crit.weights = exp(-0.5*(min(crit)-crit)**2)
+            #crit = x[['tunelist']][['criterion']]
+            #crit.weights = exp(-0.5*(min(crit)-crit)**2)
+            crit.weights = x[['model']][['results']][['wAIC']]
             sum(x[['tunelist']][['localfit']] * crit.weights) / sum(crit.weights)
         })
         ll[[j]] = c(ll[[j]], sum((fitted - bootstrap.response[,i])^2))
@@ -85,15 +86,17 @@ for (j in 1:length(hh)) {
     is.zero[[j]] = data.frame()
     coef.distribution[[j]] = data.frame()
     for (k in 1:nrow(sim)) {
-        is.zero.temp = matrix(NA,5,0)
-        coef.distribution.temp = matrix(NA,5,0)
+        is.zero.temp = matrix(NA,15,0)
+        coef.distribution.temp = matrix(NA,15,0)
         
         for (i in 1:(B+1)) {
             coefs = bootstrap.model[[i]][['model']][[k]][['coef']]
-            bootstrap.model[[i]][['model']][[k]][['tunelist']][['criterion']] -> crit
+            bootstrap.model[[i]][['model']][[k]][['model']][['results']][['wAIC']] -> wAIC
             if (!is.null(coefs)) {
-                is.zero.temp = cbind(is.zero.temp, matrix(as.double(coefs==0), nrow(coefs), ncol(coefs)) %*% exp(0.5*(min(crit)-crit)) / sum(exp(0.5*(min(crit)-crit))))
-                coef.distribution.temp = cbind(coef.distribution.temp, as.double(coefs %*% exp(0.5*(min(crit)-crit)) / sum(exp(0.5*(min(crit)-crit)))))
+                #is.zero.temp = cbind(is.zero.temp, matrix(as.double(coefs==0), nrow(coefs), ncol(coefs)) %*% exp(0.5*(min(crit)-crit)) / sum(exp(0.5*(min(crit)-crit))))
+                #coef.distribution.temp = cbind(coef.distribution.temp, as.double(coefs %*% exp(0.5*(min(crit)-crit)) / sum(exp(0.5*(min(crit)-crit)))))
+                is.zero.temp = cbind(is.zero.temp, matrix(as.double(coefs==0), nrow(coefs), ncol(coefs)) %*% as.matrix(wAIC))
+                coef.distribution.temp = cbind(coef.distribution.temp, as.double(coefs %*% as.matrix(wAIC)))
             } else {
                 is.zero.temp = cbind(is.zero.temp, NA)
                 coef.distribution.temp = cbind(coef.distribution.temp, NA)
@@ -103,8 +106,8 @@ for (j in 1:length(hh)) {
         is.zero.temp = as.data.frame(is.zero.temp)
         coef.distribution.temp = as.data.frame(coef.distribution.temp)
 
-        is.zero.temp = cbind(bootstrap.data[k,'loc.x'], bootstrap.data[k,'loc.y'], h, c("Intercept", "B1", "B2", "B3", "B4"), is.zero.temp)
-        coef.distribution.temp = cbind(bootstrap.data[k,'loc.x'], bootstrap.data[k,'loc.y'], h, c("Intercept", "B1", "B2", "B3", "B4"), coef.distribution.temp)
+        is.zero.temp = cbind(bootstrap.data[k,'loc.x'], bootstrap.data[k,'loc.y'], h, c("Intercept", "B1", "B2", "B3", "B4", "Intercept-x", "B1-x", "B2-x", "B3-x", "B4-x", "Intercept-y", "B1-y", "B2-y", "B3-y", "B4-y"), is.zero.temp)
+        coef.distribution.temp = cbind(bootstrap.data[k,'loc.x'], bootstrap.data[k,'loc.y'], h, c("Intercept", "B1", "B2", "B3", "B4", "Intercept-x", "B1-x", "B2-x", "B3-x", "B4-x", "Intercept-y", "B1-y", "B2-y", "B3-y", "B4-y"), coef.distribution.temp)
         
         is.zero[[j]] = rbind(is.zero[[j]], is.zero.temp)
         coef.distribution[[j]] = rbind(coef.distribution[[j]], coef.distribution.temp)

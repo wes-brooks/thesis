@@ -34,23 +34,25 @@ bibliography: ../../references/gwr.bib
 - The bootstrap is used in the context of estimating parameter distributions post-model-selection in @Efron-2014
 - Considered nonparametric bootstrap first, resampling $(X_i, y_i, \bm{s}_i)$ together
 - Question arose then of prediction vs. fitting, since the only observation we have that arose from model $f(\bm{s}_j)$ is $(X_j, y_j)$
-- And if we want to estimate 
+- Basically, we want estimation conditional on the fixed observation locations
 
-Local adaptive grouped regularization (LAGR) is a method for local variable selection and local coefficient estimation in a varying coefficient regression (VCR) model [@Brooks-Zhu-Lu-2014]. Estimating a model via LAGR is straightforward. This paper addresses inference for a VCR model estimated by LAGR, focusing on the estimation of confidence intervals for the local coefficient estimates and estimation of which local coefficients should be shrunk to exactly zero.
+Local adaptive grouped regularization (LAGR) is a method for local variable selection and local coefficient estimation in a varying coefficient regression (VCR) model [@Brooks-Zhu-Lu-2014]. This paper addresses inference for a VCR model estimated by LAGR, focusing on the estimation of confidence intervals for the local coefficient estimates and estimation of which local coefficients should be shrunk to exactly zero.
 
 The method of LAGR possesses the oracle property of asymptotically selecting exactly the correct variables and estimating them as accurately as if their identities were known in advance. For local selection and estimation, LAGR relies on a version of the adaptive group Lasso [@Yuan-Lin-2006, @Wang-Leng-2008]. Thus, local coefficients estimated by LAGR asymptotically acheive the distributions given in @Sun-Yan-Zhang-Lu-2014 and @Cai-Fan-Li-2000.
 
-However, the asymptotic case is never realized in actual data analysis. Given a finite quantity of data, the set of covariates selected by LAGR is subject to uncertainty. Since coefficient estimates in a model estimated by LAGR are conditional on the selected covariates, the asymptotic expression for the distribution of the local coefficients is not useful for inference.
+However, the asymptotic case is never realized in actual data analysis. Holding the observed data fixed, the covariates selected by LAGR are subject to uncertainty. Since coefficient estimates in a model estimated by LAGR are conditional on the selected covariates, the asymptotic expression for the distribution of the local coefficients is not useful for inference.
 
 Further, while the local coefficient estimation is conditional on the local covariate selection, the local covariate selection is itself conditional on the bandwidth parameter $h$. In order to acheive the oracle properties, the optimal bandwidth for a LAGR model was shown to be $h_n=O(n^{-1/6})$ [@Brooks-Zhu-Lu-2014]. However, the optimal rate is not enough information to determine the bandwidth, and is anyhow irrelevant when $n$ is fixed, as is the case in most practical data analysis.
 
-Statistical properties of estimators are typically established assuming \emph{a priori} model selection. The properties of estimates that are computed from the same data as was used for model selection are 
-
 The properties of estimators after model selection is an area of active research. A typical approach in applications is to select a model that minimizes a selection criterion such as the AIC or BIC, and then proceed with estimation as though the model had been selected in advance. However, this leads to unreliable inference from the selected model [@Leeb-Potscher-2006]. It also ignores the discontinuous nature of estimation after model selection, which is well illustrated by Figures 8 and 9 of @Efron-2014.
 
-Model averaging is a technique that attempts to estimate the model parameters without conditioning on the selected model. When prior distributions can be established for the candidate models and their parameters, Bayesian model averaging (BMA) is a principled approach to multimodel inference [@Hoeting-Madigan-Raftery-Volinsky-1999]. However, the establishing the prior distributions is not a trivial step, especially in a setting with many parameters, as VCR has. There is an analagous procedure called frequentist model averaging (FMA) that avoids the need to specify prior distributions. The asyptotic distribution of estimators derived from FMA has been worked out in the framework of "dwindling confidence", where coefficients decrease at a $\sqrt{n}$ rate as the sample size increases [@Hjort-Claeskens-2003]. The framework of dwindling confidence is similar to the framework of "moving parameter" asymptotics, under which the adaptive Lasso estimator fails to be consistent [@Potscher-Schneider-2009].
+Model averaging is a technique that attempts to estimate the model parameters without conditioning on the selected model. When prior distributions can be established for the candidate models and their parameters, Bayesian model averaging (BMA) is a principled approach to multimodel inference [@Hoeting-Madigan-Raftery-Volinsky-1999]. However, establishing the prior distributions is not a trivial step, especially in a setting with many parameters, as VCR has. There is an analagous procedure called frequentist model averaging (FMA) that avoids the need to specify prior distributions. The asyptotic distribution of estimators derived from FMA has been worked out in the framework of "dwindling confidence", where coefficients decrease at a $\sqrt{n}$ rate as the sample size increases [@Hjort-Claeskens-2003]. The framework of dwindling confidence is similar to the framework of "moving parameter" asymptotics, under which the adaptive Lasso estimator fails to be consistent [@Potscher-Schneider-2009].
 
 It is impossible to use maximum likelihood to estimate the bandwidth parameter, as reveled by a simple example: given a data set $(\bm{X}, Y, \bm{S})$, let $h=0$. Then $\hat{Y}=Y$ trivially, which results in the maximum possible likelihood. This is clearly an example of overfitting, because the model can tell us nothing about any future observations.
+
+The method of LAGR derives from local polynomial regression, and in this setting the coefficient surface is estimated pointwise. Typically, the bandwidth parameter is tuned by estimating a local model at each location where data was observed. Each of these local models is applicable only for the observations made at the same location, and the typical case is to have a single observation per location. Thus, there is typically only a single observation by which to judge each local model.
+
+When the distribution of an estimator is difficult to compute analytically, we may typically turn to resampling methods. The nonparametric bootstrap has difficulties here because each observation is due to an individual local model. If the observations are resampled with replacement, then the locations that are not in the resampled data are being used for prediction rather than estimation, and in any case the resampled data set changes the distance of the observations from the estimation location, in a way similar but more extreme than the discussion of the so-called ".632 rule" in @Efron-1987 and @Efron-Tibshirani-1997.
 
 # Methods
 
@@ -85,7 +87,7 @@ As $n \to \infty$, the models $\mathcal{M}_n(\bm{s})$ on the LAGR solution path 
 \end{proposition}
 
 
-##Model averaging
+##Model averaging - variable selection
 We give weights to the models in the sequence based on their AIC values. If Proposition \ref{proposition:AIC-weighted-mean} holds, it indicates that the AIC weight vector converges to the weight vector that minimizes the KL distance between truth and the weighted model average. However, it is unclear whether Proposition \ref{proposition:AIC-weighted-mean} holds, since the largest difference we expect between a model that incorporates all the relevant covariates and one that is the same with one irrelevant covariate additionally is $2 \times (k+1)$, which is the complexity penalty for adding the new covariate and its interations with location, without any countervailing improvement in the model fit. That is, the model's AIC value incurs a fixed penalty for every irrelevant covariate, no matter how confident we are that that variable does not belong in the model.
 
 In this way, AIC seems like a "greedy" model selection method, where there may be a large penalty for not including a relevant covariate (because the model fit would be so much worse) but a fixed (and relatively small) penalty for adding an irrelevant covariate.
@@ -99,6 +101,10 @@ Let $w(\bm{s})$ be a vector of model weights at $\bm{s}$ and $\hat{w}(\bm{s})$ b
 \end{equation}
 where $L{w}$ is the K-L distance between truth and the weighted model average indicated by $w$.
 \end{proposition}
+
+##Model averaging - bandwidth
+We are also concerned with selection of the bandwidth parameter. Like the adaptive Lasso tuning parameter $\lambda_n$, the results of @Brooks-Zhu-Lu-2014 pertain to the optimal rate of the bandwidth parameter, but offer no guidance regarding setting the bandwidth parameter once the data are in hand. Since we seek the model that is KL-closest to the truth, we use AIC model averaging to smooth the model over a plausible range of bandwidths. Unlike the case of variable selection, the penalty on overfitting due to a too-low bandwidth can rise smoothly to large values.
+
 
 
 #References

@@ -54,7 +54,7 @@
 
 \begin{frontmatter}
 
-\title{Local Adaptive Group Regularization and its Oracle Properties for Varying Coefficient Regression}
+\title{Local Adaptive Grouped Regularization and its Oracle Properties for Varying Coefficient Regression}
 
 
 \author[wrbrooks]{Wesley Brooks}
@@ -75,7 +75,7 @@ Varying coefficient regression is a flexible technique for modeling data where t
 \end{abstract}
 
 \begin{keyword}
-adaptive Lasso, local generalized linear regression, local linear regression, regularization method, nonparametric, varying coefficient model
+adaptive Lasso, local generalized linear regression, local polynomial regression, nonparametric, regularization method, varying coefficient model
 \end{keyword}
 
 \end{frontmatter}
@@ -90,7 +90,7 @@ we treat the case of a VCR model on a spatial domain where the spatial
 location is a two-dimensional effect-modifying parameter. Current
 practice for VCR models relies on global model selection to decide
 which variables should be included in the model, meaning that covariates
-are selected for inclusion or exclusion over the entire spatial domain.
+are selected for inclusion or exclusion over the entire domain.
 Various methods have been developed by using, for example, P-splines
 \citep{Antoniadis:2012a}, basis expansion \citep{Wang-2008a}, and
 local regression \citep{Wang-Xia-2009}. Since the coefficients vary
@@ -98,11 +98,13 @@ in a VCR model, in principle there is no reason that the best model
 must use the same set of covariates everywhere on the domain - that
 is, some of the coefficients may be zero in part of the domain. New
 methodology is developed here for guiding the decision of which covariates
-belong in the VCR model at any location, or local variable selection,
+belong in the VCR model at any location, termed local variable selection,
 as the literature on how to do so is currently scarce.
+Such new methodology provides for more flexible variable selection in regression models
+with coefficients that vary in space.
 
 Specifically, local adaptive grouped regularization (LAGR) is developed
-here as a method of local variable selection at a given location
+here as a novel method of local variable selection at a given location
 in the domain of a VCR model. The method of LAGR applies to VCR models
 where the coefficients are estimated using locally linear kernel smoothing.
 Kernel smoothing for nonparametric regression is described in detail
@@ -112,12 +114,13 @@ effect-modifying parameter, and by \citet{Sun-Yan-Zhang-Lu-2014}
 for a two-dimensional effect-modifying parameter in a spatial VCR
 with autocorrelation. These methods mitigate the boundary effect by
 estimating the coefficients as local polynomials of odd degree (usually
-locally linear) \citep{Hastie:1993b}. In this work, we focus on a
+locally linear) \citep{Hastie:1993b}. However, none of these authors addressed local variable selection.
+In this work, we focus on local variable selection with a
 two-dimensional effect-modifying parameter and discuss the effect
 of dimensionality on the results.
 
 For standard linear regression models, the least absolute shrinkage
-and selection operator (Lasso) is a penalized regression method that
+and selection operator (Lasso) is a regularization method that
 simultaneously selects covariates for the regression model and shrinks
 the coefficient estimates toward zero \citep{Tibshirani-1996}. However,
 the Lasso can be inconsistent for variable selection and inefficient
@@ -131,14 +134,13 @@ were known in advance \citep{Zou-2006}. For data where the observed
 covariates fall into mutually exclusive groups that are known in advance,
 the adaptive group Lasso has similar oracle properties to the adaptive
 Lasso but selects groups rather than individual covariates
-\citep{Yuan-Lin-2006,Wang-Leng-2008}. The main innovation of the
-proposed LAGR method is to tailor the adaptive group Lasso toward
+\citep{Yuan-Lin-2006,Wang-Leng-2008}. An innovation here is to develop an adaptive group Lasso for
 local variable selection and coefficient estimation in a locally linear
 regression model, where each group consists of a single covariate
-and its interactions with location. Further, we extend the method
-from varying coefficient linear regression to varying coefficient
+and its interactions with the effect-modifying parameter. Further, we consider both
+varying coefficient linear regression for Gaussian response and varying coefficient
 generalized linear regression for responses that are not necessarily
-Gaussian. We show that LAGR possesses the oracle properties of asymptotically
+Gaussian. We show that the proposed LAGR method possesses the oracle properties of asymptotically
 selecting exactly the correct local covariates and estimating their
 local coefficients as accurately as would be possible if the identity
 of the nonzero coefficients for the local model were known in advance.
@@ -343,8 +345,8 @@ here. The existence of of $\bm{\Psi}(\cdot)$ is needed for the existence
 of the limiting distribution of $\hat{\bm{\beta}}(\bm{s})$; its differentiability
 is used in the Taylor's expansions. Condition (C.4) is used when bounding
 the remainder term in the Taylor's expansions. Condition (C.5) is
-the same as condition (4) of \citet{Sun-Yan-Zhang-Lu-2014}, which
-is more essentially infill asymptotics \citep{Cressie-1993}. Under condition (C.6), the coefficient estimates attain the optimal
+the same as condition (4) of \citet{Sun-Yan-Zhang-Lu-2014}.
+Under condition (C.6), the coefficient estimates attain the optimal
 rate of convergence for bivariate nonparametric regression. Condition
 (C.7) is needed for establishing the oracle properties, and is a refinement
 of the condition for the adaptive group Lasso \citep{Wang-Leng-2008}.
@@ -373,9 +375,9 @@ where $\left\{ \nabla_{uu}^{2}\bm{\beta}_{(a)}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}
 \end{thm}
 
 \begin{thm}[Selection consistency]
-\label{theorem:selection} Under (C.1)--(C.8), 
+\label{theorem:selection} Under (C.1)--(C.8), for $j>p_{0}(\bm{s})$,
 \[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}(\bm{s}).
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1.
 \]
 \end{thm}
 Theorem \ref{theorem:normality} indicates that the LAGR estimates
@@ -404,8 +406,8 @@ of freedom for the adaptive group Lasso from \citet{Yuan-Lin-2006}
 and minimize the AIC to select the tuning parameter $\lambda_{n}$. That is, let
 
 \begin{align*}
-\hat{{\rm df}}(\lambda_{n};\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|>0\right) + d \sum_{j=1}^{p}\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|\|\tilde{\bm{\zeta}}(\bm{s})\|^{-1}\\
-\text{AIC}(\lambda_{n};\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\right\} ^{2}+2\hat{{\rm df}}(\lambda_{n};\bm{s})\\
+\hat{{\rm df}}(\lambda_{n};\bm{s})= & \sum_{j=1}^{p}I\left(\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|>0\right) + d \sum_{j=1}^{p}\|\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\|\|\tilde{\bm{\zeta}}(\bm{s})\|^{-1},\\
+\text{AIC}(\lambda_{n};\bm{s})= & \sum_{i=1}^{n}K_{h}(\|\bm{s}-\bm{s}_{i}\|)\sigma^{-2}\left\{ y_{i}-\bm{z}_{i}^{T}\hat{\bm{\zeta}}(\lambda_{n};\bm{s})\right\} ^{2}+2\hat{{\rm df}}(\lambda_{n};\bm{s}),\\
 \end{align*}
 where $I\left(\cdot\right)$ is the indicator function, $d$ is the dimension of the effect-modifying parameter, and the local
 coefficient estimate is written $\hat{\bm{\zeta}}(\lambda_{n};\bm{s})$
@@ -649,14 +651,14 @@ Then the local coefficients can be estimated by maximizing the local
 quasi-likelihood 
 
 \begin{align}
-\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & =\sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right).\label{eq:local-quasi-likelihood}
+\mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) & = \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right).\label{eq:local-quasi-likelihood}
 \end{align}
 
 
 The local quasi-likelihood (\ref{eq:local-quasi-likelihood}) generalizes
 the local log-likelihood (\ref{eq:local-log-likelihood}) that was
 used to estimate coefficients in the local linear regression. The
-local quasi-likelihood (\ref{eq:local-quasi-likelihood}) is convex,
+local quasi-likelihood (\ref{eq:local-quasi-likelihood}) is concave,
 and is defined in terms of its derivative, the local quasi-score function
 $\left(\partial/\partial\mu\right)Q(\mu,y)=(y-\mu)\{V(\mu)\}^{-1}$.
 The local quasi-likelihood is maximized by setting the local quasi-score
@@ -681,34 +683,33 @@ is:
 \left\{ nh^{2}f(\bm{s})\right\} ^{1/2}\left[\tilde{\bm{\beta}}(\bm{s})-\bm{\beta}(\bm{s})-(1/2)\kappa_{0}^{-1}\kappa_{2}h^{2}\left\{ \nabla_{uu}^{2}\bm{\beta}(\bm{s})+\nabla_{vv}^{2}\bm{\beta}(\bm{s})\right\} \right]\\
 \xrightarrow{{D}}N\left(\bm{0},\kappa_{0}^{-2}\nu_{0}\bm{\Gamma}(\bm{s})^{-1}\right).
 \end{gather*}
-
+where $\bm{\Gamma}\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}(\bm{s})\right)\bm{X}(\bm{s})\bm{X}(\bm{s})^{T}|\bm{s}\right\} $,\\
+$\rho(\bm{s},\bm{z})=\left[g_{1}\left(\mu(\bm{s},\bm{z})\right)\right]^{2}Var\left\{ Y(\bm{s})|\bm{X}(\bm{s}),\bm{s}\right\} $,
+$g_{1}(\cdot)=g'_{0}(\cdot)/g'(\cdot)$, and $g_{0}(\cdot)$ is the canonical link function.
+So when the canonical link is used,
+$\rho(\bm{s},\bm{z})=V\left(\mu(\bm{s},\bm{z})\right)$.
 
 
 \subsection{LAGR Penalized Local Likelihood and Oracle Properties}
 
 Whereas the method of LAGR for local linear regression uses a penalized
-local likelihood, LAGR for GLMs uses a penalized local quasi-likelihood:
+local likelihood, LAGR for GLMs uses a penalized negative local quasi-likelihood:
 
 \begin{align*}
-\mathcal{J}\left(\bm{\zeta}(\bm{s})\right)= & \mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right)+\mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\\
-= & \;\; \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right)+\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{(j)}(\bm{s})\|.
+\mathcal{J}\left(\bm{\zeta}(\bm{s})\right)&= - \mathcal{\ell}^{*}\left(\bm{\zeta}(\bm{s})\right) + \mathcal{P}\left(\bm{\zeta}(\bm{s})\right)\\
+&= - \sum_{i=1}^{n}K_{h}\left(\|\bm{s}-\bm{s}_{i}\|\right)Q\left(g^{-1}\left(\bm{z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right) + \sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{(j)}(\bm{s})\|.
 \end{align*}
-
 
 Further, let $\phi_{j}(\bm{s})=\lambda_{n}\|\tilde{\bm{\zeta}}_{(j)}(\bm{s})\|^{-\gamma}$,
 where $\lambda_{n}>0$ is a the local tuning parameter applied to
 all coefficients at location $\bm{s}$ and $\tilde{\bm{\zeta}}_{(j)}(\bm{s})$
-is the vector of unpenalized local coefficients. The following are
-additional to the definitions and conditions of Section \ref{sub:oracle-properties}.
-Define $\rho(\bm{s},\bm{z})=\left[g_{1}\left(\mu(\bm{s},\bm{z})\right)\right]^{2}Var\left\{ Y(\bm{s})|\bm{X}(\bm{s}),\bm{s}\right\} $,
-where $g_{1}(\cdot)=g'_{0}(\cdot)/g'(\cdot)$, and $g_{0}(\cdot)$
-is the canonical link function. So when the canonical link is used,
-$\rho(\bm{s},\bm{z})=V\left(\mu(\bm{s},\bm{z})\right)$. Let $\bm{\Gamma}\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}(\bm{s})\right)\bm{X}(\bm{s})\bm{X}(\bm{s})^{T}|\bm{s},\bm{Z}(\bm{s})=\bm{z}\right\} $
-and 
+is the vector of unpenalized local coefficients. In addition
+to the definitions and conditions of Section \ref{sub:oracle-properties},
+let  
 \[
-\bm{\Gamma}_{(a)}\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}_{(a)}(\bm{s})\right)\bm{X}_{(a)}(\bm{s})\bm{X}_{(a)}(\bm{s})^{T}|\bm{s},\bm{Z}(\bm{s})=\bm{z}\right\} .
+\bm{\Gamma}_{(a)}\left(\bm{s}\right)=E\left\{ \rho\left(\bm{s},\bm{X}_{(a)}(\bm{s})\right)\bm{X}_{(a)}(\bm{s})\bm{X}_{(a)}(\bm{s})^{T}|\bm{s}\right\}
 \]
-Assume the following regularity conditions:
+and assume the following regularity conditions:
 \begin{itemize}
 \item[(C.8)] The functions $g'''\left(\bm{s}\right)$, $\nabla\bm{\Gamma}\left(\bm{s}\right)$,
 $\nabla\bm{\Gamma}_{(a)}\left(\bm{s}\right)$, $V\left(\mu\left(\bm{s},\bm{z}\right)\right)$,
@@ -721,7 +722,7 @@ These additional conditions are not uncommon in the nonparametric
 regression literature (see, e.g., conditions (1) and (2) of \citet{Cai-Fan-Li-2000}).
 Condition (C.8) is needed for the Taylor's expansion of the local
 quasi-likelihood. Condition (C.9) assures that the local quasi-likelihood
-is convex and has a unique maximizer.
+is concave and has a unique maximizer.
 \begin{thm}[Asymptotic normality]
 \label{theorem:normality-glm}  Under (C.1)--(C.10),
 \begin{gather*}
@@ -731,9 +732,9 @@ is convex and has a unique maximizer.
 \end{thm}
 
 \begin{thm}[Selection consistency]
-\label{theorem:selection-glm}  Under (C.1)--(C.10),
+\label{theorem:selection-glm}  Under (C.1)--(C.10), if $j>p_{0}(\bm{s})$,
 \[
-P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1\text{ if }j>p_{0}(\bm{s}).
+P\left\{ \|\hat{\bm{\zeta}}_{(j)}(\bm{s})\|=\bm{0}\right\} \to1.
 \]
  
 \end{thm}
@@ -757,22 +758,25 @@ materials.
 
 We have developed a new method of LAGR and shown its oracle properties
 for local variable selection and coefficient estimation in VCR models.
+This innovation provides a natural and heretofore lacking flexibility to variable selection for
+varying coefficient regression models, as any covariate may be included
+in part of and not necessarily the entire domain of interest.
 This is in contrast to the existing literature on variable selection
-for VCR models that focuses on global variable selection. Further,
+for VCR models that focuses on global variable selection, where a covariate is either 
+included in or excluded from the model over its entire domain. Further,
 the method of LAGR extends the adaptive group Lasso. In particular,
 the previous literature on the adaptive group Lasso is insufficient
 for local selection in a VCR model because the local weights are functions
 of the kernel $K(\cdot)$ and the bandwidth $h$. As a result, the
 local observation weights change with sample size and the coefficient
 estimates converge at a slower rate than in the traditional adaptive
-group Lasso. Thus, the conditions for oracle properties of the adaptive
-group Lasso have been refined for the LAGR method.
+group Lasso. Under our refined conditions, we have established the oracle property for the LAGR method.
 
-Here we considered the case of two-dimensional effect-modifying parameter.
+Here we have considered the case of two-dimensional effect-modifying parameter.
 Similar results can be obtained when the effect-modifying parameter
 has dimension other than two, but in higher dimensions the so-called
-``curse of dimensionality'' means that the estimation accuracy quickly
-degrades. Since the optimal rate of convergence for nonparametric
+``curse of dimensionality'' means that the estimation accuracy may quickly
+degrade. Since the optimal rate of convergence for nonparametric
 regression is achieved when $h=O\left(n^{-1/\{4+d\}}\right)$ where
 $d$ is the dimension of the effect-modifying parameter, it follows
 that to attain the oracle properties, the exponent in the adaptive
@@ -810,13 +814,8 @@ Cai, Z., J.~Fan, and R.~Li (2000).
   Grosse}{1991}]{Cleveland-Grosse-1991}
 Cleveland, W. and E.~Grosse (1991).
 \newblock Local regression models.
-\newblock In J.~Chambers and T.~Hastie (Eds.), {\em Statistical models in S}.
+\newblock In J.~Chambers and T.~Hastie (Eds.), {\em Statistical Models in S}.
   Wadsworth and Brooks/Cole.
-
-\bibitem[\protect\citeauthoryear{Cressie}{Cressie}{1991}]{Cressie-1993}
-Cressie, N. (1993).
-\newblock {\em Statistics for Spatial Data}.
-\newblock Wiley, New York.
 
 \bibitem[\protect\citeauthoryear{Efron}{Efron}{2004}]{Efron:2004a}
 Efron, B. (2004).
@@ -984,17 +983,18 @@ Zou, H. (2006).
 Let $H_{n}(\bm{u})=\mathcal{J}\left(\bm{\zeta}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\right)-\mathcal{J}\left(\bm{\zeta}(\bm{s})\right)$
 and $\alpha_{n}=h^{-1}n^{-1/2}$. Then, we have 
 \begin{align*}
-H_{n}(\bm{u})= & (1/2)\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right\} \right]^{T}\bm{W}\!(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right\} \right]\\
+H_{n}(\bm{u}) &= (1/2)\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right\} \right]^{T}\bm{W}\!(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\left\{ \bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right\} \right]\\
  & +\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})+\alpha_{n}\bm{u}_{j}\|\\
  & -(1/2)\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} ^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} -\sum_{j=1}^{p}\phi_{j}(\bm{s})\|\bm{\zeta}_{j}(\bm{s})\|\\
-= & \left(1/2\right)\alpha_{n}^{2}\bm{u}^{T}\left\{ \bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}\\
+ &= \left(1/2\right)\alpha_{n}^{2}\bm{u}^{T}\left\{ \bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}(\bm{s})\right\} \bm{u}\\
  & -\alpha_{n}\bm{u}^{T}\left[\bm{Z}(\bm{s})^{T}\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})\right\} \right]\\
  & +\sum_{j=1}^{p}n^{-1/2}\phi_{j}(\bm{s})n^{1/2}\left\{ \|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right\} .
 \end{align*}
 The limiting behavior of the last term differs between the cases $j\le p_{0}(\bm{s})$
 and $j>p_{0}(\bm{s})$.
 \emph{Case $j\le p_{0}(\bm{s})$}: If $j\le p_{0}(\bm{s})$, then $n^{-1/2}\phi_{j}(\bm{s})\to n^{-1/2}\lambda_{n}\|\bm{\zeta}_{(j)}(\bm{s})\|^{-\gamma}$
-and $|n^{1/2}\left\{ \|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{(j)}\|$
+and \\
+$|n^{1/2}\left\{ \|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right\} |\le h^{-1}\|\bm{u}_{(j)}\|$
 . Thus, 
 \[
 \phi_{j}(\bm{s})\left(\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}_{(j)}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right)\le\alpha_{n}\phi_{j}(\bm{s})\|\bm{u}_{(j)}\|\le\alpha_{n}a_{n}\|\bm{u}_{(j)}\|\to0.
@@ -1036,18 +1036,18 @@ only the $p$th covariate group. Assume $\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\ne0$.
 Then $\mathcal{J}\left(\bm{\zeta}(\bm{s})\right)$ is differentiable
 w.r.t. $\bm{\zeta}_{(p)}(\bm{s})$ and is minimized where 
 \begin{align*}
-\bm{0}= & \bm{Z}_{(p)}^{T}(\bm{s})\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}_{(\mhyphen p)}\left(\bm{s}\right)\hat{\bm{\zeta}}_{(\mhyphen p)}(\bm{s})-\bm{Z}_{(p)}\left(\bm{s}\right)\hat{\bm{\zeta}}_{(p)}(\bm{s})\right\} -\phi_{(p)}(\bm{s})\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|^{-1}\\
-= & \bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\left(2\kappa_{0}\right)^{-1}h^{2}\kappa_{2}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\\
+\bm{0} &= \bm{Z}_{(p)}^{T}(\bm{s})\bm{W}\!(\bm{s})\left\{ \bm{Y}-\bm{Z}_{(\mhyphen p)}\left(\bm{s}\right)\hat{\bm{\zeta}}_{(\mhyphen p)}(\bm{s})-\bm{Z}_{(p)}\left(\bm{s}\right)\hat{\bm{\zeta}}_{(p)}(\bm{s})\right\} -\phi_{(p)}(\bm{s})\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|^{-1}\\
+ &= \bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\left(2\kappa_{0}\right)^{-1}h^{2}\kappa_{2}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\\
  & +\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(\mhyphen p)}(\bm{s})\left[\bm{\zeta}_{(\mhyphen p)}(\bm{s})+\left(2\kappa_{0}\right)^{-1}h^{2}\kappa_{2}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(\mhyphen p)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(\mhyphen p)}(\bm{s})\right\} -\hat{\bm{\zeta}}_{(\mhyphen p)}(\bm{s})\right]\\
  & +\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(p)}(\bm{s})\left[\bm{\zeta}_{(p)}(\bm{s})+\left(2\kappa_{0}\right)^{-1}h^{2}\kappa_{2}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(p)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(p)}(\bm{s})\right\} -\hat{\bm{\zeta}}_{(p)}(\bm{s})\right]\\
  & -\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|^{-1}.
 \end{align*}
 Thus,
 \begin{align}
-\left(n^{-1}h^{2}\right)^{1/2} & \phi_{p}(\bm{s})\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|^{-1}=\nonumber \\
- & \mkern-18mu\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\left(n^{-1}h^{2}\right)^{1/2}\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\nonumber \\
- & \mkern-18mu+\left\{ n^{-1}\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(\mhyphen p)}(\bm{s})\right\} \left(nh^{2}\right)^{1/2}\left[\bm{\zeta}_{(\mhyphen p)}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(\mhyphen p)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(\mhyphen p)}(\bm{s})\right\} -\hat{\bm{\zeta}}_{(\mhyphen p)}(\bm{s})\right]\nonumber \\
- & \mkern-18mu+\left\{ n^{-1}\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(p)}(\bm{s})\right\} \left(nh^{2}\right)^{1/2}\left[\bm{\zeta}_{(p)}(\bm{s})+\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(p)}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}_{(p)}(\bm{s})\right\} -\hat{\bm{\zeta}}_{(p)}(\bm{s})\right].\label{eq:selection}
+&\left(n^{-1}h^{2}\right)^{1/2} \phi_{p}(\bm{s})\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|^{-1}\nonumber \\
+ =& \bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\left(n^{-1}h^{2}\right)^{1/2}\left[\bm{Y}-\bm{Z}(\bm{s})\bm{\zeta}(\bm{s})-\frac{h^{2}\kappa_{2}}{2\kappa_{0}}\left\{ \nabla_{uu}^{2}\bm{\zeta}(\bm{s})+\nabla_{vv}^{2}\bm{\zeta}(\bm{s})\right\} \right]\nonumber \\
+ & \mkern-18mu+\left\{ n^{-1}\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(\mhyphen p)}(\bm{s})\right\}\!\! \left(nh^{2}\right)^{1/2} \! \left[\bm{\zeta}_{(\mhyphen p)}(\bm{s}) \!+\! \frac{h^{2}\kappa_{2}}{2\kappa_{0}} \!\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(\mhyphen p)}(\bm{s}) \!+\! \nabla_{vv}^{2}\bm{\zeta}_{(\mhyphen p)}(\bm{s})\right\} \!-\! \hat{\bm{\zeta}}_{(\mhyphen p)}(\bm{s})\right]\nonumber \\
+ & \mkern-18mu+\left\{ n^{-1}\bm{Z}_{(p)}(\bm{s})^{T}\bm{W}\!(\bm{s})\bm{Z}_{(p)}(\bm{s})\right\}\!\! \left(nh^{2}\right)^{1/2} \! \left[\bm{\zeta}_{(p)}(\bm{s}) \!+\! \frac{h^{2}\kappa_{2}}{2\kappa_{0}} \!\left\{ \nabla_{uu}^{2}\bm{\zeta}_{(p)}(\bm{s}) \!+\! \nabla_{vv}^{2}\bm{\zeta}_{(p)}(\bm{s})\right\} \!-\! \hat{\bm{\zeta}}_{(p)}(\bm{s})\right].\label{eq:selection}
 \end{align}
 From Lemma 2 of \citet{Sun-Yan-Zhang-Lu-2014}, 
 \[
@@ -1091,11 +1091,11 @@ Let
 the second derivatives of the coefficient functions.
 \begin{proof}
 Let $H'_{n}(\bm{u})=\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right)-\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})\right)$
-and $\alpha_{n}=h^{-1}n^{-1/2}$. Then, maximizing $H'_{n}(\bm{u})$
-is equivalent to maximizing $H_{n}(\bm{u})$, where 
+and $\alpha_{n}=h^{-1}n^{-1/2}$. Then, minimizing $H'_{n}(\bm{u})$
+is equivalent to minimizing $H_{n}(\bm{u})$, where 
 \begin{align*}
-H_{n}(\bm{u})= & n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\bm{Z}_{i}^{T}\left\{ \bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right\} \right),Y_{i}\right)K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
- & -n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right)K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
+H_{n}(\bm{u}) &= - n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\bm{Z}_{i}^{T}\left\{ \bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right\} \right),Y_{i}\right)K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
+ & + n^{-1}\sum_{i=1}^{n}Q\left(g^{-1}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s})\right),Y_{i}\right)K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\\
  & +n^{-1}\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{(j)}(\bm{s})+\alpha_{n}\bm{u}\|-\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\|\bm{\zeta}_{(j)}(\bm{s})\|.
 \end{align*}
 Define
@@ -1104,12 +1104,12 @@ Define
 \]
 and 
 \[
-\Delta_{n}=\alpha_{n}^{2}\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)=\alpha_{n}^{2}\sum_{i=1}^{n}\delta_{i}.
+\Delta_{n}= - \alpha_{n}^{2}\sum_{i=1}^{n}q_{2}\left(\bm{Z}_{i}^{T}\bm{\zeta}(\bm{s}),Y_{i}\right)\bm{Z}_{i}\bm{Z}_{i}^{T}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)=\alpha_{n}^{2}\sum_{i=1}^{n}\delta_{i}.
 \]
 Then it follows from the Taylor expansion of $\mathcal{J}^{*}\left(\bm{\zeta}(\bm{s})+\alpha_{n}\bm{u}\right)$
 around $\bm{\zeta}(\bm{s})$ that
 \begin{align}
-H_{n}\left(\bm{u}\right)= & \Omega_{n}^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta_{n}\bm{u}+\left(\alpha_{n}^{3}/6\right)\sum_{i=1}^{n}q_{3}\left(\bm{Z}_{i}^{T}\tilde{\bm{\zeta}}_{i},Y_{i}\right)\left[\bm{Z}_{i}^{T}\bm{u}\right]^{3}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\nonumber \\
+H_{n}\left(\bm{u}\right) &= -\Omega_{n}^{T}\bm{u}+(1/2)\bm{u}^{T}\Delta_{n}\bm{u}+\left(\alpha_{n}^{3}/6\right)\sum_{i=1}^{n}q_{3}\left(\bm{Z}_{i}^{T}\tilde{\bm{\zeta}}_{i},Y_{i}\right)\left[\bm{Z}_{i}^{T}\bm{u}\right]^{3}K\left(h^{-1}\|\bm{s}-\bm{s}_{i}\|\right)\nonumber \\
  & +\sum_{j=1}^{p}\phi_{j}\left(\bm{s}\right)\left\{ \|\bm{\zeta}_{(j)}(\bm{s})+h^{-1}n^{-1/2}\bm{u}\|-\|\bm{\zeta}_{(j)}(\bm{s})\|\right\} .\label{eq:taylor-expanded-glm-criterion}
 \end{align}
 where $\tilde{\bm{\zeta}_{i}}$ lies between $\bm{\zeta}(\bm{s})$
@@ -1139,7 +1139,7 @@ By Lemma 1, $\Delta_{n}=\Delta+O_{p}\left(\alpha_{n}\right)$,
 so the limit of $H_{n}(\bm{u})$ is the same as the limit of $H_{n}^{*}(\bm{u})$
 where
 \[
-H_{n}^{*}(\bm{u})=\Omega_{(a)n}^{T}\bm{u}_{(a)}+(1/2)\bm{u}_{(a)}^{T}\Delta_{(a)}\bm{u}_{(a)}+o_{p}\left(1\right)
+H_{n}^{*}(\bm{u})= -\Omega_{(a)n}^{T}\bm{u}_{(a)}+(1/2)\bm{u}_{(a)}^{T}\Delta_{(a)}\bm{u}_{(a)}+o_{p}\left(1\right)
 \]
 if $\|\bm{u}_{j}\|=0\;\forall j>p_{0}(\bm{s})$, and $H_{n}^{*}(\bm{u})=\infty$
 otherwise. It follows that $H_{n}^{*}(\bm{u})$ is convex and has
@@ -1150,7 +1150,7 @@ nonzero coefficients, and let $\hat{\bm{u}}_{(b)n}$ be the subvector
 of $\hat{\bm{u}}_{n}$ corresponding to the true zero coefficients.
 Then
 \begin{align*}
-\hat{\bm{u}}_{(a)n}= & \Delta_{(a)}^{-1}\Omega_{(a)n}+o_{p}\left(1\right)\text{ and }\hat{\bm{u}}_{(b)n}=\bm{0}
+\hat{\bm{u}}_{(a)n} &= \Delta_{(a)}^{-1}\Omega_{(a)n}+o_{p}\left(1\right)\text{ and }\hat{\bm{u}}_{(b)n}=\bm{0}
 \end{align*}
 by the quadratic approximation lemma \citep{Fan-Gijbels-1996}. By epiconvergence, the minimizer of the limiting function is the limit
 of the minimizers $\hat{\bm{u}}_{n}$ \citep{Geyer-1994,Knight-Fu-2000}.
@@ -1183,7 +1183,7 @@ Assume $\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\ne0$. Then $\mathcal{J}\left(\bm{\zet
 is differentiable w.r.t. $\bm{\zeta}_{(p)}(\bm{s})$ and is minimized
 where 
 \begin{align}
-\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|^{-1}= & \sum_{i=1}^{n}q_{1}\!\left(\bm{Z}_{i}^{T}\hat{\bm{\zeta}}(\bm{s}),Y_{i}\right)\bm{Z}_{i(p)}K\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)\label{eq:glm-selection}
+\phi_{p}(\bm{s})\hat{\bm{\zeta}}_{(p)}(\bm{s})\|\hat{\bm{\zeta}}_{(p)}(\bm{s})\|^{-1} &= \sum_{i=1}^{n}q_{1}\!\left(\bm{Z}_{i}^{T}\hat{\bm{\zeta}}(\bm{s}),Y_{i}\right)\bm{Z}_{i(p)}K\left(h^{-1}\|\bm{s}_{i}-\bm{s}\|\right)\label{eq:glm-selection}
 \end{align}
 From Lemma 2, the right hand side of (\ref{eq:glm-selection})
 is $O_{p}\left(1\right)$, so for $\hat{\bm{\zeta}}_{(p)}(\bm{s})$
