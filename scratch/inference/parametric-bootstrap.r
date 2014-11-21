@@ -122,27 +122,41 @@ for (j in 1:length(hh)) {
 }
 
 #For means:
-p = 5
+p = 15
 bw.specific.coefs = matrix(0, p*nrow(sim), 0)
-natural.aic = vector()
-indx = (0:195)*5 + 2 #(beta_1)
+natural.aic = sapply(aic, function(x) x[1])
+indx = (0:195)*15 + 2 #(beta_1)
 for (l in 1:length(hh)) {
     bw.specific.coefs = cbind(bw.specific.coefs, rowMeans(as.matrix(coef.distribution[[l]][,5:(B+5)])))
-    natural.aic = sapply(aic, function(x) x[1])
 }
 natural.aic.weight = matrix(exp(-(natural.aic-min(natural.aic))/2))
 natural.aic.weight = natural.aic.weight / sum(natural.aic.weight)
 model.avg.coefs = bw.specific.coefs %*% natural.aic.weight
 
+matplot(B1 %>% matrix(20,20), border=NA, show.legend=TRUE, axes=FALSE, xlab=expression(beta[1]), ylab=NA, cex.lab=2, xrange=zz)
+
+#For means:
+p = 15
+bw.specific.zeros = matrix(0, p*nrow(sim), 0)
+natural.aic = sapply(aic, function(x) x[1])
+indx = (0:195)*15 + 2 #(beta_1)
+for (l in 1:length(hh)) {
+    bw.specific.zeros = cbind(bw.specific.zeros, rowMeans(as.matrix(is.zero[[l]][,5:(B+5)])))
+}
+natural.aic.weight = matrix(exp(-(natural.aic-min(natural.aic))/2))
+natural.aic.weight = natural.aic.weight / sum(natural.aic.weight)
+model.avg.zeros = bw.specific.zeros %*% natural.aic.weight
+
+
+
 
 #For sd's:
-p = 5
+p = 15
 bw.specific.coef.sd = matrix(0, p*nrow(sim), 0)
-natural.aic = vector()
-indx = (0:195)*5 + 2 #(beta_1)
+natural.aic = sapply(aic, function(x) x[1])
+indx = (0:195)*15 + 2 #(beta_1)
 for (l in 1:length(hh)) {
     bw.specific.coef.sd = cbind(bw.specific.coef.sd, rowMeans(as.matrix(coef.distribution[[l]][,5:(B+5)])))
-    natural.aic = sapply(aic, function(x) x[1])
 }
 natural.aic.weight = matrix(exp(-(natural.aic-min(natural.aic))/2))
 natural.aic.weight = natural.aic.weight / sum(natural.aic.weight)
