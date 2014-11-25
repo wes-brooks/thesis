@@ -1,0 +1,13 @@
+---
+title: "Linked bootstrap"
+author: "Wesley Brooks"
+output:
+    pdf_document:
+    fig_caption: true   
+bibliography: ../../references/gwr.bib
+---
+
+# Introduction
+
+
+# Local polynomial regression
