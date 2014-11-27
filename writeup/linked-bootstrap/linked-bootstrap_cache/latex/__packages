@@ -1,0 +1,11 @@
+base
+Matrix
+foreach
+sp
+pryr
+quadprog
+lagr
+MASS
+expm
+nlme
+mgcv
