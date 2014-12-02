@@ -2,9 +2,10 @@ library(lagr)
 library(MASS)
 library(expm)
 library(mgcv)
+library(Matrix)
 
-B = 10
-n = 100
+B = 1
+n = 50
 h = 1.5
 
 f1 = function(x) {-0.2*x^4 + x^3 + 0.7*(x-1)^2 - 4*(x-2) + 1}
@@ -17,13 +18,18 @@ m = list()
 fitted = vector()
 resid = vector()
 estimate = vector()
+W = list()
+fitted.coefs = matrix(NA, 0, 4)
 for (i in 1:n) {
     w = epanechnikov(abs(tt-tt[i]), h)
-    X.loc = cbind(X, tt-tt[i], (tt-tt[i])*X)
+    W[[i]] = diag(w)
+    X.loc = cbind(tt-tt[i], X, (tt-tt[i])*X)
     m[[i]] = lm(y~X.loc, weights=w)
     fitted = c(fitted, m[[i]]$fitted[i])
     resid = c(resid, m[[i]]$resid[i])
     estimate = c(estimate, m[[i]]$coef[3])
+    
+    fitted.coefs = rbind(fitted.coefs, coef(m[[i]]))
 }
 
 #Draws:
@@ -76,6 +82,26 @@ for (j in 1:B) {
 }
 
 
+Sigma = list()
+for (i in 1:n) {
+    Sigma[[i]] = with(summary(m[[i]]), cov.unscaled * sigma^2)
+}
+
+SS = bdiag(Sigma)
+for (i in 1:(n-1)) {
+    X.i = cbind(1, tt-tt[i], X, (tt-tt[i])*X)
+    
+    for (j in (i+1):n) {
+        X.j = cbind(1, tt-tt[j], X, (tt-tt[j])*X)
+        scale = summary(m[[i]])$sigma * summary(m[[j]])$sigma
+        
+        unscaled = summary(m[[i]])$cov.unscaled %*% t(X.i) %*% W[[i]] %*% W[[j]] %*% X.j %*% summary(m[[j]])$cov.unscaled
+        SS[((i-1)*4+1):(4*i), ((j-1)*4+1):(4*j)] = SS[((j-1)*4+1):(4*j), ((i-1)*4+1):(4*i)] = scale * unscaled
+    }
+}
+
+sqSS = sqrtm(SS)
+coef.draw = sqSS %*% rnorm(4*n)
 
 #yy = range(c(beta.hat1[[i]][2,], beta.hat2[[i]][2,], f2(tt)))
 #plot(f2(tt), type='l', col='black', ylim=yy)

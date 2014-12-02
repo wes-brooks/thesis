@@ -61,25 +61,28 @@ X &\sim^{iid} N(3,2) \\
 set.seed(11181982)
 
 #Set constants:
-B = 1
+B = 20
 n = 100
-h = 1.5
+h = 1.37419
 
 #Simulate data:
-f1 = function(x) {-0.2*x^4 + x^3 + 0.7*(x-1)^2 - 4*(x-2) + 1}
-f2 = function(x) {cos(x)}
+f0 = function(x) {-0.2*x^4 + x^3 + 0.7*(x-1)^2 - 4*(x-2) + 1}
+f1 = function(x) {cos(x)}
+f2 = function(x) {0.1*sin(x)}
 tt = seq(0, 5, len=n)
-X = rnorm(n, mean=3, sd=2)
-y = f1(tt) + X*f2(tt) + rnorm(n)
+X1 = rnorm(n, mean=3, sd=2)
+X2 = rnorm(n, mean=3, sd=2)
+y = f0(tt) + X*f1(tt) + X2*f2(tt) + rnorm(n)
 ```
 
 The response and the coefficients are plotted below:
 
 ```{r plot-truth, fig.width=10, fig.height=5, warning=FALSE, error=FALSE, echo=FALSE, fig.cap="From left to right, the simulated response, the intercept function and the coefficient function used to simulate the data."}
-layout(matrix(1:3, 1, 3))
+layout(matrix(1:4, 1, 4))
 plot(x=tt, y=y, xlab='t', ylab='y')
-plot(x=tt, y=f1(tt), xlab='t', ylab=expression(beta[0]), type='l')
-plot(x=tt, y=f2(tt), xlab='t', ylab=expression(beta[1]), type='l')
+plot(x=tt, y=f0(tt), xlab='t', ylab=expression(beta[0]), type='l')
+plot(x=tt, y=f1(tt), xlab='t', ylab=expression(beta[1]), type='l')
+plot(x=tt, y=f2(tt), xlab='t', ylab=expression(beta[2]), type='l')
 ```
 
 ```{r imports, results='hide', warning=FALSE, error=FALSE, echo=FALSE, include=FALSE} 
@@ -88,6 +91,7 @@ library(lagr)
 library(MASS)
 library(expm)
 library(mgcv)
+library(Matrix)
 ```
 
 ```{r parametric-bootstrap, results='hide', warning=FALSE, error=FALSE, echo=FALSE, cache=FALSE}
@@ -96,43 +100,76 @@ m = list()
 fitted = vector()
 resid = vector()
 estimate = vector()
+W = list()
+fitted.coefs = matrix(NA, 0, 6)
 
 for (i in 1:n) {
     w = epanechnikov(abs(tt-tt[i]), h)
-    X.loc = cbind(X, tt-tt[i], (tt-tt[i])*X)
+    W[[i]] = diag(w)
+    
+    X.loc = cbind(tt-tt[i], X1, (tt-tt[i])*X1, X2, (tt-tt[i])*X2)
+    colnames(X.loc) = c("slope(intercept)", "B1", "slope(B1)", "B2", "slope(B2)")
+    
     m[[i]] = lm(y~X.loc, weights=w)
     fitted = c(fitted, m[[i]]$fitted[i])
     resid = c(resid, m[[i]]$resid[i])
     estimate = c(estimate, m[[i]]$coef[3])
+    
+    fitted.coefs = rbind(fitted.coefs, coef(m[[i]]))
 }
 
 #Draw coefficients two ways:
 #1) independent bootstrap
 #2) Linked bootstrap
 #Lists to hold the results:
-beta.hat1 = list()
-beta.hat2 = list()
+beta.star.1 = list()
+beta.star.2 = list()
 y.hat1 = list()
 y.hat2 = list()
 
 #Bootstrap draws:
 for (j in 1:B) {
     cat(paste("j is ", j, "\n", sep=""))
-    beta.hat1[[j]] = matrix(NA,2,0)
-    y.hat.seed = as.matrix(rnorm(4))
-    beta.hat2[[j]] = matrix(NA,2,0)
-    y.hat1[[j]] = vector()
-    y.hat.seed = as.matrix(rnorm(4))
-    y.hat2[[j]] = vector()
+    beta.star.1[[j]] = matrix(NA,3,0)
+    beta.star.2[[j]] = matrix(NA,3,0)
+    y.hat.seed = as.matrix(rnorm(6))
     
     for (i in 1:n) {
         Sigma = with(summary(m[[i]]), cov.unscaled * sigma^2)
-        y.hat1[[j]] = c(y.hat1[[j]], mvrnorm(1, mu=m[[i]]$coef, Sigma=Sigma)[1])
-        y.hat2[[j]] = c(y.hat2[[j]], (m[[i]]$coef + (sqrtm(Sigma) %*% y.hat.seed))[1])
-        
-        beta.hat1[[j]] = cbind(beta.hat1[[j]], mvrnorm(1, mu=m[[i]]$coef, Sigma=Sigma)[1:2])
-        beta.hat2[[j]] = cbind(beta.hat2[[j]], (m[[i]]$coef + (sqrtm(Sigma) %*% y.hat.seed))[1:2])
+        beta.star.1[[j]] = cbind(beta.star.1[[j]], mvrnorm(1, mu=m[[i]]$coef, Sigma=Sigma)[c(1,3,5)])
+        beta.star.2[[j]] = cbind(beta.star.2[[j]], (m[[i]]$coef + (sqrtm(Sigma) %*% y.hat.seed))[c(1,3,5)])
     }
+}
+```
+
+```{r}
+Sigma = list()
+for (i in 1:n) {
+    Sigma[[i]] = with(summary(m[[i]]), cov.unscaled * sigma^2)
+}
+
+SS = bdiag(Sigma)
+for (i in 1:(n-1)) {
+    X.i = cbind(1, tt-tt[i], X1, (tt-tt[i])*X1, X2, (tt-tt[i])*X2)
+    
+    for (j in (i+1):n) {
+        X.j = cbind(1, tt-tt[j], X1, (tt-tt[j])*X1, X2, (tt-tt[j])*X2)
+        scale = summary(m[[i]])$sigma * summary(m[[j]])$sigma
+        
+        unscaled = summary(m[[i]])$cov.unscaled %*%
+            t(X.i) %*% sqrt(W[[i]]) %*%
+            sqrt(W[[j]]) %*% X.j %*% summary(m[[j]])$cov.unscaled
+        
+        SS[((i-1)*6+1):(6*i), ((j-1)*6+1):(6*j)] =
+            SS[((j-1)*6+1):(6*j), ((i-1)*6+1):(6*i)] = scale * unscaled
+    }
+}
+sqSS = sqrtm(SS)
+
+#Draw from a joint parametric distribution:
+beta.star.3 = list()
+for (k in 1:B) {
+    beta.star.3[[k]] = (t(fitted.coefs) + matrix((sqSS %*% rnorm(6*n)), 6, n))[c(1,3,5),]
 }
 ```
 
@@ -142,19 +179,22 @@ The parametric bootstrap is used to simulate the distribution of the estimated c
 layout(matrix(1:2,1,2))
 
 #plot of the response (y):
-fit1 = diag(t(beta.hat1[[1]]) %*% rbind(1, X))
-fit2 = diag(t(beta.hat2[[1]]) %*% rbind(1, X))
-yy = range(c(y, fit1, fit2))
+fit1 = diag(t(beta.star.1[[1]]) %*% rbind(1, X))
+fit2 = diag(t(beta.star.2[[1]]) %*% rbind(1, X))
+fit3 = diag(t(beta.star.3[[1]]) %*% rbind(1, X))
+yy = range(c(y, fit1, fit2, fit3))
 
 plot(x=tt, y=y, xlab='t', ylab='response', ylim=yy, cex=0.6, bty='n')
 par(new=TRUE)
 plot(x=tt, y=fit1, ann=FALSE, xaxt='n', yaxt='n', col='red', pch=2, ylim=yy, cex=0.6, bty='n')
 par(new=TRUE)
 plot(x=tt, y=fit2, ann=FALSE, xaxt='n', yaxt='n', col='blue', pch=3, ylim=yy, cex=0.6, bty='n')
+par(new=TRUE)
+plot(x=tt, y=fit3, ann=FALSE, xaxt='n', yaxt='n', col='blue', pch=3, ylim=yy, cex=0.6, bty='n')
 legend(x='top', legend=c("Truth", "Naive", "Linked"), pch=c(1,2,3), col=c("black", "red", "blue"), bty='n', cex=0.8)
 
 #Plot the two responses against each other:
-plot(fit1, fit2, xlab="Naive parametric bootstrap", ylab="Linked parametric bootstrap")
+plot(fit1, fit3, xlab="Naive parametric bootstrap", ylab="Linked parametric bootstrap")
 abline(0,1, lty=2)
 ```
 
@@ -164,22 +204,37 @@ In Figure \ref{fig:paraboot-estimates}, the true $\beta_0(t)$ and $\beta_1(t)$ c
 layout(matrix(1:2,1,2))
 
 #plot of the Intercept (\beta_0):
-bb1 = range(f1(tt), beta.hat1[[1]][1,], beta.hat2[[1]][1,])
-plot(x=tt, y=f1(tt), type='l', xlab='t', ylab='response', ylim=bb1, bty='n')
+bb0 = range(f0(tt), beta.star.1[[1]][1,], beta.star.2[[1]][1,], beta.star.3[[1]][1,])
+plot(x=tt, y=f0(tt), type='l', xlab='t', ylab='response', ylim=bb1, bty='n')
 par(new=TRUE)
-plot(x=tt, y=beta.hat1[[1]][1,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='red', lty=2, ylim=bb1, bty='n')
+plot(x=tt, y=beta.star.1[[1]][1,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='red', lty=2, ylim=bb0, bty='n')
 par(new=TRUE)
-plot(x=tt, y=beta.hat2[[1]][1,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='blue', lty=2, ylim=bb1, lwd=2, bty='n')
-legend(x='bottom', legend=c("Truth", "Naive", "Linked"), lty=c(1,2,2), lwd=c(1,1,2), col=c("black", "red", "blue"), bty='n', cex=0.8)
+plot(x=tt, y=beta.star.2[[1]][1,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='blue', lty=2, ylim=bb0, lwd=2, bty='n')
+par(new=TRUE)
+plot(x=tt, y=beta.star.3[[1]][1,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='green', lty=2, ylim=bb0, lwd=2, bty='n')
+legend(x='bottom', legend=c("Truth", "Naive", "Linked", "Joint"), lty=c(1,2,2,2), lwd=c(1,1,2,2), col=c("black", "red", "blue", "green"), bty='n', cex=0.8)
 
 #plot of the local coefficient (\beta_1):
-bb2 = range(f2(tt), beta.hat1[[1]][2,], beta.hat2[[1]][2,])
+bb1 = range(f1(tt), beta.star.1[[1]][2,], beta.star.2[[1]][2,], beta.star.3[[1]][2,])
+plot(x=tt, y=f1(tt), type='l', xlab='t', ylab='response', ylim=bb1, bty='n')
+par(new=TRUE)
+plot(x=tt, y=beta.star.1[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='red', lty=2, ylim=bb1, lwd=1, bty='n')
+par(new=TRUE)
+plot(x=tt, y=beta.star.2[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='blue', lty=2, ylim=bb1, lwd=2, bty='n')
+par(new=TRUE)
+plot(x=tt, y=beta.star.3[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='green', lty=2, ylim=bb1, lwd=2, bty='n')
+legend(x='top', legend=c("Truth", "Naive", "Linked", "Joint"), lty=c(1,2,2,2), lwd=c(1,1,2,2), col=c("black", "red", "blue", "green"), bty='n', cex=0.8)
+
+#plot of the local coefficient (\beta_2):
+bb2 = range(f2(tt), beta.star.1[[1]][2,], beta.star.2[[1]][2,], beta.star.3[[1]][2,])
 plot(x=tt, y=f2(tt), type='l', xlab='t', ylab='response', ylim=bb2, bty='n')
 par(new=TRUE)
-plot(x=tt, y=beta.hat1[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='red', lty=2, ylim=bb2, lwd=1, bty='n')
+plot(x=tt, y=beta.star.1[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='red', lty=2, ylim=bb2, lwd=1, bty='n')
 par(new=TRUE)
-plot(x=tt, y=beta.hat2[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='blue', lty=2, ylim=bb2, lwd=2, bty='n')
-legend(x='top', legend=c("Truth", "Naive", "Linked"), lty=c(1,2,2), lwd=c(1,1,2), col=c("black", "red", "blue"), bty='n', cex=0.8)
+plot(x=tt, y=beta.star.2[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='blue', lty=2, ylim=bb2, lwd=2, bty='n')
+par(new=TRUE)
+plot(x=tt, y=beta.star.3[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='green', lty=2, ylim=bb2, lwd=2, bty='n')
+legend(x='topright', legend=c("Truth", "Naive", "Linked", "Joint"), lty=c(1,2,2,2), lwd=c(1,1,2,2), col=c("black", "red", "blue", "green"), bty='n', cex=0.8)
 ```
 
 
@@ -192,5 +247,15 @@ par(new=TRUE)
 plot(x=tt, y=fitted(g1), type='l', ylim=range(resid), ann=FALSE, xaxt='n', yaxt='n', bty='n')
 ```
 
-Because the local polynmial model tends to oversmooth the response, we use a spline model to estimate the local bias of the bootstrap response draws, in order to reduce the bias in the resampled data. The residuals from the original model fit are plotted in Figure \ref{fig:smooth-residuals} along with the spline used to smooth the residuals.
+
+```{r}
+paraboot.models = list()
+for (k in 1:B) {
+    resampled = diag(cbind(1,X) %*% beta.star.3[[k]]) + fitted(g1) + s2*rnorm(n)
+    dd = data.frame(y=resampled, x=X, t=tt)
+    paraboot.models[[k]] = lagr(y~x, data=original, family='gaussian', coords='t', longlat=FALSE, varselect.method='AIC', bw=0.18, kernel=epanechnikov, bw.type='knn', verbose=TRUE, n.lambda=100, lagr.convergence.tol=0.005)
+}
+```
+
+Because the local polynmial model tends to oversmooth the response, we use a spline to estimate the local bias of the fitted values, in order to reduce the bias in the resampled data. The residuals from the original model fit are plotted in Figure \ref{fig:smooth-residuals} along with the spline used to smooth the residuals.
 
