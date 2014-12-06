@@ -74,6 +74,12 @@ X1 = rnorm(n, mean=3, sd=2)
 X2 = rnorm(n, mean=3, sd=2)
 y = f0(tt) + X1*f1(tt) + X2*f2(tt) + rnorm(n)
 df = data.frame(y, x1=X1, x2=X2, t=tt)
+
+f0.second.derivative = function(x) {-2.4*x^2 + 6*x + 1.4}
+f1.second.derivative = function(x) {-cos(x)}
+f2.second.derivative = function(x) {-sin(x)}
+
+
 ```
 
 The response and the coefficients are plotted below:
@@ -94,6 +100,9 @@ library(expm)
 library(mgcv)
 library(Matrix)
 library(dplyr)
+library(doMC)
+
+registerDoMC(7)
 ```
 
 ```{r parametric-bootstrap, results='hide', warning=FALSE, error=FALSE, echo=FALSE, cache=FALSE}
@@ -132,12 +141,12 @@ for (j in 1:B) {
     cat(paste("j is ", j, "\n", sep=""))
     beta.star.1[[j]] = matrix(NA,3,0)
     beta.star.2[[j]] = matrix(NA,3,0)
-    y.hat.seed = as.matrix(rnorm(6))
+    y.hat.seed = as.matrix(rnorm(3))
     
     for (i in 1:n) {
-        Sigma = with(summary(m[['model']][[i]][['model']][['adamodel']]), cov.unscaled * dispersion)
-        beta.star.1[[j]] = cbind(beta.star.1[[j]], mvrnorm(1, mu=coefs[i,], Sigma=Sigma)[1:3])
-        beta.star.2[[j]] = cbind(beta.star.2[[j]], (coefs[i,] + (sqrtm(Sigma) %*% y.hat.seed))[1:3])
+        Sigma = with(summary(m[['model']][[i]][['model']][['adamodel']]), cov.unscaled * dispersion)[1:3,1:3]
+        beta.star.1[[j]] = cbind(beta.star.1[[j]], mvrnorm(1, mu=coefs[i,1:3], Sigma=Sigma))
+        beta.star.2[[j]] = cbind(beta.star.2[[j]], (coefs[i,1:3] + (sqrtm(Sigma) %*% y.hat.seed)))
     }
 }
 ```
@@ -145,63 +154,67 @@ for (j in 1:B) {
 ```{r}
 Sigma = list()
 for (i in 1:n) {
-    Sigma[[i]] = with(summary(m[['model']][[i]][['model']][['adamodel']]), cov.unscaled * dispersion)
+    Sigma[[i]] = with(summary(m[['model']][[i]][['model']][['adamodel']]), cov.unscaled * dispersion)[1:3,1:3]
 }
 
 SS = bdiag(Sigma)
 for (i in 1:(n-1)) {
-    X.i = cbind(1, X1, X2, tt-tt[i], (tt-tt[i])*X1, (tt-tt[i])*X2)
+    X.i = cbind(1, X1, X2)
     
     for (j in (i+1):n) {
-        X.j = cbind(1, X1, X2, tt-tt[j], (tt-tt[j])*X1, (tt-tt[j])*X2)
+        X.j = cbind(1, X1, X2)
         scale = sqrt(summary(m[['model']][[i]][['model']][['adamodel']])$dispersion *
                          summary(m[['model']][[j]][['model']][['adamodel']])$dispersion)
         
-        unscaled = summary(m[['model']][[i]][['model']][['adamodel']])$cov.unscaled %*%
+        unscaled = summary(m[['model']][[i]][['model']][['adamodel']])$cov.unscaled[1:3,1:3] %*%
             t(X.i) %*% sqrt(W[[i]] %*% W[[j]]) %*% 
-            X.j %*% summary(m[['model']][[j]][['model']][['adamodel']])$cov.unscaled
+            X.j %*% summary(m[['model']][[j]][['model']][['adamodel']])$cov.unscaled[1:3,1:3]
         
-        SS[((i-1)*6+1):(6*i), ((j-1)*6+1):(6*j)] =
-            SS[((j-1)*6+1):(6*j), ((i-1)*6+1):(6*i)] = scale * unscaled
+        SS[((i-1)*3+1):(3*i), ((j-1)*3+1):(3*j)] =
+            SS[((j-1)*3+1):(3*j), ((i-1)*3+1):(3*i)] = scale * unscaled
     }
 }
-sqSS = sqrtm(SS)
+
+SS.posdef = SS %*% t(SS)
+SS.eigen = eigen(SS.posdef)
+
+sqSS = SS.eigen$vectors %*% diag(SS.eigen$values^(1/4)) %*% t(SS.eigen$vectors)
 
 #Draw from a joint parametric distribution:
 beta.star.3 = list()
 beta.star.4 = list()
 for (k in 1:B) {
-    beta.star.3[[k]] = (t(coefs) + matrix(sqSS %*% rep(rnorm(6),n), 6, n))
-    beta.star.4[[k]] = (t(coefs) + matrix(sqSS %*% rnorm(6*n), 6, n))
+    #beta.star.3[[k]] = (t(coefs) + matrix(sqSS %*% rep(rnorm(6),n), 6, n))
+    beta.star.4[[k]] = (t(coefs[1:3,]) + matrix(sqSS %*% rnorm(6*n), 6, n))
 }
 ```
 
 
 ```{r}
-Sigma = list()
-for (i in 1:n) {
-    Sigma[[i]] = with(summary(m[['model']][[i]][['model']][['adamodel']]), cov.unscaled * dispersion)
-}
-
-cat(paste("j is ", j, "\n", sep=""))
-
-SS2 = bdiag(Sigma)
-for (i in 1:(n-1)) {
-    
-    for (j in (i+1):n) {
-        SS2[((i-1)*6+1):(6*i), ((j-1)*6+1):(6*j)] =
-            SS2[((j-1)*6+1):(6*j), ((i-1)*6+1):(6*i)] = sqrtm(Sigma[[i]]) %*% sqrtm(Sigma[[j]])
-    }
-}
-sqSS2 = sqrtm(SS2)
-
-#Draw from a joint parametric distribution:
-beta.star.5 = list()
-beta.star.6 = list()
-for (k in 1:B) {
-    beta.star.5[[k]] = (t(coefs) + matrix(sqSS2 %*% rep(rnorm(6),n), 6, n))
-    beta.star.6[[k]] = (t(coefs) + matrix(sqSS2 %*% rnorm(600), 6, n))
-}
+# Sigma = list()
+# for (i in 1:n) {
+#     Sigma[[i]] = with(summary(m[['model']][[i]][['model']][['adamodel']]), cov.unscaled * dispersion)
+# }
+# 
+# cat(paste("j is ", j, "\n", sep=""))
+# 
+# SS2 = bdiag(Sigma)
+# for (i in 1:(n-1)) {
+#     
+#     for (j in (i+1):n) {
+#         SS2[((i-1)*6+1):(6*i), ((j-1)*6+1):(6*j)] =
+#             SS2[((j-1)*6+1):(6*j), ((i-1)*6+1):(6*i)] = sqrtm(Sigma[[i]]) %*% sqrtm(Sigma[[j]])
+#     }
+# }
+# sqSS2 = sqrtm(SS2)
+# 
+# #Draw from a joint parametric distribution:
+# beta.star.5 = list()
+# beta.star.6 = list()
+# for (k in 1:B) {
+#     beta.star.5[[k]] = (t(coefs) + matrix(sqSS2 %*% rep(rnorm(6),n), 6, n))
+#     beta.star.6[[k]] = (t(coefs) + matrix(sqSS2 %*% rnorm(600), 6, n))
+# }
 ```
 
 The parametric bootstrap is used to simulate the distribution of the estimated coefficient functions. The simulated response $y$ is plotted in Figure \ref{fig:fig1} along with a bootstrap resample $y^*$ from the NPB and a resample $y^{**}$ from the LPB. There is no apparent consistent difference between the two kinds of bootstrap resamples $y^*$ and $y*{**}$ - note that the resamples fall near each other with neither one consistently greater than the other in the left-hand lot, and generally along the $1-1$ line in the right-hand plot. There is an apparent tendency for the resampled data to "trim the peaks" and "fill the valleys" of the response, which we will return to.
@@ -210,9 +223,9 @@ The parametric bootstrap is used to simulate the distribution of the estimated c
 layout(matrix(1:2,1,2))
 
 #plot of the response (y):
-fit1 = diag(t(beta.star.1[[1]]) %*% rbind(1, X))
-fit2 = diag(t(beta.star.2[[1]]) %*% rbind(1, X))
-fit3 = diag(t(beta.star.3[[1]]) %*% rbind(1, X))
+fit1 = diag(t(beta.star.1[[1]][1:3,]) %*% rbind(1, X1, X2))
+fit2 = diag(t(beta.star.2[[1]][1:3,]) %*% rbind(1, X1, X2))
+fit3 = diag(t(beta.star.4[[1]][1:3,]) %*% rbind(1, X1, X2))
 yy = range(c(y, fit1, fit2, fit3))
 
 plot(x=tt, y=y, xlab='t', ylab='response', ylim=yy, cex=0.6, bty='n')
@@ -225,7 +238,7 @@ plot(x=tt, y=fit3, ann=FALSE, xaxt='n', yaxt='n', col='blue', pch=3, ylim=yy, ce
 legend(x='top', legend=c("Truth", "Naive", "Linked"), pch=c(1,2,3), col=c("black", "red", "blue"), bty='n', cex=0.8)
 
 #Plot the two responses against each other:
-plot(fit1, fit3, xlab="Naive parametric bootstrap", ylab="Linked parametric bootstrap")
+plot(fit1, fit2, xlab="Naive parametric bootstrap", ylab="Linked parametric bootstrap")
 abline(0,1, lty=2)
 ```
 
@@ -235,36 +248,36 @@ In Figure \ref{fig:paraboot-estimates}, the true $\beta_0(t)$ and $\beta_1(t)$ c
 layout(matrix(1:2,1,2))
 
 #plot of the Intercept (\beta_0):
-bb0 = range(f0(tt), beta.star.1[[1]][1,], beta.star.2[[1]][1,], beta.star.3[[1]][1,])
-plot(x=tt, y=f0(tt), type='l', xlab='t', ylab='response', ylim=bb1, bty='n')
+bb0 = range(f0(tt), beta.star.1[[1]][1,], beta.star.2[[1]][1,], beta.star.4[[1]][1,])
+plot(x=tt, y=f0(tt), type='l', xlab='t', ylab='response', ylim=bb0, bty='n')
 par(new=TRUE)
 plot(x=tt, y=beta.star.1[[1]][1,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='red', lty=2, ylim=bb0, bty='n')
 par(new=TRUE)
 plot(x=tt, y=beta.star.2[[1]][1,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='blue', lty=2, ylim=bb0, lwd=2, bty='n')
 par(new=TRUE)
-plot(x=tt, y=beta.star.3[[1]][1,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='green', lty=2, ylim=bb0, lwd=2, bty='n')
+plot(x=tt, y=beta.star.4[[1]][1,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='green', lty=2, ylim=bb0, lwd=2, bty='n')
 legend(x='bottom', legend=c("Truth", "Naive", "Linked", "Joint"), lty=c(1,2,2,2), lwd=c(1,1,2,2), col=c("black", "red", "blue", "green"), bty='n', cex=0.8)
 
 #plot of the local coefficient (\beta_1):
-bb1 = range(f1(tt), beta.star.1[[1]][2,], beta.star.2[[1]][2,], beta.star.3[[1]][2,])
+bb1 = range(f1(tt), beta.star.1[[1]][2,], beta.star.2[[1]][2,], beta.star.4[[1]][2,])
 plot(x=tt, y=f1(tt), type='l', xlab='t', ylab='response', ylim=bb1, bty='n')
 par(new=TRUE)
 plot(x=tt, y=beta.star.1[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='red', lty=2, ylim=bb1, lwd=1, bty='n')
 par(new=TRUE)
 plot(x=tt, y=beta.star.2[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='blue', lty=2, ylim=bb1, lwd=2, bty='n')
 par(new=TRUE)
-plot(x=tt, y=beta.star.3[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='green', lty=2, ylim=bb1, lwd=2, bty='n')
+plot(x=tt, y=beta.star.4[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='green', lty=2, ylim=bb1, lwd=2, bty='n')
 legend(x='top', legend=c("Truth", "Naive", "Linked", "Joint"), lty=c(1,2,2,2), lwd=c(1,1,2,2), col=c("black", "red", "blue", "green"), bty='n', cex=0.8)
 
 #plot of the local coefficient (\beta_2):
-bb2 = range(f2(tt), beta.star.1[[1]][2,], beta.star.2[[1]][2,], beta.star.3[[1]][2,])
+bb2 = range(f2(tt), beta.star.1[[1]][3,], beta.star.2[[1]][3,], beta.star.4[[1]][3,])
 plot(x=tt, y=f2(tt), type='l', xlab='t', ylab='response', ylim=bb2, bty='n')
 par(new=TRUE)
-plot(x=tt, y=beta.star.1[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='red', lty=2, ylim=bb2, lwd=1, bty='n')
+plot(x=tt, y=beta.star.1[[1]][3,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='red', lty=2, ylim=bb2, lwd=1, bty='n')
 par(new=TRUE)
-plot(x=tt, y=beta.star.2[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='blue', lty=2, ylim=bb2, lwd=2, bty='n')
+plot(x=tt, y=beta.star.2[[1]][3,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='blue', lty=2, ylim=bb2, lwd=2, bty='n')
 par(new=TRUE)
-plot(x=tt, y=beta.star.3[[1]][2,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='green', lty=2, ylim=bb2, lwd=2, bty='n')
+plot(x=tt, y=beta.star.4[[1]][3,], type='l', ann=FALSE, xaxt='n', yaxt='n', col='green', lty=2, ylim=bb2, lwd=2, bty='n')
 legend(x='topright', legend=c("Truth", "Naive", "Linked", "Joint"), lty=c(1,2,2,2), lwd=c(1,1,2,2), col=c("black", "red", "blue", "green"), bty='n', cex=0.8)
 ```
 
@@ -287,7 +300,7 @@ for (k in 1:B) {
     dd = data.frame(y=resampled, x1=X1, x2=X2, t=tt)
     paraboot.models.2[[k]] = lagr(y~x1+x2, data=dd, family='gaussian', coords='t', longlat=FALSE, varselect.method='wAIC', bw=0.2, kernel=epanechnikov, bw.type='knn', verbose=TRUE, n.lambda=100, lagr.convergence.tol=0.005)
     
-    resampled = diag(cbind(1,X1,X2) %*% beta.star.3[[k]]) + fitted(g1) + s2*rnorm(n)
+    resampled = diag(cbind(1,X1,X2) %*% beta.star.4[[k]]) + fitted(g1) + s2*rnorm(n)
     dd = data.frame(y=resampled, x1=X1, x2=X2, t=tt)
     paraboot.models.3[[k]] = lagr(y~x1+x2, data=dd, coords='t', longlat=FALSE, varselect.method='wAIC', bw=0.2, kernel=epanechnikov, bw.type='knn', verbose=TRUE, n.lambda=100, lagr.convergence.tol=0.005)
 }
