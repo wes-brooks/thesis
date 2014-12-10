@@ -1,0 +1,103 @@
+\documentclass[12pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps¬ß with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amssymb,amsmath}
+\usepackage{natbib}
+\usepackage{bm}
+\setcitestyle{round}
+
+\title{Research Statement}
+\author{Wesley Brooks}
+\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+
+\section*{Introduction}\label{introduction}
+
+\section{Methods}
+
+\subsection{Seeking KL-optimal model}
+Truth is an unknowable, infinite-parameter function $f$. We approximate $f$ with a model $\hat{g}$, from the family $G$. Our goal in estimation is to find $g_0 \in G$ that is the closest element of $G$ to the truth $f$. Closest is a statement of relative distance in terms of the Kullbach-Leibler (KL) divergence. The goal of inference is to describe properties of the range of elements in $G$ that lie closest to $f$ with confidence $1-\alpha$.
+
+Kullbach-Leibler divergence is calculated by the equation
+\begin{equation*}
+KL = \int f(x) \log{\frac{f(x)}{g(x)}} \mathrm{d}x
+\end{equation*}
+which depends on the truth $f$, and is therefore unknowable. The Akaike Information Criterion (AIC) is an estimate of the KL divergence, calculated by the equation
+\begin{equation*}
+AIC = -2 \log{\mathcal{L}(\hat{g})} + 2 df(\hat{g})
+\end{equation*}
+where $\log{\mathcal{L}(\hat{g})}$ is the log likelihood of the observed data under model $\hat{g}$, and $df(\hat{g})$ is the degrees of freedom used by the model $\hat{g}$.
+
+\subsection{Degrees of freedom of a local model}
+The degrees of freedom for local model $\hat{g}$ are given 
+
+\subsection{AIC-averaging of local model}
+The method of LAGR uses $\ell_1$ regularization of an adaptive group lasso type for variable selection. The challenge of variable selection is that there are $2^p$ possible combinations of $p$ candidate variables in a regression model. The number of combinations grows so quickly that it is impractical to test every possible combination except in the simplest cases. A key property of the adaptive lasso is that it sorts the covariates in a principled way. The sorting property is described by the following propositions:
+
+$\lambda(s)$ is the tuning parameter that sets the amount of regularization in the local model. For an
+
+Proposition 1: the sequence of adaptive lasso tuning parameters $\infty, \lambda_m, \dots, \lambda_1, 0$ corresponds to a sequence of models $g_{\infty}, g_m, \dots, g_1, g_0$ where $g_{\infty}$ is the intercept-only model and $g_0$ is the full model. As $n \to \infty$, the sequence matches the correct ordering of the models, with a $p \in 1, \dots, m$ such that all of the variables in $g_m, \dots, g_{p+1}$ are relevant, no relevant variables are added in $g_{p-1}, \dots, g_0$, and of all the candidate models $g_p$ is closest to $f$ in a KL sense.
+
+Proposition 2: the AIC-optimal model $\hat{g}$ converges to $g_p$ as $n \to \infty$. In other words, given enough data, we can correctly estimate which model is closest to truth.
+
+The difficulty is to approximate $f$ with observed data, in which case we cannot know whether the AIC-best estimate $\hat{g}$ is the same as $g_p$. Therefore the AIC is used to make a weighted average of the model sequence $g_{\infty}, g_m, \dots, g_1, g_0$.
+
+Proposition 3: the AIC-optimal model average $\bar{g}$ converges to the KL-optimal model $\hat{g}$.
+
+\subsection{Degrees of freedom of the whole model}
+In the context of Stein’s Unbiased Risk Estimation (SURE), the degrees of freedom are given by 
+\begin{equation*}
+df = \sum_{i=1}^n {\rm cov}(y_i, \mu_i)
+\end{equation*}
+
+For a VCR model estimated by LAGR, then, the degrees of freedom are
+\begin{align*}
+df &= \sum_{i=1}^n df_i \\
+df_i &= 
+\end{align*}
+
+\subsection{Profile AIC of bandwidth parameter}
+For any value of the bandwidth parameter $h$, the AIC is given by
+\begin{equation*}
+AIC = -2 \log{\mathcal{L}(h)} + 2 df(h).
+\end{equation*}
+
+The profile AIC is the AIC as a function of h, ${\rm AIC}(h)$.
+
+Proposition: the bandwidth $\hat{h}$ that minimizes the profile AIC is a “good” estimate of the KL-optimal bandwidth.
+
+\subsection{Bandwidth model averaging}
+Even if the AIC minimizer $\hat{h}$ is a good estimate of the KL-optimal bandwidth, basing inference on a single estimated value of the bandwidth parameter risks model-selection bias. Model averaging over the bandwidth is intended to eliminate model-selection bias. The model weighting is by the AIC, based on the idea that the AIC is an unbiased estimate of the log-likelihood of the data under the true data-generating mechanism
+
+Proposition: the AIC-weighted model average converges to the KL-optimal $\hat{g}$, and the resulting parameter estimates are less biased than under the point-modeled bandwidth.
+
+\subsection{Parametric bootstrap draws}
+The methods described to now relate to averaging over uncertainty in model selection. However, even if the model were \emph{a priori} known, there would uncertainty in the model estimation. The adaptive group lasso is an L1 regularization method, which results in nonlinear estimates of the model parameters. Thus, the distribution of the estimates is complicated. The parametric bootstrap is used here in preference to attempting an analytical expression of the estimation distribution.
+
+Our parametric bootstrap procedure works by drawing $\bm{\beta}^*(s)$ from the joint distribution of the VCR coefficients, as estimated by local polynomial regression (no regularization). These draws are used to generate a resampled response $Y^*$, from which we estimate $\bm{\beta}^{**}(s)$ by LAGR. The $\bm{\beta}^{**}(s)$ form our parametric bootstrap estimates of $\bm{\beta}(s)$.
+
+\subsection{Smoothing residuals}
+There is bias in the local coefficient estimates, due to curvature in the coefficient functions. This results in clustering of the residuals. In order to justify the parametric bootstrap we want the resampled data to be from the same distribution as the original data.
+
+In order to correct for the bias in estimating the coefficient surfaces, the clustered residuals are modeled with an spline, hopefully leaving only uncorrelated residuals.
+
+\subsection{Inference from parametric bootstrap draws}
+The draws from the parametric bootstrap are used for inference. The nonparametric delta method of \cite{Efron-2014} is used to calculate the distribution of those quantities that we wish to measure.
+
+Proposition: the confidence intervals calculated in this way achieve the nominal coverage.
+
+Proposition: a chi-square test based on the nonparametric delta method achieves the nominal level for testing the null hypothesis that a linear combination of local coefficients is zero.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}  
