@@ -102,7 +102,7 @@ library(Matrix)
 library(dplyr)
 library(doMC)
 
-registerDoMC(7)
+registerDoMC(3)
 ```
 
 ```{r parametric-bootstrap, results='hide', warning=FALSE, error=FALSE, echo=FALSE, cache=FALSE}
@@ -114,18 +114,18 @@ estimate = vector()
 W = list()
 fitted.coefs = matrix(NA, 0, 6)
 
-bw = lagr.tune(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='AIC', kernel=epanechnikov, bw.type='knn', bwselect.method='AIC', tol.bw=0.01, verbose=FALSE, n.lambda=80, lagr.convergence.tol=0.005, lambda.min.ratio=0.01)
-m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='AIC', kernel=epanechnikov, bw.type='knn', bw=bw$bw, verbose=FALSE, n.lambda=80, lagr.convergence.tol=0.005, lambda.min.ratio=0.01)
+bw = lagr.tune(y~x1+x2, data=df, coords='t', varselect.method='wAIC', kernel=epanechnikov, bw.type='knn', bwselect.method='AIC', tol.bw=0.01, verbose=FALSE)
+m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAIC', kernel=epanechnikov, bw.type='knn', bw=0.2, verbose=TRUE, n.lambda=80, lagr.convergence.tol=0.005, lambda.min.ratio=0.01)
 
 for (i in 1:n) {
-    h = m[['model']][[i]][['bw']]
+    h = m[['fits']][[i]][['bw']]
     w = epanechnikov(abs(tt-tt[i]), h)
     W[[i]] = diag(w)
 }
 
-fitted = sapply(m[['model']], function(x) tail(x[['fitted']],1))
+fitted = sapply(m[['fits']], function(x) tail(x[['fitted']],1))
 resid = df$y - fitted
-coefs = t(sapply(m[['model']], function(x) x[['coef']][,3]))
+coefs = t(sapply(m[['fits']], function(x) x[['coef']][,3]))
 
 #Draw coefficients two ways:
 #1) independent bootstrap

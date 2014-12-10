@@ -3,7 +3,7 @@ plot.gwselect = function(model, values=NULL, part='coef', legend.name=NULL, var=
     name.var = var
 
     if (is.null(polygons)) {
-        #Plot on a regular grid using locs
+        #Voronoi diagram
     } else {
         if (is.null(locs)) {
             locs = data.frame(model[['coords']])
@@ -30,11 +30,11 @@ plot.gwselect = function(model, values=NULL, part='coef', legend.name=NULL, var=
         if (is.null(legend.name)) {legend.name = part}
 
         #Draw the map
-        map <- ggplot(mergedata, aes(long,lat,group=group))
-        map <- map + geom_polygon(aes(fill=output))
-        map <- map + scale_fill_gradient2(low=muted("blue"), mid="white", high="orange", limits=range(mergedata$output, na.rm=TRUE), name=legend.name)
-        map <- map + coord_map(project='globular')   
-        map <- map + theme(panel.background=element_rect(fill=col.bg, colour=col.outline))
+        map <- ggplot(mergedata, aes(long,lat,group=group)) +
+            geom_polygon(aes(fill=output)) +
+            scale_fill_gradient2(low=muted("blue"), mid="white", high="orange", limits=range(mergedata$output, na.rm=TRUE), name=legend.name) +
+            coord_map(project='globular') +
+            theme(panel.background=element_rect(fill=col.bg, colour=col.outline))
         
         #Annotate the map with borderlines
         if (!is.null(borderlines)) {map <- map + geom_path(data=borderlines, colour='white', size=0.75)}

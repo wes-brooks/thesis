@@ -33,9 +33,11 @@ for (yr in years) {
     #Define which variables we'll use as predictors of poverty:
     #predictors = c('pag', 'pex', 'pman', 'pserve', 'pfire', 'potprof', 'pwh', 'pblk', 'phisp', 'metro')
     predictors = c('pag', 'pex', 'pman', 'pserve', 'pfire', 'potprof')
-    f = as.formula(paste("logitindpov ~ -1 + ", paste(predictors, collapse="+"), sep=""))
+    f = as.formula(paste("logitindpov ~ ", paste(predictors, collapse="+"), sep=""))
 
     #Lasso model
+    p = lagr(logitindpov~pag, data=df, coords=c('x','y'), varselect.method='wAIC', kernel=epanechnikov, bw.type='knn', bw=0.2, verbose=TRUE)
+    bw = lagr.tune(formula=f, data=df, family='gaussian', coords=c('x','y'), varselect.method='wAIC', kernel=epanechnikov, bw.type='knn', bwselect.method='AICc', verbose=TRUE, n.lambda=80, lagr.convergence.tol=0.005, lambda.min.ratio=0.01)    
     bw[['GWAL']][[year]] = gwglmnet.sel(formula=f, data=df, family='gaussian', coords=df[,c('x','y')], longlat=TRUE, varselect.method='AICc', gweight=epanechnikov, tol.bw=0.01, bw.type='knn', parallel=TRUE, interact=TRUE, verbose=TRUE, bwselect.method='AICc', resid.type='pearson')
     model[['GWAL']][[year]] = gwglmnet(formula=f, data=df, family='gaussian', coords=df[,c('x','y')], longlat=TRUE, N=1, varselect.method='AICc', bw=bw[['GWAL']][[year]][['bw']], gweight=epanechnikov, bw.type='knn', simulation=TRUE, parallel=TRUE, interact=TRUE, verbose=TRUE, resid.type='pearson')
 
