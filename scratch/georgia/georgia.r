@@ -1,11 +1,16 @@
 library(lagr)
 library(spgwr)
 library(ggplot2)
+library(doMC)
+library(sp)
+library(plyr)
+library(maptools)
 
+registerDoMC(3)
 data(georgia)
 
 
-gm = lagr(PctPov ~ PctRural+PctBach+PctEld+PctFB+PctBlack, data=gSRDF, bw=0.25, bw.type='knn', kernel=epanechnikov, varselect.method="wAIC")
+gm = lagr(PctPov ~ PctRural+PctBach+PctEld+PctFB+PctBlack, data=gSRDF, bw=0.25, longlat=TRUE, bw.type='knn', kernel=epanechnikov, varselect.method="wAIC")
 cc = sapply(gm[['fits']], function(x) x[['model']][['results']][['big.avg']])
 gSRDF@data$.PctRural = cc[2,]
 
