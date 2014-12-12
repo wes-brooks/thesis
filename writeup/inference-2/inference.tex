@@ -9,6 +9,26 @@
 \usepackage{natbib}
 \usepackage{bm}
 \setcitestyle{round}
+\usepackage{theorem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{proof}[1][Proof]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newcommand{\qed}{\nobreak \ifvmode \relax \else
+      \ifdim\lastskip<1.5em \hskip-\lastskip
+      \hskip1.5em plus0em minus0.5em \fi \nobreak
+      \vrule height0.75em width0.5em depth0.25em\fi}
 
 \title{Research Statement}
 \author{Wesley Brooks}
@@ -21,6 +41,19 @@
 
 
 \section*{Introduction}\label{introduction}
+Varying coefficient regression (VCR) is a data analysis method that relates the response $Y$ to its covariates $\bm{X}$ through a linear equation of coefficients $\bm{\beta}$. The coefficients in a VCR model vary over the model's domain $\mathcal{S}$, which is often a region of time or space. In the context of a generalized linear model (GLM) with link function $g$, the relationship is
+\begin{equation}
+EY_i = g^{-1} \left( \sum_{j=1}^p X_{ij} \beta_j(s_i) \right)
+\end{equation}
+where $s \in \mathcal{S}$ indexes the model's domain and $p$ is the number of covariates.
+
+Local adaptive grouped regularization (LAGR) is a method for local variable selection and estimation in varying coefficient regression (VCR) models \citep{Brooks-Zhu-Lu-2014}. The method of LAGR is an $\mathcal{L}_1$ regularization technique applied to local polynomial regression in which the coefficient functions are estimated pointwise by fitting a local model at each point of interest $s$ in the domain $\mathcal{S}$ \citep{Fan-Gijbels-1996}. Estimating a model by LAGR entails selection of a global bandwidth parameter that applies to all of the local models and local smoothing parameters, one for each local model. Because the $\mathcal{L}_1$ regularization produces nonlinear estimates of the coefficients, the confidence intervals for local coefficient estimates in LAGR are complicated. One goal of inference in a VCR model estimated by LAGR is to calculate the confidence intervals.
+
+The local variable selection action of LAGR estimates which covariates are relevant to the local fit at each location $s$. Another goal of inference is to state the confidence of local variable selection.
+
+It is common to estimate confidence intervals and variable selection confidence in $\mathcal{L}_1$ regularization methods via the bootstrap \citep{Efron-1978}. Due to the varying coefficients, observations in a VCR model are not exchangeable.
+
+
 
 \section{Methods}
 
@@ -45,13 +78,19 @@ The method of LAGR uses $\ell_1$ regularization of an adaptive group lasso type 
 
 $\lambda(s)$ is the tuning parameter that sets the amount of regularization in the local model. For an
 
-Proposition 1: the sequence of adaptive lasso tuning parameters $\infty, \lambda_m, \dots, \lambda_1, 0$ corresponds to a sequence of models $g_{\infty}, g_m, \dots, g_1, g_0$ where $g_{\infty}$ is the intercept-only model and $g_0$ is the full model. As $n \to \infty$, the sequence matches the correct ordering of the models, with a $p \in 1, \dots, m$ such that all of the variables in $g_m, \dots, g_{p+1}$ are relevant, no relevant variables are added in $g_{p-1}, \dots, g_0$, and of all the candidate models $g_p$ is closest to $f$ in a KL sense.
+\begin{proposition}
+The sequence of adaptive lasso tuning parameters $\infty, \lambda_m, \dots, \lambda_1, 0$ corresponds to a sequence of models $g_{\infty}, g_m, \dots, g_1, g_0$ where $g_{\infty}$ is the intercept-only model and $g_0$ is the full model. As $n \to \infty$, the sequence matches the correct ordering of the models, with a $p \in 1, \dots, m$ such that all of the variables in $g_m, \dots, g_{p+1}$ are relevant, no relevant variables are added in $g_{p-1}, \dots, g_0$, and of all the candidate models $g_p$ is closest to $f$ in a KL sense.
+\end{proposition}
 
-Proposition 2: the AIC-optimal model $\hat{g}$ converges to $g_p$ as $n \to \infty$. In other words, given enough data, we can correctly estimate which model is closest to truth.
+\begin{proposition}
+The AIC-weighted model average $\hat{g}$ converges to $g_0$ as $n \to \infty$. In other words, given enough data, we can correctly estimate which model is closest to truth.
+\end{proposition}
 
-The difficulty is to approximate $f$ with observed data, in which case we cannot know whether the AIC-best estimate $\hat{g}$ is the same as $g_p$. Therefore the AIC is used to make a weighted average of the model sequence $g_{\infty}, g_m, \dots, g_1, g_0$.
+The difficulty is to approximate $f$ with observed data, in which case we cannot know whether the AIC-best estimate $\hat{g}$ is the same as $g_0$. Therefore the AIC is used to make a weighted average of the model sequence $g_{\infty}, g_m, \dots, g_1, g_0$.
 
-Proposition 3: the AIC-optimal model average $\bar{g}$ converges to the KL-optimal model $\hat{g}$.
+\begin{proposition}
+The AIC-optimal model average $\bar{g}$ converges to the KL-optimal model $g_0$.
+\end{proposition}
 
 \subsection{Degrees of freedom of the whole model}
 In the context of SteinÕs Unbiased Risk Estimation (SURE), the degrees of freedom are given by 
@@ -73,12 +112,16 @@ AIC = -2 \log{\mathcal{L}(h)} + 2 df(h).
 
 The profile AIC is the AIC as a function of h, ${\rm AIC}(h)$.
 
-Proposition: the bandwidth $\hat{h}$ that minimizes the profile AIC is a ÒgoodÓ estimate of the KL-optimal bandwidth.
+\begin{proposition}
+The bandwidth $\hat{h}$ that minimizes the profile AIC is a ÒgoodÓ estimate of the KL-optimal bandwidth.
+\end{proposition}
 
 \subsection{Bandwidth model averaging}
 Even if the AIC minimizer $\hat{h}$ is a good estimate of the KL-optimal bandwidth, basing inference on a single estimated value of the bandwidth parameter risks model-selection bias. Model averaging over the bandwidth is intended to eliminate model-selection bias. The model weighting is by the AIC, based on the idea that the AIC is an unbiased estimate of the log-likelihood of the data under the true data-generating mechanism
 
-Proposition: the AIC-weighted model average converges to the KL-optimal $\hat{g}$, and the resulting parameter estimates are less biased than under the point-modeled bandwidth.
+\begin{proposition}
+The AIC-weighted model average converges to the KL-optimal $g_0$, and the resulting parameter estimates are less biased than under the point-modeled bandwidth.
+\end{proposition}
 
 \subsection{Parametric bootstrap draws}
 The methods described to now relate to averaging over uncertainty in model selection. However, even if the model were \emph{a priori} known, there would uncertainty in the model estimation. The adaptive group lasso is an L1 regularization method, which results in nonlinear estimates of the model parameters. Thus, the distribution of the estimates is complicated. The parametric bootstrap is used here in preference to attempting an analytical expression of the estimation distribution.
@@ -93,11 +136,15 @@ In order to correct for the bias in estimating the coefficient surfaces, the clu
 \subsection{Inference from parametric bootstrap draws}
 The draws from the parametric bootstrap are used for inference. The nonparametric delta method of \cite{Efron-2014} is used to calculate the distribution of those quantities that we wish to measure.
 
-Proposition: the confidence intervals calculated in this way achieve the nominal coverage.
+\begin{proposition}
+The confidence intervals calculated in this way achieve the nominal coverage.
+\end{proposition}
 
-Proposition: a chi-square test based on the nonparametric delta method achieves the nominal level for testing the null hypothesis that a linear combination of local coefficients is zero.
+\begin{proposition}
+A chi-square test based on the nonparametric delta method achieves the nominal level for testing the null hypothesis that a linear combination of local coefficients is zero.
+\end{proposition}
 
 \bibliographystyle{plainnat}
-\bibliography{references}
+\bibliography{/Users/wesley/git/thesis/references/refs}
 
 \end{document}  

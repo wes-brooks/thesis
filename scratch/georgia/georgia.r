@@ -6,11 +6,13 @@ library(sp)
 library(plyr)
 library(maptools)
 
-registerDoMC(3)
+registerDoMC(6)
 data(georgia)
 
+bw = lagr.tune(PctPov ~ PctRural+PctBach+PctEld+PctFB+PctBlack, data=gSRDF, verbose=TRUE, longlat=TRUE, bw.type='knn', range=c(0,0.3), kernel=epanechnikov, varselect.method="wAIC", bwselect.method="AICc")
 
-gm = lagr(PctPov ~ PctRural+PctBach+PctEld+PctFB+PctBlack, data=gSRDF, bw=0.25, longlat=TRUE, bw.type='knn', kernel=epanechnikov, varselect.method="wAIC")
+
+gm = lagr(PctPov ~ PctRural+PctBach+PctEld+PctFB+PctBlack, data=gSRDF, bw=bw, longlat=TRUE, verbose=TRUE, bw.type='knn', kernel=epanechnikov, varselect.method="AIC")
 cc = sapply(gm[['fits']], function(x) x[['model']][['results']][['big.avg']])
 gSRDF@data$.PctRural = cc[2,]
 

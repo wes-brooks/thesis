@@ -1,0 +1,25 @@
+\begin{thebibliography}{3}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Brooks et~al.(2014)Brooks, Zhu, and Lu]{Brooks-Zhu-Lu-2014}
+Wesley Brooks, Jun Zhu, and Zudi Lu.
+\newblock Local adaptive grouped regularization and its oracle properties for
+  varying coefficient regression.
+\newblock In prep, 2014.
+
+\bibitem[Efron(2014)]{Efron-2014}
+Bradley Efron.
+\newblock Estimation and accuracy after model selection.
+\newblock \emph{Journal of the American Statistical Association}, 109\penalty0
+  (507):\penalty0 991--1007, 2014.
+
+\bibitem[Fan and Gijbels(1996)]{Fan-Gijbels-1996}
+Jianqing Fan and Irene Gijbels.
+\newblock \emph{Local Polynomial Modeling and its Applications}.
+\newblock Chapman and Hall, London, 1996.
+
+\end{thebibliography}
