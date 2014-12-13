@@ -10,7 +10,7 @@ boston = boston.c
 boston$CHAS = as.numeric(boston$CHAS)
 
 bw.boston = list()
-bw.boston = lagr.tune(MEDV~CRIM+RM+RAD+TAX+LSTAT, data=boston, coords=c('LON','LAT'), longlat=TRUE, varselect.method="wAIC", kernel=epanechnikov, tol.bw=0.01, bw.type='knn', bwselect.method="AICc", verbose=TRUE)
+bw.boston = lagr.tune(MEDV~AGE+NOX+CRIM+RM+TAX, data=boston, longlat=TRUE, varselect.method="wAIC", kernel=epanechnikov, tol.bw=0.01, bw.type='knn', bwselect.method=‘AIC’, lagr.convergence.tol=0.01, verbose=TRUE)
 
 #bw.boston[['bw']] = 0.1
 #Rprof("~/Desktop/boston-profile.txt")
