@@ -4,9 +4,11 @@ The top-level auxiliary file: aux/inference.aux
 The style file: plainnat.bst
 Database file #1: /Users/wesley/git/thesis/references/refs.bib
 Warning--I didn't find a database entry for "Efron-1978"
+Warning--I didn't find a database entry for "Kullbach-Leibler-1951"
+Warning--I didn't find a database entry for "Akaike-1978"
 You've used 3 entries,
             2773 wiz_defined-function locations,
-            614 strings with 5356 characters,
+            618 strings with 5420 characters,
 and the built_in function-call counts, 1159 in all, are:
 = -- 100
 > -- 61
@@ -45,4 +47,4 @@ warning$ -- 0
 while$ -- 11
 width$ -- 0
 write$ -- 44
-(There was 1 warning)
+(There were 3 warnings)
