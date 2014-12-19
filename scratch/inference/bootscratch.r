@@ -8,7 +8,8 @@ registerDoMC(7)
 set.seed(11181982)
 
 #Set constants:
-B = 20
+B1 = 1
+B = 50
 n = 100
 
 #Simulate data:
@@ -20,7 +21,7 @@ tt = seq(0, 5, len=n)
 
 f0.second.derivative = function(x) {-2.4*x^2 + 6*x + 1.4}
 f1.second.derivative = function(x) {-cos(x)}
-f2.second.derivative = function(x) {-sin(x)}
+f2.second.derivative = function(x) {-0.1*sin(x)}
 
 fitted = list()
 resid = list()
@@ -30,14 +31,14 @@ empirical.bias.0 = list()
 empirical.bias.1 = list()
 empirical.bias.2 = list()
 
-for (b in 1:B) {
+for (b in 1:B1) {
 print(b)
     X1 = rnorm(n, mean=3, sd=2)
     X2 = rnorm(n, mean=3, sd=2)
     y = f0(tt) + X1*f1(tt) + X2*f2(tt) + rnorm(n)
     df = data.frame(y, x1=X1, x2=X2, t=tt)
 
-    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAIC', kernel=epanechnikov, bw.type='knn', bw=0.2, verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
+    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='AICc', kernel=epanechnikov, bw.type='knn', bw=0.2, verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
     W = list()
     for (i in 1:n) {
@@ -58,15 +59,7 @@ bias.0 = f0.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]) /
 bias.1 = f1.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]) / 10
 bias.2 = f2.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]) / 10
 
-empirical.bias = list()
-for (b in 1:B) {
-    empirical.bias[[b]] = cbind(empirical.bias.0[[b]], empirical.bias.1[[b]], empirical.bias.2[[b]])
-}
 
-sapply(empirical.bias.0, c) %>% rowMeans -> eb0
-
-
-#sqrt(n*sapply(m[['fits']], function(x) x[['bw']]) / 5) -> bias.factor
 
 #Plot multiple realizations of the means: resampling should look something like this(?)
 yy = range(c(f2(tt), sapply(coefs, function(x) x[,3])))
@@ -78,12 +71,17 @@ for (b in 1:B) {
 }
 par(new=TRUE)
 plot(x=tt, y=f2(tt) + bias.2, bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='blue', lty=2, lwd=2)
+par(new=TRUE)
+plot(x=tt, y=coefs[[b]][,3] - empirical.bias.2[[b]], bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='green', lty=2, lwd=2)
+
 
 
 
 
 #Linked bootstrap draws:
 beta.star.1 = list()
+Y.star.1 = list()
+X = as.matrix(cbind(1, X1, X2))
 
 for (j in 1:B) {
     cat(paste("j is ", j, "\n", sep=""))
@@ -92,10 +90,29 @@ for (j in 1:B) {
     
     for (i in 1:n) {
         Sigma = with(summary(m[['fits']][[i]][['model']][['adamodel']]), cov.unscaled * dispersion)[1:6,1:6]
-        beta.star.1[[j]] = cbind(beta.star.1[[j]], (coefs[[B]][i,] + (sqrtm(Sigma) %*% y.hat.seed)))
+        beta.star.1[[j]] = cbind(beta.star.1[[j]], (coefs[[1]][i,] + (sqrtm(Sigma) %*% y.hat.seed)))
     }
-    beta.star.1[[j]] = beta.star.1[[j]][1:3,] - t(empirical.bias[[B]])
+    beta.star.1[[j]] = t(beta.star.1[[j]][1:3,]) - empirical.bias[[1]]
+    Y.star.1[[j]] = sapply(1:n, function(k) t(X[k,]) %*% beta.star.1[[j]][k,]) + rnorm(n, 0, sd=sd(resid[[1]]))
 }
+
+for (b in 1:B) {
+    print(b)
+    df.b = df
+    df.b$y = Y.star.1[[b]]
+    
+    m.b = lagr(y~x1+x2, data=df.b, family='gaussian', coords='t', varselect.method='AIC', kernel=epanechnikov, bw.type='knn', bw=0.2, verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
+    coefs[[b]] = t(sapply(m.b$fits, function(x) x$coef))
+}
+
+
+#confidence from paraboot:
+sapply(1:B, function(i) coefs[[i]][,3]) %>% range -> yy
+sapply(1:B, function(i) coefs[[i]][,3]) %>% apply(1, function(x) quantile(x, 0.1)) %>% plot(type='l', ylim=yy, bty='n')
+par(new=TRUE)
+sapply(1:B, function(i) coefs[[i]][,3]) %>% apply(1, function(x) quantile(x, 0.9)) %>% plot(type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
+par(new=TRUE)
+plot(f2(tt)+bias.2, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xaxt='n', yaxt='n')
 
 
 #Plot draws from the linked bootstrap: TOO SMOOTH
