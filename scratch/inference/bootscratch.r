@@ -50,10 +50,6 @@ print(b)
     fitted[[b]] = sapply(m[['fits']], function(x) tail(x[['fitted']],1))
     resid[[b]] = df$y - fitted[[b]]
     coefs[[b]] = t(sapply(m[['fits']], function(x) x[['model']][['beta']][,ncol(x[['model']][['beta']])]))
-
-    empirical.bias.0[[b]] = c(0, diff(coefs[[b]][,4])) * n / 5 * sapply(m[['fits']], function(x) x[['bw']]) / 10
-    empirical.bias.1[[b]] = c(0, diff(coefs[[b]][,5])) * n / 5 * sapply(m[['fits']], function(x) x[['bw']]) / 10
-    empirical.bias.2[[b]] = c(0, diff(coefs[[b]][,6])) * n / 5 * sapply(m[['fits']], function(x) x[['bw']]) / 10
 }
 bias.0 = f0.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]) / 10
 bias.1 = f1.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]) / 10
@@ -102,17 +98,89 @@ for (b in 1:B) {
     df.b$y = Y.star.1[[b]]
     
     m.b = lagr(y~x1+x2, data=df.b, family='gaussian', coords='t', varselect.method='AIC', kernel=epanechnikov, bw.type='knn', bw=0.2, verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
-    coefs[[b]] = t(sapply(m.b$fits, function(x) x$coef))
+    coefs.boot[[b]] = t(sapply(m.b$fits, function(x) x$coef))
 }
 
 
+#sd by Efron method (nonparametric delta method):
+sd.boot = list()
+for (i in 1:n) {
+    #Only 49 resamples ran last time:
+    B = 49
+    
+    t.b = sapply(coefs.boot, function(x) x[i,]) %>% t
+    t.mean = matrix(rep(colMeans(t.b),each=B),B,3)
+    B.b = (sapply(beta.star.1, function(x) x[i,]) %>% t)[1:B,]
+    
+    cov.b = t(B.b) %*% (t.b-t.mean) / B
+    V.b = t(B.b) %*% B.b / B
+    sd.boot[[i]] = sqrtm(t(cov.b) %*% solve(V.b) %*% cov.b)
+}
+
+
+#png("/Users/wesley/git/thesis/writeup/paraboot/figures/paraboot-est.png", width=7, height=3, units='in', res=150)
+layout(matrix(1:3,1,3))
 #confidence from paraboot:
-sapply(1:B, function(i) coefs[[i]][,3]) %>% range -> yy
-sapply(1:B, function(i) coefs[[i]][,3]) %>% apply(1, function(x) quantile(x, 0.1)) %>% plot(type='l', ylim=yy, bty='n')
+sapply(coefs.boot, function(x) x[,1]) %>% range -> yy
+sapply(coefs.boot, function(x) x[,1]) %>% apply(1, function(y) quantile(y, 0.05)) %>% plot(x=tt, type='l', xlab='t', ylab=expression(beta[0]), ylim=yy, bty='n')
 par(new=TRUE)
-sapply(1:B, function(i) coefs[[i]][,3]) %>% apply(1, function(x) quantile(x, 0.9)) %>% plot(type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
+sapply(coefs.boot, function(x) x[,1]) %>% apply(1, function(y) quantile(y, 0.95)) %>% plot(x=tt, type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
 par(new=TRUE)
-plot(f2(tt)+bias.2, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xaxt='n', yaxt='n')
+plot(x=tt, y=f0(tt)+bias.0, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xaxt='n', yaxt='n')
+
+#confidence from paraboot:
+sapply(coefs.boot, function(x) x[,2]) %>% range -> yy
+sapply(coefs.boot, function(x) x[,2]) %>% apply(1, function(y) quantile(y, 0.05)) %>% plot(x=tt, type='l', xlab='t', ylab=expression(beta[1]), ylim=yy, bty='n')
+par(new=TRUE)
+sapply(coefs.boot, function(x) x[,2]) %>% apply(1, function(y) quantile(y, 0.95)) %>% plot(x=tt, type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
+par(new=TRUE)
+plot(x=tt, y=f1(tt)+bias.1, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xaxt='n', yaxt='n')
+
+#confidence from paraboot:
+sapply(coefs.boot, function(x) x[,3]) %>% range -> yy
+sapply(coefs.boot, function(x) x[,3]) %>% apply(1, function(y) quantile(y, 0.05)) %>% plot(x=tt, type='l', xlab='t', ylab=expression(beta[2]), ylim=yy, bty='n')
+par(new=TRUE)
+sapply(coefs.boot, function(x) x[,3]) %>% apply(1, function(y) quantile(y, 0.95)) %>% plot(x=tt, type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
+par(new=TRUE)
+plot(x=tt, y=f2(tt)+bias.2, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xaxt='n', yaxt='n')
+
+#dev.off()
+
+
+
+
+#confidence from Efron:
+sapply(coefs.boot, function(x) x[,1]) %>% range -> yy
+(sapply(coefs.boot, function(x) x[,1]) %>% rowMeans - 1.96*sapply(sd.boot, function(x) x[1,1])) %>% plot(x=tt, type='l', xlab='t', ylab=expression(beta[0]), ylim=yy, bty='n')
+par(new=TRUE)
+(sapply(coefs.boot, function(x) x[,1]) %>% rowMeans + 1.96*sapply(sd.boot, function(x) x[1,1])) %>% plot(x=tt, type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
+par(new=TRUE)
+plot(x=tt, y=f0(tt)+bias.0, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xaxt='n', yaxt='n')
+par(new=TRUE)
+sapply(coefs.boot, function(x) x[,1]) %>% rowMeans %>% plot(x=tt, ylim=yy, col='blue', lty=2, ann=FALSE, xaxt='n', yaxt='n', bty='n', type='l')
+
+
+#confidence from Efron:
+sapply(coefs.boot, function(x) x[,2]) %>% range -> yy
+(sapply(coefs.boot, function(x) x[,2]) %>% rowMeans - 1.96*sapply(sd.boot, function(x) x[2,2])) %>% plot(x=tt, type='l', xlab='t', ylab=expression(beta[1]), ylim=yy, bty='n')
+par(new=TRUE)
+(sapply(coefs.boot, function(x) x[,2]) %>% rowMeans + 1.96*sapply(sd.boot, function(x) x[2,2])) %>% plot(x=tt, type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
+par(new=TRUE)
+plot(x=tt, y=f1(tt)+bias.1, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xaxt='n', yaxt='n')
+par(new=TRUE)
+sapply(coefs.boot, function(x) x[,2]) %>% rowMeans %>% plot(x=tt, ylim=yy, col='blue', lty=2, ann=FALSE, xaxt='n', yaxt='n', bty='n', type='l')
+
+
+#confidence from Efron:
+sapply(coefs.boot, function(x) x[,3]) %>% range -> yy
+(coefs[[1]][,3] - 1.96*sapply(sd.boot, function(x) x[3,3])) %>% plot(x=tt, type='l', xlab='t', ylab=expression(beta[2]), ylim=yy, bty='n')
+par(new=TRUE)
+(coefs[[1]][,3] + 1.96*sapply(sd.boot, function(x) x[3,3])) %>% plot(x=tt, type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
+par(new=TRUE)
+plot(x=tt, y=f2(tt)+bias.2, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xaxt='n', yaxt='n')
+
+
+
 
 
 #Plot draws from the linked bootstrap: TOO SMOOTH

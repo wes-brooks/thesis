@@ -125,7 +125,7 @@ for (i in 1:n) {
 
 fitted = sapply(m[['fits']], function(x) tail(x[['fitted']],1))
 resid = df$y - fitted
-coefs = t(sapply(m[['fits']], function(x) x[['coef']][,3]))
+coefs = t(sapply(m[['fits']], function(x) x[['model']][['beta']][,3]))
 
 #Draw coefficients two ways:
 #1) independent bootstrap
@@ -144,8 +144,8 @@ for (j in 1:B) {
     y.hat.seed = as.matrix(rnorm(3))
     
     for (i in 1:n) {
-        Sigma = with(summary(m[['model']][[i]][['model']][['adamodel']]), cov.unscaled * dispersion)[1:3,1:3]
-        beta.star.1[[j]] = cbind(beta.star.1[[j]], mvrnorm(1, mu=coefs[i,1:3], Sigma=Sigma))
+        Sigma = with(summary(m[['fits']][[i]][['model']][['adamodel']]), cov.unscaled * dispersion)[1:3,1:3]
+        #beta.star.1[[j]] = cbind(beta.star.1[[j]], mvrnorm(1, mu=coefs[i,1:3], Sigma=Sigma))
         beta.star.2[[j]] = cbind(beta.star.2[[j]], (coefs[i,1:3] + (sqrtm(Sigma) %*% y.hat.seed)))
     }
 }
@@ -154,7 +154,7 @@ for (j in 1:B) {
 ```{r}
 Sigma = list()
 for (i in 1:n) {
-    Sigma[[i]] = with(summary(m[['model']][[i]][['model']][['adamodel']]), cov.unscaled * dispersion)[1:3,1:3]
+    Sigma[[i]] = with(summary(m[['fits']][[i]][['model']][['adamodel']]), cov.unscaled * dispersion)[1:3,1:3]
 }
 
 SS = bdiag(Sigma)
@@ -163,12 +163,12 @@ for (i in 1:(n-1)) {
     
     for (j in (i+1):n) {
         X.j = cbind(1, X1, X2)
-        scale = sqrt(summary(m[['model']][[i]][['model']][['adamodel']])$dispersion *
-                         summary(m[['model']][[j]][['model']][['adamodel']])$dispersion)
+        scale = sqrt(summary(m[['fits']][[i]][['model']][['adamodel']])$dispersion *
+                         summary(m[['fits']][[j]][['model']][['adamodel']])$dispersion)
         
-        unscaled = summary(m[['model']][[i]][['model']][['adamodel']])$cov.unscaled[1:3,1:3] %*%
+        unscaled = summary(m[['fits']][[i]][['model']][['adamodel']])$cov.unscaled[1:3,1:3] %*%
             t(X.i) %*% sqrt(W[[i]] %*% W[[j]]) %*% 
-            X.j %*% summary(m[['model']][[j]][['model']][['adamodel']])$cov.unscaled[1:3,1:3]
+            X.j %*% summary(m[['fits']][[j]][['model']][['adamodel']])$cov.unscaled[1:3,1:3]
         
         SS[((i-1)*3+1):(3*i), ((j-1)*3+1):(3*j)] =
             SS[((j-1)*3+1):(3*j), ((i-1)*3+1):(3*i)] = scale * unscaled
@@ -185,7 +185,7 @@ beta.star.3 = list()
 beta.star.4 = list()
 for (k in 1:B) {
     #beta.star.3[[k]] = (t(coefs) + matrix(sqSS %*% rep(rnorm(6),n), 6, n))
-    beta.star.4[[k]] = (t(coefs[1:3,]) + matrix(sqSS %*% rnorm(6*n), 6, n))
+    beta.star.4[[k]] = (t(coefs[,1:3]) + matrix(sqSS %*% rnorm(3*n), 3, n))
 }
 ```
 
