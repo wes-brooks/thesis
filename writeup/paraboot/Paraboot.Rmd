@@ -20,7 +20,40 @@ $$ \{n h^d f(s) \}^{1/2} \left(\hat{\beta}(s) - \beta(s) - (2 \kappa_0)^{-1} \ka
 
 ##Bias in coefficient estimation
 The asymptotic distribution of the LAGR-estimated VCR coefficients indicates bias. The asymptotic bias is $(2 \kappa_0)^{-1} \kappa_2 h^d \nabla^2 \beta(s)$, which is proportional to the second derivative of the coefficient surface. 
- 
+
+###Bias correction
+```{r fig.width=7, fig.height=3}
+
+layout(matrix(1:3,1,3))
+
+#intercept plot:
+yy = range(f0(tt))
+plot(x=tt, y=f0(tt), type='l', xlab='t', ylab='Intercept', bty='n', ylim=yy)
+par(new=TRUE)
+plot(x=tt, y=f0(tt) + bias.0, type='l', ann=FALSE, xaxt='n', yaxt='n', bty='n', ylim=yy, col='blue', lwd=2, lty=2)
+par(new=TRUE)
+plot(x=tt, y=f0(tt) + bias.0 + bias.0.2, type='l', ann=FALSE, xaxt='n', yaxt='n', bty='n', ylim=yy, col='red', lwd=2, lty=3)
+legend(x='topright', c("Truth", "First order", "Second order"), lty=c(1,2,3), lwd=c(1,2,2), col=c('black', 'blue', 'red'), bty='n')
+
+#beta_1 plot:
+yy = range(f1(tt))
+plot(x=tt, y=f1(tt), type='l', xlab='t', ylab='Intercept', bty='n', ylim=yy)
+par(new=TRUE)
+plot(x=tt, y=f1(tt) + bias.1, type='l', ann=FALSE, xaxt='n', yaxt='n', bty='n', ylim=yy, col='blue', lwd=2, lty=2)
+par(new=TRUE)
+plot(x=tt, y=f1(tt) + bias.1 + bias.1.2, type='l', ann=FALSE, xaxt='n', yaxt='n', bty='n', ylim=yy, col='red', lwd=2, lty=3)
+legend(x='topright', c("Truth", "First order", "Second order"), lty=c(1,2,3), lwd=c(1,2,2), col=c('black', 'blue', 'red'), bty='n')
+
+#beta_2 plot:
+yy = range(f2(tt))
+plot(x=tt, y=f2(tt), type='l', xlab='t', ylab='Intercept', bty='n', ylim=yy)
+par(new=TRUE)
+plot(x=tt, y=f2(tt) + bias.2, type='l', ann=FALSE, xaxt='n', yaxt='n', bty='n', ylim=yy, col='blue', lwd=2, lty=2)
+par(new=TRUE)
+plot(x=tt, y=f2(tt) + bias.2 + bias.2.2, type='l', ann=FALSE, xaxt='n', yaxt='n', bty='n', ylim=yy, col='red', lwd=2, lty=3)
+legend(x='topright', c("Truth", "First order", "Second order"), lty=c(1,2,3), lwd=c(1,2,2), col=c('black', 'blue', 'red'), bty='n')
+```
+
 ##Parametric bootstrap
 Statistics are functions of the data. The distribution of a statistic is a function of the distribution of the data, and the bootstrap is a method of estimation for the data distribution. That is, we assume that $Y \sim G$ and that $F_{\boldsymbol{\theta}_0}$ is a good approximation to $G$, where $\boldsymbol{\theta}_0$ is a parameter vector and our interest is inference on $\boldsymbol{\theta}$. Then the MLE is a function of the observed data $\hat{\boldsymbol{\theta}} = T(Y)$.
 
@@ -39,6 +72,8 @@ $$\beta^{*} \sim N \left(0, \sigma^2 (X_1^T W_1 X_1)^{-1} X_1^T W_1 W_1 X_1 (X_1
 
 Want:
 $$\tilde{\beta} \xrightarrow{P} truth.$$
+
+
 
 
 

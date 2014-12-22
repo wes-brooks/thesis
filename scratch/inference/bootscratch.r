@@ -14,22 +14,22 @@ n = 100
 
 #Simulate data:
 f0 = function(x) {-0.2*x^4 + x^3 + 0.7*(x-1)^2 - 4*(x-2) + 1}
-f1 = function(x) {cos(x)}
-f2 = function(x) {0.1*sin(x)}
+f1 = function(x) {0.05*x^2 + 0.2*x + cos(x)}
+f2 = function(x) {(x+1)^(-1) - 1/6}
 tt = seq(0, 5, len=n)
 
 
 f0.second.derivative = function(x) {-2.4*x^2 + 6*x + 1.4}
-f1.second.derivative = function(x) {-cos(x)}
-f2.second.derivative = function(x) {-0.1*sin(x)}
+f1.second.derivative = function(x) {0.1-cos(x)}
+f2.second.derivative = function(x) {2*(x+1)^(-3)}
+
+f0.fourth.derivative = function(x) {-4.8}
+f1.fourth.derivative = function(x) {cos(x)}
+f2.fourth.derivative = function(x) {24*(x+1)^(-5)}
 
 fitted = list()
 resid = list()
 coefs = list()
-
-empirical.bias.0 = list()
-empirical.bias.1 = list()
-empirical.bias.2 = list()
 
 for (b in 1:B1) {
 print(b)
@@ -38,7 +38,7 @@ print(b)
     y = f0(tt) + X1*f1(tt) + X2*f2(tt) + rnorm(n)
     df = data.frame(y, x1=X1, x2=X2, t=tt)
 
-    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='AICc', kernel=epanechnikov, bw.type='knn', bw=0.2, verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
+    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', kernel=epanechnikov, bw.type='knn', bw=0.15, verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
     W = list()
     for (i in 1:n) {
@@ -51,16 +51,49 @@ print(b)
     resid[[b]] = df$y - fitted[[b]]
     coefs[[b]] = t(sapply(m[['fits']], function(x) x[['model']][['beta']][,ncol(x[['model']][['beta']])]))
 }
-bias.0 = f0.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]) / 10
-bias.1 = f1.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]) / 10
-bias.2 = f2.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]) / 10
+bias.0 = f0.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
+bias.1 = f1.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
+bias.2 = f2.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
+
+bias.0.2 = f0.fourth.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
+bias.1.2 = f1.fourth.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
+bias.2.2 = f2.fourth.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
+
+
+
+#Plot multiple realizations of the means: resampling should look something like this(?)
+yy = range(c(f0(tt), sapply(coefs, function(x) x[,1])))
+plot(x=tt,y=f0(tt), bty='n', xlab='t', ylab='Intercept', ylim=yy, type='l')
+for (b in 1:B1) {
+    par(new=TRUE)
+    #Subtract the bias as it appears from the rate of change of the first derivative:
+    plot(x=tt, y=coefs[[b]][,1], bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='red')
+}
+par(new=TRUE)
+plot(x=tt, y=f0(tt) + bias.0, bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='blue', lty=2, lwd=2)
+par(new=TRUE)
+plot(x=tt, y=coefs[[b]][,1] - empirical.bias.0[[b]], bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='green', lty=2, lwd=2)
+
+
+#Plot multiple realizations of the means: resampling should look something like this(?)
+yy = range(c(f1(tt), sapply(coefs, function(x) x[,2])))
+plot(x=tt, y=f1(tt), bty='n', xlab='t', ylab='Intercept', ylim=yy, type='l')
+for (b in 1:B1) {
+    par(new=TRUE)
+    #Subtract the bias as it appears from the rate of change of the first derivative:
+    plot(x=tt, y=coefs[[b]][,2], bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='red')
+}
+par(new=TRUE)
+plot(x=tt, y=f1(tt) + bias.1, bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='blue', lty=2, lwd=2)
+par(new=TRUE)
+plot(x=tt, y=coefs[[b]][,2] - empirical.bias.1[[b]], bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='green', lty=2, lwd=2)
 
 
 
 #Plot multiple realizations of the means: resampling should look something like this(?)
 yy = range(c(f2(tt), sapply(coefs, function(x) x[,3])))
 plot(x=tt,y=f2(tt), bty='n', xlab='t', ylab='Intercept', ylim=yy, type='l')
-for (b in 1:B) {
+for (b in 1:B1) {
     par(new=TRUE)
     #Subtract the bias as it appears from the rate of change of the first derivative:
     plot(x=tt, y=coefs[[b]][,3], bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='red')
@@ -74,7 +107,7 @@ plot(x=tt, y=coefs[[b]][,3] - empirical.bias.2[[b]], bty='n', ann=FALSE, yaxt='n
 
 
 
-#Linked bootstrap draws:
+#Linked bootstrap draws to generate the resampled response:
 beta.star.1 = list()
 Y.star.1 = list()
 X = as.matrix(cbind(1, X1, X2))
@@ -92,29 +125,40 @@ for (j in 1:B) {
     Y.star.1[[j]] = sapply(1:n, function(k) t(X[k,]) %*% beta.star.1[[j]][k,]) + rnorm(n, 0, sd=sd(resid[[1]]))
 }
 
+#Run estimation on the parametric bootstrap draws:
+coefs.boot = list()
+conf.zero = list()
+df.b = df
 for (b in 1:B) {
     print(b)
-    df.b = df
     df.b$y = Y.star.1[[b]]
     
-    m.b = lagr(y~x1+x2, data=df.b, family='gaussian', coords='t', varselect.method='AIC', kernel=epanechnikov, bw.type='knn', bw=0.2, verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
+    m.b = lagr(y~x1+x2, data=df.b, family='gaussian', coords='t', varselect.method='wAICc', kernel=epanechnikov, bw.type='knn', bw=0.15, verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     coefs.boot[[b]] = t(sapply(m.b$fits, function(x) x$coef))
+    conf.zero[[b]] = t(sapply(m.b$fits, function(x) x$conf.zero))
 }
 
 
 #sd by Efron method (nonparametric delta method):
 sd.boot = list()
+zero.boot = list()
 for (i in 1:n) {
     #Only 49 resamples ran last time:
-    B = 49
+    #B = 49
     
     t.b = sapply(coefs.boot, function(x) x[i,]) %>% t
     t.mean = matrix(rep(colMeans(t.b),each=B),B,3)
     B.b = (sapply(beta.star.1, function(x) x[i,]) %>% t)[1:B,]
     
+    z.b = sapply(conf.zero, function(x) x[i,-1]) %>% t
+    z.mean = matrix(rep(colMeans(z.b),each=B),B,2)
+    coz.b = t(B.b) %*% (z.b-z.mean) / B
+    
     cov.b = t(B.b) %*% (t.b-t.mean) / B
     V.b = t(B.b) %*% B.b / B
     sd.boot[[i]] = sqrtm(t(cov.b) %*% solve(V.b) %*% cov.b)
+    
+    zero.boot[[b]] = sqrtm(t(coz.b) %*% solve(V.b) %*% coz.b)
 }
 
 
@@ -151,31 +195,27 @@ plot(x=tt, y=f2(tt)+bias.2, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xa
 
 #confidence from Efron:
 sapply(coefs.boot, function(x) x[,1]) %>% range -> yy
-(sapply(coefs.boot, function(x) x[,1]) %>% rowMeans - 1.96*sapply(sd.boot, function(x) x[1,1])) %>% plot(x=tt, type='l', xlab='t', ylab=expression(beta[0]), ylim=yy, bty='n')
+(sapply(m$fits, function(x) x$coef)[1,] - 1.96*sapply(sd.boot, function(x) x[1,1])) %>% plot(x=tt, type='l', xlab='t', ylab=expression(beta[0]), ylim=yy, bty='n')
 par(new=TRUE)
-(sapply(coefs.boot, function(x) x[,1]) %>% rowMeans + 1.96*sapply(sd.boot, function(x) x[1,1])) %>% plot(x=tt, type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
+(sapply(m$fits, function(x) x$coef)[1,] + 1.96*sapply(sd.boot, function(x) x[1,1])) %>% plot(x=tt, type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
 par(new=TRUE)
 plot(x=tt, y=f0(tt)+bias.0, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xaxt='n', yaxt='n')
-par(new=TRUE)
-sapply(coefs.boot, function(x) x[,1]) %>% rowMeans %>% plot(x=tt, ylim=yy, col='blue', lty=2, ann=FALSE, xaxt='n', yaxt='n', bty='n', type='l')
 
 
 #confidence from Efron:
 sapply(coefs.boot, function(x) x[,2]) %>% range -> yy
-(sapply(coefs.boot, function(x) x[,2]) %>% rowMeans - 1.96*sapply(sd.boot, function(x) x[2,2])) %>% plot(x=tt, type='l', xlab='t', ylab=expression(beta[1]), ylim=yy, bty='n')
+(sapply(m$fits, function(x) x$coef)[2,] - 1.96*sapply(sd.boot, function(x) x[2,2])) %>% plot(x=tt, type='l', xlab='t', ylab=expression(beta[1]), ylim=yy, bty='n')
 par(new=TRUE)
-(sapply(coefs.boot, function(x) x[,2]) %>% rowMeans + 1.96*sapply(sd.boot, function(x) x[2,2])) %>% plot(x=tt, type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
+(sapply(m$fits, function(x) x$coef)[2,] + 1.96*sapply(sd.boot, function(x) x[2,2])) %>% plot(x=tt, type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
 par(new=TRUE)
 plot(x=tt, y=f1(tt)+bias.1, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xaxt='n', yaxt='n')
-par(new=TRUE)
-sapply(coefs.boot, function(x) x[,2]) %>% rowMeans %>% plot(x=tt, ylim=yy, col='blue', lty=2, ann=FALSE, xaxt='n', yaxt='n', bty='n', type='l')
 
 
 #confidence from Efron:
 sapply(coefs.boot, function(x) x[,3]) %>% range -> yy
-(coefs[[1]][,3] - 1.96*sapply(sd.boot, function(x) x[3,3])) %>% plot(x=tt, type='l', xlab='t', ylab=expression(beta[2]), ylim=yy, bty='n')
+(sapply(m$fits, function(x) x$coef)[3,] - 1.96*sapply(sd.boot, function(x) x[3,3])) %>% plot(x=tt, type='l', xlab='t', ylab=expression(beta[2]), ylim=yy, bty='n')
 par(new=TRUE)
-(coefs[[1]][,3] + 1.96*sapply(sd.boot, function(x) x[3,3])) %>% plot(x=tt, type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
+(sapply(coefs.boot, function(x) x[,3]) %>% rowMeans + 1.96*sapply(sd.boot, function(x) x[3,3])) %>% plot(x=tt, type='l', ylim=yy, ann=FALSE, bty='n', xaxt='n', yaxt='n')
 par(new=TRUE)
 plot(x=tt, y=f2(tt)+bias.2, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xaxt='n', yaxt='n')
 

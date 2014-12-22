@@ -16,7 +16,7 @@ for (b in 1:B1) {
         cc.0 = rbind(cc.0, m2$coef)
     }
     
-    empirical.bias.0[[b]] = cc.0[,2] * sapply(m[['fits']], function(x) x[['bw']]) / 10
+    empirical.bias.0[[b]] = cc.0[,2] * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
     
     #Empirical second derivative of beta.1
     sl = coefs[[b]][,5]
@@ -30,7 +30,7 @@ for (b in 1:B1) {
         cc.1 = rbind(cc.1, m2$coef)
     }
     
-    empirical.bias.1[[b]] = cc.1[,2] * sapply(m[['fits']], function(x) x[['bw']]) / 10
+    empirical.bias.1[[b]] = cc.1[,2] * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
     
     #Empirical second derivative of beta.2
     sl = coefs[[b]][,6]
@@ -44,7 +44,7 @@ for (b in 1:B1) {
         cc.2 = rbind(cc.2, m2$coef)
     }
     
-    empirical.bias.2[[b]] = cc.2[,2] * sapply(m[['fits']], function(x) x[['bw']]) / 10
+    empirical.bias.2[[b]] = cc.2[,2] * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
     
     empirical.bias[[b]] = cbind(empirical.bias.0[[b]], empirical.bias.1[[b]], empirical.bias.2[[b]])
 }
