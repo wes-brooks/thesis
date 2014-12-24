@@ -14,6 +14,15 @@ Estimation procedure:
  + From the resampled response, estimate the coefficients
  + Collect these estimates.
  
+```{r import-packages echo=FALSE} 
+library(lagr)
+library(dplyr)
+```
+
+```{r paraboot, echo=FALSE}
+read_chunk('~/git/thesis/code/inference-paper/paraboot-onedim/paraboot.r')
+```
+ 
 ##Estimate a VCR model
 The estimated value of the coefficient surface converges thus:
 $$ \{n h^d f(s) \}^{1/2} \left(\hat{\beta}(s) - \beta(s) - (2 \kappa_0)^{-1} \kappa_2 h^d \nabla^2 \beta(s) \right) \xrightarrow{D} N\left( 0, \kappa_0^{-2} \nu_0 \Gamma(s)^{-1} \right) $$

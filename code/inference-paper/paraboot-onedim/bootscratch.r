@@ -1,23 +1,13 @@
-library(lagr)
-library(mgcv)
-library(dplyr)
-library(doMC)
-
-registerDoMC(7)
-
-set.seed(11181982)
-
+## @knitr simulate-data
 #Set constants:
 B1 = 1
-B = 50
 n = 100
+tt = seq(0, 5, len=n)
 
-#Simulate data:
+#Coefficient functions:
 f0 = function(x) {-0.2*x^4 + x^3 + 0.7*(x-1)^2 - 4*(x-2) + 1}
 f1 = function(x) {0.05*x^2 + 0.2*x + cos(x)}
 f2 = function(x) {(x+1)^(-1) - 1/6}
-tt = seq(0, 5, len=n)
-
 
 f0.second.derivative = function(x) {-2.4*x^2 + 6*x + 1.4}
 f1.second.derivative = function(x) {0.1-cos(x)}
@@ -27,19 +17,24 @@ f0.fourth.derivative = function(x) {-4.8}
 f1.fourth.derivative = function(x) {cos(x)}
 f2.fourth.derivative = function(x) {24*(x+1)^(-5)}
 
+#Create objects to store results:
 fitted = list()
 resid = list()
 coefs = list()
 
+#Generate the raw data sets (not bootstrap)
+set.seed(11181982)
 for (b in 1:B1) {
-print(b)
+    #simulate data
     X1 = rnorm(n, mean=3, sd=2)
     X2 = rnorm(n, mean=3, sd=2)
     y = f0(tt) + X1*f1(tt) + X2*f2(tt) + rnorm(n)
     df = data.frame(y, x1=X1, x2=X2, t=tt)
-
+    
+    #Fit a VCR model to the simulated data by LAGR
     m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', kernel=epanechnikov, bw.type='knn', bw=0.15, verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
+    #Get the observation weights for each local fit in the VCR model:
     W = list()
     for (i in 1:n) {
         h = m[['fits']][[i]][['bw']]
@@ -47,19 +42,89 @@ print(b)
         W[[i]] = diag(w)
     }
     
+    #Store the fitted values, residuals, and coefficient estimates:
     fitted[[b]] = sapply(m[['fits']], function(x) tail(x[['fitted']],1))
     resid[[b]] = df$y - fitted[[b]]
     coefs[[b]] = t(sapply(m[['fits']], function(x) x[['model']][['beta']][,ncol(x[['model']][['beta']])]))
 }
+
+
+## @knitr asymptotic-bias
+
+#Compute asymptotic bias from the true coefficient functions:
 bias.0 = f0.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
 bias.1 = f1.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
 bias.2 = f2.second.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
 
+#Asymptotic bias of the second order, for parametric bootstrap estimates of the coefficients
 bias.0.2 = f0.fourth.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
 bias.1.2 = f1.fourth.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
 bias.2.2 = f2.fourth.derivative(tt) * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
 
 
+
+
+
+
+## @knitr empirical-bias
+
+#Empirical bias:
+empirical.bias.0 = list()
+empirical.bias.1 = list()
+empirical.bias.2 = list()
+empirical.bias = list()
+
+for (b in 1:B1) {
+    #Empirical second derivative of beta.0
+    sl = coefs[[b]][,4]
+    cc.0 = matrix(0,0,2)
+    for (i in 1:n) {
+        h = m$fits[[i]]$bw
+        w = epanechnikov(abs(tt-tt[i]), h)
+        X = tt - tt[i]
+        
+        m2 = lm(sl~X, weights=w)
+        cc.0 = rbind(cc.0, m2$coef)
+    }
+    
+    empirical.bias.0[[b]] = cc.0[,2] * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
+    
+    #Empirical second derivative of beta.1
+    sl = coefs[[b]][,5]
+    cc.1 = matrix(0,0,2)
+    for (i in 1:n) {
+        h = m$fits[[i]]$bw
+        w = epanechnikov(abs(tt-tt[i]), h)
+        X = tt - tt[i]
+        
+        m2 = lm(sl~X, weights=w)
+        cc.1 = rbind(cc.1, m2$coef)
+    }
+    
+    empirical.bias.1[[b]] = cc.1[,2] * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
+    
+    #Empirical second derivative of beta.2
+    sl = coefs[[b]][,6]
+    cc.2 = matrix(0,0,2)
+    for (i in 1:n) {
+        h = m$fits[[i]]$bw
+        w = epanechnikov(abs(tt-tt[i]), h)
+        X = tt - tt[i]
+        
+        m2 = lm(sl~X, weights=w)
+        cc.2 = rbind(cc.2, m2$coef)
+    }
+    
+    empirical.bias.2[[b]] = cc.2[,2] * sapply(m[['fits']], function(x) x[['bw']]**2) / 10
+    
+    empirical.bias[[b]] = cbind(empirical.bias.0[[b]], empirical.bias.1[[b]], empirical.bias.2[[b]])
+}
+
+
+
+
+
+## @knitr plot-realizations
 
 #Plot multiple realizations of the means: resampling should look something like this(?)
 yy = range(c(f0(tt), sapply(coefs, function(x) x[,1])))
@@ -105,7 +170,8 @@ plot(x=tt, y=coefs[[b]][,3] - empirical.bias.2[[b]], bty='n', ann=FALSE, yaxt='n
 
 
 
-
+## @knitr linked-bootstrap-sample
+B = 50
 
 #Linked bootstrap draws to generate the resampled response:
 beta.star.1 = list()
@@ -124,6 +190,8 @@ for (j in 1:B) {
     beta.star.1[[j]] = t(beta.star.1[[j]][1:3,]) - empirical.bias[[1]]
     Y.star.1[[j]] = sapply(1:n, function(k) t(X[k,]) %*% beta.star.1[[j]][k,]) + rnorm(n, 0, sd=sd(resid[[1]]))
 }
+
+## @knitr linked-bootstrap-estimate
 
 #Run estimation on the parametric bootstrap draws:
 coefs.boot = list()
@@ -221,7 +289,7 @@ plot(x=tt, y=f2(tt)+bias.2, ylim=yy, type='l', col='red', ann=FALSE, bty='n', xa
 
 
 
-
+## @knitr scratch
 
 #Plot draws from the linked bootstrap: TOO SMOOTH
 yy2 = sapply(beta.star.1, function(x) range(x[2,])) %>% range
