@@ -23,7 +23,7 @@ library(knitr)
 library(expm)
 library(xtable)
 library(doMC)
-registerDoMC(3)
+registerDoMC(7)
 
 opts_chunk$set(echo=FALSE, message=FALSE, results='hide')
 ```
@@ -85,24 +85,33 @@ $$\tilde{\beta} \xrightarrow{P} truth.$$
 #Execute
 
 ##Bandwidth estimation
-The bandwidth is estimated to minimize the AIC. The profile AIC is plotted in Figure ?.
+The bandwidth is estimated to minimize the AIC. The profile AIC is plotted in Figure \ref{fig:profile-AIC}.
 
-AIC is an approximation to the log likeliood, so we treat the profile AIC as a profile log-likelihood. Because the bandwidth is trictly positive and because of the apparent shape of Figre ?, in this case the bandwidth is modeled with a log-normal distribution. We emphasize fitting the region of greatest density and use a Laplace approximation to estimate the mean and variance of the bandwidth distribution. The Laplace approximation requires an integrand that is positive and preferably far from zero, so we use the method of adding a large constant in order to carry out the Laplace aproximation.
+```{r profile-AIC, fig.width=6, fig.height=4, fig.cap="Profile AIC trace calculated while finding the bandwidth that maximizes the AIC."}
+plot(bw$trace$bw, -bw$trace$loss, type='l', bty='n', xlab="bw", ylab="-AIC", xlim=c(0,5))
+```
+
+The AIC is an approximation to the log likeliood, so we treat the profile AIC as a profile log-likelihood. Because the bandwidth is strictly positive and because of the shape of Figure ?, in this case the bandwidth is modeled with a log-normal distribution. This is an empirical Bayes procedure, under a hierarchical model with the bandwidth at a level below the coefficients. In truth, the empirical Bayes distribution for the bandwidth parameter should have some additional variability due to uncertainty in estimating the hyperparameters.
 
 The region of greatest density includes the ten bandwidths with the smallest AIC's from the profiling step. These ten are:
 ```{r results='asis'}
-xtable(bw$trace[order(bw$trace$loss)[1:10],1:2])
+print(xtable(bw$trace[order(bw$trace$loss)[1:10],1:2]), type='html', comment=FALSE, include.rownames=FALSE)
 ```
 
-$\mu = \log{ \hat{h} } = -0.258$
 
-$\sigma^2 = 8.64 \times 10^-3$
 
-Figure ? is a histogram of bandwidths drawn from the estimated bandwidth distribution:
+Histogram of bandwidths drawn from the estimated bandwidth distribution:
 
-```{r fig.width=3, fig.height=3}
-hist(exp(rnorm(1000, mean=log(bw$opt$par), sd=sqrt(1/115.7))))
+```{r fig.cap="Histogram of draws from the posterior distribution for the bandwidth parameter."}
+indx = order(bw$trace$loss)[1:10]
+max.lik = as.data.frame(bw$trace[indx,1:2])
+m.bw = lm(loss ~ log(bw) + I(log(bw)^2), data=max.lik)
+mu = -m.bw$coef[2] / m.bw$coef[3] / 2
+sd = sqrt(1 / m.bw$coef[3])
+hist(exp(rnorm(1000, mean=mu, sd=sd)), xlab='bw', ylab='Frequency', main=NA, breaks=20)
 ```
+
+$\mu = \log{ \hat{h} } = `r round(mu,2)`$, $\hat{\sigma}^2 = `r signif(sd^2,2) `$
 
 ##Estimate the best fit
 The means of 20 realizations of a VCR model estimated by locally linear kernel smoothing are plotted in Figure (2).
@@ -113,8 +122,9 @@ The means of 20 realizations of a VCR model estimated by locally linear kernel s
 
 
 ##Make draws from the parametric bootstrap distribution
-```{r paraboot-draw}
+```{r paraboot-draw, cache=TRUE}
 <<linked-bootstrap-sample>>
+<<linked-bootstrap-estimate>>
 ```
 
 

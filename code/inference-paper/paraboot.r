@@ -1,6 +1,6 @@
 ## @knitr simulate-data
 #Set constants:
-B1 = 20
+B1 = 1
 n = 100
 tt = seq(0, 5, len=n)
 
@@ -24,7 +24,7 @@ coefs = list()
 bw = list()
 
 #Generate the raw data sets (not bootstrap)
-set.seed(123)
+set.seed(5863967)
 for (b in 1:B1) {
     #simulate data
     X1 = rnorm(n, mean=3, sd=2)
@@ -32,12 +32,12 @@ for (b in 1:B1) {
     y = f0(tt) + X1*f1(tt) + X2*f2(tt) + rnorm(n)
     df = data.frame(y, x1=X1, x2=X2, t=tt)
     
-    bw[[b]] = lagr.tune(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc',
-                   kernel=epanechnikov, bw.type='dist', bwselect.method='AIC', tol.bw=0.1, verbose=FALSE,
+    bw = lagr.tune(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc',
+                   kernel=epanechnikov, bw.type='dist', bwselect.method='AIC', tol.bw=0.1, verbose=TRUE,
                    lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
     #Fit a VCR model to the simulated data by LAGR
-    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', bw=bw, verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
+    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', bw=bw, bw.type='dist', verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
     #Get the observation weights for each local fit in the VCR model:
     W = list()
@@ -141,6 +141,7 @@ par(new=TRUE)
 plot(x=tt, y=f0(tt) + bias.0, bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='blue', lty=2, lwd=2)
 par(new=TRUE)
 plot(x=tt, y=rowMeans(sapply(coefs, function(c) c[,1])) - rowMeans(sapply(empirical.bias, function(b) b[,1])), bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='green', lty=2, lwd=2)
+legend(x='bottomleft', legend=c("Truth", "Estimable", "Estimate", "Bias corrected"), lty=c(1,2,1,2), col=c("black", "blue", "red", "green"), lwd=c(1,2,1,2), bty='n')
 
 #Plot a realization of the fitted model: \beta_1
 yy = range(c(f1(tt), sapply(coefs, function(x) x[,2])))
@@ -151,6 +152,7 @@ par(new=TRUE)
 plot(x=tt, y=f1(tt) + bias.1, bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='blue', lty=2, lwd=2)
 par(new=TRUE)
 plot(x=tt, y=rowMeans(sapply(coefs, function(c) c[,2])) - rowMeans(sapply(empirical.bias, function(b) b[,2])), bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='green', lty=2, lwd=2)
+legend(x='topright', legend=c("Truth", "Estimable", "Estimate", "Bias corrected"), lty=c(1,2,1,2), col=c("black", "blue", "red", "green"), lwd=c(1,2,1,2), bty='n')
 
 #Plot a realization of the fitted model: \beta_2
 yy = range(c(f2(tt), sapply(coefs, function(x) x[,3])))
@@ -161,12 +163,14 @@ par(new=TRUE)
 plot(x=tt, y=f2(tt) + bias.2, bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='blue', lty=2, lwd=2)
 par(new=TRUE)
 plot(x=tt, y=rowMeans(sapply(coefs, function(c) c[,3])) - rowMeans(sapply(empirical.bias, function(b) b[,3])), bty='n', ann=FALSE, yaxt='n', xaxt='n', ylim=yy, type='l', col='green', lty=2, lwd=2)
+legend(x='topright', legend=c("Truth", "Estimable", "Estimate", "Bias corrected"), lty=c(1,2,1,2), col=c("black", "blue", "red", "green"), lwd=c(1,2,1,2), bty='n')
+
 
 
 
 
 ## @knitr linked-bootstrap-sample
-B = 10
+B = 20
 
 #Linked bootstrap draws to generate the resampled response:
 beta.star.1 = list()
