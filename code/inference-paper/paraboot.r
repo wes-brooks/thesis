@@ -33,7 +33,7 @@ for (b in 1:B1) {
     df = data.frame(y, x1=X1, x2=X2, t=tt)
     
     bw = lagr.tune(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc',
-                   kernel=epanechnikov, bw.type='dist', bwselect.method='AIC', tol.bw=0.1, verbose=TRUE,
+                   kernel=epanechnikov, bw.type='dist', bwselect.method='AIC', tol.bw=0.1, verbose=FALSE,
                    lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
     #Fit a VCR model to the simulated data by LAGR
@@ -170,7 +170,7 @@ legend(x='topright', legend=c("Truth", "Estimable", "Estimate", "Bias corrected"
 
 
 ## @knitr linked-bootstrap-sample
-B = 20
+B = 10
 
 #Linked bootstrap draws to generate the resampled response:
 beta.star.1 = list()
@@ -190,6 +190,57 @@ for (j in 1:B) {
     Y.star.1[[j]] = sapply(1:n, function(k) t(X[k,]) %*% beta.star.1[[j]][k,]) + rnorm(n, 0, sd=sd(resid[[B1]]))
 }
 
+
+
+## @knitr Dirichlet-sample
+B = 200
+wt = list()
+for (b in 1:B) {
+    raw = rexp(n)
+    wt[[b]] = raw / sum(raw) * n
+}
+
+AIC.boot = vector()
+AICc.boot = vector()
+df.boot = vector()
+
+bw.boot = bw.b = exp(rnorm(B, mean=mu, sd=sd))
+
+#Run estimation on the parametric bootstrap draws:
+coefs.boot = list()
+conf.zero = list()
+for (b in 1:B) {   
+    print(b) 
+    
+    m.b = lagr(y~x1+x2, data=df, weights=wt[[b]], family='gaussian', coords='t', varselect.method='wAICc', kernel=epanechnikov, bw.type='dist', bw=bw.boot[b], verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
+
+    AIC.boot = c(AIC.boot, m.b$AIC)
+    AICc.boot = c(AICc.boot, m.b$AICc)
+    df.boot = c(df.boot, m.b$df)
+    
+    coefs.boot[[b]] = t(sapply(m.b$fits, function(x) x$coef))
+    conf.zero[[b]] = t(sapply(m.b$fits, function(x) x$conf.zero))
+}
+
+
+#sd by Efron method (nonparametric delta method):
+sd.boot = list()
+zero.boot = list()
+for (i in 1:n) {    
+    t.b = sapply(coefs.boot, function(x) x[i,]) %>% t
+    t.mean = matrix(rep(colMeans(t.b),each=B),B,3)
+    B.b = (sapply(beta.star.1, function(x) x[i,]) %>% t)[1:B,]
+    
+    z.b = sapply(conf.zero, function(x) x[i,-1]) %>% t
+    z.mean = matrix(rep(colMeans(z.b),each=B),B,2)
+    coz.b = t(B.b) %*% (z.b-z.mean) / B
+    
+    cov.b = t(B.b) %*% (t.b-t.mean) / B
+    V.b = t(B.b) %*% B.b / B
+    sd.boot[[i]] = sqrtm(t(cov.b) %*% solve(V.b) %*% cov.b)
+    
+    zero.boot[[b]] = sqrtm(t(coz.b) %*% solve(V.b) %*% coz.b)
+}
 
 
 

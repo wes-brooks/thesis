@@ -23,7 +23,7 @@ library(knitr)
 library(expm)
 library(xtable)
 library(doMC)
-registerDoMC(7)
+registerDoMC(3)
 
 opts_chunk$set(echo=FALSE, message=FALSE, results='hide')
 ```
