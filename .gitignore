@@ -19,4 +19,5 @@ writeup/*/*.run.xml
 writeup/*/*.synctex.gz
 writeup/*/*~
 writeup/*/*#
+writeup/*/*_cache/
 .Rproj.user
