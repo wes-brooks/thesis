@@ -1,52 +1,14 @@
 ---
-title: "Parametric bootstrap in a varying coefficient regression model estimated by local adaptive grouped regularization"
+title: "Inference for a varying coefficient regression model estimated by local adaptive grouped regularization"
 author: "Wesley Brooks"
 output:
   html_document:
     fig_caption: yes
 ---
 
-
-### Some things to know about the topic:
-
- - LAGR is a kernel smoothing method. Estimates of the coefficient surfaces are biased.
- - The bias at $s$ is proportional to the curvature (second derivative) of the coefficient surface at $s$.
- - Observations are not exchangeable because of the varying coefficients.
- - The coefficients of the VCR are estimated pointwise.
- - There is a global bandwidth parameter, $\phi$. In the case of the distance-based bandwidth, $h=\phi$.
- - For estimating the bandwidth parameter, aim to fit the observed data as well as possible, while using the fewest parameters possible.
- - "Fitting the data as well as possible" requires estimating the coefficient surfaces at the locations where data are observed.
- - Evaluating the fitted value at $s$ requires estimating the value of the coefficient surface at $s$.
- - The estimated coeficient surface at $s$ can be used to evaluate the fitted value $\hat{y}$ at $s$, but not at any other location.
-
-## General approach for inference
-Ours is a Monte Carlo approach to inference. The distribution of an adaptive lasso is complicated, so rather than calculate the distribution of our estimator, we will simulate it by making Monte Carlo draws. Our approach to simulating the distribution of the estimator borrows from Bayesian methods, but the hierarchical model is somewhat implicit.
-
-## Why not use the nonparametric bootstrap?
-The nonparametric bootstrap simulated the sampling distribution by drawing with replacement from the observed data. In a VCR model, the observations are not exchangeable, but a joint bootstrap procedure is feasible. In this case, that procedure would involve drawing observations, covariates, and locations jointly. That is, make $n$ draws of $(\boldsymbol{x}_i, y_i, s_i)$ with replacement.
-
-However, pursuing inference via this nonparametric bootstrap procedure is problematic. Confidence statements about model parameters must acknowledge uncertainty in the bandwidth parameter. We evaluate the likelihood of any particular bandwidth parameter by using it in estimation and evaluating the resulting model's accuracy in fitting the data. In a nonparametric bootstrap setting, some observations are included multiple times in a bootstrap sample, while other observations are left out. Because the fits are local, the fitted values at locations that were not included in the bootstrap sample are actually predictions, which are not comparable to fitted values, even when adjusted with a covariance penalty [there's an Efron reference (the 632+ CV paper?) for this].
-
-## And the parametric bootstrap?
-Simulating the sampling distribution via the parametric bootstrap does not require exchangeable data, nor is there any problem with estimation locations. The original data set can be resampled by simulating a new observation at each location from a model, as long as the model's parameters are estimated via a consistent (unbiased?) procedure. Then the resampled data would be used to re-estimate the model parameters, with each simulated data set producing one draw of the model parameters.
-
-The problem is that the method of LAGR is not unbiased nor consistent for the model parameters. Like kernel smoothing, to which LAGR is closely related, the local coefficient estimates have bias proportional to the curvature (second derivative) of the true coefficient surface at $s$. If the data is simulated from the biased model, then the simulated data does not share the distribution of the original data. Furthermore, estimates based on the resampled data will be made with additional bias related to the second derivative of the _estimated_ coefficient surface.
-
-The parametric bootstrap could be applied with a bias correction, but estimating the second derivatives of the coefficients is tricky. A reasonable approximation can be reached by a local linear smoothing of the estimated first derivatives (we get the first derivatives from the local linear approximation used in estimating the coefficient surface). The interaction of the first derivative on location is the second derivative. However, this method ignores covariance between the coefficients when estimating their curvature, so the estimates are at best first-order accurate and couldn't be used to make draws from the _joint distribution_ of the coefficients and their first and second derivatives. That's the distribution we need to draw coefficients from in order to simulate the sampling distribution of the original data.
-
-## Use the Bayesian bootstrap instead
-The Bayesian bootstrap (BB) [@Rubin-1981] and the weighted likelihood bootstrap (WLB) [@Newton-Raftery-1994] are related methods that link Bayesian methods with the bootstrap. Rather than simulate the sampling distribution of the data by resampling, the BB and WLB put a distribution on the observation weights in a weighted likelihood procedure. When the weights are from a uniform Dirichlet distribution, the BB is very much like the nonparametric bootstrap.
+##Things to know about the topic:
 
 
-
-## Empirical Bayes bandwidth inference
-We estimate the bandwidth parameter by minimizing a penalized information criterion, such as the AIC. The AIC is an estimate of the expected log likelihood of new data observed from a model using the MLEs as parameters (?) 
-
-$$AIC = E_f (y^* | \hat{\theta}(y))$$
-
-The AIC is evaluated at the MLE of the model paramters, so it ignores variability in those model parameters (here, the coefficients). However, we can estimate the variability in the AIC during our bootstrap procedure. Estimating $\hat{h}$ is much more expensive than estimating just the coefficients, so we do that as few times as possible to get a good idea of the distribution of the bandwidth. Then the bootstrap samples can be reweighted by sampling-importance resampling (SIR) to improve the quality of our inferences.
-
-This is very much like the WLB...
 
 
 #Methods
