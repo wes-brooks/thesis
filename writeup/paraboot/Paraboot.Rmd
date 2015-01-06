@@ -146,11 +146,7 @@ print(xtable(bw$trace[order(bw$trace$loss)[1:10],1:2]), type='html', comment=FAL
 Histogram of bandwidths drawn from the estimated bandwidth distribution:
 
 ```{r fig.cap="Histogram of draws from the posterior distribution for the bandwidth parameter."}
-indx = which(bw$trace$loss < (min(bw$trace$loss+20)))
-max.lik = as.data.frame(bw$trace[indx,1:2])
-m.bw = lm(loss ~ log(bw) + I(log(bw)^2), data=max.lik)
-mu = -m.bw$coef[2] / m.bw$coef[3] / 2
-sd = sqrt(1 / m.bw$coef[3])
+
 hist(exp(rnorm(1000, mean=mu, sd=sd)), xlab='bw', ylab='Frequency', main=NA, breaks=20)
 ```
 

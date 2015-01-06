@@ -24,7 +24,7 @@ coefs = list()
 bw = list()
 
 #Generate the raw data sets (not bootstrap)
-set.seed(5863967)
+set.seed(11181982)
 for (b in 1:B1) {
     #simulate data
     X1 = rnorm(n, mean=3, sd=2)
@@ -32,12 +32,12 @@ for (b in 1:B1) {
     y = f0(tt) + X1*f1(tt) + X2*f2(tt) + rnorm(n)
     df = data.frame(y, x1=X1, x2=X2, t=tt)
     
-    bw = lagr.tune(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc',
+    bw[[b]] = lagr.tune(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc',
                    kernel=epanechnikov, bw.type='dist', bwselect.method='AIC', tol.bw=0.1, verbose=FALSE,
                    lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
     #Fit a VCR model to the simulated data by LAGR
-    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', bw=bw, bw.type='dist', verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
+    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', bw=bw[[b]], bw.type='dist', verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
     #Get the observation weights for each local fit in the VCR model:
     W = list()
@@ -204,6 +204,13 @@ AIC.boot = vector()
 AICc.boot = vector()
 df.boot = vector()
 
+#Compute a bandwidth distribution:
+b=1
+indx = which(bw[[b]]$trace$loss < (min(bw[[b]]$trace$loss+20)))
+max.lik = as.data.frame(bw[[b]]$trace[indx,1:2])
+m.bw = lm(loss ~ log(bw) + I(log(bw)^2), data=max.lik)
+mu = -m.bw$coef[2] / m.bw$coef[3] / 2
+sd = sqrt(1 / m.bw$coef[3])
 bw.boot = bw.b = exp(rnorm(B, mean=mu, sd=sd))
 
 #Run estimation on the parametric bootstrap draws:
@@ -211,7 +218,7 @@ coefs.boot = list()
 conf.zero = list()
 for (b in 1:B) {   
     print(b) 
-    
+    print(bw.boot[b])
     m.b = lagr(y~x1+x2, data=df, weights=wt[[b]], family='gaussian', coords='t', varselect.method='wAICc', kernel=epanechnikov, bw.type='dist', bw=bw.boot[b], verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
 
     AIC.boot = c(AIC.boot, m.b$AIC)
@@ -222,8 +229,67 @@ for (b in 1:B) {
     conf.zero[[b]] = t(sapply(m.b$fits, function(x) x$conf.zero))
 }
 
+#sd by Efron method (nonparametric delta method) (nonparametric version):
+sd.boot = list()
+sd.zero.boot = list()
 
-#sd by Efron method (nonparametric delta method):
+for (k in 1:n) {
+    t.b = sapply(coefs.boot, function(x) x[k,]) %>% t
+    t.mean = matrix(rep(colMeans(t.b),each=B),B,3)
+    
+    z.b = sapply(conf.zero, function(x) x[k,]) %>% t
+    z.mean = matrix(rep(colMeans(z.b),each=B),B,3)
+    
+    cv = matrix(0,3,3)
+    cz = matrix(0,3,3)
+    
+    for (i in 1:n) {        
+        Y.b = sapply(wt, function(x) x[i])
+        Y.b = Y.b - mean(Y.b)
+        
+        cov.b = t(Y.b) %*% (t.b - t.mean) / B
+        coz.b = t(Y.b) %*% (z.b - z.mean) / B
+        
+        cv = cv + t(cov.b) %*% cov.b
+        cz = cz + t(coz.b) %*% coz.b
+    }
+    
+    sd.boot[[k]] = sqrtm(cv)
+    sd.zero.boot[[k]] = sqrtm(cz)  
+}
+
+
+
+## @knitr bw-boot-Dirichlet
+#Run estimation on the parametric bootstrap draws:
+interval = 10
+bw.trace.boot = list()
+bw.range = c(0,2)
+for (b in 1:(B %/% interval)) {   
+    print(b) 
+    
+    w = wt[[interval*b]]
+    
+    bw.trace.boot[[b]] = lagr.tune(y~x1+x2, data=df, weights=w,
+                                   family='gaussian', coords='t',
+                                   varselect.method='wAICc',
+                                   kernel=epanechnikov, bw.type='dist',
+                                   bwselect.method='AIC', verbose=TRUE,
+                                   lagr.convergence.tol=0.005,
+                                   lambda.min.ratio=0.01,
+                                   n.lambda=80, range=bw.range)
+    
+    tr = bw.trace.boot[[b]]$trace
+    bw.range = c(0, max(2, max(tr$bw[tr$loss < min(tr$loss)+20])))
+}
+
+
+
+
+
+## @knitr scratch
+
+#sd by Efron method (nonparametric delta method) (parametric version):
 sd.boot = list()
 zero.boot = list()
 for (i in 1:n) {    
