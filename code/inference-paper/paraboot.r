@@ -37,7 +37,7 @@ for (b in 1:B1) {
                    lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
     #Fit a VCR model to the simulated data by LAGR
-    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', bw=bw[[b]], bw.type='dist', verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
+    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', bw=0.85, kernel=epanechnikov, bw.type='dist', verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
     #Get the observation weights for each local fit in the VCR model:
     W = list()
@@ -170,7 +170,7 @@ legend(x='topright', legend=c("Truth", "Estimable", "Estimate", "Bias corrected"
 
 
 ## @knitr linked-bootstrap-sample
-B = 10
+B = 200
 
 #Linked bootstrap draws to generate the resampled response:
 beta.star.1 = list()
@@ -196,8 +196,8 @@ for (j in 1:B) {
 B = 200
 wt = list()
 for (b in 1:B) {
-    raw = rexp(n)
-    wt[[b]] = raw / sum(raw) * n
+    raw = sort(c(0, 1, runif(n-1)))
+    wt[[b]] = diff(raw) * n
 }
 
 AIC.boot = vector()
@@ -283,7 +283,31 @@ for (b in 1:(B %/% interval)) {
     bw.range = c(0, max(2, max(tr$bw[tr$loss < min(tr$loss)+20])))
 }
 
+sapply(bw.boot, function(x) sum(dnorm(bw.trace.boot %>% sapply(function(y) y$bw), mean=x, sd=kdest$bw))/20) / (bw.boot %>% sapply(function(x) dnorm(log(x) , mean=mu, sd=sd))) -> importance
 
+
+
+
+## @knitr bayesian-bootstrap-plot-efron
+layout(matrix(1:3, 1, 3))
+legend.loc = c('bottomleft', 'topright', 'topright')
+f = c(f0, f1, f2)
+b = list(bias.0, bias.1, bias.2)
+ylabs = c(expression(beta[0]), expression(beta[1]), expression(beta[2]))
+#confidence from Efron:
+for (k in 1:3) {
+    sapply(coefs.boot, function(x) x[,k]) %>% range -> yy
+    #plot(rowMeans(sapply(coefs.boot, function(x) x[,1])), x=tt, type='l', xlab='t', ylab=expression(beta[0]), ylim=yy, bty='n')
+    #par(new=TRUE)
+    (rowMeans(sapply(coefs.boot, function(x) x[,k])) - 1.96*sapply(sd.boot, function(x) diag(x)[k])) %>% plot(x=tt, type='l', ylim=yy, bty='n', xlab='t', ylab=ylabs[k], lty=1)
+    par(new=TRUE)
+    (rowMeans(sapply(coefs.boot, function(x) x[,k])) + 1.96*sapply(sd.boot, function(x) diag(x)[k])) %>% plot(x=tt, type='l', ylim=yy, bty='n', ann=FALSE, xaxt='n', yaxt='n', lty=1)
+    par(new=TRUE)
+    plot(x=tt, y=f[[k]](tt)+b[[k]], ylim=yy, type='l', col='red', ann=FALSE, bty='n', xaxt='n', yaxt='n', lty=3, lwd=2)
+    par(new=TRUE)
+    plot(x=tt, y=f[[k]](tt), ylim=yy, type='l', col='blue', ann=FALSE, bty='n', xaxt='n', yaxt='n', lty=2, lwd=2)
+    legend(c("95% confidence band", "truth", "biased"), x=legend.loc[k], col=c("black", "blue", "red"), lty=c(1,2,3), lwd=c(1,2,2), bty='n')
+}
 
 
 
@@ -315,16 +339,16 @@ for (i in 1:n) {
 ## @knitr linked-bootstrap-estimate
 
 #Run estimation on the parametric bootstrap draws:
-coefs.boot = list()
-conf.zero = list()
+coefs.boot.par = list()
+conf.zero.par = list()
 df.b = df
 for (b in 1:B) {
     print(b)
     df.b$y = Y.star.1[[b]]
     
-    m.b = lagr(y~x1+x2, data=df.b, family='gaussian', coords='t', varselect.method='wAICc', kernel=epanechnikov, bw.type='dist', bw=1, verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
-    coefs.boot[[b]] = t(sapply(m.b$fits, function(x) x$coef))
-    conf.zero[[b]] = t(sapply(m.b$fits, function(x) x$conf.zero))
+    m.b = lagr(y~x1+x2, data=df.b, family='gaussian', coords='t', varselect.method='wAICc', kernel=epanechnikov, bw.type='dist', bw=bw.boot[b], verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
+    coefs.boot.par[[b]] = t(sapply(m.b$fits, function(x) x$coef))
+    conf.zero.par[[b]] = t(sapply(m.b$fits, function(x) x$conf.zero))
 }
 
 
