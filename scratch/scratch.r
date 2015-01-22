@@ -11,6 +11,7 @@ B = 2000
 #Generate the covariates:
 N = 20 #number of width and length divisions in the domain
 coord = seq(0, 1, length.out=N)
+n = N**2
 
 #Seed the RNG
 set.seed(111882)
@@ -117,9 +118,6 @@ sd = sqrt(1 / m.bw$coef[3])
 bw.boot = bw.b = exp(rnorm(B, mean=mu, sd=sd))
 
 #Run estimation on the bbootstrap draws:
-coefs.boot.bayes = list()
-coefs.boot.resid = list()
-
 for (b in 1:B) {   
     print(b) 
     print(bw.boot[b])
