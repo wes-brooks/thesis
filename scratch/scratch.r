@@ -142,8 +142,8 @@ for (b in 1:B) {
     #Summarize this bootstrap iteration:
     AIC.boot.bayes = c(AIC.boot.bayes, m.bayes$AIC)
     df.boot.bayes = c(df.boot.bayes, m.bayes$df)
-    coefs.boot.bayes[[b]] = t(sapply(m.bayes$fits, function(x) x$coef))
-    write.table(coefs.boot.bayes[[b]],
+    coefs.boot.bayes = t(sapply(m.bayes$fits, function(x) x$coef))
+    write.table(coefs.boot.bayes,
                 file=paste("/Users/wesley/sim-out/bayesian-bootstrap-coefs-", b, "csv", sep="."))
     
     
@@ -167,7 +167,7 @@ for (b in 1:B) {
     #Summarize this bootstrap iteration:
     AIC.boot.resid = c(AIC.boot.resid, m.resid$AIC)
     df.boot.resid = c(df.boot.resid, m.resid$df)
-    coefs.boot.resid[[b]] = t(sapply(m.resid$fits, function(x) x$coef))
-    write.table(coefs.boot.resid[[b]],
+    coefs.boot.resid = t(sapply(m.resid$fits, function(x) x$coef))
+    write.table(coefs.boot.resid,
                 file=paste("/Users/wesley/sim-out/residual-bootstrap-coefs-", b, "csv", sep="."))
 }
