@@ -127,7 +127,7 @@ for (b in 1:B) {
     ####################
     m.bayes = lagr(Y~X1+X2+X3+X4, 
                data=sim, 
-               weights=wt[b]
+               weights=wt[[b]],
                family='gaussian', 
                coords=c('loc.x','loc.y'), 
                longlat=FALSE,
