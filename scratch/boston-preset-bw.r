@@ -1,3 +1,4 @@
+library(lagr)
 ## Conversion table 1980/1970
 # ICPSR_07913.zip
 # 07913-0001-Data.txt
@@ -97,7 +98,7 @@ boston.loc = rbind(boston.c[,c("LON", "LAT")], dtn.loc)
 rownames(boston.loc) = boston.tracts@data$TRACTBASE
 
 #Make a lagr model for the bandwidth and save it:
-#bw = lagr.tune(MEDV~CRIM+RM+RAD+TAX+LSTAT, data=boston.c, coords=c('LON','LAT'), longlat=TRUE, varselect.method='AIC', bwselect.method='AIC', tol.loc=0.01, kernel=epanechnikov, bw.type='knn', verbose=TRUE, beta.converge.tol=0.1, family='gaussian')
+bw = lagr.tune(MEDV~CRIM+RM+RAD+TAX+LSTAT, data=bd, coords=c('LON','LAT'), verbose=TRUE, longlat=TRUE, varselect.method='wAICc', bwselect.method='AICc', tol.loc=0.01, kernel=epanechnikov, bw.type='knn', lagr.convergence.tol=0.05, n.lambda=200, lambda.min.ratio=1e-7, lagr.max.iter=50, family='gaussian')
 model = lagr(MEDV~CRIM+RM+RAD+TAX+LSTAT, data=boston.c, coords=c('LON','LAT'), fit.loc=boston.loc, longlat=TRUE, varselect.method='AIC', kernel=epanechnikov, bw=0.26, bw.type='knn', verbose=TRUE, lagr.convergence.tol=0.05, n.lambda=200, lambda.min.ratio=1e-7, lagr.max.iter=50, family='gaussian')
 
 cc = as.data.frame(t(sapply(model[['model']], function(x) x[['coef']])))
