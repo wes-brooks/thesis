@@ -121,7 +121,6 @@ while(TRUE) {
                 file=paste("/Users/wesley/sim-out/bootstrap-junk", w, "Rdata", sep="."))
     
     rm(model)
-    rm(bw)
     gc()
 
     #Run estimation on the bbootstrap draws:
