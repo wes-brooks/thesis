@@ -1,10 +1,9 @@
 library(lagr)
 library(RandomFields)
-library(brooks)
-library(dplyr)
-library(doMC)
+#library(dplyr)
+#library(doMC)
 
-registerDoMC(4)
+#registerDoMC(4)
 
 B = 200
 
@@ -14,10 +13,16 @@ coord = seq(0, 1, length.out=N)
 n = N**2
 
 w = 0
+if (!interactive()) {
+    args <- commandArgs(trailingOnly = TRUE)
+    w = w + args[1]
+}
 
 while(TRUE) {
     w = w+1
     #Seed the RNG
+
+
     set.seed(w)
 
     #Calculate the coefficient surfaces
@@ -54,8 +59,9 @@ while(TRUE) {
     sim$loc.y = rep(coord, each=N)
     sim.boot = sim
 
+    write.table(sim, file=paste("~/sim-out/raw-data", w, "csv", sep="."))
 
-    #estiamte the bandwidth:
+    #estimate the bandwidth:
     bw = lagr.tune(Y~X1+X2+X3+X4, 
                    data=sim, 
                    family='gaussian', 
@@ -68,7 +74,8 @@ while(TRUE) {
                    verbose=FALSE, 
                    n.lambda=100, 
                    lagr.convergence.tol=0.005, 
-                   tol.bw=0.01)
+                   tol.bw=0.01,
+                   range=c(0,0.75))
 
     model = lagr(Y~X1+X2+X3+X4, 
                  data=sim, 
@@ -84,8 +91,21 @@ while(TRUE) {
                  lagr.convergence.tol=0.005)
 
     write.table(t(sapply(model$fits, function(x) x$coef)),
-                file=paste("/Users/wesley/sim-out/raw-model-coefs", w, "csv", sep="."))
+                file=paste("~/sim-out/raw-model-coefs", w, "csv", sep="."))
 
+    #Logit and its inverse:
+    logit = function(p) log(p) - log(1-p)
+    logit.inv = function(mu) exp(mu) / (1+exp(mu))
+    
+    #Compute a bandwidth distribution:
+    trace = bw$trace[apply(bw$trace, 1, function(x) !any(is.na(x))),]
+    indx = which(trace$loss < (min(trace$loss)+20))
+    max.lik = as.data.frame(trace[indx,1:2])
+    m.bw = lm(loss ~ logit(bw) + I(logit(bw)^2), data=max.lik)
+    mu = -m.bw$coef[2] / m.bw$coef[3] / 2
+    sd = sqrt(1 / m.bw$coef[3])
+    bw.boot = logit.inv(rnorm(B, mean=mu, sd=sd))    
+    
     #######################################
     #Bayesian bootstrap Dirichlet weights:
     #######################################
@@ -107,20 +127,11 @@ while(TRUE) {
                            sample(model$fits[[j]]$model$adamodel$residuals, B, replace=TRUE))
     }
 
-
-
-    #Compute a bandwidth distribution:
-    indx = which(bw$trace$loss < (min(bw$trace$loss+20)))
-    max.lik = as.data.frame(bw$trace[indx,1:2])
-    m.bw = lm(loss ~ log(bw) + I(log(bw)^2), data=max.lik)
-    mu = -m.bw$coef[2] / m.bw$coef[3] / 2
-    sd = sqrt(1 / m.bw$coef[3])
-    bw.boot = exp(rnorm(B, mean=mu, sd=sd))
-
-    save(bw.boot, Y.star, wt, bw$trace,
-                file=paste("/Users/wesley/sim-out/bootstrap-junk", w, "Rdata", sep="."))
+    save(bw.boot, Y.star, wt, trace,
+                file=paste("~/sim-out/bootstrap-junk", w, "Rdata", sep="."))
     
     rm(model)
+    rm(bw)
     gc()
 
     #Run estimation on the bbootstrap draws:
@@ -147,7 +158,7 @@ while(TRUE) {
     
         #Summarize this bootstrap iteration:
         write.table(t(sapply(m.bayes$fits, function(x) x$coef)),
-                    file=paste("/Users/wesley/sim-out/bayesian-bootstrap-coefs", w, b, "csv", sep="."))
+                    file=paste("~/sim-out/bayesian-bootstrap-coefs", w, b, "csv", sep="."))
         rm(m.bayes)
         gc()
     
@@ -171,7 +182,7 @@ while(TRUE) {
     
         #Summarize this bootstrap iteration:
         write.table(t(sapply(m.resid$fits, function(x) x$coef)),
-                    file=paste("/Users/wesley/sim-out/residual-bootstrap-coefs", w, b, "csv", sep="."))
+                    file=paste("~/sim-out/residual-bootstrap-coefs", w, b, "csv", sep="."))
         rm(m.resid)
         gc()
     }
