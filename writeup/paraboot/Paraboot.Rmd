@@ -20,7 +20,7 @@ output:
  - The estimated coeficient surface at $s$ can be used to evaluate the fitted value $\hat{y}$ at $s$, but not at any other location.
 
 ## General approach for inference
-Ours is a Monte Carlo approach to inference. The distribution of an adaptive lasso is complicated, so rather than calculate the distribution of our estimator, we will simulate it by making Monte Carlo draws. Our approach to simulating the distribution of the estimator borrows from Bayesian methods, but the hierarchical model is somewhat implicit.
+Ours is a Monte Carlo approach to inference. The distribution of an adaptive lasso estimate is complicated, so rather than calculate the distribution of our estimator, we will simulate it by making Monte Carlo draws. Our approach to simulating the distribution of the estimator borrows from Bayesian methods, but the hierarchical model is somewhat implicit.
 
 ## Why not use the nonparametric bootstrap?
 The nonparametric bootstrap simulated the sampling distribution by drawing with replacement from the observed data. In a VCR model, the observations are not exchangeable, but a joint bootstrap procedure is feasible. In this case, that procedure would involve drawing observations, covariates, and locations jointly. That is, make $n$ draws of $(\boldsymbol{x}_i, y_i, s_i)$ with replacement.
