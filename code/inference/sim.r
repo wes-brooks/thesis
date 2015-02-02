@@ -15,18 +15,18 @@ y.c = rep(coord, times=N)
 location = data.frame(x=x.c, y=y.c)
 n = N**2
 
-w = 0
+s = 0
 if (!interactive()) {
     args <- commandArgs(trailingOnly = TRUE)
-    w = w + as.numeric(args[1])
+    s = s + as.numeric(args[1])
 }
 
 while(TRUE) {
-    w = w+1
+    s = s+1
     #Seed the RNG
 
 
-    set.seed(w)
+    set.seed(s)
 
     #Calculate the coefficient surfaces
     test = function(x,y) 3.75*exp(-((9*x-2)^2 + (9*y-2)^2)/4) +
@@ -73,7 +73,7 @@ while(TRUE) {
     sim.boot = sim
     sim.boot.oracle = sim
 
-    write.table(sim, file=paste("~/sim-out/raw-data", w, "csv", sep="."))
+    write.table(sim, file=paste("~/sim-out/raw-data", s, "csv", sep="."))
 
     #estimate the bandwidth:
     bw = lagr.tune(Y~X1+X2+X3+X4, 
@@ -98,14 +98,14 @@ while(TRUE) {
                  longlat=FALSE,
                  varselect.method='AICc', 
                  bw=bw,
-                 #bw.type='knn',
-                 #kernel=epanechnikov,
+                 bw.type='knn',
+                 kernel=epanechnikov,
                  verbose=FALSE, 
                  n.lambda=100, 
                  lagr.convergence.tol=0.005)
 
     write.table(t(sapply(model$fits, function(x) x$coef)),
-                file=paste("~/sim-out/raw-model-coefs", w, "csv", sep="."))
+                file=paste("~/sim-out/raw-model-coefs", s, "csv", sep="."))
 
     #Logit and its inverse:
     logit = function(p) log(p) - log(1-p)
@@ -150,7 +150,7 @@ while(TRUE) {
         Y.oracle = cbind(Y.oracle, WLS.fit + rnorm(N**2, mean=0, sd=1))
     
     save(bw.boot, Y.star, wt, trace, Y.oracle,
-                file=paste("~/sim-out/bootstrap-junk", w, "Rdata", sep="."))
+                file=paste("~/sim-out/bootstrap-junk", s, "Rdata", sep="."))
     
     rm(model)
     rm(bw)
@@ -180,7 +180,7 @@ while(TRUE) {
     
         #Summarize this bootstrap iteration:
         write.table(t(sapply(m.bayes$fits, function(x) x$coef)),
-                    file=paste("~/sim-out/bayesian-bootstrap-coefs", w, b, "csv", sep="."))
+                    file=paste("~/sim-out/bayesian-bootstrap-coefs", s, b, "csv", sep="."))
         rm(m.bayes)
         gc()
         
@@ -204,7 +204,7 @@ while(TRUE) {
         
         #Summarize this bootstrap iteration:
         write.table(t(sapply(m.resid$fits, function(x) x$coef)),
-                    file=paste("~/sim-out/residual-bootstrap-coefs", w, b, "csv", sep="."))
+                    file=paste("~/sim-out/residual-bootstrap-coefs", s, b, "csv", sep="."))
         rm(m.resid)
         gc()
     
@@ -228,7 +228,7 @@ while(TRUE) {
     
         #Summarize this bootstrap iteration:
         write.table(t(sapply(m.oracle$fits, function(x) x$coef)),
-                    file=paste("~/sim-out/oracle-bootstrap-coefs", w, b, "csv", sep="."))
+                    file=paste("~/sim-out/oracle-bootstrap-coefs", s, b, "csv", sep="."))
         rm(m.oracle)
         gc()
     }
