@@ -14,7 +14,7 @@ n = N**2
 
 setwd("~/Desktop/sim-out/")
 files = dir()
-runs = 1:5
+runs = (1:20)[-7]
 
 res.boot = list()
 bayes.boot = list()
@@ -40,13 +40,29 @@ B1.. = function(x,y) -3.75 * 18/4 * (9 - 18/4*(9*x-2)^2) * exp(-((9*x-2)^2 + (9*
     18 * (9 - 18*(9*x-4)^2) * exp(-(9*x-4)^2 - (9*y-7)^2) +
     18 * (9 - 18*(9*y-7)^2) * exp(-(9*x-4)^2 - (9*y-7)^2)
 
+B2.. = function(x,y) {
+    f.id = apply(cbind(x,y), 1, function(x) order(c(0, 5*((x[1]-3/4)^2+(x[2]-1/4)^2) - 1/2,-5*((x[1]-1/4)^2 + (x[2]-3/4)^2) + 1/2 ))[2])
+    ifelse(f.id == 1, 0, ifelse(f.id==2, 30, -30))
+}
+
 B1 = B1.fun(location$x, location$y)
 B2 = sapply(1:nrow(location), function(k) B2.fun(location$x[k], location$y[k]))
 B3 = rep(-0.1, n)
 
-bias.0 = B1..(location$x, location$y) * sapply(model[['fits']], function(x) (x[['bw']]*2)**2) / 10
+bias.1 = B1..(location$x, location$y) * sapply(model[['fits']], function(x) (x[['bw']]*2)**2) / 10
+bias.2 = B2..(location$x, location$y) * sapply(model[['fits']], function(x) (x[['bw']]*2)**2) / 10
 
-for (s in runs) {
+B1.smooth = list()
+B2.smooth = list()
+B3.smooth = list()
+
+res.CI = list()
+bayes.CI = list()
+orc.CI = list()
+
+
+for (s in 17:20) {
+    print(s)
     set.seed(s)
     
     res.files = grep(paste("residual-bootstrap-coefs\\.", s, "\\.[0-9]+\\.csv", sep=""),
@@ -120,6 +136,42 @@ for (s in runs) {
     
     
     
+    
+    load(paste("bootstrap-junk", s, "Rdata", sep="."))
+    
+    
+    model = lagr(Y~X1+X2+X3+X4, 
+                 data=sim, 
+                 family='gaussian', 
+                 coords=c('x','y'), 
+                 longlat=FALSE,
+                 varselect.method='AICc', 
+                 bw=mean(bw.boot),
+                 bw.type='knn',
+                 kernel=epanechnikov,
+                 verbose=FALSE, 
+                 n.lambda=100, 
+                 lagr.convergence.tol=0.005)
+    
+    
+    B1.smooth[[s]] = vector()
+    B2.smooth[[s]] = vector()
+    B3.smooth[[s]] = vector()
+    for (i in 1:400) {
+        h = model$fits[[i]]$bw
+        dist = D[i,]
+        wt = lagr:::epanechnikov(dist, h)
+        X.loc = cbind(location$x-location$x[i], location$y-location$y[i])
+        
+        b.smoothed.1 = c(b.smoothed.1, sum(wt*bias.1) / sum(wt))
+        B1.smooth[[s]] = c(B1.smooth[[s]], lm(B1~X.loc, weights=wt)$coef[1])
+        B2.smooth[[s]] = c(B2.smooth[[s]], lm(B2~X.loc, weights=wt)$coef[1])
+        B3.smooth[[s]] = c(B3.smooth[[s]], lm(B3~X.loc, weights=wt)$coef[1])
+    }
+    
+    
+    
+    
 #     #BIAS CORRECTION
 #     load(paste("bootstrap-junk.", s, ".Rdata", sep=""))
 #     bw = trace$bw[which.min(trace$loss)]
@@ -141,67 +193,74 @@ for (s in runs) {
 #                                  lagr.convergence.tol=0.005)
 #     
 #     
-cc = model$fits %>% sapply(function(x) x$coef) %>% t
-
-    #Empirical second derivative of beta.0
-    slx = sapply(model$fits, function(x) x$model$adamodel$coef[8])
-    sly = sapply(model$fits, function(x) x$model$adamodel$coef[9])
-    cc.0 = vector()
-    for (i in 1:N**2) {
-        h = model$fits[[i]]$bw
-        X = cbind(location$x - location$x[i], location$y - location$y[i])
-        w = lagr:::epanechnikov(sqrt(apply(X, 1, function(x) sum(x**2))), h)
-        
-        m2x = lm(slx~X, weights=w)
-        m2y = lm(sly~X, weights=w)
-        cc.0 = c(cc.0, m2x$coef[2] + m2y$coef[3])
-    }
-    empirical.bias.0 = cc.0 * sapply(model$fits, function(x) x$bw**2) / 10
-
-cc.1 = vector()
-for (i in 1:N**2) {
-    h = model$fits[[i]]$bw / 2
-    X = cbind(location$x - location$x[i], location$y - location$y[i])
-    w = lagr:::epanechnikov(sqrt(apply(X, 1, function(x) sum(x**2))), h)
-    
-    m2x = lm(slx~X, weights=w)
-    m2y = lm(sly~X, weights=w)
-    cc.1 = c(cc.1, m2x$coef[2] + m2y$coef[3])
-}
-empirical.bias.1 = cc.1 * sapply(model$fits, function(x) x$bw**2) / 10
-
-
-cc.2 = vector()
-for (i in 1:N**2) {
-    h = model$fits[[i]]$bw / 4
-    X = cbind(location$x - location$x[i], location$y - location$y[i])
-    w = lagr:::epanechnikov(sqrt(apply(X, 1, function(x) sum(x**2))), h)
-    
-    m2x = lm(slx~X, weights=w)
-    m2y = lm(sly~X, weights=w)
-    cc.2 = c(cc.2, m2x$coef[2] + m2y$coef[3])
-}
-empirical.bias.2 = cc.2 * sapply(model$fits, function(x) x$bw**2) / 10
-
-pdf(paste("~/Desktop/bias.", s, ".pdf", sep=""), width=18,height=6)
-empirical.bias.0 %>% plot(type='l', col='red', ylim=c(-2,2))
-par(new=TRUE)
-empirical.bias.1 %>% plot(type='l', col='blue', ylim=c(-2,2))
-par(new=TRUE)
-empirical.bias.2 %>% plot(type='l', col='green', ylim=c(-2,2))
-par(new=TRUE)
-(cc[,2]-B1) %>% plot(type='l', ylim=c(-2,2))
-dev.off()
-    
-    #Confidence intervals:
-    res.CI2 = sapply(1:400, function(k) quantile(res.boot[k,2,], probs=c(0.05, 0.95)))
-    bayes.CI2 = sapply(1:400, function(k) quantile(bayes.boot[k,2,], probs=c(0.05, 0.95)))
-    
-    
+# cc = model$fits %>% sapply(function(x) x$coef) %>% t
+# 
+#     #Empirical second derivative of beta.0
+#     slx = sapply(model$fits, function(x) x$model$adamodel$coef[8])
+#     sly = sapply(model$fits, function(x) x$model$adamodel$coef[9])
+#     cc.0 = vector()
+#     for (i in 1:N**2) {
+#         h = model$fits[[i]]$bw
+#         X = cbind(location$x - location$x[i], location$y - location$y[i])
+#         w = lagr:::epanechnikov(sqrt(apply(X, 1, function(x) sum(x**2))), h)
+#         
+#         m2x = lm(slx~X, weights=w)
+#         m2y = lm(sly~X, weights=w)
+#         cc.0 = c(cc.0, m2x$coef[2] + m2y$coef[3])
+#     }
+#     empirical.bias.0 = cc.0 * sapply(model$fits, function(x) x$bw**2) / 10
+# 
+# cc.1 = vector()
+# for (i in 1:N**2) {
+#     h = model$fits[[i]]$bw / 2
+#     X = cbind(location$x - location$x[i], location$y - location$y[i])
+#     w = lagr:::epanechnikov(sqrt(apply(X, 1, function(x) sum(x**2))), h)
+#     
+#     m2x = lm(slx~X, weights=w)
+#     m2y = lm(sly~X, weights=w)
+#     cc.1 = c(cc.1, m2x$coef[2] + m2y$coef[3])
+# }
+# empirical.bias.1 = cc.1 * sapply(model$fits, function(x) x$bw**2) / 10
+# 
+# 
+# cc.2 = vector()
+# for (i in 1:N**2) {
+#     h = model$fits[[i]]$bw / 4
+#     X = cbind(location$x - location$x[i], location$y - location$y[i])
+#     w = lagr:::epanechnikov(sqrt(apply(X, 1, function(x) sum(x**2))), h)
+#     
+#     m2x = lm(slx~X, weights=w)
+#     m2y = lm(sly~X, weights=w)
+#     cc.2 = c(cc.2, m2x$coef[2] + m2y$coef[3])
+# }
+# empirical.bias.2 = cc.2 * sapply(model$fits, function(x) x$bw**2) / 10
+# 
+# pdf(paste("~/Desktop/bias.", s, ".pdf", sep=""), width=18,height=6)
+# empirical.bias.0 %>% plot(type='l', col='red', ylim=c(-2,2))
+# par(new=TRUE)
+# empirical.bias.1 %>% plot(type='l', col='blue', ylim=c(-2,2))
+# par(new=TRUE)
+# empirical.bias.2 %>% plot(type='l', col='green', ylim=c(-2,2))
+# par(new=TRUE)
+# (cc[,2]-B1) %>% plot(type='l', ylim=c(-2,2))
+# dev.off()
     
     #Confidence intervals:
-    res.CI = sapply(1:400, function(k) quantile(res.boot[k,2,], probs=c(0.05, 0.95)) - empirical.bias.1[k])
-    bayes.CI = sapply(1:400, function(k) quantile(bayes.boot[k,2,], probs=c(0.05, 0.95)) - empirical.bias.1[k])
+    res.CI[[s]] = list()
+    bayes.CI[[s]] = list() 
+    orc.CI[[s]] = list()
+
+    for (i in 1:5) {
+        res.CI[[s]][[i]] = sapply(1:400, function(k) quantile(res.boot[[s]][k,i,], probs=c(0.05, 0.95), na.rm=TRUE)) %>% t
+        bayes.CI[[s]][[i]] = sapply(1:400, function(k) quantile(bayes.boot[[s]][k,i,], probs=c(0.05, 0.95), na.rm=TRUE)) %>% t
+        orc.CI[[s]][[i]] = sapply(1:400, function(k) quantile(orc.boot[[s]][k,i,], probs=c(0.05, 0.95), na.rm=TRUE)) %>% t
+    } 
+    
+    
+    
+#     #Confidence intervals:
+#     res.CI = sapply(1:400, function(k) quantile(res.boot[k,2,], probs=c(0.05, 0.95)) - empirical.bias.1[k])
+#     bayes.CI = sapply(1:400, function(k) quantile(bayes.boot[k,2,], probs=c(0.05, 0.95)) - empirical.bias.1[k])
 }
 
 

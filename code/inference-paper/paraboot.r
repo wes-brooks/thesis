@@ -9,6 +9,8 @@ f0 = function(x) {-0.2*x^4 + x^3 + 0.7*(x-1)^2 - 4*(x-2) + 1}
 f1 = function(x) {0.2*x^2 - x + cos(x)}
 f2 = function(x) {(x+1)^(-1) - 1/6}
 
+f0. = function(x) {-0.8*x^3 + 3*x^2 + 1.4*(x-1) - 4}
+
 f0.second.derivative = function(x) {-2.4*x^2 + 6*x + 1.4}
 f1.second.derivative = function(x) {0.4 - cos(x)}
 f2.second.derivative = function(x) {2*(x+1)^(-3)}
@@ -37,7 +39,7 @@ for (b in 1:B1) {
                    lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
     #Fit a VCR model to the simulated data by LAGR
-    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', bw=0.85, kernel=epanechnikov, bw.type='dist', verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
+    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', bw=0.8, kernel=epanechnikov, bw.type='dist', verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
     #Get the observation weights for each local fit in the VCR model:
     W = list()
