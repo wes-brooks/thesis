@@ -34,12 +34,12 @@ for (b in 1:B1) {
     y = f0(tt) + X1*f1(tt) + X2*f2(tt) + rnorm(n)
     df = data.frame(y, x1=X1, x2=X2, t=tt)
     
-    bw[[b]] = lagr.tune(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc',
-                   kernel=epanechnikov, bw.type='dist', bwselect.method='AIC', tol.bw=0.1, verbose=FALSE,
-                   lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
-    
+#     bw[[b]] = lagr.tune(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc',
+#                    kernel=epanechnikov, bw.type='dist', bwselect.method='AIC', tol.bw=0.1, verbose=FALSE,
+#                    lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
+#     
     #Fit a VCR model to the simulated data by LAGR
-    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', bw=0.8, kernel=epanechnikov, bw.type='dist', verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
+    m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', bw=0.858, kernel=epanechnikov, bw.type='dist', verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
     
     #Get the observation weights for each local fit in the VCR model:
     W = list()
