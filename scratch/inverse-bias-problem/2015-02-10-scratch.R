@@ -14,9 +14,6 @@ theta = function(m, d) {
     res
 }
 
-phi = list()
-phi[[1]] = function(t) 1
-phi[[2]] = function(t) t
 
 eta = function(r, m, d) {
     #even:
@@ -49,14 +46,14 @@ eta. = function(r, m, d) {
 
 
 
-W = matrix(0, n, n)
+W1 = matrix(0, n, n)
 for (i in 1:n) {
-    h = m$fits[[i]]$bw
+    #h = m$fits[[i]]$bw
     w = epanechnikov(abs(tt-tt[i]), h)
     X = as.matrix(cbind(1, tt-tt[i]))
     XtX.I = solve(t(X) %*% diag(w) %*% X)
     
-    W[i,] = w * XtX.I[1,] %*% t(X)
+    W1[i,] = w * XtX.I[1,] %*% t(X)
 }
 
 Q0 = matrix(0, n, n)
@@ -70,19 +67,19 @@ for (i in 1:n) {
     T0[i,2] = tt[i]
 }
 
-Q = W %*% Q0
-T = W %*% T0
+Q1 = W1 %*% Q0
+T1 = W1 %*% T0
 
 
 
-W. = matrix(0, n, n)
+W2 = matrix(0, n, n)
 for (i in 1:n) {
-    h = m$fits[[i]]$bw
+    #h = m$fits[[i]]$bw
     w = epanechnikov(abs(tt-tt[i]), h)
     X = as.matrix(cbind(1, tt-tt[i]))
     XtX.I = solve(t(X) %*% diag(w) %*% X)
     
-    W.[i,] = w* XtX.I[2,] %*% t(X)
+    W2[i,] = w* XtX.I[2,] %*% t(X)
 }
 
 # Q0. = matrix(0, n, n)
@@ -96,14 +93,14 @@ for (i in 1:n) {
 #     T0.[i,2] = 1
 # }
 
-Q. = W. %*% Q0
-T. = W. %*% T0
+Q2 = W2 %*% Q0
+T2 = W2 %*% T0
 
 
 xx = seq(0,5,len=100)
-F1 = (qr(T) %>% qr.Q(complete=TRUE))[,1:2]
-F2 = (qr(T) %>% qr.Q(complete=TRUE))[,3:100]
-R = qr(T) %>% qr.R
+F1 = (qr(T0) %>% qr.Q(complete=TRUE))[,1:2]
+F2 = (qr(T0) %>% qr.Q(complete=TRUE))[,3:100]
+R = qr(T0) %>% qr.R
 
 obs = m$fits %>% sapply(function(x) x$model$adamodel$coef) %>% t %>% `[`(,1) %>% as.matrix
 obs. = m$fits %>% sapply(function(x) x$model$adamodel$coef) %>% t %>% `[`(,4) %>% as.matrix
