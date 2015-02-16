@@ -105,7 +105,7 @@ R = qr(T0) %>% qr.R
 obs = m$fits %>% sapply(function(x) x$model$adamodel$coef) %>% t %>% `[`(,1) %>% as.matrix
 obs. = m$fits %>% sapply(function(x) x$model$adamodel$coef) %>% t %>% `[`(,4) %>% as.matrix
 
-QtI = solve(Q0) %*% solve(W)
+QtI = solve(t(W1)) %*% solve(t(Q0))
 #Iterative solution for Y, Z:
 d = matrix(0,2,1)
 F2 %*% solve(t(F2)%*%(t(W)%*%W + t(W.)%*%W.) %*%Q0%*% F2 + diag(rep(lambda, 98))) %*% t(F2) %*% (W%*%obs + W.%*%obs. - (t(W)%*%W + t(W.)%*%W.)%*%T0%*%d) -> c
@@ -126,8 +126,9 @@ for (lambda in exp(seq(log(0.1), log(0.00001), len=200))) {
     solve(R) %*% t(F1) %*% (obs - (Q - lambda* QtI%*%Q0) %*% c) -> d
     
     
-    f0.smooth.hat = (Q %*% c + T %*% d) 
+    f0.smooth.hat = (Q1 %*% c + T1 %*% d) 
     f0.hat = (Q0 %*% c + T0 %*% d) 
+    f0.slope.hat.smooth = (Q2 %*% c + T2 %*% d) 
     
     #GCV criterion:
     A.c = F2 %*% solve(t(F2) %*% Q %*% F2 + lambda * t(F2) %*% solve(W) %*% F2) %*% t(F2)
@@ -135,6 +136,11 @@ for (lambda in exp(seq(log(0.1), log(0.00001), len=200))) {
     A = Q %*% A.c + T %*% A.d
     gcv = c(gcv, sum((obs-f0.smooth.hat)^2) / (n-sum(diag(A)))^2)
 }
+
+
+f0.smooth.hat = (Q1 %*% c + T1 %*% d) 
+f0.hat = (Q0 %*% c + T0 %*% d) 
+f0.slope.hat.smooth = (Q2 %*% c + T2 %*% d) 
 
 
 plot(f0.smooth.hat, type='l', bty='n', x=tt, ylim=range(f0(xx)), lwd=2)
@@ -145,4 +151,13 @@ par(new=TRUE)
 plot(f0.hat, x=tt, bty='n', ann=FALSE, xaxt='n', yaxt='n', col='blue', ylim=range(f0(xx)), type='l', lwd=2)
 par(new=TRUE)
 plot(f0(xx), x=tt, bty='n', ann=FALSE, xaxt='n', yaxt='n', lty=2, ylim=range(f0(xx)), type='l', lwd=2)
+
+
+
+plot(f0.slope.hat.smooth, type='l', bty='n', x=tt, ylim=c(-15,5), lwd=2)
+par(new=TRUE)
+#plot(f0.smooth, x=tt, bty='n', ann=FALSE, xaxt='n', yaxt='n', col='red', ylim=range(f0(xx)), type='l')
+plot(obs., x=tt, bty='n', ann=FALSE, xaxt='n', yaxt='n', col='red', ylim=c(-15,5), type='l', lwd=2)
+par(new=TRUE)
+plot(f0..smooth, x=tt, bty='n', ann=FALSE, xaxt='n', yaxt='n', col='blue', ylim=c(-15,5), type='l', lwd=2)
 

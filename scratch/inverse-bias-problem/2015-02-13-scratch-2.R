@@ -1,3 +1,13 @@
+dir.der = function(x, p) {
+    grad = gr(p)[1:100]
+    t(x) %*% grad
+}
+    
+dir.der2 = function(x, p) {
+    grad2 = gr2(p[1:100])
+    t(x) %*% grad2 %*% x
+}    
+
 gr = function(x) {
     g = rep(0, 102)
     c = as.matrix(x[1:100])
@@ -7,6 +17,10 @@ gr = function(x) {
     
     g = as.vector(2*g)
     g
+}
+
+gr2 = function(x) {
+    t(Q1)%*%Q1 + t(Q2)%*%Q2 + lambda*Q0
 }
 
 heq = function(x) {
