@@ -1,0 +1,15 @@
+layout(matrix(1:3,1,3))
+plot(f0(tt), type='l', bty='n', x=tt, xlab='t', ylab="Intercept", ylim=range(f0(tt)))
+par(new=TRUE)
+plot(f0.smooth, type='l', bty='n', x=tt, xlab='t', ylab="Intercept", ylim=range(f0(tt)), lty=2, ann=FALSE, xaxt='n', yaxt='n')
+legend(c("truth", "smoothed"), lty=c(1,2), bty='n', x='bottomleft')
+
+plot(f1(tt), type='l', bty='n', x=tt, xlab='t', ylab="\\beta_1", ylim=range(f1(tt)))
+par(new=TRUE)
+plot(f1.smooth, type='l', bty='n', x=tt, xlab='t', ylab="\\beta_1", ylim=range(f1(tt)), lty=2, ann=FALSE, xaxt='n', yaxt='n')
+legend(c("truth", "smoothed"), lty=c(1,2), bty='n', x='top')
+
+plot(f2(tt), type='l', bty='n', x=tt, xlab='t', ylab="\\beta_2", ylim=range(f2(tt)))
+par(new=TRUE)
+plot(f2.smooth, type='l', bty='n', x=tt, xlab='t', ylab="\\beta_2", ylim=range(f2(tt)), lty=2, ann=FALSE, xaxt='n', yaxt='n')
+legend(c("truth", "smoothed"), lty=c(1,2), bty='n', x='topright')

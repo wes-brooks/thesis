@@ -5,76 +5,49 @@ date: "February 11, 2015"
 output: html_document
 ---
 
-The local coefficients in a varying coefficient regression model are estimated with bias. The bias arises because the coefficient surfaces are approximated as locally linear, when in fact they may be curving. Computing valid confidence intervals for the coefficients requires correcting the bias.
 
-Since we know how the bias arises, we can attempt to remove it by inverting the process that generates bias. A concrete example may help illustrate how this is done. Consider a regression model where the true coefficients are the functions plotted in Figure 1.
-
-```{r setup, echo=FALSE, message=FALSE, cache=TRUE}
-library(lagr)
-library(doMC)
-registerDoMC(7)
-
-## @knitr simulate-data
-#Set constants:
-B1 = 1
-n = 100
-tt = seq(0, 5, len=n)
-
-#Coefficient functions:
-f0 = function(x) {-0.2*x^4 + x^3 + 0.7*(x-1)^2 - 4*(x-2) + 1}
-f1 = function(x) {0.2*x^2 - x + cos(x)}
-f2 = function(x) {(x+1)^(-1) - 1/6}
-
-#Generate the raw data sets (not bootstrap)
-set.seed(33)
-#simulate data
-X1 = rnorm(n, mean=3, sd=2)
-X2 = rnorm(n, mean=3, sd=2)
-y = f0(tt) + X1*f1(tt) + X2*f2(tt) + rnorm(n)
-df = data.frame(y, x1=X1, x2=X2, t=tt)
-  
-#Fit a VCR model to the simulated data by LAGR
-m = lagr(y~x1+x2, data=df, family='gaussian', coords='t', varselect.method='wAICc', bw=0.858, kernel=epanechnikov, bw.type='dist', verbose=TRUE, lagr.convergence.tol=0.005, lambda.min.ratio=0.01, n.lambda=80)
-
-#Store the fitted values, residuals, and coefficient estimates:
-fitted = sapply(m[['fits']], function(x) tail(x[['fitted']],1))
-resid = df$y - fitted
-coefs = t(sapply(m$fits, function(x) x[['model']][['beta']][,ncol(x[['model']][['beta']])]))
+#Introduction
 
 
-f0.smooth = vector()
-f1.smooth = vector()
-f2.smooth = vector()
+#Local polynomial regression
 
-for (i in 1:100) {
-    h = 0.858
-    dist = abs(tt-tt[i])
-    wt = lagr:::epanechnikov(dist, h)
-    X.loc = as.matrix(tt - tt[i])
-    
-    f0.smooth = c(f0.smooth, lm(f0(tt)~X.loc, weights=wt)$coef[1])
-    f1.smooth = c(f1.smooth, lm(f1(tt)~X.loc, weights=wt)$coef[1])
-    f2.smooth = c(f2.smooth, lm(f2(tt)~X.loc, weights=wt)$coef[1])
-}
+
+#Local adaptive grouped regularization
+
+
+#The Bayesian bootstrap
+The bootstrap is a nonparametric method for estimating the distribution of a random variable. The Bayesian bootstrap (BB) is a related method. 
+
+#Bias correction
+The local coefficients in a varying coefficient regression model are estimated with bias. The bias arises because the coefficient surfaces are estimated by taking a kernel-weighted mean, approximating the coefficient sufaces as locally linear. Since in fact the coefficient surfaces may be curving, the kernel-weighted mean estimates a secant of the coefficient surface, rather than a tangent. Thus, the estimate is biased in the direction of the local curvature. Computing valid confidence intervals for the coefficients requires correcting the bias.
+
+Knowing how the bias arises, we attempt to remove it by inverting the process. The estimate of the coefficient $\beta_1(s)$ is given by
+
+$$\hat{\beta}_1(s) \approx \int_{\mathbb{R}} (1 \;\; t-s) (\beta(s) \;\; \nabla\beta(s))^T K_h(\|t-s\|) f(t) {\rm d}t$$
+
+Or
+
+\begin{align}
+	\hat{\beta}_1(s) &= (X^T(s) \;\; W(s) \;\; X(s))^{-1} X^T(s) W(s) Y\\
+	&\to \sum_{i=1}^n K_h(\|s-s_i\|) ((1 \;\; s-s_i) (1 \;\; s-s_i)^T)^{-1} (1 \;\; s-s_i) (\beta(s) \;\; \nabla\beta(s))
+\end{align}
+
+
+ 
+A concrete example may help illustrate how this is done. Consider a regression model where the true coefficients are the functions plotted in Figure 1.
+
+```{r setup, echo=FALSE, message=FALSE, cache=TRUE, include=FALSE}
+source("sim.r")
 ```
 
 ```{r truth, echo=FALSE, fig.width=10}
-layout(matrix(1:3,1,3))
-plot(f0(tt), type='l', bty='n', x=tt, xlab='t', ylab="Intercept", ylim=range(f0(tt)))
-par(new=TRUE)
-plot(f0.smooth, type='l', bty='n', x=tt, xlab='t', ylab="Intercept", ylim=range(f0(tt)), lty=2, ann=FALSE, xaxt='n', yaxt='n')
-legend(c("truth", "smoothed"), lty=c(1,2), bty='n', x='bottomleft')
-
-plot(f1(tt), type='l', bty='n', x=tt, xlab='t', ylab="\\beta_1", ylim=range(f1(tt)))
-par(new=TRUE)
-plot(f1.smooth, type='l', bty='n', x=tt, xlab='t', ylab="\\beta_1", ylim=range(f1(tt)), lty=2, ann=FALSE, xaxt='n', yaxt='n')
-legend(c("truth", "smoothed"), lty=c(1,2), bty='n', x='top')
-
-plot(f2(tt), type='l', bty='n', x=tt, xlab='t', ylab="\\beta_2", ylim=range(f2(tt)))
-par(new=TRUE)
-plot(f2.smooth, type='l', bty='n', x=tt, xlab='t', ylab="\\beta_2", ylim=range(f2(tt)), lty=2, ann=FALSE, xaxt='n', yaxt='n')
-legend(c("truth", "smoothed"), lty=c(1,2), bty='n', x='topright')
+source("plot.r")
 ```
 
-
 The solid lines are the true coefficients and the dashed lines are the smoothed versions that are estimable by kernel smoothing. Since the 
+
+#Simulation
+
+
+#Example
+
