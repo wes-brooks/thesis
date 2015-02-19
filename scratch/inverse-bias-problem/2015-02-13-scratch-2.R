@@ -48,7 +48,7 @@ ans = auglag(par=par+rnorm(102,sd=0.5), fn=fn, gr=gr, heq=heq, heq.jac=heq.jac)
 
 c = ans$par[1:100]
 d = ans$par[101:102]
-f0.smooth.hat = (Q %*% c + T %*% d) 
+f0.smooth.hat = (Q1 %*% c + T1 %*% d) 
 f0.hat = (Q0 %*% c + T0 %*% d) 
 
 plot(f0.smooth.hat, type='l', bty='n', x=tt, ylim=range(f0(xx)), lwd=2)

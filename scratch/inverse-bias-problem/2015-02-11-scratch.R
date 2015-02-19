@@ -10,9 +10,9 @@ d
 
 
 lambda=0.1
-F2 %*% solve(t(F2) %*% (Q + lambda*QtI%*%Q0) %*% F2) %*% t(F2) %*% obs -> c
-solve(R) %*% t(F1) %*% (obs - (Q - lambda* QtI%*%Q0) %*% c) -> d
-
+F2 %*% solve(t(F2) %*% (Q1 + lambda*QtI%*%Q0) %*% F2) %*% t(F2) %*% obs -> c
+solve(R) %*% t(F1) %*% (obs - (Q1 - lambda* QtI%*%Q0) %*% c) -> d
+ 
 
 for (i in 1:100) {
     ####Iterative: get c
