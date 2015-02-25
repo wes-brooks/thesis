@@ -105,7 +105,7 @@ R = qr(T0) %>% qr.R
 obs = m$fits %>% sapply(function(x) x$model$adamodel$coef) %>% t %>% `[`(,1) %>% as.matrix
 obs. = m$fits %>% sapply(function(x) x$model$adamodel$coef) %>% t %>% `[`(,4) %>% as.matrix
 
-QtI = solve(Q0) %*% solve(W)
+QtI = solve(Q0) %*% solve(W1)
 #Iterative solution for Y, Z:
 d = matrix(0,2,1)
 F2 %*% solve(t(F2)%*%(t(W)%*%W + t(W.)%*%W.) %*%Q0%*% F2 + diag(rep(lambda, 98))) %*% t(F2) %*% (W%*%obs + W.%*%obs. - (t(W)%*%W + t(W.)%*%W.)%*%T0%*%d) -> c

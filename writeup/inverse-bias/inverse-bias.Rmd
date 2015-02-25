@@ -7,66 +7,54 @@ output: html_document
 
 
 #Introduction
+Local adaptive grouped regularization (LAGR) is a method for estimating varying coefficient regression (VCR) models [@Brooks-Zhu-Liu-2014]. The method of LAGR utilizes local polynomial regression, a form of kernel smoothing [@Fan-Gijbels-1996].
 
+The local coefficients in a VCR model are estimated with bias. The bias arises because the coefficient surfaces are estimated by taking a kernel-weighted mean, approximating the coefficient sufaces as locally linear. Since in fact the coefficient surfaces may be curving, the kernel-weighted mean estimates a secant of the coefficient surface, rather than a tangent. Thus, the estimate is biased in the direction of the local curvature.
 
-#Local polynomial regression
-
-
-#Local adaptive grouped regularization
-
-
-#The Bayesian bootstrap
-The bootstrap is a nonparametric method for estimating the distribution of a random variable. The Bayesian bootstrap (BB) is a related method. 
+Local regression methods like LAGR produce pointwise estimates of an unobservable function. The local estimates are weighted sums within the window of a kernel function that assigns weights to nearby observations. 
 
 #Bias correction
-The local coefficients in a varying coefficient regression model are estimated with bias. The bias arises because the coefficient surfaces are estimated by taking a kernel-weighted mean, approximating the coefficient sufaces as locally linear. Since in fact the coefficient surfaces may be curving, the kernel-weighted mean estimates a secant of the coefficient surface, rather than a tangent. Thus, the estimate is biased in the direction of the local curvature. Computing valid confidence intervals for the coefficients requires correcting the bias.
 
-Knowing how the bias arises, we attempt to remove it by inverting the process. The estimate of the coefficient $\beta_1(s)$ is given by
+##Local polynomial estimate as an integral equation
 
-$$\hat{\beta}_1(s) \approx \int_{\mathbb{R}} (1 \;\; t-s) (\beta_1(s) \;\; \nabla\beta_1(s))^T K_h(\|t-s\|) f(t) {\rm d}t$$
+The method of local polynomial regression produces biased estimates of $\beta(s)$ and $\nabla\beta(s)$. The limit of the coefficient estimate $\hat{\beta}_1(s)$ under infill asymptotics with constant bandwidth $h$ is
 
-Or
+$$\hat{\beta}_1(s) \to \int_{\mathbb{R}} (1 \;\; t-s) (\beta_1(s) \;\; \nabla\beta_1(s))^T K_h(\|t-s\|) f(t) {\rm d}t.$$
 
-\begin{align}
-	\hat{\beta}_1(s) &= (X^T(s) \;\; W(s) \;\; X(s))^{-1} X^T(s) W(s) \beta_1\\
-	&\to \sum_{i=1}^n K_h(\|s-s_i\|) ((1 \;\; s-s_i) (1 \;\; s-s_i)^T)^{-1} (1 \;\; s-s_i) (\beta(s) \;\; \nabla\beta(s))
-\end{align}
+Similarly, the limit of the coefficient slope estimate is
 
-And the slope of the coefficient is estimated by
+$$\hat{\nabla\beta}_1(s) \to \int_{\mathbb{R}} \nabla\beta_1(s) K_h(\|t-s\|) f(t) {\rm d}t.$$
 
-$$\hat{\nabla\beta}_1(s) \approx \int_{\mathbb{R}} \nabla\beta_1(s) K_h(\|t-s\|) f(t) {\rm d}t$$
+Each of the integral equations is a Fredholm integral equation of the first kind. Estimating the bias of $\hat{\beta}_1(s)$ requires solving the two integral equations simultaneously. Having observed a finite $n$ of data, the coefficient estimates are sums rather than integrals. Letting $X(s) = (\boldsymbol{1}_n^T, (s_1-s, \cdots, s_n-s)^T )$ and $W(s)$ be the diagonal matrix with $\{W(s)\}_{ii} = K_h(\|s-s_i\|),$ the expectation of the coefficient estimate and its derivative is
 
-or
-
-\begin{align}
-	\hat{\nabla\beta}_1(s) &= (X^T(s) \;\; W(s) \;\; X(s))^{-1} X^T(s) W(s) \beta_1\\
-	&\to \sum_{i=1}^n K_h(\|s-s_i\|) ((1 \;\; s-s_i) (1 \;\; s-s_i)^T)^{-1} (1 \;\; s-s_i) (\beta(s) \;\; \nabla\beta(s))
-\end{align}
-
-Estimating $\beta_1$ from $\hat{\beta}_1(s) \approx \int_{\mathbb{R}} (1 \;\; t-s) (\beta_1(s) \;\; \nabla\beta_1(s))^T K_h(\|t-s\|) f(t) {\rm d}t$ means solving a Fredholm integral equation of the first kind.
-
-Since the method of local polynomial regression produces estimates of $\beta(s)$ and $\nabla\beta(s)$, we use them to solve the following integral equation simultaneously.
-
-$${\rm min}_{c,d} (\hat{\beta}(t) - Q_1c - T_1d)^T(\hat{\beta}(t) - Q_1c - T_1d) + (\hat{\nabla\beta}(t) - Q_2c - T_2d)^T(\hat{\nabla\beta}(t) - Q_2c - T_2d) + \lambda c^T Q_0 c$$
-
-In this objective function, $Q_0$ is an $n \times n$ matrix with $ij$th entry $R_{m,d}(t_i, t_j) = \|t_i - t_j\|^{2m-d} \log(\|t_i - t_j\|)$ for $d$ even, or $\|t_i - t_j\|^{2m-d}$ for $d$ odd, represents the thin plate spline basis [@Wahba-Wendelberger-1980]. $T_0$ is the $n \times d$ matrix representing the unpenalized "smooth" componenets of the thin plate splines. $Q_1 = W_1 Q_0$, $T_1 = W_1 T_0$, $Q_2 = W_2 Q_0$, and $T_2 = W_2 T_0$ are smoothed thin-plate spline representations of the coefficient surface and its derivative, where $W_1$ and $W_2$ are linear smoothing operators that emulate the process producing the kernel smoothing estimates.
+$$E\{(\hat{\beta}_1(s), \hat{\nabla\beta}_1(s) )^T\} = (X^T(s) \; W(s) \; X(s))^{-1} X^T(s) \; W(s) \; \beta_1.$$
 
 
+##Thin plate spline estimation
 
-A concrete example may help illustrate how this is done. Consider a regression model where the true coefficients are the functions plotted in Figure 1.
+Solving the Fredholm integral equations is an inverse problem [@Wahba-1992]. In this solution we represent the underlying coefficient function using thin plate splines because of their optimality properties for estimating functions in the RKHS of functions with square-integrable $m$th derivative [@Wood-2006]. The thin plate splines basis functions are given by $R_{m,d}(t_i, t_j) = \|t_i - t_j\|^{2m-d} \log(\|t_i - t_j\|)$ for $d$ even, or $\|t_i - t_j\|^{2m-d}$ for $d$ odd [@Wahba-Wendelberger-1980]. Let $Q_0$ be an $n \times n$ matrix with $ij$th entry $R_{m,d}(t_i, t_j)$.
 
-```{r setup, echo=FALSE, message=FALSE, cache=TRUE, include=FALSE}
-source("sim.r")
-```
+Further, let the "smooth" functions in this basis be those with $m$th derivative exactly zero. Require that $2m > d+1$. For $d \in  \{1,2\}$, we usually take $m=2$ and write the smooth bases as $\phi_k(s)$ for $k = 1, \dots, (d+1)$. Now represent the smooth bases with the $n \times (d+1)$ matrix $T_0$ where the $ik$th entry is $\phi_k(s_i)$.
 
-```{r truth, echo=FALSE, fig.width=10}
-source("plot.r")
-```
+Finally, the smoothing matrices $W_1$ and $W_2$ represent the summation of the coefficient surface in the expectation formula. That is, the $i$th row of $W_1$ is $\{W_1\}_{i,\cdot} = \{(X^T(s_i) \; W(s_i) \; X(s_i))^{-1}\}_{1,\cdot} X^T(s_i) \; W(s_i)$ and the $i$th row of $W_2$ is $\{W_2\}_{i,\cdot} = \{(X^T(s_i) \; W(s_i) \; X(s_i))^{-1}\}_{2,\cdot} X^T(s_i) \; W(s_i)$. Now, define
+$$Q_1 = W_1 Q_0,$$
+$$Q_2 = W_2 Q_0,$$
+$$T_1 = W_1 T_0,$$
+$$T_2 = W_2 T_0.$$
 
-The solid lines are the true coefficients and the dashed lines are the smoothed versions that are estimable by kernel smoothing. Since the 
+The objective to minimize is:
 
-#Simulation
+$${\rm min}_{c,d} (\hat{\beta}(t) - Q_1c - T_1d)^T(\hat{\beta}(t) - Q_1c - T_1d) + (\hat{\nabla\beta}(t) - Q_2c - T_2d)^T(\hat{\nabla\beta}(t) - Q_2c - T_2d) + \lambda c^T Q_0 c.$$
 
 
-#Example
+##Algorithmic details
+
+The objective is minimized for $c$ and $d$ by constrained coordinate descent. Then the coefficient function estimate is recovered as
+
+$$\tilde{\beta}(s) = Q_0 c + T_0 d.$$
+
+##To show
+
+That the estimated bias-corrected coefficient function has substantially eliminated the bias of $\hat{\beta}(s)$. Ideally, that $E\{\tilde{\beta}(s)\} = \beta(s)$ for all $s$.
+
 
